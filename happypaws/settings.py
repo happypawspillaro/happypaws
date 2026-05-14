@@ -14,6 +14,10 @@ SECRET_KEY = env("SECRET_KEY", default="dev-insecure-key")
 DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
+# Orígenes de confianza para CSRF. En producción bajo HTTPS Django exige
+# declararlos o los formularios (login, adopciones, reportes) fallan con 403.
+CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -100,3 +104,10 @@ MESSAGE_TAGS = {
     30: "warning",    # WARNING
     40: "danger",     # ERROR
 }
+
+# Endurecimiento solo en producción. El proxy de PythonAnywhere/Render
+# termina el TLS y reenvía la petición por HTTP con esta cabecera.
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
