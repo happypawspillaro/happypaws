@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Solicitud · {{ solicitud.nombre_solicitante }}{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'adoptions:manage_list' %}">Solicitudes</a></li>
+    <li class="breadcrumb-item active">{{ solicitud.nombre_solicitante }}</li>
+  </ol>
+</nav>
+
+<div class="row g-4">
+  <div class="col-md-7">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h1 class="h4">{{ solicitud.nombre_solicitante }}</h1>
+        <p class="text-muted mb-3">
+          Solicita adoptar a <a href="{{ solicitud.animal.get_absolute_url }}">{{ solicitud.animal.nombre }}</a>
+          · {{ solicitud.creado|date:"d/m/Y H:i" }}
+        </p>
+        <ul class="list-unstyled">
+          <li><strong>Cédula:</strong> {{ solicitud.cedula }}</li>
+          <li><strong>Teléfono:</strong> {{ solicitud.telefono }}</li>
+          <li><strong>Correo:</strong> {{ solicitud.email }}</li>
+          <li><strong>Dirección:</strong> {{ solicitud.direccion }}</li>
+          <li><strong>Vivienda:</strong> {{ solicitud.get_tipo_vivienda_display }}
+            ({% if solicitud.tiene_patio %}con{% else %}sin{% endif %} patio)</li>
+        </ul>
+        <p><strong>Experiencia con mascotas:</strong><br>{{ solicitud.experiencia|default:"—"|linebreaks }}</p>
+        <p class="mb-0"><strong>Motivo:</strong><br>{{ solicitud.motivo|linebreaks }}</p>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h5">Seguimientos post-adopción</h2>
+        {% for f in solicitud.seguimientos.all %}
+          <div class="border-start border-3 ps-3 mb-3">
+            <p class="small text-muted mb-1">{{ f.fecha }}</p>
+            <p class="mb-1">{{ f.notas|linebreaks }}</p>
+            {% if f.foto %}<img src="{{ f.foto.url }}" class="img-fluid rounded" style="max-width: 200px;" alt="">{% endif %}
+          </div>
+        {% empty %}
+          <p class="text-muted">Aún no hay seguimientos.</p>
+        {% endfor %}
+        <hr>
+        <h3 class="h6">Agregar seguimiento</h3>
+        <form method="post" action="{% url 'adoptions:add_followup' solicitud.pk %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% include "includes/form_fields.html" with form=followup_form %}
+          <button type="submit" class="btn btn-sm btn-primary">Guardar seguimiento</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h5">Estado de la solicitud</h2>
+        <p>Estado actual: <span class="badge bg-secondary">{{ solicitud.get_estado_display }}</span></p>
+        <form method="post" action="{% url 'adoptions:update_status' solicitud.pk %}">
+          {% csrf_token %}
+          {% include "includes/form_fields.html" with form=status_form %}
+          <button type="submit" class="btn btn-primary">Actualizar</button>
+        </form>
+        <p class="form-text mt-2">
+          Al marcar la solicitud como <strong>Aprobada</strong>, el animal se marca automáticamente como adoptado.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

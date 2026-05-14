@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Adopta · Happy Paws Píllaro{% endblock %}
+{% block content %}
+<div class="row mb-4">
+  <div class="col">
+    <h1 class="h3">Animales en adopción</h1>
+    <p class="text-muted">Dale un hogar responsable a un perro o gato rescatado.</p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-3 mb-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h6">Filtrar</h2>
+        <form hx-get="{% url 'animals:catalog' %}"
+              hx-target="#grid-animales"
+              hx-trigger="change"
+              hx-indicator="#grid-loading">
+          <div class="mb-3">
+            <label class="form-label">Especie</label>
+            <select name="especie" class="form-select">
+              <option value="">Todas</option>
+              {% for value, label in especies %}
+                <option value="{{ value }}" {% if filtros.especie == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Sexo</label>
+            <select name="sexo" class="form-select">
+              <option value="">Todos</option>
+              {% for value, label in sexos %}
+                <option value="{{ value }}" {% if filtros.sexo == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="mb-0">
+            <label class="form-label">Tamaño</label>
+            <select name="tamano" class="form-select">
+              <option value="">Todos</option>
+              {% for value, label in tamanos %}
+                <option value="{{ value }}" {% if filtros.tamano == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-9">
+    <span id="grid-loading" class="htmx-indicator text-muted">Cargando…</span>
+    <div id="grid-animales">
+      {% include "animals/_animal_grid.html" %}
+    </div>
+  </div>
+</div>
+{% endblock %}

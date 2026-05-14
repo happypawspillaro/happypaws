@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}{{ reporte.titulo }} · Reportes{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'reports:list' %}">Reportes</a></li>
+    <li class="breadcrumb-item active">{{ reporte.titulo }}</li>
+  </ol>
+</nav>
+
+<div class="row g-4">
+  <div class="col-md-7">
+    {% with foto=reporte.fotos.first %}
+      {% if foto %}
+        <img src="{{ foto.imagen.url }}" class="img-fluid rounded shadow-sm mb-3" alt="{{ reporte.titulo }}">
+      {% endif %}
+    {% endwith %}
+    {% if reporte.fotos.count > 1 %}
+      <div class="row g-2">
+        {% for foto in reporte.fotos.all %}
+          <div class="col-4"><img src="{{ foto.imagen.url }}" class="img-fluid rounded" alt=""></div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  <div class="col-md-5">
+    <span class="badge bg-primary">{{ reporte.get_tipo_display }}</span>
+    {% if reporte.estado == 'resuelto' %}<span class="badge bg-success">Resuelto</span>{% endif %}
+    <h1 class="h3 mt-2">{{ reporte.titulo }}</h1>
+    <ul class="list-unstyled">
+      <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ reporte.ubicacion }}</li>
+      <li><i class="bi bi-calendar-event"></i> <strong>Fecha:</strong> {{ reporte.fecha_avistamiento }}</li>
+      <li><i class="bi bi-person"></i> <strong>Reportado por:</strong> {{ reporte.nombre_reportante }}</li>
+      <li><i class="bi bi-telephone"></i> <strong>Contacto:</strong> {{ reporte.contacto_reportante }}</li>
+    </ul>
+    <p>{{ reporte.descripcion|linebreaks }}</p>
+
+    {% if user.is_staff %}
+      <form method="post" action="{% url 'reports:toggle_status' reporte.pk %}">
+        {% csrf_token %}
+        <button class="btn btn-outline-secondary btn-sm" type="submit">
+          {% if reporte.estado == 'abierto' %}Marcar como resuelto{% else %}Reabrir reporte{% endif %}
+        </button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

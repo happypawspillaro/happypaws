@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Ingresar · Happy Paws Píllaro{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h1 class="h4 mb-3">Ingresar</h1>
+        {% if form.errors %}
+          <div class="alert alert-danger">Usuario o contraseña incorrectos.</div>
+        {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label" for="id_username">Usuario</label>
+            <input type="text" name="username" id="id_username" class="form-control" required autofocus>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="id_password">Contraseña</label>
+            <input type="password" name="password" id="id_password" class="form-control" required>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+        </form>
+        <p class="small text-muted mt-3 mb-0">
+          ¿No tienes cuenta? <a href="{% url 'accounts:signup' %}">Regístrate</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

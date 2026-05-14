@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}{{ caso.titulo }} · Casos médicos{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'medical_cases:list' %}">Casos médicos</a></li>
+    <li class="breadcrumb-item active">{{ caso.titulo }}</li>
+  </ol>
+</nav>
+
+<div class="row g-4">
+  <div class="col-lg-7">
+    {% if caso.foto %}
+      <img src="{{ caso.foto.url }}" class="img-fluid rounded shadow-sm mb-3" alt="{{ caso.titulo }}">
+    {% endif %}
+    <h1 class="h3">{{ caso.titulo }}</h1>
+    {% if caso.animal %}
+      <p class="text-muted">Animal: <a href="{{ caso.animal.get_absolute_url }}">{{ caso.animal.nombre }}</a></p>
+    {% endif %}
+    <p>{{ caso.descripcion|linebreaks }}</p>
+
+    <h2 class="h5 mt-4">Avances del caso</h2>
+    {% for avance in caso.avances.all %}
+      <div class="border-start border-3 border-primary ps-3 mb-3">
+        <p class="small text-muted mb-1">{{ avance.fecha }}</p>
+        <p class="mb-1">{{ avance.texto|linebreaks }}</p>
+        {% if avance.foto %}<img src="{{ avance.foto.url }}" class="img-fluid rounded" style="max-width: 280px;" alt="">{% endif %}
+      </div>
+    {% empty %}
+      <p class="text-muted">Aún no hay avances publicados.</p>
+    {% endfor %}
+  </div>
+
+  <div class="col-lg-5">
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">
+        <h2 class="h5">Meta de recaudación</h2>
+        <div class="progress mb-2" style="height: 16px;">
+          <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;">{{ caso.progreso }}%</div>
+        </div>
+        <p class="mb-1"><strong>${{ caso.monto_recaudado|intcomma }}</strong> de ${{ caso.meta_monto|intcomma }}</p>
+        {% if caso.meta_alcanzada %}
+          <p class="text-success mb-0"><i class="bi bi-check-circle"></i> ¡Meta alcanzada! Gracias.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if caso.estado == 'activo' %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h5">Quiero apoyar</h2>
+          <p class="small text-muted">
+            Registra tu aporte y sube el comprobante de tu transferencia. La fundación lo verificará.
+          </p>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include "includes/form_fields.html" %}
+            <button type="submit" class="btn btn-primary w-100">Registrar mi aporte</button>
+          </form>
+        </div>
+      </div>
+    {% else %}
+      <div class="alert alert-secondary">Este caso está cerrado. ¡Gracias a todos los que apoyaron!</div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

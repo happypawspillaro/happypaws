@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Panel · Happy Paws Píllaro{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Panel administrativo</h1>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="card text-bg-primary shadow-sm h-100">
+      <div class="card-body">
+        <p class="h2 mb-0">{{ total_animales }}</p>
+        <p class="mb-0">Animales registrados</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <p class="h2 mb-0">{{ en_adopcion }}</p>
+        <p class="mb-0 text-muted">En adopción</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <p class="h2 mb-0">{{ total_adoptados }}</p>
+        <p class="mb-0 text-muted">Adoptados</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <p class="h2 mb-0">${{ total_recaudado|intcomma }}</p>
+        <p class="mb-0 text-muted">Recaudado (verificado)</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="h5">Animales por estado</h2>
+        <ul class="list-group list-group-flush">
+          {% for label, total in estados_animal %}
+            <li class="list-group-item d-flex justify-content-between px-0">
+              <span>{{ label }}</span><span class="fw-bold">{{ total }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="h5">Pendientes de atención</h2>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between px-0">
+            <a href="{% url 'adoptions:manage_list' %}?estado=pendiente">Solicitudes de adopción pendientes</a>
+            <span class="badge bg-warning text-dark">{{ solicitudes_pendientes }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between px-0">
+            <a href="{% url 'reports:manage_list' %}?estado=abierto">Reportes abiertos</a>
+            <span class="badge bg-warning text-dark">{{ reportes_abiertos }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between px-0">
+            <span>Donaciones por verificar</span>
+            <span class="badge bg-warning text-dark">{{ donaciones_pendientes }}</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between px-0">
+            <span>Casos médicos activos</span>
+            <span class="badge bg-secondary">{{ casos_activos }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-body">
+        <h2 class="h5">Accesos rápidos</h2>
+        <div class="d-grid gap-2">
+          <a href="{% url 'animals:manage_list' %}" class="btn btn-outline-primary">Gestionar animales</a>
+          <a href="{% url 'adoptions:manage_list' %}" class="btn btn-outline-primary">Solicitudes de adopción</a>
+          <a href="{% url 'medical_cases:manage_list' %}" class="btn btn-outline-primary">Casos médicos</a>
+          <a href="{% url 'reports:manage_list' %}" class="btn btn-outline-primary">Reportes</a>
+          <a href="/admin/" class="btn btn-outline-secondary">Django admin</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-4 mt-1">
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h5">Últimas solicitudes de adopción</h2>
+        <ul class="list-group list-group-flush">
+          {% for s in ultimas_solicitudes %}
+            <li class="list-group-item px-0">
+              <a href="{% url 'adoptions:manage_detail' s.pk %}">{{ s.nombre_solicitante }}</a>
+              → {{ s.animal.nombre }}
+              <span class="badge bg-secondary float-end">{{ s.get_estado_display }}</span>
+            </li>
+          {% empty %}
+            <li class="list-group-item px-0 text-muted">Sin solicitudes.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h5">Últimos reportes</h2>
+        <ul class="list-group list-group-flush">
+          {% for r in ultimos_reportes %}
+            <li class="list-group-item px-0">
+              <a href="{% url 'reports:detail' r.pk %}">{{ r.titulo }}</a>
+              <span class="badge bg-secondary float-end">{{ r.get_tipo_display }}</span>
+            </li>
+          {% empty %}
+            <li class="list-group-item px-0 text-muted">Sin reportes.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

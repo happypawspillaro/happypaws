@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Happy Paws Píllaro · Esterilización y adopción responsable{% endblock %}
+{% block content %}
+<div class="p-5 mb-5 bg-light rounded-3 text-center">
+  <h1 class="display-6 fw-bold">Happy Paws Píllaro</h1>
+  <p class="lead col-md-8 mx-auto">
+    Promovemos la esterilización y la adopción responsable de perros y gatos
+    en el cantón Píllaro. Aquí puedes adoptar, apoyar casos médicos y reportar
+    mascotas perdidas o casos de maltrato.
+  </p>
+  <div class="d-flex gap-2 justify-content-center">
+    <a href="{% url 'animals:catalog' %}" class="btn btn-primary btn-lg">Quiero adoptar</a>
+    <a href="{% url 'reports:create' %}" class="btn btn-outline-secondary btn-lg">Crear un reporte</a>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="h4 mb-0">Animales en adopción</h2>
+  <a href="{% url 'animals:catalog' %}">Ver todos</a>
+</div>
+<div class="row g-4 mb-5">
+  {% for animal in animales %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm animal-card">
+        <a href="{{ animal.get_absolute_url }}">
+          {% if animal.foto_principal %}
+            <img src="{{ animal.foto_principal.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+          {% else %}
+            <div class="card-img-placeholder"><i class="bi bi-image"></i></div>
+          {% endif %}
+        </a>
+        <div class="card-body">
+          <h3 class="h5 mb-1">{{ animal.nombre }}</h3>
+          <p class="text-muted small mb-0">
+            {{ animal.get_especie_display }} · {{ animal.get_sexo_display }} · {{ animal.get_tamano_display }}
+          </p>
+        </div>
+        <div class="card-footer bg-white border-0">
+          <a href="{{ animal.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Conocer más</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col"><div class="alert alert-info">Pronto publicaremos animales en adopción.</div></div>
+  {% endfor %}
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="h4 mb-0">Casos médicos activos</h2>
+  <a href="{% url 'medical_cases:list' %}">Ver todos</a>
+</div>
+<div class="row g-4">
+  {% for caso in casos %}
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm case-card">
+        <a href="{{ caso.get_absolute_url }}">
+          {% if caso.foto %}
+            <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
+          {% else %}
+            <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
+          {% endif %}
+        </a>
+        <div class="card-body">
+          <h3 class="h5">{{ caso.titulo }}</h3>
+          <div class="progress mb-2" style="height: 10px;">
+            <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;"></div>
+          </div>
+          <p class="small mb-0">${{ caso.monto_recaudado|intcomma }} de ${{ caso.meta_monto|intcomma }}</p>
+        </div>
+        <div class="card-footer bg-white border-0">
+          <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Apoyar</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col"><div class="alert alert-info">No hay casos médicos activos por ahora.</div></div>
+  {% endfor %}
+</div>
+{% endblock %}

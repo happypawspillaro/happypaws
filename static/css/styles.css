@@ -1,0 +1,36 @@
+:root {
+  --hp-primary: #f97316;
+}
+
+.bg-primary { background-color: var(--hp-primary) !important; }
+.btn-primary {
+  background-color: var(--hp-primary);
+  border-color: var(--hp-primary);
+}
+.btn-primary:hover {
+  background-color: #ea6a0c;
+  border-color: #ea6a0c;
+}
+.text-primary { color: var(--hp-primary) !important; }
+a { color: #d9620a; }
+
+.animal-card img,
+.case-card img,
+.report-card img {
+  height: 220px;
+  object-fit: cover;
+}
+
+.card-img-placeholder {
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f1f1;
+  color: #bbb;
+  font-size: 3rem;
+}
+
+.htmx-indicator { opacity: 0; transition: opacity 200ms ease-in; }
+.htmx-request .htmx-indicator { opacity: 1; }
+.htmx-request.htmx-indicator { opacity: 1; }

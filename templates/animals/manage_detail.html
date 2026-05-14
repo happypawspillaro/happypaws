@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ animal.nombre }} · Panel{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">{{ animal.nombre }}</h1>
+  <div class="d-flex gap-2">
+    <a href="{{ animal.get_absolute_url }}" class="btn btn-outline-secondary btn-sm">Ver ficha pública</a>
+    <a href="{% url 'animals:manage_update' animal.pk %}" class="btn btn-primary btn-sm">Editar</a>
+    <a href="{% url 'animals:manage_delete' animal.pk %}" class="btn btn-outline-danger btn-sm">Eliminar</a>
+  </div>
+</div>
+
+<div class="row g-4">
+  <div class="col-md-4">
+    {% if animal.foto_principal %}
+      <img src="{{ animal.foto_principal.url }}" class="img-fluid rounded shadow-sm mb-3" alt="{{ animal.nombre }}">
+    {% endif %}
+    <ul class="list-group mb-4">
+      <li class="list-group-item"><strong>Especie:</strong> {{ animal.get_especie_display }}</li>
+      <li class="list-group-item"><strong>Sexo:</strong> {{ animal.get_sexo_display }}</li>
+      <li class="list-group-item"><strong>Tamaño:</strong> {{ animal.get_tamano_display }}</li>
+      <li class="list-group-item"><strong>Estado:</strong> {{ animal.get_estado_display }}</li>
+      <li class="list-group-item"><strong>Esterilizado:</strong> {% if animal.esterilizado %}Sí{% else %}No{% endif %}</li>
+      <li class="list-group-item"><strong>Ingreso:</strong> {{ animal.fecha_ingreso }}</li>
+    </ul>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h2 class="h6">Agregar foto</h2>
+        <form method="post" action="{% url 'animals:add_photo' animal.pk %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% include "includes/form_fields.html" with form=photo_form %}
+          <button type="submit" class="btn btn-sm btn-primary">Subir foto</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-8">
+    <h2 class="h5">Galería</h2>
+    {% if animal.fotos.all %}
+      <div class="row g-2 mb-4">
+        {% for foto in animal.fotos.all %}
+          <div class="col-4 col-md-3"><img src="{{ foto.imagen.url }}" class="img-fluid rounded" alt=""></div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted">Sin fotos adicionales.</p>
+    {% endif %}
+
+    <h2 class="h5 mt-4">Historial médico</h2>
+    <div class="table-responsive mb-3">
+      <table class="table table-sm">
+        <thead><tr><th>Fecha</th><th>Descripción</th><th>Veterinario</th><th class="text-end">Costo</th></tr></thead>
+        <tbody>
+          {% for r in animal.historial_medico.all %}
+            <tr>
+              <td>{{ r.fecha }}</td>
+              <td>{{ r.descripcion }}</td>
+              <td>{{ r.veterinario|default:"—" }}</td>
+              <td class="text-end">${{ r.costo }}</td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="4" class="text-muted">Sin registros médicos.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="h6">Agregar registro médico</h3>
+        <form method="post" action="{% url 'animals:add_medical_record' animal.pk %}">
+          {% csrf_token %}
+          {% include "includes/form_fields.html" with form=medical_form %}
+          <button type="submit" class="btn btn-sm btn-primary">Agregar registro</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

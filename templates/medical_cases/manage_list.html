@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Gestión de casos médicos · Panel{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0">Casos médicos</h1>
+  <a href="{% url 'medical_cases:manage_create' %}" class="btn btn-primary"><i class="bi bi-plus-lg"></i> Nuevo caso</a>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr><th>Título</th><th>Animal</th><th>Meta</th><th>Recaudado</th><th>Estado</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for caso in casos %}
+        <tr>
+          <td><a href="{% url 'medical_cases:manage_detail' caso.pk %}">{{ caso.titulo }}</a></td>
+          <td>{{ caso.animal.nombre|default:"—" }}</td>
+          <td>${{ caso.meta_monto|intcomma }}</td>
+          <td>${{ caso.monto_recaudado|intcomma }} ({{ caso.progreso }}%)</td>
+          <td><span class="badge bg-secondary">{{ caso.get_estado_display }}</span></td>
+          <td class="text-end">
+            <a href="{% url 'medical_cases:manage_detail' caso.pk %}" class="btn btn-sm btn-outline-secondary">Gestionar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="text-muted">No hay casos médicos.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

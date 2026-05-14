@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Reportes · Happy Paws Píllaro{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Reportes de la comunidad</h1>
+  <a href="{% url 'reports:create' %}" class="btn btn-primary"><i class="bi bi-megaphone"></i> Crear reporte</a>
+</div>
+<p class="text-muted">Mascotas perdidas, encontradas y casos de maltrato o abandono reportados por la comunidad.</p>
+
+<div class="btn-group mb-4" role="group">
+  <a href="{% url 'reports:list' %}" class="btn btn-outline-secondary {% if not tipo_sel %}active{% endif %}">Todos</a>
+  {% for value, label in tipos %}
+    <a href="?tipo={{ value }}" class="btn btn-outline-secondary {% if tipo_sel == value %}active{% endif %}">{{ label }}</a>
+  {% endfor %}
+</div>
+
+<div class="row g-4">
+  {% for reporte in reportes %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm report-card">
+        <a href="{{ reporte.get_absolute_url }}">
+          {% with foto=reporte.fotos.first %}
+            {% if foto %}
+              <img src="{{ foto.imagen.url }}" class="card-img-top" alt="{{ reporte.titulo }}">
+            {% else %}
+              <div class="card-img-placeholder"><i class="bi bi-geo-alt"></i></div>
+            {% endif %}
+          {% endwith %}
+        </a>
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-1">
+            <span class="badge bg-primary">{{ reporte.get_tipo_display }}</span>
+            {% if reporte.estado == 'resuelto' %}<span class="badge bg-success">Resuelto</span>{% endif %}
+          </div>
+          <h2 class="h5">{{ reporte.titulo }}</h2>
+          <p class="small text-muted mb-1"><i class="bi bi-geo-alt"></i> {{ reporte.ubicacion }}</p>
+          <p class="card-text small">{{ reporte.descripcion|truncatewords:18 }}</p>
+        </div>
+        <div class="card-footer bg-white border-0">
+          <a href="{{ reporte.get_absolute_url }}" class="btn btn-outline-primary btn-sm w-100">Ver detalle</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col"><div class="alert alert-info">No hay reportes por ahora.</div></div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Gestión de reportes · Panel{% endblock %}
+{% block content %}
+<h1 class="h3 mb-4">Gestión de reportes</h1>
+
+<form method="get" class="mb-3">
+  <div class="input-group" style="max-width: 320px;">
+    <select name="estado" class="form-select">
+      <option value="">Todos los estados</option>
+      {% for value, label in estados %}
+        <option value="{{ value }}" {% if estado_sel == value %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
+  </div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-hover align-middle">
+    <thead>
+      <tr><th>Título</th><th>Tipo</th><th>Ubicación</th><th>Fecha</th><th>Estado</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for r in reportes %}
+        <tr>
+          <td>{{ r.titulo }}</td>
+          <td>{{ r.get_tipo_display }}</td>
+          <td>{{ r.ubicacion }}</td>
+          <td>{{ r.fecha_avistamiento }}</td>
+          <td>
+            {% if r.estado == 'resuelto' %}
+              <span class="badge bg-success">Resuelto</span>
+            {% else %}
+              <span class="badge bg-warning text-dark">Abierto</span>
+            {% endif %}
+          </td>
+          <td class="text-end">
+            <a href="{% url 'reports:detail' r.pk %}" class="btn btn-sm btn-outline-secondary">Ver / gestionar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr><td colspan="6" class="text-muted">No hay reportes.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

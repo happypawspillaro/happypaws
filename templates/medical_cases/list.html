@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}Casos médicos · Happy Paws Píllaro{% endblock %}
+{% block content %}
+<h1 class="h3">Casos médicos</h1>
+<p class="text-muted mb-4">Animales rescatados que necesitan tu ayuda para recuperarse.</p>
+
+<div class="row g-4">
+  {% for caso in casos %}
+    <div class="col-md-6 col-lg-4">
+      <div class="card h-100 shadow-sm case-card">
+        <a href="{{ caso.get_absolute_url }}">
+          {% if caso.foto %}
+            <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
+          {% else %}
+            <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
+          {% endif %}
+        </a>
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start">
+            <h2 class="h5">{{ caso.titulo }}</h2>
+            {% if caso.estado == 'cerrado' %}<span class="badge bg-secondary">Cerrado</span>{% endif %}
+          </div>
+          <p class="card-text small">{{ caso.descripcion|truncatewords:20 }}</p>
+          <div class="progress mb-2" style="height: 10px;">
+            <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;"></div>
+          </div>
+          <p class="small mb-0">
+            <strong>${{ caso.monto_recaudado|intcomma }}</strong>
+            recaudado de ${{ caso.meta_monto|intcomma }} ({{ caso.progreso }}%)
+          </p>
+        </div>
+        <div class="card-footer bg-white border-0">
+          <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Ver caso y apoyar</a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="col"><div class="alert alert-info">No hay casos médicos publicados por ahora.</div></div>
+  {% endfor %}
+</div>
+{% endblock %}

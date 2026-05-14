@@ -1,0 +1,30 @@
+{% if animales %}
+  <div class="row g-4">
+    {% for animal in animales %}
+      <div class="col-md-6 col-xl-4">
+        <div class="card h-100 shadow-sm animal-card">
+          <a href="{{ animal.get_absolute_url }}">
+            {% if animal.foto_principal %}
+              <img src="{{ animal.foto_principal.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+            {% else %}
+              <div class="card-img-placeholder"><i class="bi bi-image"></i></div>
+            {% endif %}
+          </a>
+          <div class="card-body">
+            <h3 class="h5 mb-1">{{ animal.nombre }}</h3>
+            <p class="text-muted small mb-2">
+              {{ animal.get_especie_display }} · {{ animal.get_sexo_display }} · {{ animal.get_tamano_display }}
+              {% if animal.edad_aprox %}· {{ animal.edad_aprox }}{% endif %}
+            </p>
+            <p class="card-text small">{{ animal.descripcion|truncatewords:18 }}</p>
+          </div>
+          <div class="card-footer bg-white border-0">
+            <a href="{{ animal.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Conocer a {{ animal.nombre }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="alert alert-info">No hay animales que coincidan con el filtro por ahora.</div>
+{% endif %}
