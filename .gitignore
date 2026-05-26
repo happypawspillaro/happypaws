@@ -6,3 +6,10 @@ db.sqlite3
 /media/
 /staticfiles/
 .DS_Store
+
+# Documentos de planificación del proyecto (entregables, no código).
+*.docx
+*.pdf
+
+# Metadata de Windows/WSL al descargar archivos.
+*:Zone.Identifier
