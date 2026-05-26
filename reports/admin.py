@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Report, ReportPhoto
+from .models import Report, ReportComment, ReportPhoto, ReportSighting
 
 
 class ReportPhotoInline(admin.TabularInline):
@@ -14,3 +14,19 @@ class ReportAdmin(admin.ModelAdmin):
     list_filter = ("tipo", "estado")
     search_fields = ("titulo", "descripcion", "ubicacion")
     inlines = [ReportPhotoInline]
+
+
+@admin.register(ReportComment)
+class ReportCommentAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "reporte", "oculto", "creado")
+    list_filter = ("oculto",)
+    search_fields = ("nombre", "mensaje")
+    list_editable = ("oculto",)
+
+
+@admin.register(ReportSighting)
+class ReportSightingAdmin(admin.ModelAdmin):
+    list_display = ("nombre", "reporte", "ubicacion", "fecha", "confirmado", "oculto")
+    list_filter = ("confirmado", "oculto")
+    search_fields = ("nombre", "ubicacion", "descripcion")
+    list_editable = ("confirmado", "oculto")

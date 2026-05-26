@@ -15,7 +15,7 @@ recaudación, y reportes comunitarios de mascotas perdidas/encontradas y maltrat
 | **Animales** | Catálogo en adopción con filtros, ficha de cada animal | CRUD, fotos e historial médico |
 | **Adopciones** | Formulario de solicitud por animal | Gestión de solicitudes, cambio de estado, seguimiento post-adopción |
 | **Casos médicos** | Listado y detalle con barra de recaudación, registro de aportes | CRUD, verificación de donaciones, bitácora de avances |
-| **Reportes** | Tablero comunitario y formulario de reporte | Gestión y marcado de resueltos |
+| **Reportes** | Tablero comunitario, formulario de reporte, **comentarios y avistamientos** que cualquiera puede dejar en un aviso | Gestión, marcado de resueltos, confirmación de avistamientos y moderación (ocultar/eliminar) |
 | **Core** | Página de inicio con destacados | Dashboard con métricas |
 
 ## Stack
@@ -70,6 +70,20 @@ Variables en `.env` (ver `.env.example`):
 - `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`
 - `DATABASE_URL` — `sqlite:///db.sqlite3` por defecto; para PostgreSQL:
   `postgres://usuario:clave@127.0.0.1:5432/happypaws`
+- `EMAIL_URL` — envío de correos. Por defecto `consolemail://` (los correos se
+  imprimen en la consola). Para enviar de verdad:
+  `smtp://usuario:clave@smtp.gmail.com:587/?tls=True`
+- `FOUNDATION_EMAIL` — correo de la fundación que recibe avisos cuando alguien
+  comenta o reporta un avistamiento en un reporte.
+
+### Interacción comunitaria en los reportes
+
+En el detalle de un aviso, **cualquier persona** (sin necesidad de cuenta)
+puede dejar **comentarios/pistas** y, en mascotas perdidas o encontradas,
+**reportar avistamientos** con ubicación, fecha y foto. Cada interacción avisa
+por correo al reportante (si dejó un correo) y a la fundación. El staff puede
+**confirmar** avistamientos útiles y **ocultar o eliminar** contenido
+inapropiado. Los formularios incluyen un campo trampa (honeypot) anti-spam.
 
 ## Pruebas
 

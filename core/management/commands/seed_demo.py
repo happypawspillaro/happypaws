@@ -8,7 +8,13 @@ from django.db import transaction
 from adoptions.models import AdoptionApplication, EstadoSolicitud, TipoVivienda
 from animals.models import Animal, EstadoAnimal, Especie, Sexo, Tamano
 from medical_cases.models import CaseUpdate, Donation, EstadoCaso, MedicalCase
-from reports.models import EstadoReporte, Report, TipoReporte
+from reports.models import (
+    EstadoReporte,
+    Report,
+    ReportComment,
+    ReportSighting,
+    TipoReporte,
+)
 
 User = get_user_model()
 
@@ -141,8 +147,9 @@ class Command(BaseCommand):
                 "estado": EstadoReporte.RESUELTO,
             },
         ]
+        reportes_creados = {}
         for data in reportes:
-            Report.objects.get_or_create(
+            reporte, _ = Report.objects.get_or_create(
                 titulo=data["titulo"],
                 defaults={
                     **data,
@@ -151,7 +158,33 @@ class Command(BaseCommand):
                     "contacto_reportante": "099 906 3323",
                 },
             )
+            reportes_creados[data["titulo"]] = reporte
         self.stdout.write(f"  · {len(reportes)} reportes")
+
+        # --- Interacción comunitaria de ejemplo ---
+        perdido = reportes_creados["Perrito blanco con ojos azules"]
+        if not perdido.comentarios.exists():
+            ReportComment.objects.create(
+                reporte=perdido, nombre="Marta",
+                mensaje="Creo que lo vi cerca del mercado esta mañana, andaba asustado.",
+            )
+            ReportComment.objects.create(
+                reporte=perdido, nombre="Don José", contacto="098 765 4321",
+                mensaje="Yo le di agua ayer en la tarde, sigue por el sector.",
+            )
+        if not perdido.avistamientos.exists():
+            ReportSighting.objects.create(
+                reporte=perdido, nombre="Marta", contacto="0991234567",
+                ubicacion="Mercado Central de Píllaro", fecha=hoy - timedelta(days=1),
+                descripcion="Estaba junto a los puestos de fruta, se fue hacia el parque.",
+                confirmado=True,
+            )
+            ReportSighting.objects.create(
+                reporte=perdido, nombre="Carlos",
+                ubicacion="Parque de Píllaro", fecha=hoy,
+                descripcion="Lo vi cruzar hacia la iglesia.",
+            )
+        self.stdout.write("  · comentarios y avistamientos de ejemplo")
 
         # --- Solicitud de adopción de ejemplo ---
         AdoptionApplication.objects.get_or_create(

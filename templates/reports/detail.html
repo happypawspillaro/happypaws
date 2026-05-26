@@ -35,8 +35,19 @@
     </ul>
     <p>{{ reporte.descripcion|linebreaks }}</p>
 
+    <div class="d-flex flex-wrap gap-2">
+      {% if reporte.permite_avistamientos %}
+        <a href="#avistamientos" class="btn btn-primary btn-sm">
+          <i class="bi bi-binoculars"></i> Reportar avistamiento ({{ avistamientos|length }})
+        </a>
+      {% endif %}
+      <a href="#comentarios" class="btn btn-outline-primary btn-sm">
+        <i class="bi bi-chat-left-text"></i> Comentar ({{ comentarios|length }})
+      </a>
+    </div>
+
     {% if user.is_staff %}
-      <form method="post" action="{% url 'reports:toggle_status' reporte.pk %}">
+      <form method="post" action="{% url 'reports:toggle_status' reporte.pk %}" class="mt-3">
         {% csrf_token %}
         <button class="btn btn-outline-secondary btn-sm" type="submit">
           {% if reporte.estado == 'abierto' %}Marcar como resuelto{% else %}Reabrir reporte{% endif %}
@@ -45,4 +56,10 @@
     {% endif %}
   </div>
 </div>
+
+{% if reporte.permite_avistamientos %}
+  {% include "reports/_sightings.html" %}
+{% endif %}
+
+{% include "reports/_comments.html" %}
 {% endblock %}
