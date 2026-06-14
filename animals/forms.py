@@ -10,11 +10,13 @@ class AnimalForm(BootstrapFormMixin, forms.ModelForm):
         model = Animal
         fields = [
             "nombre", "especie", "sexo", "tamano", "edad_aprox",
-            "descripcion", "estado", "esterilizado", "fecha_ingreso",
+            "descripcion", "estado", "origen", "esterilizado",
+            "fecha_esterilizacion", "destacado", "fecha_ingreso",
             "foto_principal",
         ]
         widgets = {
             "fecha_ingreso": forms.DateInput(attrs={"type": "date"}),
+            "fecha_esterilizacion": forms.DateInput(attrs={"type": "date"}),
             "descripcion": forms.Textarea(attrs={"rows": 4}),
         }
 

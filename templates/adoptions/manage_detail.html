@@ -26,6 +26,7 @@
             ({% if solicitud.tiene_patio %}con{% else %}sin{% endif %} patio)</li>
         </ul>
         <p><strong>Experiencia con mascotas:</strong><br>{{ solicitud.experiencia|default:"—"|linebreaks }}</p>
+        <p><strong>Propósito de tenencia:</strong> {{ solicitud.get_proposito_display }}</p>
         <p class="mb-0"><strong>Motivo:</strong><br>{{ solicitud.motivo|linebreaks }}</p>
       </div>
     </div>
@@ -66,6 +67,12 @@
         <p class="form-text mt-2">
           Al marcar la solicitud como <strong>Aprobada</strong>, el animal se marca automáticamente como adoptado.
         </p>
+        {% if solicitud.estado == "aprobada" %}
+          <hr>
+          <a href="{% url 'adoptions:print_sheet' solicitud.pk %}" target="_blank" class="btn btn-outline-primary w-100">
+            <i class="bi bi-printer"></i> Ficha imprimible del adoptante
+          </a>
+        {% endif %}
       </div>
     </div>
   </div>

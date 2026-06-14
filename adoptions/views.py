@@ -87,6 +87,21 @@ def update_status(request, pk):
 
 
 @staff_required
+def print_sheet(request, pk):
+    """Ficha imprimible con los datos de la persona aceptada a adoptar."""
+    solicitud = get_object_or_404(
+        AdoptionApplication.objects.select_related("animal"), pk=pk
+    )
+    if solicitud.estado != EstadoSolicitud.APROBADA:
+        messages.warning(
+            request,
+            "La ficha solo está disponible para solicitudes aprobadas.",
+        )
+        return redirect("adoptions:manage_detail", pk=pk)
+    return render(request, "adoptions/print_sheet.html", {"solicitud": solicitud})
+
+
+@staff_required
 def add_followup(request, pk):
     solicitud = get_object_or_404(AdoptionApplication, pk=pk)
     if request.method == "POST":
