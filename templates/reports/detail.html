@@ -24,14 +24,29 @@
     {% endif %}
   </div>
   <div class="col-md-5">
+    {% if not reporte.aprobado %}
+      <div class="alert alert-warning py-2"><i class="bi bi-clock-history"></i>
+        Pendiente de aprobación. Solo el staff puede verlo hasta que se publique.</div>
+    {% endif %}
     <span class="badge bg-primary">{{ reporte.get_tipo_display }}</span>
     {% if reporte.estado == 'resuelto' %}<span class="badge bg-success">Resuelto</span>{% endif %}
+    {% if reporte.especie %}<span class="badge bg-info text-dark">{{ reporte.get_especie_display }}</span>{% endif %}
+    {% if reporte.callejero %}<span class="badge bg-warning text-dark">Posible callejero</span>{% endif %}
     <h1 class="h3 mt-2">{{ reporte.titulo }}</h1>
     <ul class="list-unstyled">
       <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ reporte.ubicacion }}</li>
-      <li><i class="bi bi-calendar-event"></i> <strong>Fecha:</strong> {{ reporte.fecha_avistamiento }}</li>
-      <li><i class="bi bi-person"></i> <strong>Reportado por:</strong> {{ reporte.nombre_reportante }}</li>
-      <li><i class="bi bi-telephone"></i> <strong>Contacto:</strong> {{ reporte.contacto_reportante }}</li>
+      <li><i class="bi bi-calendar-event"></i> <strong>Fecha:</strong> {{ reporte.fecha_avistamiento }}{% if reporte.hora_aproximada %} · aprox. {{ reporte.hora_aproximada }}{% endif %}</li>
+      {% if reporte.especie or reporte.sexo %}
+        <li><i class="bi bi-tag"></i> <strong>Mascota:</strong>
+          {{ reporte.get_especie_display|default:"—" }}{% if reporte.sexo %} · {{ reporte.get_sexo_display }}{% endif %}</li>
+      {% endif %}
+      {% if reporte.senales_distinguibles %}
+        <li><i class="bi bi-stars"></i> <strong>Señales distinguibles:</strong> {{ reporte.senales_distinguibles }}</li>
+      {% endif %}
+      <li><i class="bi bi-person"></i> <strong>Reportado por:</strong> {{ reporte.reportante_publico }}</li>
+      {% if reporte.contacto_reportante %}
+        <li><i class="bi bi-telephone"></i> <strong>Contacto:</strong> {{ reporte.contacto_reportante }}</li>
+      {% endif %}
     </ul>
     <p>{{ reporte.descripcion|linebreaks }}</p>
 
@@ -47,12 +62,21 @@
     </div>
 
     {% if user.is_staff %}
-      <form method="post" action="{% url 'reports:toggle_status' reporte.pk %}" class="mt-3">
-        {% csrf_token %}
-        <button class="btn btn-outline-secondary btn-sm" type="submit">
-          {% if reporte.estado == 'abierto' %}Marcar como resuelto{% else %}Reabrir reporte{% endif %}
-        </button>
-      </form>
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <form method="post" action="{% url 'reports:toggle_approval' reporte.pk %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="detail">
+          <button class="btn btn-sm {% if reporte.aprobado %}btn-outline-warning{% else %}btn-success{% endif %}" type="submit">
+            {% if reporte.aprobado %}Retirar de publicación{% else %}Aprobar y publicar{% endif %}
+          </button>
+        </form>
+        <form method="post" action="{% url 'reports:toggle_status' reporte.pk %}">
+          {% csrf_token %}
+          <button class="btn btn-outline-secondary btn-sm" type="submit">
+            {% if reporte.estado == 'abierto' %}Marcar como resuelto{% else %}Reabrir reporte{% endif %}
+          </button>
+        </form>
+      </div>
     {% endif %}
   </div>
 </div>

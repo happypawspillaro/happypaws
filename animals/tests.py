@@ -29,6 +29,23 @@ class AnimalModelTests(TestCase):
         self.assertTrue(a.en_adopcion)
         self.assertFalse(b.en_adopcion)
 
+    def test_tiene_tutor(self):
+        con = crear_animal(tutor_nombre="María")
+        sin = crear_animal(nombre="Sin tutor", tutor_nombre="")
+        self.assertTrue(con.tiene_tutor)
+        self.assertFalse(sin.tiene_tutor)
+
+    def test_ubicacion_completa_omite_vacios(self):
+        self.assertEqual(
+            crear_animal(barrio="La Floresta", parroquia="Píllaro").ubicacion_completa,
+            "La Floresta, Píllaro",
+        )
+        self.assertEqual(
+            crear_animal(nombre="x", barrio="", parroquia="San Andrés").ubicacion_completa,
+            "San Andrés",
+        )
+        self.assertEqual(crear_animal(nombre="y").ubicacion_completa, "")
+
 
 class CatalogViewTests(TestCase):
     def test_catalogo_solo_muestra_en_adopcion(self):

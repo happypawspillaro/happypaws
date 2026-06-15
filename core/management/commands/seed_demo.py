@@ -156,6 +156,7 @@ class Command(BaseCommand):
                     "fecha_avistamiento": hoy - timedelta(days=4),
                     "nombre_reportante": "Vecino de Píllaro",
                     "contacto_reportante": "099 906 3323",
+                    "aprobado": True,
                 },
             )
             reportes_creados[data["titulo"]] = reporte

@@ -14,6 +14,7 @@ urlpatterns = [
     # Panel administrativo
     path("gestion/", views.manage_list, name="manage_list"),
     path("gestion/<int:pk>/estado/", views.toggle_status, name="toggle_status"),
+    path("gestion/<int:pk>/aprobar/", views.toggle_approval, name="toggle_approval"),
     # Moderación de la interacción
     path("comentario/<int:pk>/ocultar/", views.toggle_comment, name="toggle_comment"),
     path("comentario/<int:pk>/eliminar/", views.delete_comment, name="delete_comment"),

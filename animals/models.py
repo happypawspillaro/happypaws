@@ -66,6 +66,20 @@ class Animal(models.Model):
         choices=Origen.choices,
         default=Origen.RESCATADO,
     )
+    # Ubicación del animal. La parroquia es texto libre por ahora; cuando llegue
+    # el locaciones.json de la fundación se podrá convertir en lista desplegable.
+    barrio = models.CharField("barrio / sector", max_length=120, blank=True)
+    parroquia = models.CharField("parroquia", max_length=120, blank=True)
+    # Datos del tutor / responsable (para animales domésticos o con cuidador).
+    tutor_nombre = models.CharField(
+        "nombre del tutor / responsable", max_length=200, blank=True
+    )
+    tutor_contacto = models.CharField(
+        "contacto del tutor (teléfono o correo)",
+        max_length=200,
+        blank=True,
+        help_text="Opcional. Teléfono o correo del tutor o cuidador.",
+    )
     esterilizado = models.BooleanField(default=False)
     fecha_esterilizacion = models.DateField(
         "fecha de esterilización", null=True, blank=True
@@ -94,6 +108,16 @@ class Animal(models.Model):
     @property
     def en_adopcion(self):
         return self.estado == EstadoAnimal.EN_ADOPCION
+
+    @property
+    def tiene_tutor(self):
+        return bool(self.tutor_nombre.strip())
+
+    @property
+    def ubicacion_completa(self):
+        """Barrio y parroquia combinados, omitiendo lo que esté vacío."""
+        partes = [p.strip() for p in (self.barrio, self.parroquia) if p.strip()]
+        return ", ".join(partes)
 
     @property
     def es_comunitario_reciente(self):

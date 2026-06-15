@@ -10,9 +10,13 @@ class ReportPhotoInline(admin.TabularInline):
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "tipo", "ubicacion", "estado", "fecha_avistamiento", "creado")
-    list_filter = ("tipo", "estado")
-    search_fields = ("titulo", "descripcion", "ubicacion")
+    list_display = (
+        "titulo", "tipo", "ubicacion", "estado", "aprobado",
+        "fecha_avistamiento", "creado",
+    )
+    list_filter = ("tipo", "estado", "aprobado", "especie", "callejero")
+    search_fields = ("titulo", "descripcion", "ubicacion", "senales_distinguibles")
+    list_editable = ("aprobado",)
     inlines = [ReportPhotoInline]
 
 

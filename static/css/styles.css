@@ -48,3 +48,15 @@ a { color: #d9620a; }
   height: 160px;
   object-fit: cover;
 }
+
+/* Carrusel de casos médicos: altura consistente y adaptable al dispositivo. */
+#carouselCaso .carousel-item img {
+  height: 380px;
+  object-fit: cover;
+}
+@media (max-width: 767.98px) {
+  #carouselCaso .carousel-item img { height: 260px; }
+}
+@media (max-width: 575.98px) {
+  #carouselCaso .carousel-item img { height: 200px; }
+}

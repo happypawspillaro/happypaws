@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from accounts.decorators import staff_required
@@ -16,8 +17,8 @@ from .notifications import notify_report_activity
 
 
 def report_list(request):
-    """Tablero público de reportes."""
-    reportes = Report.objects.prefetch_related("fotos")
+    """Tablero público de reportes (solo los aprobados por el staff)."""
+    reportes = Report.objects.filter(aprobado=True).prefetch_related("fotos")
     tipo = request.GET.get("tipo", "")
     if tipo:
         reportes = reportes.filter(tipo=tipo)
@@ -47,6 +48,10 @@ def _detail_context(request, reporte, comment_form=None, sighting_form=None):
 
 def detail(request, pk):
     reporte = get_object_or_404(Report, pk=pk)
+    es_staff = request.user.is_authenticated and request.user.is_staff
+    # Un reporte sin aprobar solo es visible para el staff (anti-spam).
+    if not reporte.aprobado and not es_staff:
+        raise Http404("Este reporte aún no está disponible.")
     return render(request, "reports/detail.html", _detail_context(request, reporte))
 
 
@@ -58,9 +63,11 @@ def create(request):
         for imagen in request.FILES.getlist("fotos"):
             ReportPhoto.objects.create(reporte=reporte, imagen=imagen)
         messages.success(
-            request, "Tu reporte fue publicado. ¡Gracias por ayudar a la comunidad!"
+            request,
+            "¡Gracias por ayudar a la comunidad! Tu reporte fue recibido y será "
+            "revisado por la fundación antes de publicarse.",
         )
-        return redirect(reporte.get_absolute_url())
+        return redirect("reports:list")
     return render(request, "reports/create.html", {"form": form})
 
 
@@ -121,11 +128,37 @@ def manage_list(request):
     estado = request.GET.get("estado", "")
     if estado:
         reportes = reportes.filter(estado=estado)
+    aprobacion = request.GET.get("aprobacion", "")
+    if aprobacion == "pendiente":
+        reportes = reportes.filter(aprobado=False)
+    elif aprobacion == "aprobado":
+        reportes = reportes.filter(aprobado=True)
     return render(
         request,
         "reports/manage_list.html",
-        {"reportes": reportes, "estados": EstadoReporte.choices, "estado_sel": estado},
+        {
+            "reportes": reportes,
+            "estados": EstadoReporte.choices,
+            "estado_sel": estado,
+            "aprobacion_sel": aprobacion,
+            "pendientes": Report.objects.filter(aprobado=False).count(),
+        },
     )
+
+
+@staff_required
+def toggle_approval(request, pk):
+    """Aprueba o retira de publicación un reporte (moderación anti-spam)."""
+    reporte = get_object_or_404(Report, pk=pk)
+    if request.method == "POST":
+        reporte.aprobado = not reporte.aprobado
+        reporte.save(update_fields=["aprobado"])
+        estado = "aprobado y publicado" if reporte.aprobado else "retirado de publicación"
+        messages.success(request, f"Reporte {estado}.")
+    destino = request.POST.get("next") or "reports:manage_list"
+    if destino == "detail":
+        return redirect("reports:detail", pk=pk)
+    return redirect("reports:manage_list")
 
 
 @staff_required

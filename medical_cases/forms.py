@@ -2,7 +2,7 @@ from django import forms
 
 from core.forms import BootstrapFormMixin
 
-from .models import CaseUpdate, Donation, MedicalCase
+from .models import CasePhoto, CaseUpdate, Donation, Expense, MedicalCase
 
 
 class MedicalCaseForm(BootstrapFormMixin, forms.ModelForm):
@@ -19,6 +19,9 @@ class PublicDonationForm(BootstrapFormMixin, forms.ModelForm):
         model = Donation
         fields = ["nombre_donante", "email", "monto", "fecha", "comprobante"]
         widgets = {"fecha": forms.DateInput(attrs={"type": "date"})}
+        help_texts = {
+            "nombre_donante": "Opcional. Si lo dejas en blanco aparecerás como anónimo.",
+        }
 
 
 class StaffDonationForm(BootstrapFormMixin, forms.ModelForm):
@@ -36,3 +39,16 @@ class CaseUpdateForm(BootstrapFormMixin, forms.ModelForm):
             "fecha": forms.DateInput(attrs={"type": "date"}),
             "texto": forms.Textarea(attrs={"rows": 3}),
         }
+
+
+class CasePhotoForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = CasePhoto
+        fields = ["imagen", "descripcion"]
+
+
+class ExpenseForm(BootstrapFormMixin, forms.ModelForm):
+    class Meta:
+        model = Expense
+        fields = ["categoria", "descripcion", "monto", "fecha", "comprobante"]
+        widgets = {"fecha": forms.DateInput(attrs={"type": "date"})}
