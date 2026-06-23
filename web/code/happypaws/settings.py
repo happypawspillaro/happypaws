@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 import environ
@@ -67,7 +68,10 @@ TEMPLATES = [
 WSGI_APPLICATION = "happypaws.wsgi.application"
 
 DATABASES = {
-    "default": env.db("DATABASE_URL", default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR.parent / "db" / "db.sqlite3",
+    }
 }
 
 AUTH_USER_MODEL = "accounts.User"
@@ -89,7 +93,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_ROOT = BASE_DIR.parent / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -111,3 +115,44 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+
+# Modo INFO por defecto en Django
+DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO")
+
+# Usar 'verbose' en DEBUG para ver los threads, 'simple' para producción
+LOG_FORMATTER = "verbose" if DJANGO_LOG_LEVEL == "DEBUG" else "simple"
+
+# Configuraciones de logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            # Added {threadName} and {thread} (Thread ID)
+            "format": "{levelname} {asctime} [{threadName} (ID: {thread})] {module} {message}",
+            "style": "{",
+        },
+        "simple": {
+            "format": "{levelname} {message}",
+            "style": "{",
+        },
+    },
+    "handlers": {
+        "console": {
+            "level": DJANGO_LOG_LEVEL,
+            "class": "logging.StreamHandler",
+            "formatter": LOG_FORMATTER,  # Dynamically switches formatters
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": DJANGO_LOG_LEVEL,
+            "propagate": False,  # Changed to False to prevent duplicate logs in root
+        },
+    },
+    "root": {  # Root is a top-level key, not inside "loggers"
+        "handlers": ["console"],
+        "level": DJANGO_LOG_LEVEL,
+    },
+}
