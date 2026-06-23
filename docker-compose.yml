@@ -1,0 +1,46 @@
+services:
+ web:
+  image: web:latest
+  build: web
+  restart: always
+  ports:
+   - "8001:8000"
+  volumes:
+   - media-volume:/home/happypaws/media
+   - sqlite:/home/happypaws/db
+  environment:
+   - DB_DATABASE=${DB_DATABASE}
+   - DB_PASSWORD_FILE=${DB_PASSWORD_FILE}
+   - DB_PORT=${DB_PORT}
+   - DB_USER=${DB_USER}
+   - DB_HOST=${DB_HOST}
+   - SECRET_KEY=${SECRET_KEY}
+   - APP_URL=${APP_URL}
+   - LOCAL_URL=${LOCAL_URL}
+   - DEBUG=True
+  healthcheck:
+   test:
+    - CMD
+    - curl --fail http://localhost:8000/ || exit 1
+   interval: 1m30s
+   timeout: 30s
+   retries: 5
+   start_period: 30s
+  command: python manage.py runserver 0.0.0.0:8000
+  secrets:
+   - db_password
+   - admin_password
+
+volumes:
+ sqlite:
+  driver: local
+ media-volume:
+  driver: local
+
+secrets:
+ db_root_password:
+  file: credenciales/database/root_password.txt
+ db_password:
+  file: credenciales/database/user_password.txt
+ admin_password:
+  file: credenciales/database/admin_password.txt
