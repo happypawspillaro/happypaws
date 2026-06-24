@@ -1,0 +1,9 @@
+services:
+ web:
+  build:
+   target: debug
+  volumes:
+   - ./web/code/:/home/happypaws/code/
+  environment:
+   - DJANGO_DEBUG=True
+   - DJANGO_LOG_LEVEL=INFO # Puede ser INFO para menos verbosidad
