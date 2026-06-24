@@ -7,6 +7,5 @@ services:
       - "sh"
       - "-c"
       - |
-        python manage.py makemigrations adoptions animals medical_cases reports &&
-        python manage.py makemigrations &&
+        python manage.py makemigrations accounts adoptions animals medical_cases reports &&
         python manage.py migrate
