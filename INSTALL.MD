@@ -3,23 +3,38 @@
 ## Prerequisitos
 
 - Docker > 27.0
+- Git > 2.43
 
 ## Instrucciones de instalación
 
-1. Instala Docker en tu computador a través de las [instruccion de instalación](https://docs.docker.com/engine/install/)
-2. Copia y luego configura tus variables de entorno así
+1. Instala Docker en tu computador a través de las instrucciones de  [instalación](https://docs.docker.com/engine/install/) para tu plataforma.
+2. Clona este repositorio y cambia de directorio hacia el proyecto, lo puedes hacer con el siguiente comando:
+
+    ```bash
+    git clone https://github.com/happypawspillaro/happypaws.git
+    cd happypaws
+    ```
+
+3. Copia y luego configura tus variables de entorno así:
 
    ```bash
    cp .env.example .env
    ```
 
-3. Construye tus contenedores con:
+4. Construye tus contenedores con:
 
-```bash
-docker compose build
-```
+    ```bash
+    docker compose build
+    ```
 
-1.
+5. Inicia la configuración base de los contenedores con
+
+    ```bash
+    docker compose up -d
+    ```
+
+6. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
+7. Abre el siguiente URL [http://localhost:8000](http://localhost:8000), si es que vez una página renderizada, esta correcto
 
 ## Migraciones
 
