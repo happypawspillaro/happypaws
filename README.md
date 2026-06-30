@@ -106,7 +106,7 @@ Para formatear tus archivos de Python, sigue las siguientes instrucciones:
     ```bash
     python -m venv .venv
     source .venv/bin/activate
-    pip install black flake8 isort pylint
+    pip install black flake8 flake8-pyproject isort pylint pylint-django
     ```
 
 2. Puedes ejecutar todos los formateadores de una pasada con el script `linters.sh` y especificando como argumento tu script de Python
