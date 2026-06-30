@@ -1,5 +1,7 @@
 # Happy Paws Píllaro — Sistema web
 
+[![Super-Linter](https://github.com/happypawspillaro/happypaws/actions/workflows/super-linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 Sistema web para la fundación **Happy Paws Píllaro** (Píllaro, Tungurahua,
 Ecuador), dedicada a la esterilización y adopción responsable de perros y gatos.
 Proyecto de titulación.
@@ -48,7 +50,7 @@ python manage.py seed_demo
 python manage.py runserver
 ```
 
-La aplicación queda en http://127.0.0.1:8000/
+La aplicación queda en <http://127.0.0.1:8000/>
 
 ## Acceso
 
@@ -90,4 +92,5 @@ core/           Página de inicio, dashboard y comando seed_demo
 templates/      Plantillas (base + por app)
 static/         CSS
 ```
+
 # happypaws

@@ -1,0 +1,56 @@
+---
+name: Comprobar formato de código
+
+on: # yamllint disable-line rule:truthy
+  push: null
+  pull_request: null
+
+permissions: {}
+
+jobs:
+ build:
+  name: Comprobar formato y errores de código
+  runs-on: ubuntu-latest
+
+  permissions:
+   contents: read
+   packages: read
+   # issues and pull-requests permissions to write results as pull
+   # request comments. Omit them if you don't need summary comments
+   issues: write
+   pull-requests: write
+   # To report GitHub Actions status checks
+   statuses: write
+
+  steps:
+   - name: Obtener código
+     uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+     with:
+      # super-linter needs the full git history to get the
+      # list of files that changed across commits
+      fetch-depth: 0
+      persist-credentials: false
+
+   - name: Super-linter
+     uses: super-linter/super-linter@4ce20838b8ab83717e78138c5b3a1407148e0918 # v8.7.0
+     env:
+      # To report GitHub Actions status checks
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEFAULT_BRANCH: main
+      VALIDATE_PYTHON_MYPY: false
+
+      LINTER_RULES_PATH: /
+      PYTHON_BLACK_CONFIG_FILE: pyproject.toml
+      PYTHON_ISORT_CONFIG_FILE: pyproject.toml
+      PYTHON_PYLINT_CONFIG_FILE: .pylintrc
+      JSCPD_CONFIG_FILE: .jscpd.json
+      VALIDATE_HTML: false
+      VALIDATE_HTML_PRETTIER: false
+      VALIDATE_PYTHON_PYINK: false
+      # Desactivadas hasta migrar de black/isort
+      VALIDATE_PYTHON_RUFF: false
+      VALIDATE_PYTHON_RUFF_FORMAT: false
+      # Desabilita ESLint
+      VALIDATE_JAVASCRIPT_ES: false
+      VALIDATE_JSON: false
+      VALIDATE_JAVASCRIPT_STANDARD: false
