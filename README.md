@@ -27,41 +27,7 @@ recaudación, y reportes comunitarios de mascotas perdidas/encontradas y maltrat
 
 ## Instalación
 
-```bash
-# 1. Entorno virtual
-python3 -m venv .venv
-source .venv/bin/activate
-
-# 2. Dependencias
-pip install -r requirements.txt
-
-# 3. Variables de entorno
-cp .env.example .env
-
-# 4. Base de datos
-python manage.py migrate
-
-# 5. Datos de ejemplo (animales, caso médico, reportes y solicitudes)
-python manage.py seed_demo
-
-# 6. Servidor
-python manage.py runserver
-```
-
-La aplicación queda en http://127.0.0.1:8000/
-
-## Acceso
-
-`seed_demo` crea un usuario del staff de la fundación:
-
-- **Usuario:** `fundacion`
-- **Contraseña:** `happypaws123`
-
-Para acceder al Django admin crea un superusuario:
-
-```bash
-python manage.py createsuperuser
-```
+Puedes consultar en el apartado [Instalación](INSTALL.md) para saber como inicializar la página web.
 
 ## Configuración
 
@@ -79,7 +45,7 @@ python manage.py test
 
 ## Estructura
 
-```
+```bash
 happypaws/      Configuración del proyecto (settings, urls)
 accounts/       Usuario custom y autenticación
 animals/        Catálogo, fichas e historial médico
@@ -90,4 +56,3 @@ core/           Página de inicio, dashboard y comando seed_demo
 templates/      Plantillas (base + por app)
 static/         CSS
 ```
-# happypaws

@@ -1,0 +1,11 @@
+services:
+  web:
+    restart: no
+    volumes:
+      - ./web/code:/home/happypaws/code
+    command:
+      - "sh"
+      - "-c"
+      - |
+        python manage.py makemigrations accounts adoptions animals medical_cases reports &&
+        python manage.py migrate
