@@ -2,9 +2,9 @@
 
 # Verificar si se pasó un archivo
 if [ -z "$1" ]; then
-    echo "Error: Debes proporcionar un archivo de Python válido."
-    echo "Uso: $0 <archivo.py>"
-    exit 1
+	echo "Error: Debes proporcionar un archivo de Python válido."
+	echo "Uso: $0 <archivo.py>"
+	exit 1
 fi
 
 FILE="$1"
@@ -13,7 +13,7 @@ FILE="$1"
 echo "--- Ejecutando isort ---"
 isort "$FILE"
 
-# 2. Formatear estilo 
+# 2. Formatear estilo
 echo "--- Ejecutando black ---"
 black "$FILE"
 
