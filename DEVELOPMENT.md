@@ -15,5 +15,5 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 En caso necesites mayor detalle de los registros del sistema, cambia en el servicio `web`, en la sección `environment` la línea de `INFO` a `DEBUG` como en el siguiente ejemplo:
 
 ```yaml
-- DJANGO_LOG_LEVEL=DEBUG 
+- DJANGO_LOG_LEVEL=DEBUG
 ```
