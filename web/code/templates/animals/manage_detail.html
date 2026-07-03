@@ -20,9 +20,25 @@
       <li class="list-group-item"><strong>Sexo:</strong> {{ animal.get_sexo_display }}</li>
       <li class="list-group-item"><strong>Tamaño:</strong> {{ animal.get_tamano_display }}</li>
       <li class="list-group-item"><strong>Estado:</strong> {{ animal.get_estado_display }}</li>
+      <li class="list-group-item"><strong>Origen:</strong> {{ animal.get_origen_display }}</li>
+      {% if animal.ubicacion_completa %}
+        <li class="list-group-item"><strong>Ubicación:</strong> {{ animal.ubicacion_completa }}</li>
+      {% endif %}
       <li class="list-group-item"><strong>Esterilizado:</strong> {% if animal.esterilizado %}Sí{% else %}No{% endif %}</li>
       <li class="list-group-item"><strong>Ingreso:</strong> {{ animal.fecha_ingreso }}</li>
     </ul>
+
+    {% if animal.tiene_tutor %}
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h2 class="h6"><i class="bi bi-person-badge"></i> Tutor / responsable</h2>
+          <p class="mb-1">{{ animal.tutor_nombre }}</p>
+          {% if animal.tutor_contacto %}
+            <p class="small text-muted mb-0"><i class="bi bi-telephone"></i> {{ animal.tutor_contacto }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
 
     <div class="card shadow-sm">
       <div class="card-body">

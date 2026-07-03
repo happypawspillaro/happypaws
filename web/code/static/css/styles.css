@@ -34,3 +34,29 @@ a { color: #d9620a; }
 .htmx-indicator { opacity: 0; transition: opacity 200ms ease-in; }
 .htmx-request .htmx-indicator { opacity: 1; }
 .htmx-request.htmx-indicator { opacity: 1; }
+
+/* Campo trampa anti-spam: fuera de pantalla, invisible para personas. */
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.sighting-img {
+  height: 160px;
+  object-fit: cover;
+}
+
+/* Carrusel de casos médicos: altura consistente y adaptable al dispositivo. */
+#carouselCaso .carousel-item img {
+  height: 380px;
+  object-fit: cover;
+}
+@media (max-width: 767.98px) {
+  #carouselCaso .carousel-item img { height: 260px; }
+}
+@media (max-width: 575.98px) {
+  #carouselCaso .carousel-item img { height: 200px; }
+}

@@ -36,6 +36,10 @@
       <li><strong>Sexo:</strong> {{ animal.get_sexo_display }}</li>
       <li><strong>Tamaño:</strong> {{ animal.get_tamano_display }}</li>
       {% if animal.edad_aprox %}<li><strong>Edad aproximada:</strong> {{ animal.edad_aprox }}</li>{% endif %}
+      <li><strong>Origen:</strong> {{ animal.get_origen_display }}</li>
+      {% if animal.ubicacion_completa %}
+        <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ animal.ubicacion_completa }}</li>
+      {% endif %}
       <li><strong>En la fundación desde:</strong> {{ animal.fecha_ingreso }}</li>
     </ul>
     <p>{{ animal.descripcion|linebreaks }}</p>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CaseUpdate, Donation, MedicalCase
+from .models import CasePhoto, CaseUpdate, Donation, Expense, MedicalCase
 
 
 class DonationInline(admin.TabularInline):
@@ -13,12 +13,36 @@ class CaseUpdateInline(admin.TabularInline):
     extra = 0
 
 
+class CasePhotoInline(admin.TabularInline):
+    model = CasePhoto
+    extra = 0
+
+
+class ExpenseInline(admin.TabularInline):
+    model = Expense
+    extra = 0
+
+
 @admin.register(MedicalCase)
 class MedicalCaseAdmin(admin.ModelAdmin):
-    list_display = ("titulo", "animal", "meta_monto", "monto_recaudado", "estado")
+    list_display = (
+        "titulo",
+        "animal",
+        "meta_monto",
+        "monto_recaudado",
+        "total_egresos",
+        "estado",
+    )
     list_filter = ("estado",)
     search_fields = ("titulo", "descripcion")
-    inlines = [DonationInline, CaseUpdateInline]
+    inlines = [CasePhotoInline, DonationInline, ExpenseInline, CaseUpdateInline]
+
+
+@admin.register(Expense)
+class ExpenseAdmin(admin.ModelAdmin):
+    list_display = ("descripcion", "caso", "categoria", "monto", "fecha")
+    list_filter = ("categoria", "fecha")
+    search_fields = ("descripcion", "caso__titulo")
 
 
 @admin.register(Donation)

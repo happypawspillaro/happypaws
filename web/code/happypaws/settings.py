@@ -76,6 +76,17 @@ DATABASES = {
 
 AUTH_USER_MODEL = "accounts.User"
 
+# Correo. Por defecto la consola (los correos se imprimen, ideal en desarrollo).
+# En producción define EMAIL_URL, p. ej.:
+#   EMAIL_URL=smtp://usuario:clave@smtp.gmail.com:587/?tls=True
+vars().update(env.email_url("EMAIL_URL", default="consolemail://"))
+DEFAULT_FROM_EMAIL = env(
+    "DEFAULT_FROM_EMAIL",
+    default="Happy Paws Píllaro <no-reply@happypaws.local>",
+)
+# Correo de la fundación que recibe avisos de actividad en los reportes.
+FOUNDATION_EMAIL = env("FOUNDATION_EMAIL", default="")
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},

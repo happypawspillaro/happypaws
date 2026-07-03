@@ -6,7 +6,12 @@ from django.urls import reverse
 from accounts.models import User
 from animals.models import Animal, EstadoAnimal, Especie, Sexo, Tamano
 
-from .models import AdoptionApplication, EstadoSolicitud, TipoVivienda
+from .models import (
+    AdoptionApplication,
+    EstadoSolicitud,
+    PropositoTenencia,
+    TipoVivienda,
+)
 
 
 class AdoptionFlowTests(TestCase):
@@ -27,6 +32,7 @@ class AdoptionFlowTests(TestCase):
             "tipo_vivienda": TipoVivienda.CASA,
             "tiene_patio": True,
             "experiencia": "He tenido perros.",
+            "proposito": PropositoTenencia.COMPANIA,
             "motivo": "Quiero darle un hogar.",
         }
 

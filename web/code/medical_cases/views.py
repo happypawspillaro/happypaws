@@ -3,7 +3,14 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from accounts.decorators import staff_required
 
-from .forms import CaseUpdateForm, MedicalCaseForm, PublicDonationForm, StaffDonationForm
+from .forms import (
+    CasePhotoForm,
+    CaseUpdateForm,
+    ExpenseForm,
+    MedicalCaseForm,
+    PublicDonationForm,
+    StaffDonationForm,
+)
 from .models import EstadoCaso, MedicalCase
 
 
@@ -75,6 +82,8 @@ def manage_detail(request, pk):
             "caso": caso,
             "donation_form": StaffDonationForm(),
             "update_form": CaseUpdateForm(),
+            "photo_form": CasePhotoForm(),
+            "expense_form": ExpenseForm(),
         },
     )
 
@@ -118,6 +127,56 @@ def add_update(request, pk):
             messages.success(request, "Avance publicado.")
         else:
             messages.error(request, "No se pudo publicar el avance.")
+    return redirect("medical_cases:manage_detail", pk=pk)
+
+
+@staff_required
+def add_photo(request, pk):
+    caso = get_object_or_404(MedicalCase, pk=pk)
+    if request.method == "POST":
+        form = CasePhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            foto = form.save(commit=False)
+            foto.caso = caso
+            foto.save()
+            messages.success(request, "Foto añadida a la galería.")
+        else:
+            messages.error(request, "No se pudo añadir la foto.")
+    return redirect("medical_cases:manage_detail", pk=pk)
+
+
+@staff_required
+def delete_photo(request, pk, photo_pk):
+    caso = get_object_or_404(MedicalCase, pk=pk)
+    foto = get_object_or_404(caso.fotos, pk=photo_pk)
+    if request.method == "POST":
+        foto.delete()
+        messages.success(request, "Foto eliminada.")
+    return redirect("medical_cases:manage_detail", pk=pk)
+
+
+@staff_required
+def add_expense(request, pk):
+    caso = get_object_or_404(MedicalCase, pk=pk)
+    if request.method == "POST":
+        form = ExpenseForm(request.POST, request.FILES)
+        if form.is_valid():
+            egreso = form.save(commit=False)
+            egreso.caso = caso
+            egreso.save()
+            messages.success(request, "Egreso registrado.")
+        else:
+            messages.error(request, "No se pudo registrar el egreso.")
+    return redirect("medical_cases:manage_detail", pk=pk)
+
+
+@staff_required
+def delete_expense(request, pk, expense_pk):
+    caso = get_object_or_404(MedicalCase, pk=pk)
+    egreso = get_object_or_404(caso.egresos, pk=expense_pk)
+    if request.method == "POST":
+        egreso.delete()
+        messages.success(request, "Egreso eliminado.")
     return redirect("medical_cases:manage_detail", pk=pk)
 
 

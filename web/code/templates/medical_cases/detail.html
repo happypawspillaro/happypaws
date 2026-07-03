@@ -11,8 +11,36 @@
 
 <div class="row g-4">
   <div class="col-lg-7">
-    {% if caso.foto %}
-      <img src="{{ caso.foto.url }}" class="img-fluid rounded shadow-sm mb-3" alt="{{ caso.titulo }}">
+    {% if caso.foto or caso.fotos.all %}
+      <div id="carouselCaso" class="carousel slide mb-3 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          {% if caso.foto %}
+            <div class="carousel-item active">
+              <img src="{{ caso.foto.url }}" class="d-block w-100" alt="{{ caso.titulo }}">
+            </div>
+          {% endif %}
+          {% for f in caso.fotos.all %}
+            <div class="carousel-item {% if not caso.foto and forloop.first %}active{% endif %}">
+              <img src="{{ f.imagen.url }}" class="d-block w-100" alt="{{ f.descripcion|default:caso.titulo }}">
+              {% if f.descripcion %}
+                <div class="carousel-caption d-none d-md-block">
+                  <p class="bg-dark bg-opacity-50 rounded px-2 py-1 mb-0 d-inline-block">{{ f.descripcion }}</p>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+        {% if caso.fotos.all and caso.foto or caso.fotos.all|length > 1 %}
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaso" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Anterior</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselCaso" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Siguiente</span>
+          </button>
+        {% endif %}
+      </div>
     {% endif %}
     <h1 class="h3">{{ caso.titulo }}</h1>
     {% if caso.animal %}
@@ -30,6 +58,52 @@
     {% empty %}
       <p class="text-muted">Aún no hay avances publicados.</p>
     {% endfor %}
+
+    {% if caso.egresos.all %}
+      <h2 class="h5 mt-4">¿En qué se usan los aportes?</h2>
+      <p class="small text-muted">
+        Transparencia de los egresos del caso. Total gastado:
+        <strong>${{ caso.total_egresos|intcomma }}</strong>.
+      </p>
+      <div class="accordion" id="accordionEgresos">
+        {% for grupo in caso.egresos_por_categoria %}
+          <div class="accordion-item">
+            <h3 class="accordion-header" id="headingEgreso{{ forloop.counter }}">
+              <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button"
+                      data-bs-toggle="collapse" data-bs-target="#collapseEgreso{{ forloop.counter }}"
+                      aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                      aria-controls="collapseEgreso{{ forloop.counter }}">
+                <span class="d-flex justify-content-between w-100 me-3">
+                  <span>{{ grupo.etiqueta }}</span>
+                  <span class="badge bg-secondary align-self-center">${{ grupo.total|intcomma }}</span>
+                </span>
+              </button>
+            </h3>
+            <div id="collapseEgreso{{ forloop.counter }}"
+                 class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                 aria-labelledby="headingEgreso{{ forloop.counter }}" data-bs-parent="#accordionEgresos">
+              <div class="accordion-body p-0">
+                <ul class="list-group list-group-flush">
+                  {% for egreso in grupo.egresos %}
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <span>
+                        {{ egreso.descripcion }}
+                        <small class="text-muted d-block">{{ egreso.fecha }}
+                          {% if egreso.comprobante %}
+                            · <a href="{{ egreso.comprobante.url }}" target="_blank" rel="noopener">ver comprobante</a>
+                          {% endif %}
+                        </small>
+                      </span>
+                      <span class="fw-semibold">${{ egreso.monto|intcomma }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 
   <div class="col-lg-5">
@@ -62,6 +136,22 @@
       </div>
     {% else %}
       <div class="alert alert-secondary">Este caso está cerrado. ¡Gracias a todos los que apoyaron!</div>
+    {% endif %}
+
+    {% if caso.donantes_verificados %}
+      <div class="card shadow-sm mt-4">
+        <div class="card-body">
+          <h2 class="h5"><i class="bi bi-heart-fill text-danger"></i> Gracias a quienes apoyan</h2>
+          <ul class="list-group list-group-flush">
+            {% for d in caso.donantes_verificados %}
+              <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                <span>{{ d.nombre_publico }}</span>
+                <span class="badge bg-success-subtle text-success-emphasis">${{ d.monto|intcomma }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
     {% endif %}
   </div>
 </div>

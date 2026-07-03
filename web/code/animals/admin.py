@@ -15,9 +15,15 @@ class MedicalRecordInline(admin.TabularInline):
 
 @admin.register(Animal)
 class AnimalAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "especie", "sexo", "estado", "esterilizado", "fecha_ingreso")
-    list_filter = ("especie", "sexo", "tamano", "estado", "esterilizado")
-    search_fields = ("nombre", "descripcion")
+    list_display = (
+        "nombre", "especie", "sexo", "estado", "origen", "parroquia",
+        "tutor_nombre", "esterilizado", "destacado", "fecha_ingreso",
+    )
+    list_filter = (
+        "especie", "sexo", "tamano", "estado", "origen", "parroquia",
+        "esterilizado", "destacado",
+    )
+    search_fields = ("nombre", "descripcion", "barrio", "parroquia", "tutor_nombre")
     inlines = [AnimalPhotoInline, MedicalRecordInline]
 
 

@@ -10,7 +10,7 @@ class AdoptionApplicationForm(BootstrapFormMixin, forms.ModelForm):
         model = AdoptionApplication
         fields = [
             "nombre_solicitante", "cedula", "telefono", "email", "direccion",
-            "tipo_vivienda", "tiene_patio", "experiencia", "motivo",
+            "tipo_vivienda", "tiene_patio", "experiencia", "proposito", "motivo",
         ]
         widgets = {
             "experiencia": forms.Textarea(attrs={"rows": 3}),

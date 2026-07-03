@@ -16,6 +16,14 @@ class EstadoSolicitud(models.TextChoices):
     RECHAZADA = "rechazada", "Rechazada"
 
 
+class PropositoTenencia(models.TextChoices):
+    COMPANIA = "compania", "Compañía"
+    REPRODUCCION = "reproduccion", "Reproducción"
+    GUARDIAN = "guardian", "Guardián"
+    SERVICIO = "servicio", "Servicio"
+    OTRO = "otro", "Otro"
+
+
 class AdoptionApplication(models.Model):
     animal = models.ForeignKey(
         "animals.Animal", on_delete=models.CASCADE, related_name="solicitudes"
@@ -37,6 +45,12 @@ class AdoptionApplication(models.Model):
     )
     tiene_patio = models.BooleanField("¿tiene patio o espacio exterior?", default=False)
     experiencia = models.TextField("experiencia previa con mascotas", blank=True)
+    proposito = models.CharField(
+        "¿para qué quieres a la mascota?",
+        max_length=15,
+        choices=PropositoTenencia.choices,
+        default=PropositoTenencia.COMPANIA,
+    )
     motivo = models.TextField("¿por qué quieres adoptar a este animal?")
     estado = models.CharField(
         max_length=15, choices=EstadoSolicitud.choices, default=EstadoSolicitud.PENDIENTE
