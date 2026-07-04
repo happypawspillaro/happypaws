@@ -5,8 +5,8 @@ from .base import *  # noqa: F403
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_DIRS = [BASE_DIR / "static"]  # noqa: F405
+STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
 # Python Debug Toolbar
 if DEBUG:
     import socket
@@ -24,6 +24,6 @@ if DEBUG:
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR.parent / "db" / "db.sqlite3",
+        "NAME": BASE_DIR.parent / "db" / "db.sqlite3",  # noqa: F405
     }
 }

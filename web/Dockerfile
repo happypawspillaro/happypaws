@@ -18,7 +18,7 @@ RUN apk add --no-cache --virtual \
       libffi-dev=~3 \
       libxml2-dev=~2 \
       libxslt-dev=~1 \
-      postgresql18-dev \
+      postgresql18-dev=~18 \
       musl-dev=~1 \
       pango-dev=~1 \
       pkgconf=~2 \
@@ -27,7 +27,6 @@ RUN apk add --no-cache --virtual \
     apk del build-deps
 
 FROM --platform=$BUILDPLATFORM python:3.14.5-alpine AS base
-WORKDIR /home/happypaws/code
 RUN apk add --no-cache \ 
       cairo=~1 \
       curl=~8 \
@@ -41,8 +40,9 @@ RUN apk add --no-cache \
       libffi=~3 \
       libxml2=~2 \
       libxslt=~1 \
-      postgresql18-client \
+      postgresql18-client=~18 \
       zlib~=1
+WORKDIR /home/happypaws/code
 
 RUN adduser -S -G www-data www-data
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages

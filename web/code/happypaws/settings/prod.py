@@ -5,7 +5,8 @@ from .base import *  # noqa: F403
 
 DEBUG = False
 ADMINS = [("Happy Paws", "happypaws.pillaro@gmail.com")]
-ALLOWED_HOSTS += "nginx"  # Permitir usar contenedor nginx
+# Permitir usar contenedor nginx
+ALLOWED_HOSTS += "nginx"  # noqa: F405
 STATIC_ROOT = BASE_DIR / "static"  # noqa: F405
 STATICFILES_DIRS = [
     BASE_DIR / "staticfiles",  # noqa: F405
@@ -41,6 +42,6 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER"),
         "HOST": os.getenv("POSTGRES_HOST"),
         "PORT": os.getenv("POSTGRES_PORT", "5432"),
-        "PASSWORD": get_docker_secrets(os.getenv("POSTGRES_PASSWORD_FILE"))
+        "PASSWORD": get_docker_secrets(os.getenv("POSTGRES_PASSWORD_FILE")),
     }
 }
