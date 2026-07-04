@@ -26,8 +26,7 @@ services:
   command: python manage.py runserver 0.0.0.0:8000
 
 volumes:
- sqlite:
-  driver: local
- media-volume:
-  driver: local
-
+  sqlite:
+    driver: local
+  media-volume:
+    driver: local
