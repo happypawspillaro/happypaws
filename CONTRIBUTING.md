@@ -22,7 +22,7 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 
 ### Exponer puertos
 
-Si necesitas, por ejemplo exponer puertos en producción para revisar datos con un programa como `DBeaver`, usa la función de [docker compose override](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/), siguiendo este ejemplo:
+Si necesitas, por ejemplo exponer puertos en producción para revisar datos con un programa como `DBeaver`, usa la función de [Docker Compose Override](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/), siguiendo este ejemplo:
 
 1. Crea un nuevo archivo, en este caso `docker-compose.prod.override.yml`
 
