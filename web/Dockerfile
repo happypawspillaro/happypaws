@@ -55,7 +55,7 @@ FROM --platform=$BUILDPLATFORM base AS prod
 RUN chown -R www-data:www-data /home/happypaws/code /home/happypaws/media
 COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
 COPY ./config/uwsgi/uwsgi.ini /home/happypaws/config/uwsgi/uwsgi.ini
-# USER www-data # TODO: Usar configuraciones segures
+# USER www-data # TODO: Usar configuraciones seguras
 EXPOSE 80 443
 
 FROM --platform=$BUILDPLATFORM base AS debug
