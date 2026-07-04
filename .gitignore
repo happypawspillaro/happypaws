@@ -16,3 +16,6 @@ credenciales/postgres/*
 
 # Comunicación segura
 web/ssl/*
+
+# Archivos de configuración personalizados
+docker-compose.*override*.yml
