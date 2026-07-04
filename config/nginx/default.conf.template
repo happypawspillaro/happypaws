@@ -1,0 +1,28 @@
+# upstream for uWSGI
+upstream uwsgi_app {
+    server unix:/home/happypaws/code/uwsgi/uwsgi_app.sock;
+}
+server {
+    listen              80;
+    server_name         ${APP_URL} ${LOCAL_URL};
+    return 301 https://$host$request_uri;
+}
+server{
+    listen              443 ssl;
+    ssl_certificate     /home/happypaws/code/ssl/happypaws.crt;
+    ssl_certificate_key /home/happypaws/code/ssl/happypaws.key;
+    server_name         ${APP_URL};
+    client_max_body_size 50M;
+    error_log   stderr warn;
+    access_log /dev/stdout main;
+    location / {
+        include /etc/nginx/uwsgi_params;
+        uwsgi_pass uwsgi_app;
+    }
+    location /static/ {
+        alias /home/happypaws/code/static/;
+    }
+    location /media/ {
+        alias /home/happypaws/media/;
+    }
+}

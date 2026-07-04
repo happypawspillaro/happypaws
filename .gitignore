@@ -12,3 +12,7 @@ db.sqlite3
 
 # Credenciales sensibles
 credenciales/superuser/*
+credenciales/postgres/*
+
+# Comunicación segura
+web/ssl/*

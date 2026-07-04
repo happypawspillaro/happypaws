@@ -4,3 +4,4 @@ django-htmx==1.27.0
 django-environ==0.13.0
 dj-database-url==3.1.2
 psycopg2-binary==2.9.12
+uwsgi==2.*
