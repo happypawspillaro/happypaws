@@ -8,7 +8,7 @@ ADMINS = [("Happy Paws", "happypaws.pillaro@gmail.com")]
 ALLOWED_HOSTS += "nginx"  # Permitir usar contenedor nginx
 STATIC_ROOT = BASE_DIR / "static"  # noqa: F405
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # noqa: F405
+    BASE_DIR / "staticfiles",  # noqa: F405
 ]
 
 # Endurecimiento solo en producción. El proxy de PythonAnywhere/Render
@@ -41,7 +41,6 @@ DATABASES = {
         "USER": os.getenv("POSTGRES_USER"),
         "HOST": os.getenv("POSTGRES_HOST"),
         "PORT": os.getenv("POSTGRES_PORT", "5432"),
-        "PASSWORD": get_docker_secrets(os.getenv("POSTGRES_PASSWORD_FILE")),
-        "OPTIONS": {"charset": "utf8mb4"},  # Permite guardar emojis
+        "PASSWORD": get_docker_secrets(os.getenv("POSTGRES_PASSWORD_FILE"))
     }
 }
