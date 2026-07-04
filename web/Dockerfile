@@ -5,7 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /happypaws
-COPY ./requirements.txt /happypaws
+COPY ./web/requirements.txt /happypaws
 RUN apk add --no-cache --virtual \
       build-deps \ 
       cairo-dev=~1 \
@@ -18,7 +18,7 @@ RUN apk add --no-cache --virtual \
       libffi-dev=~3 \
       libxml2-dev=~2 \
       libxslt-dev=~1 \
-      mariadb-dev=~11 \
+      postgresql18-dev \
       musl-dev=~1 \
       pango-dev=~1 \
       pkgconf=~2 \
@@ -41,13 +41,12 @@ RUN apk add --no-cache \
       libffi=~3 \
       libxml2=~2 \
       libxslt=~1 \
-      mariadb-connector-c-dev=~3 \
-      weasyprint=~66 \
+      postgresql18-client \
       zlib~=1
 
 RUN adduser -S -G www-data www-data
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
-COPY ./code ./
+COPY ./web/code ./
 # Crear los directorios iniciales
 RUN mkdir -p /home/happypaws/media
 
@@ -56,11 +55,11 @@ FROM --platform=$BUILDPLATFORM base AS prod
 RUN chown -R www-data:www-data /home/happypaws/code /home/happypaws/media
 COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
 COPY ./config/uwsgi/uwsgi.ini /home/happypaws/config/uwsgi/uwsgi.ini
-USER www-data
+# USER www-data # TODO: Usar configuraciones segures
 EXPOSE 80 443
 
 FROM --platform=$BUILDPLATFORM base AS debug
-RUN pip install --no-cache-dir django-debug-toolbar==6.*
+RUN pip install --no-cache-dir django-debug-toolbar==7.*
 HEALTHCHECK --interval=5m --timeout=3s \
   CMD curl -f http://localhost:8000/ || exit 1
 EXPOSE 8000
