@@ -7,7 +7,6 @@ services:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PORT=${POSTGRES_PORT}
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
       - REQUESTS_CA_BUNDLE=/home/happypaws/code/ssl/happypaws.crt
     build:
