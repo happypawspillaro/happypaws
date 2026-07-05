@@ -21,7 +21,7 @@
    cp .env.example .env
    ```
 
-   Luego, ajustales a conveniencia, puedes guiarte en la [guía de referencia](REFERENCE.md#variables-de-entorno) para más información.
+   Luego, ajustales a conveniencia(no olvides añadir tu `SECRET_KEY`), puedes guiarte en la [guía de referencia](REFERENCE.md#variables-de-entorno) para más información.
 
 4. Crea tus credenciales seguras usadas por [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) para inicializar los datos sensibles, por ejemplo en Linux:
 
@@ -39,21 +39,27 @@
    docker compose -f docker-compose.yml -f docker-compose.prod.yml build
    ```
 
-7. Inicia la configuración base de los contenedores con
+7. Inicia la base de datos primero:
+
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up postgres -d
+   ```
+
+8. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
+9. Finalmente inicializa los demás contenedores con:
 
    ```bash
    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
    ```
 
-8. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
-9. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
+10. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
 
 ## Migraciones
 
 1. Para ejecutar tus migraciones, sea por primera vez o por cambio de los modelos, por favor ejecuta:
 
    ```bash
-   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.migrate.yml up
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.migrate.yml up web
    ```
 
 ## Superusuario
@@ -63,7 +69,7 @@ Un superusario es el usuario maestro que puede controlar todo el sistema, para c
 1. Crea el superusuario en tu proyecto con el comando:
 
    ```bash
-   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.superuser.yml up
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.superuser.yml up web
    ```
 
 ## Certificados TLS
