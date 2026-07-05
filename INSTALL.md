@@ -32,7 +32,7 @@
    openssl rand -base64 32 > credenciales/superuser/password.txt
    ```
 
-5. Crea un certificado TLS, sigue la documentación de [Certifficados TLS](#certificados-tls) para saber como crearlos, por ejemplo de forma [local](#local)
+5. Crea un certificado TLS, sigue la documentación de [Certificados TLS](#certificados-tls) para saber como crearlos, por ejemplo de forma [local](#local)
 6. Construye tus contenedores con:
 
    ```bash
@@ -75,6 +75,7 @@ Para encriptar y autenticar tráfico HTTPS via TLS(SSL) necesitamos un [certific
 Puedes crear tu certificado local que debe ser usado en modo desarrollo, lo puedes hacer a través de este comando de Linux
 
 ```bash
+mkdir -p web/ssl
 openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes \
     -keyout web/ssl/happypaws.key -out web/ssl/happypaws.crt \
     -subj '/CN=*.happypawspillaro.org' \
