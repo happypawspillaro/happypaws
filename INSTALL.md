@@ -26,34 +26,35 @@
 4. Crea tus credenciales seguras usadas por [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) para inicializar los datos sensibles, por ejemplo en Linux:
 
    ```bash
-   mkdir -p credenciales/database
+   mkdir -p credenciales/postgres
    openssl rand -base64 32 > credenciales/postgres/password.txt
    mkdir -p credenciales/superuser
    openssl rand -base64 32 > credenciales/superuser/password.txt
    ```
 
-5. Construye tus contenedores con:
+5. Crea un certificado TLS, sigue la documentación de [Certifficados TLS](#certificados-tls) para saber como crearlos, por ejemplo de forma [local](#local)
+6. Construye tus contenedores con:
 
    ```bash
    docker compose -f docker-compose.yml -f docker-compose.prod.yml build
    ```
 
-6. Inicia la configuración base de los contenedores con
+7. Inicia la configuración base de los contenedores con
 
    ```bash
-   docker compose -f docker-compose.yml -f docker-compose.prod.yml -d
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
    ```
 
-7. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
-8. Abre el siguiente URL `https://localhost:<NGINX_HTTPS_PORT>`, si es que todo salió bien podrás ver la página web inicial.
+8. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
+9. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
 
 ## Migraciones
 
 1. Para ejecutar tus migraciones, sea por primera vez o por cambio de los modelos, por favor ejecuta:
 
-```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.migrate.yml up
-```
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.migrate.yml up
+   ```
 
 ## Superusuario
 
@@ -61,6 +62,21 @@ Un superusario es el usuario maestro que puede controlar todo el sistema, para c
 
 1. Crea el superusuario en tu proyecto con el comando:
 
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.superuser.yml up
+   ```
+
+## Certificados TLS
+
+Para encriptar y autenticar tráfico HTTPS via TLS(SSL) necesitamos un [certificado](https://letsencrypt.org/docs/glossary/#def-certificate), para el presente proyecto se lo puede obtener de estas formas:
+
+### Local
+
+Puedes crear tu certificado local que debe ser usado en modo desarrollo, lo puedes hacer a través de este comando de Linux
+
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.superuser.yml up
+openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes \
+    -keyout web/ssl/happypaws.key -out web/ssl/happypaws.crt \
+    -subj '/CN=*.happypawspillaro.org' \
+    -addext 'subjectAltName=DNS:*.happypawspillaro.org'
 ```
