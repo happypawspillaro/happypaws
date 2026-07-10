@@ -11,11 +11,10 @@ MESES_FEATURED_COMUNITARIO = 6
 
 def restar_meses(fecha, meses):
     """Devuelve la fecha resultante de restar ``meses`` meses, ajustando el día."""
-    mes = fecha.month - meses
-    anio = fecha.year
-    while mes <= 0:
-        mes += 12
-        anio -= 1
+    # Trabajamos con un índice de mes absoluto (base 0) para restar sin bucles.
+    indice = (fecha.year * 12 + fecha.month - 1) - meses
+    anio, mes = divmod(indice, 12)
+    mes += 1
     dia = min(fecha.day, calendar.monthrange(anio, mes)[1])
     return date(anio, mes, dia)
 
@@ -68,7 +67,9 @@ class Animal(models.Model):
     )
     # Ubicación del animal. La parroquia es texto libre por ahora; cuando llegue
     # el locaciones.json de la fundación se podrá convertir en lista desplegable.
-    barrio = models.CharField("barrio / sector", max_length=120, blank=True)
+    barrio = models.CharField(
+        "barrio / sector", max_length=120, blank=True, help_text="Ej. 24 de Mayo"
+    )
     parroquia = models.CharField("parroquia", max_length=120, blank=True)
     # Datos del tutor / responsable (para animales domésticos o con cuidador).
     tutor_nombre = models.CharField(

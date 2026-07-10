@@ -18,7 +18,11 @@ from .notifications import notify_report_activity
 
 def report_list(request):
     """Tablero público de reportes (solo los aprobados por el staff)."""
-    reportes = Report.objects.filter(aprobado=True).prefetch_related("fotos")
+    reportes = (
+        Report.objects.filter(aprobado=True)
+        .order_by("-fecha_avistamiento", "-creado")
+        .prefetch_related("fotos")
+    )
     tipo = request.GET.get("tipo", "")
     if tipo:
         reportes = reportes.filter(tipo=tipo)
@@ -64,8 +68,8 @@ def create(request):
             ReportPhoto.objects.create(reporte=reporte, imagen=imagen)
         messages.success(
             request,
-            "¡Gracias por ayudar a la comunidad! Tu reporte fue recibido y será "
-            "revisado por la fundación antes de publicarse.",
+            "¡Gracias por ayudar a la comunidad! Tu reporte está en proceso de "
+            "verificación antes de publicarse.",
         )
         return redirect("reports:list")
     return render(request, "reports/create.html", {"form": form})
@@ -87,11 +91,11 @@ def add_comment(request, pk):
         notify_report_activity(reporte, "comentario", comentario, request)
         messages.success(request, "¡Gracias! Tu comentario fue publicado.")
         return redirect(f"{reporte.get_absolute_url()}#comentarios")
-
-    messages.error(request, "Revisa el formulario: no pudimos publicar tu comentario.")
-    return render(
-        request, "reports/detail.html", _detail_context(request, reporte, comment_form=form)
-    )
+    else:
+        messages.error(request, "Revisa el formulario: no pudimos publicar tu comentario.")
+        return render(
+            request, "reports/detail.html", _detail_context(request, reporte, comment_form=form)
+        )
 
 
 def add_sighting(request, pk):
@@ -113,11 +117,11 @@ def add_sighting(request, pk):
             request, "¡Gracias! Tu avistamiento fue registrado y ayuda a la búsqueda."
         )
         return redirect(f"{reporte.get_absolute_url()}#avistamientos")
-
-    messages.error(request, "Revisa el formulario: no pudimos registrar el avistamiento.")
-    return render(
-        request, "reports/detail.html", _detail_context(request, reporte, sighting_form=form)
-    )
+    else:
+        messages.error(request, "Revisa el formulario: no pudimos registrar el avistamiento.")
+        return render(
+            request, "reports/detail.html", _detail_context(request, reporte, sighting_form=form)
+        )
 
 
 # --- Panel administrativo (staff) ---

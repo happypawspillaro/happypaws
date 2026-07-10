@@ -44,9 +44,12 @@ def notify_report_activity(reporte, tipo, objeto, request=None):
     if tipo == "avistamiento":
         asunto = f"Nuevo avistamiento en «{reporte.titulo}»"
         detalle = f"{objeto.nombre} reportó haberlo visto en {objeto.ubicacion} ({objeto.fecha})."
-    else:
+    elif tipo == "comentario":
         asunto = f"Nuevo comentario en «{reporte.titulo}»"
         detalle = f"{objeto.nombre} escribió:\n\n{objeto.mensaje}"
+    else:
+        # Tipo no reconocido: no arriesgamos un correo con formato incorrecto.
+        return
 
     cuerpo = (
         f"Hola,\n\nHay nueva actividad en tu reporte «{reporte.titulo}».\n\n"

@@ -90,8 +90,12 @@ class MedicalCase(models.Model):
 
     @property
     def donantes_verificados(self):
-        """Donaciones verificadas, para mostrar los agradecimientos públicos."""
-        return self.donaciones.filter(verificado=True)
+        """Donaciones verificadas, para mostrar los agradecimientos públicos.
+
+        Ordenadas por monto descendente para destacar a quienes hicieron una
+        mayor donación.
+        """
+        return self.donaciones.filter(verificado=True).order_by("-monto")
 
 
 class Donation(models.Model):

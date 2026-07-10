@@ -33,7 +33,6 @@ class AdoptionFlowTests(TestCase):
             "tiene_patio": True,
             "experiencia": "He tenido perros.",
             "proposito": PropositoTenencia.COMPANIA,
-            "motivo": "Quiero darle un hogar.",
         }
 
     def test_solicitud_publica_crea_registro(self):

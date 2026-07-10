@@ -199,7 +199,6 @@ class Command(BaseCommand):
                 "tipo_vivienda": TipoVivienda.CASA,
                 "tiene_patio": True,
                 "experiencia": "He tenido perros toda mi vida.",
-                "motivo": "Quiero darle un hogar responsable a Canela.",
                 "estado": EstadoSolicitud.PENDIENTE,
             },
         )

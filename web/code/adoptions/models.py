@@ -51,7 +51,6 @@ class AdoptionApplication(models.Model):
         choices=PropositoTenencia.choices,
         default=PropositoTenencia.COMPANIA,
     )
-    motivo = models.TextField("¿por qué quieres adoptar a este animal?")
     estado = models.CharField(
         max_length=15, choices=EstadoSolicitud.choices, default=EstadoSolicitud.PENDIENTE
     )

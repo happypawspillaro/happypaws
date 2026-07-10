@@ -26,8 +26,7 @@
             ({% if solicitud.tiene_patio %}con{% else %}sin{% endif %} patio)</li>
         </ul>
         <p><strong>Experiencia con mascotas:</strong><br>{{ solicitud.experiencia|default:"—"|linebreaks }}</p>
-        <p><strong>Propósito de tenencia:</strong> {{ solicitud.get_proposito_display }}</p>
-        <p class="mb-0"><strong>Motivo:</strong><br>{{ solicitud.motivo|linebreaks }}</p>
+        <p class="mb-0"><strong>Propósito de tenencia:</strong> {{ solicitud.get_proposito_display }}</p>
       </div>
     </div>
 
