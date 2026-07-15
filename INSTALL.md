@@ -15,48 +15,75 @@
    cd happypaws
    ```
 
-3. Copia y luego configura tus variables de entorno así:
+3. Copia tus variables de entorno locales, por ejemplo en Linux:
 
    ```bash
    cp .env.example .env
    ```
 
-4. Construye tus contenedores con:
+   Luego, ajustales a conveniencia(no olvides añadir tu `SECRET_KEY`), puedes guiarte en la [guía de referencia](REFERENCE.md#variables-de-entorno) para más información.
+
+4. Crea tus credenciales seguras usadas por [Docker Secrets](https://docs.docker.com/engine/swarm/secrets/) para inicializar los datos sensibles, por ejemplo en Linux:
 
    ```bash
-   docker compose build
+   mkdir -p credenciales/postgres
+   openssl rand -base64 32 > credenciales/postgres/password.txt
+   mkdir -p credenciales/superuser
+   openssl rand -base64 32 > credenciales/superuser/password.txt
    ```
 
-5. Inicia la configuración base de los contenedores con
+5. Crea un certificado TLS, sigue la documentación de [Certificados TLS](#certificados-tls) para saber como crearlos, por ejemplo de forma [local](#local)
+6. Construye tus contenedores con:
 
    ```bash
-   docker compose up -d
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml build
    ```
 
-6. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
-7. Abre el siguiente URL [http://localhost:8000](http://localhost:8000), si es que vez una página renderizada, esta correcto
+7. Inicia la base de datos primero:
+
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up postgres -d
+   ```
+
+8. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
+9. Finalmente inicializa los demás contenedores con:
+
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+   ```
+
+10. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
 
 ## Migraciones
 
-1. Para ejecutar tus migraciones, sea por primera vez o por cambio de los modelos, por favor ejecuta
+1. Para ejecutar tus migraciones, sea por primera vez o por cambio de los modelos, por favor ejecuta:
 
-```bash
-docker compose -f docker-compose.yml -f docker-compose.migrate.yml up
-```
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.migrate.yml up web
+   ```
 
 ## Superusuario
 
 Un superusario es el usuario maestro que puede controlar todo el sistema, para crearlo por favor sigue las siguientes instrucciones
 
-1. Crea un archivo de superusuario en la carpeta `credenciales/superuser/password.txt`, te recomendamos una contraseña segura, puedes crearlo con:
+1. Crea el superusuario en tu proyecto con el comando:
+
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.superuser.yml up web
+   ```
+
+## Certificados TLS
+
+Para encriptar y autenticar tráfico HTTPS via TLS(SSL) necesitamos un [certificado](https://letsencrypt.org/docs/glossary/#def-certificate), para el presente proyecto se lo puede obtener de estas formas:
+
+### Local
+
+Puedes crear tu certificado local que debe ser usado en modo desarrollo, lo puedes hacer a través de este comando de Linux
 
 ```bash
-    mkdir -p credenciales/superuser
-    openssl rand -base64 32 > credenciales/superuser/password.txt
-```
-
-1. Crea el superusuario en tu proyecto con el comando
-
-```bash
-docker compose -f docker-compose.yml -f docker-compose.superuser.yml up
+mkdir -p web/ssl
+openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes \
+    -keyout web/ssl/happypaws.key -out web/ssl/happypaws.crt \
+    -subj '/CN=*.happypawspillaro.org' \
+    -addext 'subjectAltName=DNS:*.happypawspillaro.org'
 ```
