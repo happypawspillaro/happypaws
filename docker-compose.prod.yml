@@ -7,6 +7,9 @@ services:
       - POSTGRES_HOST=${POSTGRES_HOST}
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
+      - EMAIL_URL=${EMAIL_URL}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - FOUNDATION_EMAIL=${FOUNDATION_EMAIL}
       - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
       - REQUESTS_CA_BUNDLE=/home/happypaws/code/ssl/happypaws.crt
     build:
