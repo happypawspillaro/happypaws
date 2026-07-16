@@ -1,23 +1,9 @@
 import os
 from pathlib import Path
 
-import environ
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-env = environ.Env(
-    DEBUG=(bool, False),
-    ALLOWED_HOSTS=(list, ["127.0.0.1", "localhost"]),
-)
-environ.Env.read_env(BASE_DIR / ".env")
-
-SECRET_KEY = env("SECRET_KEY", default="dev-insecure-key")
-DEBUG = env("DEBUG")
-ALLOWED_HOSTS = env("ALLOWED_HOSTS")
-
-# Orígenes de confianza para CSRF. En producción bajo HTTPS Django exige
-# declararlos o los formularios (login, adopciones, reportes) fallan con 403.
-CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "localhost").split(",")
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -67,13 +53,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "happypaws.wsgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR.parent / "db" / "db.sqlite3",
-    }
-}
-
 AUTH_USER_MODEL = "accounts.User"
 
 # Correo. Por defecto la consola (los correos se imprimen, ideal en desarrollo).
@@ -100,8 +79,6 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR.parent / "media"
@@ -114,18 +91,11 @@ LOGOUT_REDIRECT_URL = "core:home"
 
 MESSAGE_TAGS = {
     10: "secondary",  # DEBUG
-    20: "info",       # INFO
-    25: "success",    # SUCCESS
-    30: "warning",    # WARNING
-    40: "danger",     # ERROR
+    20: "info",  # INFO
+    25: "success",  # SUCCESS
+    30: "warning",  # WARNING
+    40: "danger",  # ERROR
 }
-
-# Endurecimiento solo en producción. El proxy de PythonAnywhere/Render
-# termina el TLS y reenvía la petición por HTTP con esta cabecera.
-if not DEBUG:
-    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
 
 # Modo INFO por defecto en Django
 DJANGO_LOG_LEVEL = os.getenv("DJANGO_LOG_LEVEL", "INFO")

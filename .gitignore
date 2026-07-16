@@ -9,3 +9,10 @@ db.sqlite3
 
 # Credenciales sensibles
 credenciales/superuser/*
+credenciales/postgres/*
+
+# Comunicación segura
+web/ssl/*
+
+# Archivos de configuración personalizados
+docker-compose.*override*.yml

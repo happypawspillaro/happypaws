@@ -1,29 +1,32 @@
 services:
- web:
-  image: web:latest
-  build: web
-  restart: always
-  ports:
-   - "8000:8000"
-  volumes:
-   - media-volume:/home/happypaws/media
-   - sqlite:/home/happypaws/db
-  environment:
-   - SECRET_KEY=${SECRET_KEY}
-   - DEBUG=True
-  healthcheck:
-   test:
-    - CMD
-    - curl --fail http://localhost:8000/ || exit 1
-   interval: 1m30s
-   timeout: 30s
-   retries: 5
-   start_period: 30s
-  command: python manage.py runserver 0.0.0.0:8000
+  web:
+    image: web:latest
+    build:
+      context: .
+      dockerfile: web/Dockerfile
+    restart: always
+    ports:
+      - "${DJANGO_DEV_PORT}:8000"
+    volumes:
+      - media-volume:/home/happypaws/media
+      - sqlite:/home/happypaws/db
+    environment:
+      - ALLOWED_HOSTS
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=happypaws.settings.local
+    healthcheck:
+      test:
+        - CMD
+        - curl --fail http://localhost:8000/ || exit 1
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    command: python manage.py runserver 0.0.0.0:8000
 
 volumes:
- sqlite:
-  driver: local
- media-volume:
-  driver: local
-
+  sqlite:
+    driver: local
+  media-volume:
+    driver: local

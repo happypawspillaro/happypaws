@@ -1,5 +1,7 @@
 # Happy Paws Píllaro — Sistema web
 
+[![Super-Linter](https://github.com/happypawspillaro/happypaws/actions/workflows/super-linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
+
 Sistema web para la fundación **Happy Paws Píllaro** (Píllaro, Tungurahua,
 Ecuador), dedicada a la esterilización y adopción responsable de perros y gatos.
 Proyecto de titulación.
@@ -10,37 +12,30 @@ recaudación, y reportes comunitarios de mascotas perdidas/encontradas y maltrat
 
 ## Módulos
 
-| Módulo | Portal público | Panel administrativo (staff) |
-|---|---|---|
-| **Animales** | Catálogo en adopción con filtros, ficha de cada animal | CRUD, fotos e historial médico |
-| **Adopciones** | Formulario de solicitud por animal | Gestión de solicitudes, cambio de estado, seguimiento post-adopción |
-| **Casos médicos** | Listado y detalle con barra de recaudación, registro de aportes | CRUD, verificación de donaciones, bitácora de avances |
-| **Reportes** | Tablero comunitario y formulario de reporte | Gestión y marcado de resueltos |
-| **Core** | Página de inicio con destacados | Dashboard con métricas |
+| Módulo            | Portal público                                                  | Panel administrativo (staff)                                        |
+| ----------------- | --------------------------------------------------------------- | ------------------------------------------------------------------- |
+| **Animales**      | Catálogo en adopción con filtros, ficha de cada animal          | CRUD, fotos e historial médico                                      |
+| **Adopciones**    | Formulario de solicitud por animal                              | Gestión de solicitudes, cambio de estado, seguimiento post-adopción |
+| **Casos médicos** | Listado y detalle con barra de recaudación, registro de aportes | CRUD, verificación de donaciones, bitácora de avances               |
+| **Reportes**      | Tablero comunitario y formulario de reporte                     | Gestión y marcado de resueltos                                      |
+| **Core**          | Página de inicio con destacados                                 | Dashboard con métricas                                              |
 
 ## Stack
 
-- **Django 5.1** — plantillas server-rendered
-- **HTMX** — filtros e interacciones sin recarga
+- **Django 6** — plantillas server-rendered
+- **HTMX 2** — filtros e interacciones sin recarga
 - **Bootstrap 5** — interfaz
-- **SQLite** en desarrollo (configurable a PostgreSQL vía `DATABASE_URL`)
+- **PostgreSQL 18** - Base de datos principal
+- **SQLite** - Base de datos en modo desarrollo
 
 ## Instalación
 
 Puedes consultar en el apartado [Instalación](INSTALL.md) para saber como inicializar la página web.
 
-## Configuración
-
-Variables en `.env` (ver `.env.example`):
-
-- `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`
-- `DATABASE_URL` — `sqlite:///db.sqlite3` por defecto; para PostgreSQL:
-  `postgres://usuario:clave@127.0.0.1:5432/happypaws`
-
 ## Pruebas
 
 ```bash
-python manage.py test
+cd web/code; python manage.py test
 ```
 
 ## Estructura
@@ -56,3 +51,7 @@ core/           Página de inicio, dashboard y comando seed_demo
 templates/      Plantillas (base + por app)
 static/         CSS
 ```
+
+## ¿Cómo contribuir?
+
+Por favor lee la [Guía de contribución](CONTRIBUTING.md)

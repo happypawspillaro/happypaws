@@ -1,0 +1,72 @@
+services:
+  web:
+    environment:
+      - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
+      - DEBUG=False
+      - DJANGO_SETTINGS_MODULE=happypaws.settings.prod
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - REQUESTS_CA_BUNDLE=/home/happypaws/code/ssl/happypaws.crt
+    build:
+      target: prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:9090/health/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    command: uwsgi --ini /home/happypaws/config/uwsgi/uwsgi.ini
+    volumes:
+      - ./web/uwsgi:/home/happypaws/code/uwsgi
+    secrets:
+      - postgres_password
+  postgres:
+    image: postgres:18
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    secrets:
+      - postgres_password
+
+  nginx:
+    image: nginx:1.31-alpine
+    restart: always
+    depends_on:
+      - web
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+      - "${NGINX_HTTPS_PORT}:443"
+    volumes:
+      - ./config/nginx:/etc/nginx/templates
+      - ./web/uwsgi:/home/happypaws/code/uwsgi
+      - ./web/ssl:/home/happypaws/code/ssl
+      - ./config/uwsgi/uwsgi.ini:/home/happypaws/code/uwsgi.ini
+      - ./web/code/static:/home/happypaws/code/static
+      - media-volume:/home/happypaws/media
+
+volumes:
+  postgres_data:
+    driver: local
+
+secrets:
+  postgres_password:
+    file: ./credenciales/postgres/password.txt
