@@ -2,8 +2,13 @@
   <div class="row g-4">
     {% for animal in animales %}
       <div class="col-md-6 col-xl-4">
-        <div class="card h-100 shadow-sm animal-card">
-          <a href="{{ animal.get_absolute_url }}">
+        <div class="card h-100 shadow-sm animal-card{% if animal.es_destacado %} border-warning{% endif %}">
+          <a href="{{ animal.get_absolute_url }}" class="position-relative d-block">
+            {% if animal.es_destacado %}
+              <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">
+                <i class="bi bi-star-fill"></i> Destacado
+              </span>
+            {% endif %}
             {% if animal.foto_principal %}
               <img src="{{ animal.foto_principal.url }}" class="card-img-top" alt="{{ animal.nombre }}">
             {% else %}

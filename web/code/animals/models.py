@@ -1,5 +1,22 @@
+import calendar
+from datetime import date
+
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
+
+# Un animal comunitario esterilizado dentro de esta ventana se destaca automáticamente.
+MESES_FEATURED_COMUNITARIO = 6
+
+
+def restar_meses(fecha, meses):
+    """Devuelve la fecha resultante de restar ``meses`` meses, ajustando el día."""
+    # Trabajamos con un índice de mes absoluto (base 0) para restar sin bucles.
+    indice = (fecha.year * 12 + fecha.month - 1) - meses
+    anio, mes = divmod(indice, 12)
+    mes += 1
+    dia = min(fecha.day, calendar.monthrange(anio, mes)[1])
+    return date(anio, mes, dia)
 
 
 class Especie(models.TextChoices):
@@ -26,6 +43,12 @@ class EstadoAnimal(models.TextChoices):
     ADOPTADO = "adoptado", "Adoptado"
 
 
+class Origen(models.TextChoices):
+    DOMESTICO = "domestico", "Doméstico (nació en una casa)"
+    RESCATADO = "rescatado", "Rescatado (nació en la calle)"
+    COMUNITARIO = "comunitario", "Comunitario (vive en la calle)"
+
+
 class Animal(models.Model):
     nombre = models.CharField(max_length=100)
     especie = models.CharField(max_length=10, choices=Especie.choices)
@@ -36,7 +59,37 @@ class Animal(models.Model):
     estado = models.CharField(
         max_length=20, choices=EstadoAnimal.choices, default=EstadoAnimal.RESCATADO
     )
+    origen = models.CharField(
+        "origen del animal",
+        max_length=15,
+        choices=Origen.choices,
+        default=Origen.RESCATADO,
+    )
+    # Ubicación del animal. La parroquia es texto libre por ahora; cuando llegue
+    # el locaciones.json de la fundación se podrá convertir en lista desplegable.
+    barrio = models.CharField(
+        "barrio / sector", max_length=120, blank=True, help_text="Ej. 24 de Mayo"
+    )
+    parroquia = models.CharField("parroquia", max_length=120, blank=True)
+    # Datos del tutor / responsable (para animales domésticos o con cuidador).
+    tutor_nombre = models.CharField(
+        "nombre del tutor / responsable", max_length=200, blank=True
+    )
+    tutor_contacto = models.CharField(
+        "contacto del tutor (teléfono o correo)",
+        max_length=200,
+        blank=True,
+        help_text="Opcional. Teléfono o correo del tutor o cuidador.",
+    )
     esterilizado = models.BooleanField(default=False)
+    fecha_esterilizacion = models.DateField(
+        "fecha de esterilización", null=True, blank=True
+    )
+    destacado = models.BooleanField(
+        "destacar como vulnerable",
+        default=False,
+        help_text="Muéstralo al inicio del catálogo (perro en situación vulnerable).",
+    )
     fecha_ingreso = models.DateField()
     foto_principal = models.ImageField(upload_to="animales/", blank=True)
     creado = models.DateTimeField(auto_now_add=True)
@@ -56,6 +109,33 @@ class Animal(models.Model):
     @property
     def en_adopcion(self):
         return self.estado == EstadoAnimal.EN_ADOPCION
+
+    @property
+    def tiene_tutor(self):
+        return bool(self.tutor_nombre.strip())
+
+    @property
+    def ubicacion_completa(self):
+        """Barrio y parroquia combinados, omitiendo lo que esté vacío."""
+        partes = [p.strip() for p in (self.barrio, self.parroquia) if p.strip()]
+        return ", ".join(partes)
+
+    @property
+    def es_comunitario_reciente(self):
+        """Comunitario esterilizado hace menos de 6 meses."""
+        if (
+            self.origen != Origen.COMUNITARIO
+            or not self.esterilizado
+            or not self.fecha_esterilizacion
+        ):
+            return False
+        limite = restar_meses(timezone.now().date(), MESES_FEATURED_COMUNITARIO)
+        return self.fecha_esterilizacion >= limite
+
+    @property
+    def es_destacado(self):
+        """Se muestra como destacado: marcado por el staff o comunitario reciente."""
+        return self.destacado or self.es_comunitario_reciente
 
 
 class AnimalPhoto(models.Model):

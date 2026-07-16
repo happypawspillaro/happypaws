@@ -22,6 +22,17 @@ SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
+# Correo. Por defecto la consola (los correos se imprimen, ideal en desarrollo).
+# En producción define EMAIL_URL, p. ej.:
+#   EMAIL_URL=smtp://usuario:clave@smtp.gmail.com:587/?tls=True
+EMAIL_URL = os.getenv("EMAIL_URL", "consolemail://")
+DEFAULT_FROM_EMAIL = os.getenv(
+    "DEFAULT_FROM_EMAIL",
+    "Happy Paws Píllaro <no-reply@happypawspillaro.org>",
+)
+# Correo de la fundación que recibe avisos de actividad en los reportes.
+FOUNDATION_EMAIL = os.getenv("FOUNDATION_EMAIL", "")
+
 # Orígenes de confianza para CSRF. En producción bajo HTTPS Django exige
 # declararlos o los formularios (login, adopciones, reportes) fallan con 403.
 CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")

@@ -1,10 +1,21 @@
 from django.contrib import messages
+from django.db.models import BooleanField, Case, Q, Value, When
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 
 from accounts.decorators import staff_required
 
 from .forms import AnimalForm, AnimalPhotoForm, MedicalRecordForm
-from .models import Animal, EstadoAnimal, Especie, Sexo, Tamano
+from .models import (
+    MESES_FEATURED_COMUNITARIO,
+    Animal,
+    Especie,
+    EstadoAnimal,
+    Origen,
+    Sexo,
+    Tamano,
+    restar_meses,
+)
 
 
 def catalog(request):
@@ -20,6 +31,22 @@ def catalog(request):
         animales = animales.filter(sexo=sexo)
     if tamano:
         animales = animales.filter(tamano=tamano)
+
+    # Destacados primero: marcados como vulnerables por el staff o comunitarios
+    # esterilizados hace menos de 6 meses.
+    limite = restar_meses(timezone.now().date(), MESES_FEATURED_COMUNITARIO)
+    destacado_q = Q(destacado=True) | Q(
+        origen=Origen.COMUNITARIO,
+        esterilizado=True,
+        fecha_esterilizacion__gte=limite,
+    )
+    animales = animales.annotate(
+        _destacado=Case(
+            When(destacado_q, then=Value(True)),
+            default=Value(False),
+            output_field=BooleanField(),
+        )
+    ).order_by("-_destacado", "-fecha_ingreso", "nombre")
 
     context = {
         "animales": animales,

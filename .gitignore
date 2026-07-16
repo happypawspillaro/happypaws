@@ -7,9 +7,6 @@ db.sqlite3
 /staticfiles/
 .DS_Store
 
-# Archivos de migraciones
-*/*/*/migrations/*.*
-
 # Credenciales sensibles
 credenciales/superuser/*
 credenciales/postgres/*

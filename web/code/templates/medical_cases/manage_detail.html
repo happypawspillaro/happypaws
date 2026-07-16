@@ -101,4 +101,79 @@
     </div>
   </div>
 </div>
+
+<div class="row g-4 mt-1">
+  <div class="col-md-6">
+    <h2 class="h5">Galería de fotos</h2>
+    {% if caso.fotos.all %}
+      <div class="row row-cols-2 row-cols-sm-3 g-2 mb-3">
+        {% for f in caso.fotos.all %}
+          <div class="col">
+            <div class="position-relative">
+              <img src="{{ f.imagen.url }}" class="img-fluid rounded" alt="{{ f.descripcion }}">
+              <form method="post" action="{% url 'medical_cases:delete_photo' caso.pk f.pk %}"
+                    class="position-absolute top-0 end-0 m-1"
+                    onsubmit="return confirm('¿Eliminar esta foto?');">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-danger py-0 px-1" type="submit" title="Eliminar">&times;</button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-muted">Sin fotos en la galería.</p>
+    {% endif %}
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="h6">Añadir foto</h3>
+        <form method="post" action="{% url 'medical_cases:add_photo' caso.pk %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% include "includes/form_fields.html" with form=photo_form %}
+          <button type="submit" class="btn btn-sm btn-primary">Añadir foto</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <h2 class="h5">Egresos
+      <span class="badge bg-secondary">${{ caso.total_egresos|intcomma }}</span>
+    </h2>
+    <div class="table-responsive mb-3">
+      <table class="table table-sm align-middle">
+        <thead><tr><th>Categoría</th><th>Descripción</th><th>Monto</th><th>Fecha</th><th></th></tr></thead>
+        <tbody>
+          {% for e in caso.egresos.all %}
+            <tr>
+              <td>{{ e.get_categoria_display }}</td>
+              <td>{{ e.descripcion }}</td>
+              <td>${{ e.monto|intcomma }}</td>
+              <td>{{ e.fecha }}</td>
+              <td class="text-end">
+                <form method="post" action="{% url 'medical_cases:delete_expense' caso.pk e.pk %}" class="d-inline"
+                      onsubmit="return confirm('¿Eliminar este egreso?');">
+                  {% csrf_token %}
+                  <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          {% empty %}
+            <tr><td colspan="5" class="text-muted">Sin egresos registrados.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h3 class="h6">Registrar egreso</h3>
+        <form method="post" action="{% url 'medical_cases:add_expense' caso.pk %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          {% include "includes/form_fields.html" with form=expense_form %}
+          <button type="submit" class="btn btn-sm btn-primary">Registrar egreso</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

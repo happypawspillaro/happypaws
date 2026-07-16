@@ -10,5 +10,6 @@ urlpatterns = [
     path("gestion/", views.manage_list, name="manage_list"),
     path("gestion/<int:pk>/", views.manage_detail, name="manage_detail"),
     path("gestion/<int:pk>/estado/", views.update_status, name="update_status"),
+    path("gestion/<int:pk>/ficha/", views.print_sheet, name="print_sheet"),
     path("gestion/<int:pk>/seguimiento/", views.add_followup, name="add_followup"),
 ]

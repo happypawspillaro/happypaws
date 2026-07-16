@@ -1,0 +1,77 @@
+<section id="comentarios" class="mt-5">
+  <h2 class="h4 mb-3">
+    <i class="bi bi-chat-left-text"></i> Comentarios y pistas
+    <span class="badge bg-secondary">{{ comentarios|length }}</span>
+  </h2>
+
+  <div class="vstack gap-3 mb-4">
+    {% for c in comentarios %}
+      <div class="card {% if c.oculto %}border-warning{% endif %}">
+        <div class="card-body py-2">
+          <div class="d-flex justify-content-between align-items-start">
+            <strong>{{ c.nombre }}</strong>
+            <small class="text-muted">{{ c.creado|date:"d/m/Y H:i" }}</small>
+          </div>
+          {% if c.oculto %}<span class="badge bg-warning text-dark mb-1">Oculto</span>{% endif %}
+          <p class="mb-1 mt-1">{{ c.mensaje|linebreaksbr }}</p>
+          {% if c.contacto and user.is_staff %}
+            <small class="text-muted"><i class="bi bi-telephone"></i> {{ c.contacto }}</small>
+          {% endif %}
+          {% if user.is_staff %}
+            <div class="mt-2 d-flex gap-2">
+              <form method="post" action="{% url 'reports:toggle_comment' c.pk %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-secondary btn-sm" type="submit">
+                  {% if c.oculto %}Mostrar{% else %}Ocultar{% endif %}
+                </button>
+              </form>
+              <form method="post" action="{% url 'reports:delete_comment' c.pk %}"
+                    onsubmit="return confirm('¿Eliminar este comentario?');">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger btn-sm" type="submit">Eliminar</button>
+              </form>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">Aún no hay comentarios. ¡Sé el primero en ayudar!</p>
+    {% endfor %}
+  </div>
+
+  <div class="card bg-light">
+    <div class="card-body">
+      <h3 class="h6">Deja un comentario o pista</h3>
+      <form method="post" action="{% url 'reports:add_comment' reporte.pk %}">
+        {% csrf_token %}
+        {% if comment_form.non_field_errors %}
+          <div class="alert alert-danger py-2">{{ comment_form.non_field_errors }}</div>
+        {% endif %}
+        <div class="row g-2">
+          <div class="col-sm-6">
+            <label class="form-label" for="{{ comment_form.nombre.id_for_label }}">{{ comment_form.nombre.label }}</label>
+            {{ comment_form.nombre }}
+            {% for e in comment_form.nombre.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+          <div class="col-sm-6">
+            <label class="form-label" for="{{ comment_form.contacto.id_for_label }}">{{ comment_form.contacto.label }}</label>
+            {{ comment_form.contacto }}
+            {% for e in comment_form.contacto.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+          </div>
+        </div>
+        <div class="mt-2">
+          <label class="form-label" for="{{ comment_form.mensaje.id_for_label }}">{{ comment_form.mensaje.label }}</label>
+          {{ comment_form.mensaje }}
+          {% for e in comment_form.mensaje.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+        </div>
+        <div class="hp-field" aria-hidden="true">
+          <label for="{{ comment_form.website.id_for_label }}">{{ comment_form.website.label }}</label>
+          {{ comment_form.website }}
+        </div>
+        <button class="btn btn-primary btn-sm mt-3" type="submit">
+          <i class="bi bi-send"></i> Publicar comentario
+        </button>
+      </form>
+    </div>
+  </div>
+</section>

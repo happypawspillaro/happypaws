@@ -19,5 +19,17 @@ urlpatterns = [
         name="verify_donation",
     ),
     path("gestion/<int:pk>/avance/", views.add_update, name="add_update"),
+    path("gestion/<int:pk>/foto/", views.add_photo, name="add_photo"),
+    path(
+        "gestion/<int:pk>/foto/<int:photo_pk>/eliminar/",
+        views.delete_photo,
+        name="delete_photo",
+    ),
+    path("gestion/<int:pk>/egreso/", views.add_expense, name="add_expense"),
+    path(
+        "gestion/<int:pk>/egreso/<int:expense_pk>/eliminar/",
+        views.delete_expense,
+        name="delete_expense",
+    ),
     path("gestion/<int:pk>/estado/", views.toggle_status, name="toggle_status"),
 ]
