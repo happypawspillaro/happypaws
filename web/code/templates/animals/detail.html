@@ -1,54 +1,53 @@
 {% extends "base.html" %}
 {% block title %}{{ animal.nombre }} · Happy Paws Píllaro{% endblock %}
 {% block content %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'animals:catalog' %}">Adopta</a></li>
-    <li class="breadcrumb-item active">{{ animal.nombre }}</li>
-  </ol>
+<nav class="mb-6 flex items-center gap-2 text-sm text-slate-500" aria-label="breadcrumb">
+  <a href="{% url 'animals:catalog' %}" class="font-medium text-primary hover:text-primary-dark">Adopta</a>
+  <i class="bi bi-chevron-right text-xs"></i>
+  <span class="text-slate-700">{{ animal.nombre }}</span>
 </nav>
 
-<div class="row g-4">
-  <div class="col-md-6">
+<div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+  <div>
     {% if animal.foto_principal %}
-      <img src="{{ animal.foto_principal.url }}" class="img-fluid rounded shadow-sm mb-3" alt="{{ animal.nombre }}">
+      <img src="{{ animal.foto_principal.url }}" class="w-full rounded-2xl object-cover shadow-sm" alt="{{ animal.nombre }}">
     {% else %}
-      <div class="card-img-placeholder rounded mb-3"><i class="bi bi-image"></i></div>
+      <div class="flex h-80 w-full items-center justify-center rounded-2xl bg-slate-100 text-6xl text-slate-300"><i class="bi bi-image"></i></div>
     {% endif %}
     {% if animal.fotos.all %}
-      <div class="row g-2">
+      <div class="mt-3 grid grid-cols-3 gap-2">
         {% for foto in animal.fotos.all %}
-          <div class="col-4">
-            <img src="{{ foto.imagen.url }}" class="img-fluid rounded" alt="{{ foto.descripcion }}">
-          </div>
+          <img src="{{ foto.imagen.url }}" class="h-24 w-full rounded-lg object-cover" alt="{{ foto.descripcion }}">
         {% endfor %}
       </div>
     {% endif %}
   </div>
-  <div class="col-md-6">
-    <h1 class="h3">{{ animal.nombre }}</h1>
-    <p>
-      <span class="badge bg-secondary">{{ animal.get_estado_display }}</span>
-      {% if animal.esterilizado %}<span class="badge bg-success">Esterilizado</span>{% endif %}
-    </p>
-    <ul class="list-unstyled">
-      <li><strong>Especie:</strong> {{ animal.get_especie_display }}</li>
-      <li><strong>Sexo:</strong> {{ animal.get_sexo_display }}</li>
-      <li><strong>Tamaño:</strong> {{ animal.get_tamano_display }}</li>
-      {% if animal.edad_aprox %}<li><strong>Edad aproximada:</strong> {{ animal.edad_aprox }}</li>{% endif %}
-      <li><strong>Origen:</strong> {{ animal.get_origen_display }}</li>
-      {% if animal.ubicacion_completa %}
-        <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ animal.ubicacion_completa }}</li>
-      {% endif %}
-      <li><strong>En la fundación desde:</strong> {{ animal.fecha_ingreso }}</li>
-    </ul>
-    <p>{{ animal.descripcion|linebreaks }}</p>
+
+  <div>
+    <h1 class="text-3xl font-bold text-slate-900">{{ animal.nombre }}</h1>
+    <div class="mt-3 flex flex-wrap gap-2">
+      <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">{{ animal.get_estado_display }}</span>
+      {% if animal.esterilizado %}<span class="inline-flex items-center gap-1 rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-800"><i class="bi bi-check-circle-fill"></i> Esterilizado</span>{% endif %}
+    </div>
+
+    <dl class="mt-6 grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2">
+      <div class="flex justify-between border-b border-slate-100 py-1.5 sm:block sm:border-0"><dt class="font-medium text-slate-500">Especie</dt><dd class="text-slate-800">{{ animal.get_especie_display }}</dd></div>
+      <div class="flex justify-between border-b border-slate-100 py-1.5 sm:block sm:border-0"><dt class="font-medium text-slate-500">Sexo</dt><dd class="text-slate-800">{{ animal.get_sexo_display }}</dd></div>
+      <div class="flex justify-between border-b border-slate-100 py-1.5 sm:block sm:border-0"><dt class="font-medium text-slate-500">Tamaño</dt><dd class="text-slate-800">{{ animal.get_tamano_display }}</dd></div>
+      {% if animal.edad_aprox %}<div class="flex justify-between border-b border-slate-100 py-1.5 sm:block sm:border-0"><dt class="font-medium text-slate-500">Edad aproximada</dt><dd class="text-slate-800">{{ animal.edad_aprox }}</dd></div>{% endif %}
+      <div class="flex justify-between border-b border-slate-100 py-1.5 sm:block sm:border-0"><dt class="font-medium text-slate-500">Origen</dt><dd class="text-slate-800">{{ animal.get_origen_display }}</dd></div>
+      {% if animal.ubicacion_completa %}<div class="flex justify-between border-b border-slate-100 py-1.5 sm:block sm:border-0"><dt class="font-medium text-slate-500"><i class="bi bi-geo-alt"></i> Ubicación</dt><dd class="text-slate-800">{{ animal.ubicacion_completa }}</dd></div>{% endif %}
+      <div class="flex justify-between border-b border-slate-100 py-1.5 sm:block sm:border-0"><dt class="font-medium text-slate-500">En la fundación desde</dt><dd class="text-slate-800">{{ animal.fecha_ingreso }}</dd></div>
+    </dl>
+
+    <div class="mt-6 text-slate-700">{{ animal.descripcion|linebreaks }}</div>
+
     {% if animal.en_adopcion %}
-      <a href="{% url 'adoptions:apply' animal.pk %}" class="btn btn-primary btn-lg">
+      <a href="{% url 'adoptions:apply' animal.pk %}" class="mt-6 inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-primary-dark">
         <i class="bi bi-house-heart"></i> Quiero adoptar a {{ animal.nombre }}
       </a>
     {% else %}
-      <div class="alert alert-warning mb-0">Este animal no está disponible para adopción en este momento.</div>
+      <div class="mt-6 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">Este animal no está disponible para adopción en este momento.</div>
     {% endif %}
   </div>
 </div>

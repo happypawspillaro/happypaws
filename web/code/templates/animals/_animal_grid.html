@@ -1,35 +1,31 @@
 {% if animales %}
-  <div class="row g-4">
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
     {% for animal in animales %}
-      <div class="col-md-6 col-xl-4">
-        <div class="card h-100 shadow-sm animal-card{% if animal.es_destacado %} border-warning{% endif %}">
-          <a href="{{ animal.get_absolute_url }}" class="position-relative d-block">
-            {% if animal.es_destacado %}
-              <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">
-                <i class="bi bi-star-fill"></i> Destacado
-              </span>
-            {% endif %}
-            {% if animal.foto_principal %}
-              <img src="{{ animal.foto_principal.url }}" class="card-img-top" alt="{{ animal.nombre }}">
-            {% else %}
-              <div class="card-img-placeholder"><i class="bi bi-image"></i></div>
-            {% endif %}
-          </a>
-          <div class="card-body">
-            <h3 class="h5 mb-1">{{ animal.nombre }}</h3>
-            <p class="text-muted small mb-2">
-              {{ animal.get_especie_display }} · {{ animal.get_sexo_display }} · {{ animal.get_tamano_display }}
-              {% if animal.edad_aprox %}· {{ animal.edad_aprox }}{% endif %}
-            </p>
-            <p class="card-text small">{{ animal.descripcion|truncatewords:18 }}</p>
-          </div>
-          <div class="card-footer bg-white border-0">
-            <a href="{{ animal.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Conocer a {{ animal.nombre }}</a>
-          </div>
+      <article class="group flex flex-col overflow-hidden rounded-2xl bg-white ring-1 transition hover:-translate-y-1 hover:shadow-lg {% if animal.es_destacado %}ring-2 ring-amber-300{% else %}ring-slate-200{% endif %}">
+        <a href="{{ animal.get_absolute_url }}" class="relative block overflow-hidden">
+          {% if animal.es_destacado %}
+            <span class="absolute left-3 top-3 z-10 inline-flex items-center gap-1 rounded-full bg-amber-400 px-2.5 py-1 text-xs font-semibold text-amber-950 shadow">
+              <i class="bi bi-star-fill"></i> Destacado
+            </span>
+          {% endif %}
+          {% if animal.foto_principal %}
+            <img src="{{ animal.foto_principal.url }}" alt="{{ animal.nombre }}" class="h-56 w-full object-cover transition duration-300 group-hover:scale-105">
+          {% else %}
+            <div class="flex h-56 w-full items-center justify-center bg-slate-100 text-5xl text-slate-300"><i class="bi bi-image"></i></div>
+          {% endif %}
+        </a>
+        <div class="flex flex-1 flex-col p-5">
+          <h3 class="text-lg font-semibold text-slate-900">{{ animal.nombre }}</h3>
+          <p class="mt-1 text-sm text-slate-500">
+            {{ animal.get_especie_display }} · {{ animal.get_sexo_display }} · {{ animal.get_tamano_display }}
+            {% if animal.edad_aprox %}· {{ animal.edad_aprox }}{% endif %}
+          </p>
+          <p class="mt-2 text-sm text-slate-600">{{ animal.descripcion|truncatewords:18 }}</p>
+          <a href="{{ animal.get_absolute_url }}" class="mt-4 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-dark">Conocer a {{ animal.nombre }}</a>
         </div>
-      </div>
+      </article>
     {% endfor %}
   </div>
 {% else %}
-  <div class="alert alert-info">No hay animales que coincidan con el filtro por ahora.</div>
+  <div class="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">No hay animales que coincidan con el filtro por ahora.</div>
 {% endif %}
