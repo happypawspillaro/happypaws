@@ -7,6 +7,10 @@ db.sqlite3
 /staticfiles/
 .DS_Store
 
+# Binario standalone de Tailwind (no se commitea; se descarga aparte).
+# El CSS compilado (web/code/static/css/tailwind.css) SÍ se versiona.
+/bin/tailwindcss
+
 # Credenciales sensibles
 credenciales/superuser/*
 credenciales/postgres/*

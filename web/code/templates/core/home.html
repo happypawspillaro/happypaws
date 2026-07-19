@@ -2,79 +2,86 @@
 {% load humanize %}
 {% block title %}Happy Paws Píllaro · Esterilización y adopción responsable{% endblock %}
 {% block content %}
-<div class="p-5 mb-5 bg-light rounded-3 text-center">
-  <h1 class="display-6 fw-bold">Happy Paws Píllaro</h1>
-  <p class="lead col-md-8 mx-auto">
-    Promovemos la esterilización y la adopción responsable de perros y gatos
-    en el cantón Píllaro. Aquí puedes adoptar, apoyar casos médicos y reportar
-    mascotas perdidas o casos de maltrato.
-  </p>
-  <div class="d-flex gap-2 justify-content-center">
-    <a href="{% url 'animals:catalog' %}" class="btn btn-primary btn-lg">Quiero adoptar</a>
-    <a href="{% url 'reports:create' %}" class="btn btn-outline-secondary btn-lg">Crear un reporte</a>
+<section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-50 via-white to-slate-50 px-6 py-16 text-center ring-1 ring-slate-200 sm:px-12">
+  <div class="mx-auto max-w-2xl">
+    <span class="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
+      <i class="bi bi-heart-fill"></i> Cantón Píllaro, Ecuador
+    </span>
+    <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl">
+      Adopta, apoya y <span class="text-primary">cambia una vida</span>
+    </h1>
+    <p class="mx-auto mt-5 max-w-xl text-lg text-slate-600">
+      Promovemos la esterilización y la adopción responsable de perros y gatos.
+      Aquí puedes adoptar, apoyar casos médicos y reportar mascotas perdidas o
+      casos de maltrato.
+    </p>
+    <div class="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+      <a href="{% url 'animals:catalog' %}" class="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 font-semibold text-white shadow-sm transition hover:bg-primary-dark">
+        <i class="bi bi-heart"></i> Quiero adoptar
+      </a>
+      <a href="{% url 'reports:create' %}" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:bg-slate-50">
+        <i class="bi bi-megaphone"></i> Crear un reporte
+      </a>
+    </div>
   </div>
-</div>
+</section>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h2 class="h4 mb-0">Animales en adopción</h2>
-  <a href="{% url 'animals:catalog' %}">Ver todos</a>
-</div>
-<div class="row g-4 mb-5">
-  {% for animal in animales %}
-    <div class="col-md-6 col-lg-4">
-      <div class="card h-100 shadow-sm animal-card">
-        <a href="{{ animal.get_absolute_url }}">
+<section class="mt-14">
+  <div class="mb-5 flex items-end justify-between">
+    <h2 class="text-2xl font-bold text-slate-900">Animales en adopción</h2>
+    <a href="{% url 'animals:catalog' %}" class="text-sm font-semibold text-primary hover:text-primary-dark">Ver todos <i class="bi bi-arrow-right"></i></a>
+  </div>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {% for animal in animales %}
+      <article class="group flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-lg">
+        <a href="{{ animal.get_absolute_url }}" class="block overflow-hidden">
           {% if animal.foto_principal %}
-            <img src="{{ animal.foto_principal.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+            <img src="{{ animal.foto_principal.url }}" alt="{{ animal.nombre }}" class="h-56 w-full object-cover transition duration-300 group-hover:scale-105">
           {% else %}
-            <div class="card-img-placeholder"><i class="bi bi-image"></i></div>
+            <div class="flex h-56 w-full items-center justify-center bg-slate-100 text-5xl text-slate-300"><i class="bi bi-image"></i></div>
           {% endif %}
         </a>
-        <div class="card-body">
-          <h3 class="h5 mb-1">{{ animal.nombre }}</h3>
-          <p class="text-muted small mb-0">
+        <div class="flex flex-1 flex-col p-5">
+          <h3 class="text-lg font-semibold text-slate-900">{{ animal.nombre }}</h3>
+          <p class="mt-1 text-sm text-slate-500">
             {{ animal.get_especie_display }} · {{ animal.get_sexo_display }} · {{ animal.get_tamano_display }}
           </p>
+          <a href="{{ animal.get_absolute_url }}" class="mt-4 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-dark">Conocer más</a>
         </div>
-        <div class="card-footer bg-white border-0">
-          <a href="{{ animal.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Conocer más</a>
-        </div>
-      </div>
-    </div>
-  {% empty %}
-    <div class="col"><div class="alert alert-info">Pronto publicaremos animales en adopción.</div></div>
-  {% endfor %}
-</div>
+      </article>
+    {% empty %}
+      <div class="col-span-full rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">Pronto publicaremos animales en adopción.</div>
+    {% endfor %}
+  </div>
+</section>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h2 class="h4 mb-0">Casos médicos activos</h2>
-  <a href="{% url 'medical_cases:list' %}">Ver todos</a>
-</div>
-<div class="row g-4">
-  {% for caso in casos %}
-    <div class="col-md-4">
-      <div class="card h-100 shadow-sm case-card">
-        <a href="{{ caso.get_absolute_url }}">
+<section class="mt-14">
+  <div class="mb-5 flex items-end justify-between">
+    <h2 class="text-2xl font-bold text-slate-900">Casos médicos activos</h2>
+    <a href="{% url 'medical_cases:list' %}" class="text-sm font-semibold text-primary hover:text-primary-dark">Ver todos <i class="bi bi-arrow-right"></i></a>
+  </div>
+  <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {% for caso in casos %}
+      <article class="group flex flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-slate-200 transition hover:-translate-y-1 hover:shadow-lg">
+        <a href="{{ caso.get_absolute_url }}" class="block overflow-hidden">
           {% if caso.foto %}
-            <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
+            <img src="{{ caso.foto.url }}" alt="{{ caso.titulo }}" class="h-56 w-full object-cover transition duration-300 group-hover:scale-105">
           {% else %}
-            <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
+            <div class="flex h-56 w-full items-center justify-center bg-slate-100 text-5xl text-slate-300"><i class="bi bi-bandaid"></i></div>
           {% endif %}
         </a>
-        <div class="card-body">
-          <h3 class="h5">{{ caso.titulo }}</h3>
-          <div class="progress mb-2" style="height: 10px;">
-            <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;"></div>
+        <div class="flex flex-1 flex-col p-5">
+          <h3 class="text-lg font-semibold text-slate-900">{{ caso.titulo }}</h3>
+          <div class="mt-3 h-2.5 w-full overflow-hidden rounded-full bg-slate-100">
+            <div class="h-full rounded-full bg-primary" style="width: {{ caso.progreso }}%;"></div>
           </div>
-          <p class="small mb-0">${{ caso.monto_recaudado|intcomma }} de ${{ caso.meta_monto|intcomma }}</p>
+          <p class="mt-2 text-sm text-slate-500">${{ caso.monto_recaudado|intcomma }} de ${{ caso.meta_monto|intcomma }}</p>
+          <a href="{{ caso.get_absolute_url }}" class="mt-4 inline-flex items-center justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-primary-dark">Apoyar</a>
         </div>
-        <div class="card-footer bg-white border-0">
-          <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Apoyar</a>
-        </div>
-      </div>
-    </div>
-  {% empty %}
-    <div class="col"><div class="alert alert-info">No hay casos médicos activos por ahora.</div></div>
-  {% endfor %}
-</div>
+      </article>
+    {% empty %}
+      <div class="col-span-full rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-800">No hay casos médicos activos por ahora.</div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

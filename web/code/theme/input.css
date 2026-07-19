@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* Escanear las plantillas Django para generar solo las clases utilizadas. */
+@source "../templates";
+
+/* --- Tema de la marca ------------------------------------------------- */
+/* Define el naranja de Happy Paws como color `primary` de Tailwind, con lo
+   que quedan disponibles bg-primary, text-primary, border-primary, etc. */
+@theme {
+  --color-primary: #f97316;
+  --color-primary-dark: #ea6a0c;
+}
+
+/* --- Utilidades de funcionalidad (no visuales) ------------------------ */
+
+/* Indicador de carga de HTMX: invisible hasta que hay una petición activa. */
+.htmx-indicator { opacity: 0; transition: opacity 200ms ease-in; }
+.htmx-request .htmx-indicator { opacity: 1; }
+.htmx-request.htmx-indicator { opacity: 1; }
+
+/* Campo trampa anti-spam (honeypot): fuera de pantalla, invisible para
+   personas pero visible para bots. */
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
