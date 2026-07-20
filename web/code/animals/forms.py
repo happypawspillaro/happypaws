@@ -1,11 +1,11 @@
 from django import forms
 
-from core.forms import BootstrapFormMixin
+from core.forms import TailwindFormMixin
 
 from .models import Animal, AnimalPhoto, MedicalRecord
 
 
-class AnimalForm(BootstrapFormMixin, forms.ModelForm):
+class AnimalForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = Animal
         fields = [
@@ -22,13 +22,13 @@ class AnimalForm(BootstrapFormMixin, forms.ModelForm):
         }
 
 
-class AnimalPhotoForm(BootstrapFormMixin, forms.ModelForm):
+class AnimalPhotoForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = AnimalPhoto
         fields = ["imagen", "descripcion"]
 
 
-class MedicalRecordForm(BootstrapFormMixin, forms.ModelForm):
+class MedicalRecordForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = MedicalRecord
         fields = ["fecha", "descripcion", "veterinario", "costo"]

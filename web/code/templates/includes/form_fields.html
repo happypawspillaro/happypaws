@@ -1,16 +1,25 @@
+{% comment %}
+  Renderiza los campos de un formulario. Las clases de los widgets (input,
+  select, textarea) las aplica TailwindFormMixin en core/forms.py; aquí solo
+  se maquetan la etiqueta, la ayuda y los errores.
+{% endcomment %}
 {% if form.non_field_errors %}
-  <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+  <div class="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+    {{ form.non_field_errors }}
+  </div>
 {% endif %}
 {% for field in form %}
-  <div class="mb-3 {% if field.field.widget.input_type == 'checkbox' %}form-check{% endif %}">
+  <div class="mb-4">
     {% if field.field.widget.input_type == 'checkbox' %}
-      {{ field }}
-      <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      <div class="flex items-start gap-2">
+        {{ field }}
+        <label class="text-sm font-medium text-slate-700" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      </div>
     {% else %}
-      <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+      <label class="mb-1 block text-sm font-medium text-slate-700" for="{{ field.id_for_label }}">{{ field.label }}</label>
       {{ field }}
     {% endif %}
-    {% if field.help_text %}<div class="form-text">{{ field.help_text|safe }}</div>{% endif %}
-    {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+    {% if field.help_text %}<div class="mt-1 text-xs text-slate-500">{{ field.help_text|safe }}</div>{% endif %}
+    {% for error in field.errors %}<div class="mt-1 text-xs text-red-800">{{ error }}</div>{% endfor %}
   </div>
 {% endfor %}

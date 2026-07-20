@@ -1,11 +1,11 @@
 from django import forms
 
-from core.forms import BootstrapFormMixin
+from core.forms import TailwindFormMixin
 
 from .models import AdoptionApplication, AdoptionFollowUp
 
 
-class AdoptionApplicationForm(BootstrapFormMixin, forms.ModelForm):
+class AdoptionApplicationForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = AdoptionApplication
         fields = [
@@ -17,14 +17,14 @@ class AdoptionApplicationForm(BootstrapFormMixin, forms.ModelForm):
         }
 
 
-class StatusForm(BootstrapFormMixin, forms.ModelForm):
+class StatusForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = AdoptionApplication
         fields = ["estado", "notas_internas"]
         widgets = {"notas_internas": forms.Textarea(attrs={"rows": 3})}
 
 
-class FollowUpForm(BootstrapFormMixin, forms.ModelForm):
+class FollowUpForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = AdoptionFollowUp
         fields = ["fecha", "notas", "foto"]

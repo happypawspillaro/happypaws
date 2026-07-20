@@ -1,18 +1,18 @@
 from django import forms
 
-from core.forms import BootstrapFormMixin
+from core.forms import TailwindFormMixin
 
 from .models import CasePhoto, CaseUpdate, Donation, Expense, MedicalCase
 
 
-class MedicalCaseForm(BootstrapFormMixin, forms.ModelForm):
+class MedicalCaseForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = MedicalCase
         fields = ["animal", "titulo", "descripcion", "meta_monto", "estado", "foto"]
         widgets = {"descripcion": forms.Textarea(attrs={"rows": 4})}
 
 
-class PublicDonationForm(BootstrapFormMixin, forms.ModelForm):
+class PublicDonationForm(TailwindFormMixin, forms.ModelForm):
     """Formulario público: la donación queda pendiente de verificación."""
 
     class Meta:
@@ -24,14 +24,14 @@ class PublicDonationForm(BootstrapFormMixin, forms.ModelForm):
         }
 
 
-class StaffDonationForm(BootstrapFormMixin, forms.ModelForm):
+class StaffDonationForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = Donation
         fields = ["nombre_donante", "email", "monto", "fecha", "comprobante", "verificado"]
         widgets = {"fecha": forms.DateInput(attrs={"type": "date"})}
 
 
-class CaseUpdateForm(BootstrapFormMixin, forms.ModelForm):
+class CaseUpdateForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = CaseUpdate
         fields = ["fecha", "texto", "foto"]
@@ -41,13 +41,13 @@ class CaseUpdateForm(BootstrapFormMixin, forms.ModelForm):
         }
 
 
-class CasePhotoForm(BootstrapFormMixin, forms.ModelForm):
+class CasePhotoForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = CasePhoto
         fields = ["imagen", "descripcion"]
 
 
-class ExpenseForm(BootstrapFormMixin, forms.ModelForm):
+class ExpenseForm(TailwindFormMixin, forms.ModelForm):
     class Meta:
         model = Expense
         fields = ["categoria", "descripcion", "monto", "fecha", "comprobante"]
