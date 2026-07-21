@@ -1,5 +1,5 @@
 Django==5.2.16
-Pillow==12.2.0
+Pillow==12.3.0
 django-htmx==1.27.0
 django-environ==0.13.0
 dj-database-url==3.1.2
