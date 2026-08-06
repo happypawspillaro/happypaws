@@ -16,3 +16,9 @@ web/ssl/*
 
 # Archivos de configuración personalizados
 docker-compose.*override*.yml
+
+# Archivos del seed
+imagenes_happy_paws/
+datos_happy_paws.json
+docs_to_seed.py
+*.ods
