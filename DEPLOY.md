@@ -24,7 +24,7 @@ se sube nada sensible ni la base de datos local.
 ## 2. Crear la cuenta y clonar
 
 1. Regístrate en https://www.pythonanywhere.com (plan **Beginner**, gratis).
-2. Abre una consola **Bash** (pestaña *Consoles* → *Bash*).
+2. Abre una consola **Bash** (pestaña _Consoles_ → _Bash_).
 3. Clona el proyecto:
 
    ```bash
@@ -48,7 +48,7 @@ Genera una clave nueva:
 python -c "import secrets; print(secrets.token_urlsafe(50))"
 ```
 
-Crea el archivo `.env` (editor *Files* o `nano .env`) con:
+Crea el archivo `.env` (editor _Files_ o `nano .env`) con:
 
 ```
 SECRET_KEY=pega-aqui-la-clave-generada
@@ -64,20 +64,19 @@ Con el virtualenv activo y dentro de `~/happypaws`:
 
 ```bash
 python manage.py migrate
-python manage.py seed_demo      # datos de ejemplo (animales, casos, reportes)
 python manage.py collectstatic --noinput
 ```
 
 ## 6. Crear la aplicación web
 
-1. Pestaña **Web** → *Add a new web app*.
+1. Pestaña **Web** → _Add a new web app_.
 2. Elige **Manual configuration** → **Python 3.11**.
 3. En la sección **Virtualenv**, escribe la ruta:
    `/home/tuusuario/happypaws/.venv`
 
 ## 7. Configurar el archivo WSGI
 
-En la pestaña **Web**, sección *Code*, clic en el enlace del archivo WSGI.
+En la pestaña **Web**, sección _Code_, clic en el enlace del archivo WSGI.
 Borra todo su contenido y déjalo así:
 
 ```python
@@ -91,15 +90,16 @@ if path not in sys.path:
 os.environ["DJANGO_SETTINGS_MODULE"] = "happypaws.settings"
 
 from django.core.wsgi import get_wsgi_application
+
 application = get_wsgi_application()
 ```
 
 ## 8. Mapear archivos estáticos y media
 
-En la pestaña **Web**, sección *Static files*, añade dos filas:
+En la pestaña **Web**, sección _Static files_, añade dos filas:
 
-| URL        | Directory                              |
-|------------|----------------------------------------|
+| URL        | Directory                               |
+| ---------- | --------------------------------------- |
 | `/static/` | `/home/tuusuario/happypaws/staticfiles` |
 | `/media/`  | `/home/tuusuario/happypaws/media`       |
 
@@ -109,6 +109,7 @@ Pulsa el botón verde **Reload** en la pestaña Web y abre
 `https://tuusuario.pythonanywhere.com`.
 
 Acceso al panel del staff:
+
 - Usuario: `fundacion`
 - Contraseña: `happypaws123`
 
