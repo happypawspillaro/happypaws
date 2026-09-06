@@ -13,6 +13,7 @@ from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import models, transaction
 from medical_cases.models import (
+    CasePhoto,
     CaseUpdate,
     CategoriaEgreso,
     Donation,
@@ -141,14 +142,13 @@ class Command(BaseCommand):
 
         for animal_dato in animales:
             solicitudes_adopciones = animal_dato.pop("SolicitudesAdopciones", [])
-            nombre_foto = animal_dato.pop("foto_principal", None)
-            ruta_foto = ruta_imagenes / nombre_foto if nombre_foto else None
+            foto_principal = animal_dato.pop("foto_principal", None)
             convertir_key_a_enum(animal_dato, KEY2ENUM["Animales"])
             animal, creado = Animal.objects.get_or_create(
                 nombre=animal_dato["nombre"],
                 defaults={**animal_dato},
             )
-            guardar_foto(animal, "foto_principal", ruta_foto, ruta_imagenes)
+            guardar_foto(animal, "foto_principal", foto_principal, ruta_imagenes)
             for solicitud in solicitudes_adopciones:
                 convertir_key_a_enum(solicitud, KEY2ENUM["SolicitudesAdopciones"])
                 _, app_creada = AdoptionApplication.objects.get_or_create(
@@ -171,7 +171,7 @@ class Command(BaseCommand):
             caso_data = caso_dato.copy()
 
             nombre_animal = caso_data.pop("nombre", None)
-            nombre_foto = caso_data.pop("foto", None)
+            datos_fotos_casos = caso_data.pop("fotos", [])
 
             animal = creados.get(nombre_animal)
             if not animal:
@@ -189,13 +189,18 @@ class Command(BaseCommand):
             if not creado:
                 continue
 
-            # Foto principal
-            guardar_foto(
-                instancia=caso,
-                campo="foto",
-                nombre_foto=nombre_foto,
-                ruta_imagenes=ruta_imagenes,
-            )
+            for dato_foto_caso in datos_fotos_casos:
+                foto_caso, foto_caso_creado = CasePhoto.objects.get_or_create(
+                    caso=caso,
+                    **dato_foto_caso,
+                )
+                if foto_caso_creado:
+                    guardar_foto(
+                        instancia=foto_caso,
+                        campo="imagen",
+                        nombre_foto=dato_foto_caso["imagen"],
+                        ruta_imagenes=ruta_imagenes,
+                    )
 
             # Donaciones
             for donacion_dato in donaciones:
@@ -225,7 +230,7 @@ class Command(BaseCommand):
                     **avance_dato,
                 )
 
-                if avance_creado:
+                if avance_creado and nombre_foto_avance:
                     guardar_foto(
                         instancia=avance,
                         campo="foto",
@@ -241,8 +246,7 @@ class Command(BaseCommand):
         n_avistamiento_reporte = 0
 
         for reporte_dato in reportes:
-            nombre_foto = reporte_dato.pop("imagen", None)
-            ruta_foto_avance = ruta_imagenes / nombre_foto if nombre_foto else None
+            imagen_avance = reporte_dato.pop("imagen", None)
             comentarios = reporte_dato.pop("Comentarios", [])
             avistamientos = reporte_dato.pop("Avistamientos", [])
             convertir_key_a_enum(reporte_dato, KEY2ENUM["Reportes"])
@@ -260,9 +264,9 @@ class Command(BaseCommand):
                     ReportSighting.objects.create(reporte=reporte, **avistamiento)
                     n_avistamiento_reporte += 1
 
-                if ruta_foto_avance and ruta_foto_avance.exists():
+                if imagen_avance:
                     reporte_foto, _ = ReportPhoto.objects.get_or_create(reporte=reporte)
-                    guardar_foto(reporte_foto, "imagen", ruta_foto_avance, ruta_imagenes)
+                    guardar_foto(reporte_foto, "imagen", imagen_avance, ruta_imagenes)
         self.stdout.write(f"  · {len(reportes)} reportes procesados")
         self.stdout.write(f"  · {n_comentario_reporte} comentarios y {n_avistamiento_reporte} avistamientos creados")
 
