@@ -7,9 +7,9 @@ DEBUG = False
 ADMINS = [("Happy Paws", "happypaws.pillaro@gmail.com")]
 # Permitir usar contenedor nginx
 ALLOWED_HOSTS += ["nginx"]  # noqa: F405
-STATIC_ROOT = BASE_DIR / "static"  # noqa: F405
+STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
 STATICFILES_DIRS = [
-    BASE_DIR / "staticfiles",  # noqa: F405
+    BASE_DIR / "static",  # noqa: F405
 ]
 
 # Endurecimiento solo en producción. El proxy de PythonAnywhere/Render

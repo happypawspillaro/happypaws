@@ -1,207 +1,273 @@
-from datetime import date, timedelta
-from decimal import Decimal
+import json
+from pathlib import Path
 
+from adoptions.models import (
+    AdoptionApplication,
+    EstadoSolicitud,
+    PropositoTenencia,
+    TipoVivienda,
+)
+from animals.models import Animal, Especie, EstadoAnimal, Origen, Sexo, Tamano
 from django.contrib.auth import get_user_model
+from django.core.files import File
 from django.core.management.base import BaseCommand
-from django.db import transaction
-
-from adoptions.models import AdoptionApplication, EstadoSolicitud, TipoVivienda
-from animals.models import Animal, EstadoAnimal, Especie, Sexo, Tamano
-from medical_cases.models import CaseUpdate, Donation, EstadoCaso, MedicalCase
+from django.db import models, transaction
+from medical_cases.models import (
+    CasePhoto,
+    CaseUpdate,
+    CategoriaEgreso,
+    Donation,
+    EstadoCaso,
+    Expense,
+    MedicalCase,
+)
 from reports.models import (
+    EspecieMascota,
     EstadoReporte,
     Report,
     ReportComment,
+    ReportPhoto,
     ReportSighting,
+    SexoMascota,
     TipoReporte,
 )
 
 User = get_user_model()
 
+KEY2ENUM = {
+    "Animales": {
+        "especie": Especie,
+        "sexo": Sexo,
+        "tamano": Tamano,
+        "origen": Origen,
+        "estado": EstadoAnimal,
+    },
+    "SolicitudesAdopciones": {
+        "tipo_vivienda": TipoVivienda,
+        "estado": EstadoSolicitud,
+        "proposito": PropositoTenencia,
+    },
+    "Caso Médico": {
+        "estado": EstadoCaso,
+    },
+    "Gastos": {
+        "categoria": CategoriaEgreso,
+    },
+    "Reportes": {
+        "tipo": TipoReporte,
+        "estado": EstadoReporte,
+        "especie": EspecieMascota,
+        "sexo": SexoMascota,
+    },
+}
+
+
+def convertir_key_a_enum(dato: dict, key_enum_dict: dict):
+    """Convierte una clave de diccionario plana a su correspondiente enum.
+
+    Args:
+        dato (dict): Diccionario que contiene tus datos.
+        key_enum_dict (dict): Diccionario en formato key: Enum para transformar tus valores.
+    """
+    for key, enum_class in key_enum_dict.items():
+        if value := dato.get(key):
+            dato[key] = enum_class(value)
+
+
+def guardar_foto(instancia: models.Model, campo: str, nombre_foto: str, ruta_imagenes: Path):
+    """Ayudante para guardar las fotos en los modelos del sistema
+
+    Args:
+        instancia (models.Model): Instancia de tipo django.db.models.Model
+        campo (str): Nombre del campo
+        nombre_foto (str): Nombre de la foto tal como esta guardada
+        ruta_imagenes (Path): Ruta Global donde se encuentran las imagenes
+    """
+    if not nombre_foto:
+        return
+
+    ruta_foto = ruta_imagenes / nombre_foto
+
+    if not ruta_foto.exists():
+        return
+
+    with ruta_foto.open("rb") as f:
+        getattr(instancia, campo).save(
+            ruta_foto.name,
+            File(f),
+            save=True,
+        )
+
 
 class Command(BaseCommand):
     help = "Carga datos de ejemplo para demostrar el sistema (basados en casos reales)."
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            "--ruta-datos",
+            type=Path,
+            default=Path("core/fixtures/datos_happy_paws.json"),
+            help="Ruta al archivo JSON de datos iniciales.",
+        )
+        parser.add_argument(
+            "--ruta-imagenes",
+            type=Path,
+            default=Path("core/fixtures/HappyPaws"),
+            help="Ruta a la carpeta de imágenes iniciales.",
+        )
+
     @transaction.atomic
     def handle(self, *args, **options):
-        self.stdout.write("Cargando datos de ejemplo…")
+        ruta_datos: Path = options["ruta_datos"]
+        ruta_imagenes: Path = options["ruta_imagenes"]
 
-        # --- Usuario staff de la fundación ---
-        if not User.objects.filter(username="fundacion").exists():
-            User.objects.create_user(
-                username="fundacion",
-                password="happypaws123",
-                first_name="Equipo",
-                last_name="Happy Paws",
-                email="happypaws.pillaro@gmail.com",
-                is_staff=True,
+        self.stdout.write(f"Iniciando carga de datos desde: {ruta_datos.absolute()}")
+
+        if not ruta_datos.exists():
+            self.stdout.write(self.style.ERROR(f"El archivo {ruta_datos} no existe, abortando inicialización."))
+            return
+        if not ruta_imagenes.exists():
+            self.stdout.write(
+                self.style.ERROR(f"La carpeta de imágenes {ruta_imagenes} no existe, abortando inicialización.")
             )
-            self.stdout.write("  · Usuario staff: fundacion / happypaws123")
+            return
 
-        # --- Animales ---
-        hoy = date.today()
-        animales = [
-            {
-                "nombre": "Lulu", "especie": Especie.PERRO, "sexo": Sexo.HEMBRA,
-                "tamano": Tamano.MEDIANO, "edad_aprox": "2 años",
-                "estado": EstadoAnimal.EN_TRATAMIENTO, "esterilizado": False,
-                "descripcion": "Encontrada gravemente herida en su rostro, "
-                               "probablemente atropellada. En recuperación tras cirugía.",
-            },
-            {
-                "nombre": "Canela", "especie": Especie.PERRO, "sexo": Sexo.HEMBRA,
-                "tamano": Tamano.MEDIANO, "edad_aprox": "1 año",
-                "estado": EstadoAnimal.EN_ADOPCION, "esterilizado": True,
-                "descripcion": "Perrita rescatada del parque de Píllaro. Cariñosa, "
-                               "sociable y lista para una familia responsable.",
-            },
-            {
-                "nombre": "Manchas", "especie": Especie.GATO, "sexo": Sexo.MACHO,
-                "tamano": Tamano.PEQUENO, "edad_aprox": "6 meses",
-                "estado": EstadoAnimal.EN_ADOPCION, "esterilizado": True,
-                "descripcion": "Gatito juguetón rescatado de la calle. Sano y desparasitado.",
-            },
-            {
-                "nombre": "Rocky", "especie": Especie.PERRO, "sexo": Sexo.MACHO,
-                "tamano": Tamano.GRANDE, "edad_aprox": "3 años",
-                "estado": EstadoAnimal.EN_ADOPCION, "esterilizado": True,
-                "descripcion": "Perro grande, tranquilo y leal. Ideal para casa con patio.",
-            },
-            {
-                "nombre": "Nube", "especie": Especie.GATO, "sexo": Sexo.HEMBRA,
-                "tamano": Tamano.PEQUENO, "edad_aprox": "2 años",
-                "estado": EstadoAnimal.ADOPTADO, "esterilizado": True,
-                "descripcion": "Gatita blanca adoptada por una familia de Píllaro.",
-            },
-            {
-                "nombre": "Toby", "especie": Especie.PERRO, "sexo": Sexo.MACHO,
-                "tamano": Tamano.PEQUENO, "edad_aprox": "8 meses",
-                "estado": EstadoAnimal.HOGAR_TEMPORAL, "esterilizado": False,
-                "descripcion": "Cachorro en hogar temporal mientras completa sus vacunas.",
-            },
-        ]
+        with open(ruta_datos, "r", encoding="utf8") as json_file:
+            datos_json = json.load(json_file)
+
+        # --- Animales y Solicitudes de Adopción ---
+        animales = datos_json.get("Animales", [])
         creados = {}
-        for data in animales:
-            animal, _ = Animal.objects.get_or_create(
-                nombre=data["nombre"],
-                defaults={**data, "fecha_ingreso": hoy - timedelta(days=30)},
-            )
-            creados[data["nombre"]] = animal
-        self.stdout.write(f"  · {len(animales)} animales")
+        n_solicitudes_adopcion = 0
 
-        # --- Caso médico (Ojito Lulu) ---
-        caso, nuevo = MedicalCase.objects.get_or_create(
-            titulo="Caso Ojito Lulu",
-            defaults={
-                "animal": creados["Lulu"],
-                "descripcion": "Lulu perdió un ojito y tiene una lesión en la mandíbula. "
-                               "Necesitamos cubrir el costo de su cirugía y medicación.",
-                "meta_monto": Decimal("121.00"),
-                "estado": EstadoCaso.ACTIVO,
-            },
-        )
-        if nuevo:
-            Donation.objects.create(
-                caso=caso, nombre_donante="Ana Gómez", monto=Decimal("50.00"),
-                fecha=hoy - timedelta(days=5), verificado=True,
+        for animal_dato in animales:
+            solicitudes_adopciones = animal_dato.pop("SolicitudesAdopciones", [])
+            foto_principal = animal_dato.pop("foto_principal", None)
+            convertir_key_a_enum(animal_dato, KEY2ENUM["Animales"])
+            animal, creado = Animal.objects.get_or_create(
+                nombre=animal_dato["nombre"],
+                defaults={**animal_dato},
             )
-            Donation.objects.create(
-                caso=caso, nombre_donante="Carlos Ruiz", monto=Decimal("46.00"),
-                fecha=hoy - timedelta(days=3), verificado=True,
+            guardar_foto(animal, "foto_principal", foto_principal, ruta_imagenes)
+            for solicitud in solicitudes_adopciones:
+                convertir_key_a_enum(solicitud, KEY2ENUM["SolicitudesAdopciones"])
+                _, app_creada = AdoptionApplication.objects.get_or_create(
+                    animal=animal,
+                    defaults={**solicitud},
+                )
+                if app_creada:
+                    n_solicitudes_adopcion += 1
+
+            creados[animal_dato["nombre"]] = animal
+
+        self.stdout.write(f"  · {len(animales)} animales procesados")
+        self.stdout.write(f"  · {n_solicitudes_adopcion} nuevas solicitudes de adopción")
+
+        # --- Casos Médicos ---
+        casos_medicos = datos_json.get("Caso Médico", [])
+
+        for caso_dato in casos_medicos:
+            convertir_key_a_enum(caso_dato, KEY2ENUM["Caso Médico"])
+            caso_data = caso_dato.copy()
+
+            nombre_animal = caso_data.pop("nombre", None)
+            datos_fotos_casos = caso_data.pop("fotos", [])
+
+            animal = creados.get(nombre_animal)
+            if not animal:
+                continue
+
+            donaciones = caso_data.pop("Donaciones", [])
+            gastos = caso_data.pop("Gastos", [])
+            avances = caso_data.pop("AvancesCasos", [])
+
+            caso, creado = MedicalCase.objects.get_or_create(
+                animal=animal,
+                defaults=caso_data,
             )
-            Donation.objects.create(
-                caso=caso, nombre_donante="Donante anónimo", monto=Decimal("20.00"),
-                fecha=hoy - timedelta(days=1), verificado=False,
-            )
-            CaseUpdate.objects.create(
-                caso=caso, fecha=hoy - timedelta(days=2),
-                texto="Lulu salió de cirugía y se está recuperando. ¡Gracias por su apoyo!",
-            )
-        self.stdout.write("  · 1 caso médico con donaciones y avances")
+
+            if not creado:
+                continue
+
+            for dato_foto_caso in datos_fotos_casos:
+                foto_caso, foto_caso_creado = CasePhoto.objects.get_or_create(
+                    caso=caso,
+                    **dato_foto_caso,
+                )
+                if foto_caso_creado:
+                    guardar_foto(
+                        instancia=foto_caso,
+                        campo="imagen",
+                        nombre_foto=dato_foto_caso["imagen"],
+                        ruta_imagenes=ruta_imagenes,
+                    )
+
+            # Donaciones
+            for donacion_dato in donaciones:
+                donacion_dato = donacion_dato.copy()
+                donacion_dato.pop("comprobante", None)
+
+                Donation.objects.create(
+                    caso=caso,
+                    **donacion_dato,
+                )
+
+            # Gastos
+            for gasto_dato in gastos:
+                convertir_key_a_enum(gasto_dato, KEY2ENUM["Gastos"])
+                Expense.objects.create(
+                    caso=caso,
+                    **gasto_dato,
+                )
+
+            # Avances
+            for avance_dato in avances:
+                avance_dato = avance_dato.copy()
+                nombre_foto_avance = avance_dato.pop("foto", None)
+
+                avance, avance_creado = CaseUpdate.objects.get_or_create(
+                    caso=caso,
+                    **avance_dato,
+                )
+
+                if avance_creado and nombre_foto_avance:
+                    guardar_foto(
+                        instancia=avance,
+                        campo="foto",
+                        nombre_foto=nombre_foto_avance,
+                        ruta_imagenes=ruta_imagenes,
+                    )
+
+        self.stdout.write(f"  · {len(casos_medicos)} casos médicos procesados")
 
         # --- Reportes ---
-        reportes = [
-            {
-                "tipo": TipoReporte.PERDIDO, "titulo": "Perrito blanco con ojos azules",
-                "ubicacion": "Sector de Chagrapamba, Píllaro",
-                "descripcion": "Perrito visto durante los últimos días en el sector. "
-                               "Si conoces a sus dueños, ayúdanos a contactarlos.",
-            },
-            {
-                "tipo": TipoReporte.PERDIDO, "titulo": "Zeus y Hércules - se perdieron juntos",
-                "ubicacion": "Sector del Hospital Municipal, Tungurahua",
-                "descripcion": "Dos perros (uno blanco, otro café con blanco) perdidos. "
-                               "Ambos necesitan sus medicamentos.",
-            },
-            {
-                "tipo": TipoReporte.ENCONTRADO, "titulo": "Perrita encontrada en el Parque de Píllaro",
-                "ubicacion": "Parque central de Píllaro",
-                "descripcion": "Perrita al parecer extraviada de su casa. Está a salvo, "
-                               "buscamos a su familia.",
-            },
-            {
-                "tipo": TipoReporte.MALTRATO, "titulo": "Abandono de cachorros en Ciudad Nueva",
-                "ubicacion": "Callejón de las Calles Vía a la Primavera, Píllaro",
-                "descripcion": "Se reporta el abandono de dos cachorros. Buscamos evidencia "
-                               "para identificar al responsable según la ordenanza municipal.",
-                "estado": EstadoReporte.RESUELTO,
-            },
-        ]
-        reportes_creados = {}
-        for data in reportes:
-            reporte, _ = Report.objects.get_or_create(
-                titulo=data["titulo"],
-                defaults={
-                    **data,
-                    "fecha_avistamiento": hoy - timedelta(days=4),
-                    "nombre_reportante": "Vecino de Píllaro",
-                    "contacto_reportante": "099 906 3323",
-                    "aprobado": True,
-                },
-            )
-            reportes_creados[data["titulo"]] = reporte
-        self.stdout.write(f"  · {len(reportes)} reportes")
+        reportes = datos_json.get("Reportes", [])
+        n_comentario_reporte = 0
+        n_avistamiento_reporte = 0
 
-        # --- Interacción comunitaria de ejemplo ---
-        perdido = reportes_creados["Perrito blanco con ojos azules"]
-        if not perdido.comentarios.exists():
-            ReportComment.objects.create(
-                reporte=perdido, nombre="Marta",
-                mensaje="Creo que lo vi cerca del mercado esta mañana, andaba asustado.",
+        for reporte_dato in reportes:
+            imagen_avance = reporte_dato.pop("imagen", None)
+            comentarios = reporte_dato.pop("Comentarios", [])
+            avistamientos = reporte_dato.pop("Avistamientos", [])
+            convertir_key_a_enum(reporte_dato, KEY2ENUM["Reportes"])
+            reporte, creado = Report.objects.get_or_create(
+                titulo=reporte_dato["titulo"],
+                defaults={**reporte_dato},
             )
-            ReportComment.objects.create(
-                reporte=perdido, nombre="Don José", contacto="098 765 4321",
-                mensaje="Yo le di agua ayer en la tarde, sigue por el sector.",
-            )
-        if not perdido.avistamientos.exists():
-            ReportSighting.objects.create(
-                reporte=perdido, nombre="Marta", contacto="0991234567",
-                ubicacion="Mercado Central de Píllaro", fecha=hoy - timedelta(days=1),
-                descripcion="Estaba junto a los puestos de fruta, se fue hacia el parque.",
-                confirmado=True,
-            )
-            ReportSighting.objects.create(
-                reporte=perdido, nombre="Carlos",
-                ubicacion="Parque de Píllaro", fecha=hoy,
-                descripcion="Lo vi cruzar hacia la iglesia.",
-            )
-        self.stdout.write("  · comentarios y avistamientos de ejemplo")
 
-        # --- Solicitud de adopción de ejemplo ---
-        AdoptionApplication.objects.get_or_create(
-            animal=creados["Canela"],
-            cedula="1804567890",
-            defaults={
-                "nombre_solicitante": "María Pérez",
-                "telefono": "0991234567",
-                "email": "maria.perez@example.com",
-                "direccion": "Av. Rumiñahui 123, Píllaro",
-                "tipo_vivienda": TipoVivienda.CASA,
-                "tiene_patio": True,
-                "experiencia": "He tenido perros toda mi vida.",
-                "estado": EstadoSolicitud.PENDIENTE,
-            },
-        )
-        self.stdout.write("  · 1 solicitud de adopción")
+            if creado:
+                for comentario in comentarios:
+                    ReportComment.objects.create(reporte=reporte, **comentario)
+                    n_comentario_reporte += 1
 
-        self.stdout.write(self.style.SUCCESS("¡Datos de ejemplo cargados!"))
+                for avistamiento in avistamientos:
+                    ReportSighting.objects.create(reporte=reporte, **avistamiento)
+                    n_avistamiento_reporte += 1
+
+                if imagen_avance:
+                    reporte_foto, _ = ReportPhoto.objects.get_or_create(reporte=reporte)
+                    guardar_foto(reporte_foto, "imagen", imagen_avance, ruta_imagenes)
+        self.stdout.write(f"  · {len(reportes)} reportes procesados")
+        self.stdout.write(f"  · {n_comentario_reporte} comentarios y {n_avistamiento_reporte} avistamientos creados")
+
+        self.stdout.write(self.style.SUCCESS("¡Datos de ejemplo cargados exitosamente!"))

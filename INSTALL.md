@@ -46,13 +46,22 @@
    ```
 
 8. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
-9. Finalmente inicializa los demás contenedores con:
+
+9. Colecciona los archivos estáticos con el siguiente comando
 
    ```bash
-   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml exec web python manage.py collectstatic
    ```
 
-10. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
+10. Finalmente inicializa los demás contenedores con:
+
+    ```bash
+    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+    ```
+
+11. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
+
+_Opcional_: Usa la sección [Inicializar datos](#inicializar-datos) para importar datos existentes a tu base de datos.
 
 ## Migraciones
 
@@ -86,4 +95,42 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes \
     -keyout web/ssl/happypaws.key -out web/ssl/happypaws.crt \
     -subj '/CN=*.happypawspillaro.org' \
     -addext 'subjectAltName=DNS:*.happypawspillaro.org'
+```
+
+## Inicializar datos
+
+Por favor descarga los datos de la carpeta [Datos Página Web](https://drive.google.com/drive/folders/1T8PljxUi260mTUeI1EIXsNTZgHS7pwOl?usp=sharing) y descomprimelos en la ruta principal del proyecto, por ejemplo:
+
+```bash
+happypaws/
+├── datos_happy_paws.json
+├── Datos Página Web.ods
+├── docs_to_seed.py
+├── imagenes_happy_paws
+│   ├── Adopciones
+│   │   ├── Anastasia.jpg
+│   │   └── Sol.jpg
+│   ├── CasosMédicos
+│   │   ├── Bruce.jpg
+│   │   └── Lulu.jpg
+│   └── Reportes
+│       ├── Amarilla.jpg
+│       └── Saco.jpg
+```
+
+Luego, inicializa el `seed_demo`, montando la carpeta de imágenes y datos con el comando:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml run --rm \
+  -v "$(pwd)/datos_happy_paws.json:/tmp/seed_data/datos.json" \
+  -v "$(pwd)/imagenes_happy_paws:/tmp/seed_data/imagenes" \
+  web python3 manage.py seed_demo \
+  --ruta-datos /tmp/seed_data/datos.json \
+  --ruta-imagenes /tmp/seed_data/imagenes
+```
+
+Luego, carga de nuevo tu contenedor `web` con:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up nginx web --build -d
 ```
