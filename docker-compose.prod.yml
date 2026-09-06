@@ -26,6 +26,7 @@ services:
     command: uwsgi --ini /home/happypaws/config/uwsgi/uwsgi.ini
     volumes:
       - ./web/uwsgi:/home/happypaws/code/uwsgi
+      - static_volume:/home/happypaws/code/staticfiles
     secrets:
       - postgres_password
   postgres:
@@ -63,11 +64,13 @@ services:
       - ./web/uwsgi:/home/happypaws/code/uwsgi
       - ./web/ssl:/home/happypaws/code/ssl
       - ./config/uwsgi/uwsgi.ini:/home/happypaws/code/uwsgi.ini
-      - ./web/code/static:/home/happypaws/code/static
+      - static_volume:/home/happypaws/code/static
       - media-volume:/home/happypaws/media
 
 volumes:
   postgres_data:
+    driver: local
+  static_volume:
     driver: local
 
 secrets:
