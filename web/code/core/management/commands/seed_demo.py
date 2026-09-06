@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from medical_cases.models import Donation, Expense, MedicalCase
+from medical_cases.models import CaseUpdate, Donation, Expense, MedicalCase
 from reports.models import (
     Report,
     ReportComment,
@@ -16,6 +16,23 @@ from reports.models import (
 )
 
 User = get_user_model()
+
+
+def guardar_foto(instancia, campo, nombre_foto, ruta_imagenes):
+    if not nombre_foto:
+        return
+
+    ruta_foto = ruta_imagenes / nombre_foto
+
+    if not ruta_foto.exists():
+        return
+
+    with ruta_foto.open("rb") as f:
+        getattr(instancia, campo).save(
+            ruta_foto.name,
+            File(f),
+            save=True,
+        )
 
 
 class Command(BaseCommand):
@@ -88,33 +105,71 @@ class Command(BaseCommand):
 
         # --- Casos Médicos ---
         casos_medicos = datos_json.get("Caso Médico", [])
+
         for caso_dato in casos_medicos:
-            nombre_animal = caso_dato.pop("nombre")
-            nombre_foto = caso_dato.pop("foto", None)
-            ruta_foto = ruta_imagenes / nombre_foto if nombre_foto else None
+            caso_data = caso_dato.copy()
+
+            nombre_animal = caso_data.pop("nombre", None)
+            nombre_foto = caso_data.pop("foto", None)
 
             animal = creados.get(nombre_animal)
             if not animal:
                 continue
 
-            donaciones = caso_dato.pop("Donaciones", [])
-            gastos = caso_dato.pop("Gastos", [])
+            donaciones = caso_data.pop("Donaciones", [])
+            gastos = caso_data.pop("Gastos", [])
+            avances = caso_data.pop("AvancesCasos", [])
 
             caso, creado = MedicalCase.objects.get_or_create(
                 animal=animal,
-                defaults={**caso_dato},
+                defaults=caso_data,
             )
 
-            if creado and ruta_foto and ruta_foto.exists():
-                with open(ruta_foto, "rb") as f:
-                    caso.foto.save(ruta_foto.name, File(f), save=True)
+            if not creado:
+                continue
 
-            if creado:
-                for donacion in donaciones:
-                    donacion.pop("comprobante", None)
-                    Donation.objects.create(caso=caso, **donacion)
-                for gasto in gastos:
-                    Expense.objects.create(caso=caso, **gasto)
+            # Foto principal
+            guardar_foto(
+                instancia=caso,
+                campo="foto",
+                nombre_foto=nombre_foto,
+                ruta_imagenes=ruta_imagenes,
+            )
+
+            # Donaciones
+            for donacion_data in donaciones:
+                donacion_data = donacion_data.copy()
+                donacion_data.pop("comprobante", None)
+
+                Donation.objects.create(
+                    caso=caso,
+                    **donacion_data,
+                )
+
+            # Gastos
+            for gasto_data in gastos:
+                Expense.objects.create(
+                    caso=caso,
+                    **gasto_data,
+                )
+
+            # Avances
+            for avance_data in avances:
+                avance_data = avance_data.copy()
+                nombre_foto_avance = avance_data.pop("foto", None)
+
+                avance, avance_creado = CaseUpdate.objects.get_or_create(
+                    caso=caso,
+                    **avance_data,
+                )
+
+                if avance_creado:
+                    guardar_foto(
+                        instancia=avance,
+                        campo="foto",
+                        nombre_foto=nombre_foto_avance,
+                        ruta_imagenes=ruta_imagenes,
+                    )
 
         self.stdout.write(f"  · {len(casos_medicos)} casos médicos procesados")
 
@@ -125,7 +180,7 @@ class Command(BaseCommand):
 
         for reporte_datos in reportes:
             nombre_foto = reporte_datos.pop("imagen", None)
-            ruta_foto = ruta_imagenes / nombre_foto if nombre_foto else None
+            ruta_foto_avance = ruta_imagenes / nombre_foto if nombre_foto else None
             comentarios = reporte_datos.pop("Comentarios", [])
             avistamientos = reporte_datos.pop("Avistamientos", [])
 
@@ -143,10 +198,10 @@ class Command(BaseCommand):
                     ReportSighting.objects.create(reporte=reporte, **avistamiento)
                     n_avistamiento_reporte += 1
 
-                if ruta_foto and ruta_foto.exists():
+                if ruta_foto_avance and ruta_foto_avance.exists():
                     reporte_foto, _ = ReportPhoto.objects.get_or_create(reporte=reporte)
-                    with open(ruta_foto, "rb") as f:
-                        reporte_foto.imagen.save(ruta_foto.name, File(f), save=True)
+                    with open(ruta_foto_avance, "rb") as f:
+                        reporte_foto.imagen.save(ruta_foto_avance.name, File(f), save=True)
 
         self.stdout.write(f"  · {len(reportes)} reportes procesados")
         self.stdout.write(f"  · {n_comentario_reporte} comentarios y {n_avistamiento_reporte} avistamientos creados")
