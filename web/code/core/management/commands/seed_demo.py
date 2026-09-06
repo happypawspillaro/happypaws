@@ -11,7 +11,7 @@ from animals.models import Animal, Especie, EstadoAnimal, Origen, Sexo, Tamano
 from django.contrib.auth import get_user_model
 from django.core.files import File
 from django.core.management.base import BaseCommand
-from django.db import transaction
+from django.db import models, transaction
 from medical_cases.models import (
     CaseUpdate,
     CategoriaEgreso,
@@ -73,7 +73,15 @@ def convertir_key_a_enum(dato: dict, key_enum_dict: dict):
             dato[key] = enum_class(value)
 
 
-def guardar_foto(instancia, campo, nombre_foto, ruta_imagenes):
+def guardar_foto(instancia: models.Model, campo: str, nombre_foto: str, ruta_imagenes: Path):
+    """Ayudante para guardar las fotos en los modelos del sistema
+
+    Args:
+        instancia (models.Model): Instancia de tipo django.db.models.Model
+        campo (str): Nombre del campo
+        nombre_foto (str): Nombre de la foto tal como esta guardada
+        ruta_imagenes (Path): Ruta Global donde se encuentran las imagenes
+    """
     if not nombre_foto:
         return
 
@@ -140,11 +148,7 @@ class Command(BaseCommand):
                 nombre=animal_dato["nombre"],
                 defaults={**animal_dato},
             )
-
-            if creado and ruta_foto and ruta_foto.exists():
-                with open(ruta_foto, "rb") as f:
-                    animal.foto_principal.save(ruta_foto.name, File(f), save=True)
-
+            guardar_foto(animal, "foto_principal", ruta_foto, ruta_imagenes)
             for solicitud in solicitudes_adopciones:
                 convertir_key_a_enum(solicitud, KEY2ENUM["SolicitudesAdopciones"])
                 _, app_creada = AdoptionApplication.objects.get_or_create(
@@ -258,9 +262,7 @@ class Command(BaseCommand):
 
                 if ruta_foto_avance and ruta_foto_avance.exists():
                     reporte_foto, _ = ReportPhoto.objects.get_or_create(reporte=reporte)
-                    with open(ruta_foto_avance, "rb") as f:
-                        reporte_foto.imagen.save(ruta_foto_avance.name, File(f), save=True)
-
+                    guardar_foto(reporte_foto, "imagen", ruta_foto_avance, ruta_imagenes)
         self.stdout.write(f"  · {len(reportes)} reportes procesados")
         self.stdout.write(f"  · {n_comentario_reporte} comentarios y {n_avistamiento_reporte} avistamientos creados")
 
