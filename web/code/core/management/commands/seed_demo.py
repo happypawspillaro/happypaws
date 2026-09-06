@@ -1,21 +1,76 @@
 import json
 from pathlib import Path
 
-from adoptions.models import AdoptionApplication
-from animals.models import Animal
+from adoptions.models import (
+    AdoptionApplication,
+    EstadoSolicitud,
+    PropositoTenencia,
+    TipoVivienda,
+)
+from animals.models import Animal, Especie, EstadoAnimal, Origen, Sexo, Tamano
 from django.contrib.auth import get_user_model
 from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from medical_cases.models import CaseUpdate, Donation, Expense, MedicalCase
+from medical_cases.models import (
+    CaseUpdate,
+    CategoriaEgreso,
+    Donation,
+    EstadoCaso,
+    Expense,
+    MedicalCase,
+)
 from reports.models import (
+    EspecieMascota,
+    EstadoReporte,
     Report,
     ReportComment,
     ReportPhoto,
     ReportSighting,
+    SexoMascota,
+    TipoReporte,
 )
 
 User = get_user_model()
+
+KEY2ENUM = {
+    "Animales": {
+        "especie": Especie,
+        "sexo": Sexo,
+        "tamano": Tamano,
+        "origen": Origen,
+        "estado": EstadoAnimal,
+    },
+    "SolicitudesAdopciones": {
+        "tipo_vivienda": TipoVivienda,
+        "estado": EstadoSolicitud,
+        "proposito": PropositoTenencia,
+    },
+    "Caso Médico": {
+        "estado": EstadoCaso,
+    },
+    "Gastos": {
+        "categoria": CategoriaEgreso,
+    },
+    "Reportes": {
+        "tipo": TipoReporte,
+        "estado": EstadoReporte,
+        "especie": EspecieMascota,
+        "sexo": SexoMascota,
+    },
+}
+
+
+def convertir_key_a_enum(dato: dict, key_enum_dict: dict):
+    """Convierte una clave de diccionario plana a su correspondiente enum.
+
+    Args:
+        dato (dict): Diccionario que contiene tus datos.
+        key_enum_dict (dict): Diccionario en formato key: Enum para transformar tus valores.
+    """
+    for key, enum_class in key_enum_dict.items():
+        if value := dato.get(key):
+            dato[key] = enum_class(value)
 
 
 def guardar_foto(instancia, campo, nombre_foto, ruta_imagenes):
@@ -76,14 +131,14 @@ class Command(BaseCommand):
         creados = {}
         n_solicitudes_adopcion = 0
 
-        for data in animales:
-            solicitudes_adopciones = data.pop("SolicitudesAdopciones", [])
-            nombre_foto = data.pop("foto_principal", None)
+        for animal_dato in animales:
+            solicitudes_adopciones = animal_dato.pop("SolicitudesAdopciones", [])
+            nombre_foto = animal_dato.pop("foto_principal", None)
             ruta_foto = ruta_imagenes / nombre_foto if nombre_foto else None
-
+            convertir_key_a_enum(animal_dato, KEY2ENUM["Animales"])
             animal, creado = Animal.objects.get_or_create(
-                nombre=data["nombre"],
-                defaults={**data},
+                nombre=animal_dato["nombre"],
+                defaults={**animal_dato},
             )
 
             if creado and ruta_foto and ruta_foto.exists():
@@ -91,6 +146,7 @@ class Command(BaseCommand):
                     animal.foto_principal.save(ruta_foto.name, File(f), save=True)
 
             for solicitud in solicitudes_adopciones:
+                convertir_key_a_enum(solicitud, KEY2ENUM["SolicitudesAdopciones"])
                 _, app_creada = AdoptionApplication.objects.get_or_create(
                     animal=animal,
                     defaults={**solicitud},
@@ -98,7 +154,7 @@ class Command(BaseCommand):
                 if app_creada:
                     n_solicitudes_adopcion += 1
 
-            creados[data["nombre"]] = animal
+            creados[animal_dato["nombre"]] = animal
 
         self.stdout.write(f"  · {len(animales)} animales procesados")
         self.stdout.write(f"  · {n_solicitudes_adopcion} nuevas solicitudes de adopción")
@@ -107,6 +163,7 @@ class Command(BaseCommand):
         casos_medicos = datos_json.get("Caso Médico", [])
 
         for caso_dato in casos_medicos:
+            convertir_key_a_enum(caso_dato, KEY2ENUM["Caso Médico"])
             caso_data = caso_dato.copy()
 
             nombre_animal = caso_data.pop("nombre", None)
@@ -137,30 +194,31 @@ class Command(BaseCommand):
             )
 
             # Donaciones
-            for donacion_data in donaciones:
-                donacion_data = donacion_data.copy()
-                donacion_data.pop("comprobante", None)
+            for donacion_dato in donaciones:
+                donacion_dato = donacion_dato.copy()
+                donacion_dato.pop("comprobante", None)
 
                 Donation.objects.create(
                     caso=caso,
-                    **donacion_data,
+                    **donacion_dato,
                 )
 
             # Gastos
-            for gasto_data in gastos:
+            for gasto_dato in gastos:
+                convertir_key_a_enum(gasto_dato, KEY2ENUM["Gastos"])
                 Expense.objects.create(
                     caso=caso,
-                    **gasto_data,
+                    **gasto_dato,
                 )
 
             # Avances
-            for avance_data in avances:
-                avance_data = avance_data.copy()
-                nombre_foto_avance = avance_data.pop("foto", None)
+            for avance_dato in avances:
+                avance_dato = avance_dato.copy()
+                nombre_foto_avance = avance_dato.pop("foto", None)
 
                 avance, avance_creado = CaseUpdate.objects.get_or_create(
                     caso=caso,
-                    **avance_data,
+                    **avance_dato,
                 )
 
                 if avance_creado:
@@ -178,15 +236,15 @@ class Command(BaseCommand):
         n_comentario_reporte = 0
         n_avistamiento_reporte = 0
 
-        for reporte_datos in reportes:
-            nombre_foto = reporte_datos.pop("imagen", None)
+        for reporte_dato in reportes:
+            nombre_foto = reporte_dato.pop("imagen", None)
             ruta_foto_avance = ruta_imagenes / nombre_foto if nombre_foto else None
-            comentarios = reporte_datos.pop("Comentarios", [])
-            avistamientos = reporte_datos.pop("Avistamientos", [])
-
+            comentarios = reporte_dato.pop("Comentarios", [])
+            avistamientos = reporte_dato.pop("Avistamientos", [])
+            convertir_key_a_enum(reporte_dato, KEY2ENUM["Reportes"])
             reporte, creado = Report.objects.get_or_create(
-                titulo=reporte_datos["titulo"],
-                defaults={**reporte_datos},
+                titulo=reporte_dato["titulo"],
+                defaults={**reporte_dato},
             )
 
             if creado:
