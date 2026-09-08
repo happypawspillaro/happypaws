@@ -143,8 +143,14 @@ class Command(BaseCommand):
         for animal_dato in animales:
             solicitudes_adopciones = animal_dato.pop("SolicitudesAdopciones", [])
             foto_principal = animal_dato.pop("foto_principal", None)
+            # `creado`/`actualizado` los gestiona Django (auto_now_add / auto_now);
+            # pasarlos como texto rompe el guardado al reimportar sobre una fila.
+            animal_dato.pop("creado", None)
+            animal_dato.pop("actualizado", None)
             convertir_key_a_enum(animal_dato, KEY2ENUM["Animales"])
-            animal, creado = Animal.objects.get_or_create(
+            # update_or_create para que reimportar rellene/corrija filas ya
+            # existentes; get_or_create ignora `defaults` cuando el animal ya existe.
+            animal, creado = Animal.objects.update_or_create(
                 nombre=animal_dato["nombre"],
                 defaults={**animal_dato},
             )
@@ -181,11 +187,14 @@ class Command(BaseCommand):
             gastos = caso_data.pop("Gastos", [])
             avances = caso_data.pop("AvancesCasos", [])
 
-            caso, creado = MedicalCase.objects.get_or_create(
+            caso, creado = MedicalCase.objects.update_or_create(
                 animal=animal,
                 defaults=caso_data,
             )
 
+            # Las colecciones anidadas (fotos, donaciones, gastos, avances) sólo
+            # se siembran la primera vez; en reimportaciones basta con refrescar
+            # los campos del caso.
             if not creado:
                 continue
 
