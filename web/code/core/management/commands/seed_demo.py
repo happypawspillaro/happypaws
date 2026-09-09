@@ -1,4 +1,5 @@
 import json
+from datetime import datetime, time
 from pathlib import Path
 
 from adoptions.models import (
@@ -12,6 +13,8 @@ from django.contrib.auth import get_user_model
 from django.core.files import File
 from django.core.management.base import BaseCommand
 from django.db import models, transaction
+from django.utils import timezone
+from django.utils.dateparse import parse_date, parse_datetime
 from medical_cases.models import (
     CasePhoto,
     CaseUpdate,
@@ -99,6 +102,41 @@ def guardar_foto(instancia: models.Model, campo: str, nombre_foto: str, ruta_ima
         )
 
 
+def parsear_fecha_aware(valor):
+    """Convierte '2026-01-13' (o un datetime ISO) en un datetime *aware*.
+
+    Devuelve None si `valor` está vacío o no se puede interpretar.
+    """
+    if not valor:
+        return None
+    fecha_hora = parse_datetime(valor)
+    if fecha_hora is None:
+        fecha = parse_date(valor)
+        if fecha is None:
+            return None
+        fecha_hora = datetime.combine(fecha, time.min)
+    if timezone.is_naive(fecha_hora):
+        fecha_hora = timezone.make_aware(fecha_hora)
+    return fecha_hora
+
+
+def fijar_marcas_tiempo(instancia: models.Model, *, creado=None, actualizado=None):
+    """Fija `creado`/`actualizado` a las fechas del JSON (la fecha en que se
+    envió la solicitud / se registró el animal), en lugar de dejar el "ahora"
+    que ponen los campos auto_now_add / auto_now.
+
+    Se hace con QuerySet.update() porque save() ignora cualquier valor que se
+    asigne a esos campos automáticos.
+    """
+    marcas = {}
+    if (valor := parsear_fecha_aware(creado)) is not None:
+        marcas["creado"] = valor
+    if (valor := parsear_fecha_aware(actualizado)) is not None:
+        marcas["actualizado"] = valor
+    if marcas:
+        type(instancia).objects.filter(pk=instancia.pk).update(**marcas)
+
+
 class Command(BaseCommand):
     help = "Carga datos de ejemplo para demostrar el sistema (basados en casos reales)."
 
@@ -143,10 +181,11 @@ class Command(BaseCommand):
         for animal_dato in animales:
             solicitudes_adopciones = animal_dato.pop("SolicitudesAdopciones", [])
             foto_principal = animal_dato.pop("foto_principal", None)
-            # `creado`/`actualizado` los gestiona Django (auto_now_add / auto_now);
-            # pasarlos como texto rompe el guardado al reimportar sobre una fila.
-            animal_dato.pop("creado", None)
-            animal_dato.pop("actualizado", None)
+            # `creado`/`actualizado` no se pueden pasar en defaults (Django los
+            # sobrescribe por auto_now_add / auto_now); se aplican aparte con
+            # fijar_marcas_tiempo() para conservar la fecha real del JSON.
+            marca_creado = animal_dato.pop("creado", None)
+            marca_actualizado = animal_dato.pop("actualizado", None)
             convertir_key_a_enum(animal_dato, KEY2ENUM["Animales"])
             # update_or_create para que reimportar rellene/corrija filas ya
             # existentes; get_or_create ignora `defaults` cuando el animal ya existe.
@@ -154,13 +193,16 @@ class Command(BaseCommand):
                 nombre=animal_dato["nombre"],
                 defaults={**animal_dato},
             )
+            fijar_marcas_tiempo(animal, creado=marca_creado, actualizado=marca_actualizado)
             guardar_foto(animal, "foto_principal", foto_principal, ruta_imagenes)
             for solicitud in solicitudes_adopciones:
+                marca_creado_solicitud = solicitud.pop("creado", None)
                 convertir_key_a_enum(solicitud, KEY2ENUM["SolicitudesAdopciones"])
-                _, app_creada = AdoptionApplication.objects.get_or_create(
+                solicitud_obj, app_creada = AdoptionApplication.objects.get_or_create(
                     animal=animal,
                     defaults={**solicitud},
                 )
+                fijar_marcas_tiempo(solicitud_obj, creado=marca_creado_solicitud)
                 if app_creada:
                     n_solicitudes_adopcion += 1
 
