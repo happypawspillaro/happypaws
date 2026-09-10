@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load thumbnail %}
 {% block title %}{{ caso.titulo }} · Panel{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
@@ -110,7 +111,7 @@
         {% for f in caso.fotos.all %}
           <div class="col">
             <div class="position-relative">
-              <img src="{{ f.imagen.url }}" class="img-fluid rounded" alt="{{ f.descripcion }}">
+              <img src="{% thumbnail f.imagen 'gallery' %}" class="img-fluid rounded" alt="{{ f.descripcion }}" loading="lazy">
               <form method="post" action="{% url 'medical_cases:delete_photo' caso.pk f.pk %}"
                     class="position-absolute top-0 end-0 m-1"
                     onsubmit="return confirm('¿Eliminar esta foto?');">

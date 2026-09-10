@@ -1,3 +1,4 @@
+{% load thumbnail %}
 {% if animales %}
   <div class="row g-4">
     {% for animal in animales %}
@@ -10,7 +11,7 @@
               </span>
             {% endif %}
             {% if animal.foto_principal %}
-              <img src="{{ animal.foto_principal.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+              <img src="{% thumbnail animal.foto_principal 'card' %}" class="card-img-top" alt="{{ animal.nombre }}" loading="lazy">
             {% else %}
               <div class="card-img-placeholder"><i class="bi bi-image"></i></div>
             {% endif %}

@@ -14,6 +14,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django_htmx",
+    "easy_thumbnails",
     "accounts",
     "animals",
     "adoptions",
@@ -71,6 +72,16 @@ STATIC_URL = "static/"
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR.parent / "media"
+
+# easy-thumbnails: versiones reducidas que se generan bajo demanda y se
+# guardan junto a los originales en MEDIA_ROOT (los sirve nginx en prod).
+THUMBNAIL_ALIASES = {
+    "": {
+        "card": {"size": (600, 400), "crop": "smart"},
+        "gallery": {"size": (300, 300), "crop": "smart"},
+        "hero": {"size": (1200, 800), "crop": False},
+    },
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 

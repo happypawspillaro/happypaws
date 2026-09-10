@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}Solicitud · {{ solicitud.nombre_solicitante }}{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
@@ -37,7 +38,7 @@
           <div class="border-start border-3 ps-3 mb-3">
             <p class="small text-muted mb-1">{{ f.fecha }}</p>
             <p class="mb-1">{{ f.notas|linebreaks }}</p>
-            {% if f.foto %}<img src="{{ f.foto.url }}" class="img-fluid rounded" style="max-width: 200px;" alt="">{% endif %}
+            {% if f.foto %}<img src="{% thumbnail f.foto 'gallery' %}" class="img-fluid rounded" style="max-width: 200px;" alt="" loading="lazy">{% endif %}
           </div>
         {% empty %}
           <p class="text-muted">Aún no hay seguimientos.</p>
