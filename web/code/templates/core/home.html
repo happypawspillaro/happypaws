@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load thumbnail %}
 {% block title %}Happy Paws Píllaro · Esterilización y adopción responsable{% endblock %}
 {% block content %}
 <div class="p-5 mb-5 bg-light rounded-3 text-center">
@@ -25,7 +26,7 @@
       <div class="card h-100 shadow-sm animal-card">
         <a href="{{ animal.get_absolute_url }}">
           {% if animal.foto_principal %}
-            <img src="{{ animal.foto_principal.url }}" class="card-img-top" alt="{{ animal.nombre }}">
+            <img src="{% thumbnail animal.foto_principal 'card' %}" class="card-img-top" alt="{{ animal.nombre }}" loading="lazy">
           {% else %}
             <div class="card-img-placeholder"><i class="bi bi-image"></i></div>
           {% endif %}
@@ -56,7 +57,7 @@
       <div class="card h-100 shadow-sm case-card">
         <a href="{{ caso.get_absolute_url }}">
           {% if caso.foto %}
-            <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
+            <img src="{% thumbnail caso.foto 'card' %}" class="card-img-top" alt="{{ caso.titulo }}" loading="lazy">
           {% else %}
             <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
           {% endif %}

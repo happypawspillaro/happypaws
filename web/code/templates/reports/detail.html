@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}{{ reporte.titulo }} · Reportes{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
@@ -12,13 +13,13 @@
   <div class="col-md-7">
     {% with foto=reporte.fotos.first %}
       {% if foto %}
-        <img src="{{ foto.imagen.url }}" class="img-fluid rounded shadow-sm mb-3" alt="{{ reporte.titulo }}">
+        <img src="{% thumbnail foto.imagen 'hero' %}" class="img-fluid rounded shadow-sm mb-3" alt="{{ reporte.titulo }}">
       {% endif %}
     {% endwith %}
     {% if reporte.fotos.count > 1 %}
       <div class="row g-2">
         {% for foto in reporte.fotos.all %}
-          <div class="col-4"><img src="{{ foto.imagen.url }}" class="img-fluid rounded" alt=""></div>
+          <div class="col-4"><img src="{% thumbnail foto.imagen 'gallery' %}" class="img-fluid rounded" alt="" loading="lazy"></div>
         {% endfor %}
       </div>
     {% endif %}
