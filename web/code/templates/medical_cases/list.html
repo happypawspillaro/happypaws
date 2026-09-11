@@ -8,8 +8,11 @@
 <div class="row g-4">
   {% for caso in casos %}
     <div class="col-md-6 col-lg-4">
-      <div class="card h-100 shadow-sm case-card">
-        <a href="{{ caso.get_absolute_url }}">
+      <div class="card h-100 shadow-sm case-card{% if caso.estado == 'cerrado' %} case-card--cerrado{% endif %}">
+        <a href="{{ caso.get_absolute_url }}" class="position-relative d-block">
+          {% if caso.estado == 'cerrado' %}
+            <span class="badge bg-secondary position-absolute top-0 start-0 m-2">Cerrado</span>
+          {% endif %}
           {% if caso.foto %}
             <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
           {% else %}
@@ -17,10 +20,7 @@
           {% endif %}
         </a>
         <div class="card-body">
-          <div class="d-flex justify-content-between align-items-start">
-            <h2 class="h5">{{ caso.titulo }}</h2>
-            {% if caso.estado == 'cerrado' %}<span class="badge bg-secondary">Cerrado</span>{% endif %}
-          </div>
+          <h2 class="h5">{{ caso.titulo }}</h2>
           <p class="card-text small">{{ caso.descripcion|truncatewords:20 }}</p>
           <div class="progress mb-2" style="height: 10px;">
             <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;"></div>
@@ -31,7 +31,11 @@
           </p>
         </div>
         <div class="card-footer bg-white border-0">
-          <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Ver caso y apoyar</a>
+          {% if caso.estado == 'cerrado' %}
+            <a href="{{ caso.get_absolute_url }}" class="btn btn-outline-secondary btn-sm w-100">Ver caso</a>
+          {% else %}
+            <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Ver caso y apoyar</a>
+          {% endif %}
         </div>
       </div>
     </div>
