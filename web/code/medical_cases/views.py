@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models import Case, When
 from django.shortcuts import get_object_or_404, redirect, render
 
 from accounts.decorators import staff_required
@@ -15,8 +16,10 @@ from .models import EstadoCaso, MedicalCase
 
 
 def case_list(request):
-    """Listado público de casos médicos (activos primero)."""
-    casos = MedicalCase.objects.all()
+    """Listado público de casos médicos (activos primero, cerrados al final)."""
+    casos = MedicalCase.objects.order_by(
+        Case(When(estado=EstadoCaso.CERRADO, then=1), default=0), "-creado"
+    )
     return render(request, "medical_cases/list.html", {"casos": casos})
 
 
