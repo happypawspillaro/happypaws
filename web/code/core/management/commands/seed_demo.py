@@ -8,7 +8,8 @@ from adoptions.models import (
     PropositoTenencia,
     TipoVivienda,
 )
-from animals.models import Animal, Especie, EstadoAnimal, Origen, Sexo, Tamano
+from animals.models import Animal, EstadoAnimal, Origen, Tamano
+from constants import Especie, Sexo
 from django.contrib.auth import get_user_model
 from django.core.files import File
 from django.core.management.base import BaseCommand
@@ -25,13 +26,11 @@ from medical_cases.models import (
     MedicalCase,
 )
 from reports.models import (
-    EspecieMascota,
     EstadoReporte,
     Report,
     ReportComment,
     ReportPhoto,
     ReportSighting,
-    SexoMascota,
     TipoReporte,
 )
 
@@ -59,8 +58,8 @@ KEY2ENUM = {
     "Reportes": {
         "tipo": TipoReporte,
         "estado": EstadoReporte,
-        "especie": EspecieMascota,
-        "sexo": SexoMascota,
+        "especie": Especie,
+        "sexo": Sexo,
     },
 }
 
