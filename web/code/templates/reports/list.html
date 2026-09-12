@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}Reportes · Happy Paws Píllaro{% endblock %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -21,7 +22,7 @@
         <a href="{{ reporte.get_absolute_url }}">
           {% with foto=reporte.fotos.first %}
             {% if foto %}
-              <img src="{{ foto.imagen.url }}" class="card-img-top" alt="{{ reporte.titulo }}">
+              <img src="{% thumbnail foto.imagen 'card' %}" class="card-img-top" alt="{{ reporte.titulo }}" loading="lazy">
             {% else %}
               <div class="card-img-placeholder"><i class="bi bi-geo-alt"></i></div>
             {% endif %}

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load thumbnail %}
 {% block title %}Casos médicos · Happy Paws Píllaro{% endblock %}
 {% block content %}
 <h1 class="h3">Casos médicos</h1>
@@ -11,7 +12,7 @@
       <div class="card h-100 shadow-sm case-card">
         <a href="{{ caso.get_absolute_url }}">
           {% if caso.foto %}
-            <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
+            <img src="{% thumbnail caso.foto 'card' %}" class="card-img-top" alt="{{ caso.titulo }}" loading="lazy">
           {% else %}
             <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
           {% endif %}

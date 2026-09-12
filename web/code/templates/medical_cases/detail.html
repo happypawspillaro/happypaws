@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load thumbnail %}
 {% block title %}{{ caso.titulo }} · Casos médicos{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
@@ -16,12 +17,12 @@
         <div class="carousel-inner">
           {% if caso.foto %}
             <div class="carousel-item active">
-              <img src="{{ caso.foto.url }}" class="d-block w-100" alt="{{ caso.titulo }}">
+              <img src="{% thumbnail caso.foto 'hero' %}" class="d-block w-100" alt="{{ caso.titulo }}">
             </div>
           {% endif %}
           {% for f in caso.fotos.all %}
             <div class="carousel-item {% if not caso.foto and forloop.first %}active{% endif %}">
-              <img src="{{ f.imagen.url }}" class="d-block w-100" alt="{{ f.descripcion|default:caso.titulo }}">
+              <img src="{% thumbnail f.imagen 'hero' %}" class="d-block w-100" alt="{{ f.descripcion|default:caso.titulo }}" loading="lazy">
               {% if f.descripcion %}
                 <div class="carousel-caption d-none d-md-block">
                   <p class="bg-dark bg-opacity-50 rounded px-2 py-1 mb-0 d-inline-block">{{ f.descripcion }}</p>
@@ -53,7 +54,7 @@
       <div class="border-start border-3 border-primary ps-3 mb-3">
         <p class="small text-muted mb-1">{{ avance.fecha }}</p>
         <p class="mb-1">{{ avance.texto|linebreaks }}</p>
-        {% if avance.foto %}<img src="{{ avance.foto.url }}" class="img-fluid rounded" style="max-width: 280px;" alt="">{% endif %}
+        {% if avance.foto %}<img src="{% thumbnail avance.foto 'gallery' %}" class="img-fluid rounded" style="max-width: 280px;" alt="" loading="lazy">{% endif %}
       </div>
     {% empty %}
       <p class="text-muted">Aún no hay avances publicados.</p>
