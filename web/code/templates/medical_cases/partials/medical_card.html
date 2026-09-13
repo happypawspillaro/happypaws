@@ -1,0 +1,32 @@
+{% load humanize %}
+{# Tarjeta de un caso médico, para activos y cerrados. Requiere {{ caso }} en el contexto. #}
+<div class="card h-100 shadow-sm case-card{% if caso.estado == 'cerrado' %} case-card--cerrado{% endif %}">
+  <a href="{{ caso.get_absolute_url }}" class="position-relative d-block">
+    {% if caso.estado == 'cerrado' %}
+      <span class="badge bg-secondary position-absolute top-0 start-0 m-2">Cerrado</span>
+    {% endif %}
+    {% if caso.foto %}
+      <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
+    {% else %}
+      <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
+    {% endif %}
+  </a>
+  <div class="card-body">
+    <h2 class="h5">{{ caso.titulo }}</h2>
+    <p class="card-text small">{{ caso.descripcion|truncatewords:20 }}</p>
+    <div class="progress mb-2" style="height: 10px;">
+      <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;"></div>
+    </div>
+    <p class="small mb-0">
+      <strong>${{ caso.monto_recaudado|intcomma }}</strong>
+      recaudado de ${{ caso.meta_monto|intcomma }} ({{ caso.progreso }}%)
+    </p>
+  </div>
+  <div class="card-footer bg-white border-0">
+    {% if caso.estado == 'cerrado' %}
+      <a href="{{ caso.get_absolute_url }}" class="btn btn-outline-secondary btn-sm w-100">Ver caso</a>
+    {% else %}
+      <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Ver caso y apoyar</a>
+    {% endif %}
+  </div>
+</div>

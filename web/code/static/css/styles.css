@@ -21,6 +21,14 @@ a { color: #d9620a; }
   object-fit: cover;
 }
 
+/* Casos médicos cerrados: en segundo plano frente a los activos. */
+.case-card--cerrado {
+  opacity: 0.7;
+}
+.case-card--cerrado img {
+  filter: grayscale(70%);
+}
+
 .card-img-placeholder {
   height: 220px;
   display: flex;
