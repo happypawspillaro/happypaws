@@ -1,46 +1,46 @@
 {% extends "base.html" %}
-{% load humanize %}
 {% block title %}Casos médicos · Happy Paws Píllaro{% endblock %}
 {% block content %}
 <h1 class="h3">Casos médicos</h1>
 <p class="text-muted mb-4">Animales rescatados que necesitan tu ayuda para recuperarse.</p>
 
 <div class="row g-4">
-  {% for caso in casos %}
-    <div class="col-md-6 col-lg-4">
-      <div class="card h-100 shadow-sm case-card{% if caso.estado == 'cerrado' %} case-card--cerrado{% endif %}">
-        <a href="{{ caso.get_absolute_url }}" class="position-relative d-block">
-          {% if caso.estado == 'cerrado' %}
-            <span class="badge bg-secondary position-absolute top-0 start-0 m-2">Cerrado</span>
-          {% endif %}
-          {% if caso.foto %}
-            <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
-          {% else %}
-            <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
-          {% endif %}
-        </a>
-        <div class="card-body">
-          <h2 class="h5">{{ caso.titulo }}</h2>
-          <p class="card-text small">{{ caso.descripcion|truncatewords:20 }}</p>
-          <div class="progress mb-2" style="height: 10px;">
-            <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;"></div>
-          </div>
-          <p class="small mb-0">
-            <strong>${{ caso.monto_recaudado|intcomma }}</strong>
-            recaudado de ${{ caso.meta_monto|intcomma }} ({{ caso.progreso }}%)
-          </p>
-        </div>
-        <div class="card-footer bg-white border-0">
-          {% if caso.estado == 'cerrado' %}
-            <a href="{{ caso.get_absolute_url }}" class="btn btn-outline-secondary btn-sm w-100">Ver caso</a>
-          {% else %}
-            <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Ver caso y apoyar</a>
-          {% endif %}
-        </div>
-      </div>
+  {% for caso in activos %}
+    <div class="col-md-6">
+      {% include "medical_cases/partials/medical_card.html" %}
     </div>
   {% empty %}
-    <div class="col"><div class="alert alert-info">No hay casos médicos publicados por ahora.</div></div>
+    <div class="col"><div class="alert alert-info">No hay casos médicos activos por ahora.</div></div>
   {% endfor %}
 </div>
+
+{% if cerrados_por_anio %}
+  <hr class="my-5">
+  <h2 class="h4 mb-3 text-muted"><i class="bi bi-archive"></i> Casos cerrados</h2>
+
+  <div class="accordion" id="acordeonCerrados">
+    {% for anio, casos in cerrados_por_anio %}
+      <div class="accordion-item">
+        <h3 class="accordion-header">
+          <button class="accordion-button bg-light {% if not forloop.first %}collapsed{% endif %}" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#colapsoCerrados{{ anio }}"
+                  aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+            {{ anio }} <span class="badge bg-secondary ms-2">{{ casos|length }}</span>
+          </button>
+        </h3>
+        <div id="colapsoCerrados{{ anio }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}">
+          <div class="accordion-body">
+            <div class="row g-3">
+              {% for caso in casos %}
+                <div class="col-6 col-md-4 col-lg-3">
+                  {% include "medical_cases/partials/medical_card.html" %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
 {% endblock %}

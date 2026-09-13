@@ -1,5 +1,6 @@
+from itertools import groupby
+
 from django.contrib import messages
-from django.db.models import Case, When
 from django.shortcuts import get_object_or_404, redirect, render
 
 from accounts.decorators import staff_required
@@ -16,11 +17,18 @@ from .models import EstadoCaso, MedicalCase
 
 
 def case_list(request):
-    """Listado público de casos médicos (activos primero, cerrados al final)."""
-    casos = MedicalCase.objects.order_by(
-        Case(When(estado=EstadoCaso.CERRADO, then=1), default=0), "-creado"
+    """Listado público de casos médicos: activos destacados y cerrados agrupados por año."""
+    activos = MedicalCase.objects.filter(estado=EstadoCaso.ACTIVO)
+    # Meta.ordering ya es "-creado", así que agrupar por año da grupos consecutivos.
+    cerrados = MedicalCase.objects.filter(estado=EstadoCaso.CERRADO)
+    cerrados_por_anio = [
+        (anio, list(casos)) for anio, casos in groupby(cerrados, key=lambda c: c.creado.year)
+    ]
+    return render(
+        request,
+        "medical_cases/list.html",
+        {"activos": activos, "cerrados_por_anio": cerrados_por_anio},
     )
-    return render(request, "medical_cases/list.html", {"casos": casos})
 
 
 def detail(request, pk):
