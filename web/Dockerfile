@@ -13,7 +13,7 @@ RUN apk add --no-cache --virtual \
       gcc=~15 \
       g++=~15 \
       gdk-pixbuf-dev=~2 \
-      harfbuzz-dev=~12 \
+      harfbuzz-dev=~13 \
       jpeg-dev=~9f \
       libffi-dev=~3 \
       libxml2-dev=~2 \
@@ -35,7 +35,7 @@ RUN apk add --no-cache \
       fontconfig=~2 \
       freetype=~2 \
       gdk-pixbuf=~2 \
-      harfbuzz=~12 \
+      harfbuzz=~13 \
       jpeg=~9f \
       libffi=~3 \
       libxml2=~2 \
