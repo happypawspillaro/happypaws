@@ -73,13 +73,18 @@ STATIC_URL = "static/"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR.parent / "media"
 
-# easy-thumbnails: versiones reducidas que se generan bajo demanda y se
-# guardan junto a los originales en MEDIA_ROOT (los sirve nginx en prod).
+# easy-thumbnails: un solo alias para no multiplicar archivos derivados en
+# disco (el VPS ya corre otros servicios y tiene poco espacio libre).
+# - Listados con muchas fotos a la vez (catálogo, casos médicos, reportes):
+#   usan este alias 'card' para no transmitir las imágenes a tamaño completo.
+# - Vistas de un solo registro (detalle de animal/caso/reporte): usan la foto
+#   original (x.url) directamente, no vale la pena generar un derivado más
+#   para una sola imagen.
+# El derivado se genera bajo demanda en la primera visita y se guarda junto
+# al original en MEDIA_ROOT (lo sirve nginx igual que los originales).
 THUMBNAIL_ALIASES = {
     "": {
         "card": {"size": (600, 400), "crop": "smart"},
-        "gallery": {"size": (300, 300), "crop": "smart"},
-        "hero": {"size": (1200, 800), "crop": False},
     },
 }
 
