@@ -1,5 +1,8 @@
+from datetime import timedelta
+
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 
 class TipoReporte(models.TextChoices):
@@ -26,6 +29,11 @@ class SexoMascota(models.TextChoices):
 
 
 class Report(models.Model):
+    # Días que el contacto del reportante queda visible al público antes de
+    # ocultarse, para que bots no sigan extrayendo teléfonos/correos de
+    # reportes viejos (issue #34).
+    DIAS_CONTACTO_VISIBLE = 30
+
     tipo = models.CharField(max_length=12, choices=TipoReporte.choices)
     titulo = models.CharField("título", max_length=200)
     descripcion = models.TextField("descripción")
@@ -87,6 +95,12 @@ class Report(models.Model):
     def permite_avistamientos(self):
         """Los avistamientos solo aplican a mascotas perdidas o encontradas."""
         return self.tipo in (TipoReporte.PERDIDO, TipoReporte.ENCONTRADO)
+
+    @property
+    def contacto_visible(self):
+        """False cuando pasaron más de DIAS_CONTACTO_VISIBLE desde publicado."""
+        limite = timedelta(days=self.DIAS_CONTACTO_VISIBLE)
+        return timezone.now() - self.creado <= limite
 
     @property
     def reportante_publico(self):
