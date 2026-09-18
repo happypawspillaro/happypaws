@@ -77,6 +77,24 @@ def convertir_key_a_enum(dato: dict, key_enum_dict: dict):
             dato[key] = enum_class(value)
 
 
+def normalizar_contacto(dato: dict, key: str = "contacto"):
+    """Limpia un campo de contacto (teléfono o correo) antes de guardarlo.
+
+    Los teléfonos a veces llegan como int/float desde la hoja de cálculo de
+    origen (p. ej. 991234567.0 en vez de "991234567"), lo que deja un ".0"
+    colgando al convertir a texto con str(). Aquí se corrige in place.
+
+    Args:
+        dato (dict): Diccionario con los datos a guardar (se modifica in place).
+        key (str): Nombre de la clave de contacto dentro de `dato`.
+    """
+    valor = dato.get(key)
+    if isinstance(valor, float) and valor.is_integer():
+        dato[key] = str(int(valor))
+    elif isinstance(valor, (int, float)):
+        dato[key] = str(valor)
+
+
 def guardar_foto(instancia: models.Model, campo: str, nombre_foto: str, ruta_imagenes: Path):
     """Ayudante para guardar las fotos en los modelos del sistema
 
@@ -187,6 +205,7 @@ class Command(BaseCommand):
             marca_creado = animal_dato.pop("creado", None)
             marca_actualizado = animal_dato.pop("actualizado", None)
             convertir_key_a_enum(animal_dato, KEY2ENUM["Animales"])
+            normalizar_contacto(animal_dato, "tutor_contacto")
             # update_or_create para que reimportar rellene/corrija filas ya
             # existentes; get_or_create ignora `defaults` cuando el animal ya existe.
             animal, creado = Animal.objects.update_or_create(
@@ -198,6 +217,7 @@ class Command(BaseCommand):
             for solicitud in solicitudes_adopciones:
                 marca_creado_solicitud = solicitud.pop("creado", None)
                 convertir_key_a_enum(solicitud, KEY2ENUM["SolicitudesAdopciones"])
+                normalizar_contacto(solicitud, "telefono")
                 solicitud_obj, app_creada = AdoptionApplication.objects.get_or_create(
                     animal=animal,
                     defaults={**solicitud},
@@ -301,6 +321,7 @@ class Command(BaseCommand):
             comentarios = reporte_dato.pop("Comentarios", [])
             avistamientos = reporte_dato.pop("Avistamientos", [])
             convertir_key_a_enum(reporte_dato, KEY2ENUM["Reportes"])
+            normalizar_contacto(reporte_dato, "contacto_reportante")
             reporte, creado = Report.objects.get_or_create(
                 titulo=reporte_dato["titulo"],
                 defaults={**reporte_dato},
@@ -308,10 +329,12 @@ class Command(BaseCommand):
 
             if creado:
                 for comentario in comentarios:
+                    normalizar_contacto(comentario)
                     ReportComment.objects.create(reporte=reporte, **comentario)
                     n_comentario_reporte += 1
 
                 for avistamiento in avistamientos:
+                    normalizar_contacto(avistamiento)
                     ReportSighting.objects.create(reporte=reporte, **avistamiento)
                     n_avistamiento_reporte += 1
 
