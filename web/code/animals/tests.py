@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.test import TestCase
 from django.urls import reverse
@@ -62,6 +62,12 @@ class CatalogViewTests(TestCase):
         resp = self.client.get(reverse("animals:catalog"), {"especie": Especie.GATO})
         self.assertContains(resp, "Gatito")
         self.assertNotContains(resp, "Perrito")
+
+    def test_muestra_hace_cuando_esta_en_adopcion(self):
+        crear_animal(nombre="Firulais", fecha_ingreso=date.today() - timedelta(days=70))
+        resp = self.client.get(reverse("animals:catalog"))
+        self.assertContains(resp, "En la fundación desde hace")
+        self.assertContains(resp, "meses")
 
 
 class StaffAccessTests(TestCase):
