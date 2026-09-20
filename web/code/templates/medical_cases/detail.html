@@ -11,37 +11,34 @@
 
 <div class="row g-4">
   <div class="col-lg-7">
-    {% if caso.foto or caso.fotos.all %}
-      <div id="carouselCaso" class="carousel slide mb-3 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          {% if caso.foto %}
-            <div class="carousel-item active">
-              <img src="{{ caso.foto.url }}" class="d-block w-100" alt="{{ caso.titulo }}">
-            </div>
+    {% with fotos=caso.fotos.all %}
+      {% if fotos %}
+        <div id="carouselCaso" class="carousel slide mb-3 shadow-sm rounded overflow-hidden" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% for f in fotos %}
+              <div class="carousel-item {% if not forloop.first %}active{% endif %}">
+                <img src="{{ f.imagen.url }}" class="d-block w-100" alt="{{ f.descripcion|default:caso.titulo }}">
+                {% if f.descripcion %}
+                  <div class="carousel-caption d-none d-md-block">
+                    <p class="bg-dark bg-opacity-50 rounded px-2 py-1 mb-0 d-inline-block">{{ f.descripcion }}</p>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% if caso.fotos.all or caso.fotos.all|length > 1 %}
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaso" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Anterior</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselCaso" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Siguiente</span>
+            </button>
           {% endif %}
-          {% for f in caso.fotos.all %}
-            <div class="carousel-item {% if not caso.foto and forloop.first %}active{% endif %}">
-              <img src="{{ f.imagen.url }}" class="d-block w-100" alt="{{ f.descripcion|default:caso.titulo }}">
-              {% if f.descripcion %}
-                <div class="carousel-caption d-none d-md-block">
-                  <p class="bg-dark bg-opacity-50 rounded px-2 py-1 mb-0 d-inline-block">{{ f.descripcion }}</p>
-                </div>
-              {% endif %}
-            </div>
-          {% endfor %}
         </div>
-        {% if caso.fotos.all and caso.foto or caso.fotos.all|length > 1 %}
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaso" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Anterior</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselCaso" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Siguiente</span>
-          </button>
-        {% endif %}
-      </div>
-    {% endif %}
+      {% endif %}
+    {% endwith %}
     <h1 class="h3">{{ caso.titulo }}</h1>
     {% if caso.animal %}
       <p class="text-muted">Animal: <a href="{{ caso.animal.get_absolute_url }}">{{ caso.animal.nombre }}</a></p>
