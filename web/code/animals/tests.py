@@ -66,7 +66,7 @@ class CatalogViewTests(TestCase):
     def test_muestra_hace_cuando_esta_en_adopcion(self):
         crear_animal(nombre="Firulais", fecha_ingreso=date.today() - timedelta(days=70))
         resp = self.client.get(reverse("animals:catalog"))
-        self.assertContains(resp, "En la fundación desde hace")
+        self.assertContains(resp, "En adopción hace")
         self.assertContains(resp, "meses")
 
 

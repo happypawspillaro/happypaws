@@ -23,7 +23,7 @@
               {% if animal.edad_aprox %}· {{ animal.edad_aprox }}{% endif %}
             </p>
             <p class="text-muted small mb-2">
-              <i class="bi bi-calendar3"></i> En la fundación desde hace {{ animal.fecha_ingreso|timesince }}
+              <i class="bi bi-calendar-heart"></i> En adopción hace {{ animal.fecha_ingreso|timesince }}
             </p>
             <p class="card-text small">{{ animal.descripcion|truncatewords:18 }}</p>
           </div>
