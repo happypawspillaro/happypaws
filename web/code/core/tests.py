@@ -26,6 +26,19 @@ class ResponsiveBaseTests(TestCase):
             with self.subTest(pagina=nombre):
                 self.assertEqual(self.client.get(reverse(nombre)).status_code, 200)
 
+    def test_incluye_favicon_y_logo(self):
+        resp = self.client.get(reverse("core:home"))
+        self.assertContains(resp, "images/happypaws.ico")
+        self.assertContains(resp, "images/happypaws.png")
+
+    def test_footer_incluye_redes_sociales(self):
+        resp = self.client.get(reverse("core:home"))
+        self.assertContains(resp, "instagram.com/happypaws.pillaro")
+        self.assertContains(resp, "tiktok.com/@happypaws.pillaro")
+        self.assertContains(resp, "youtube.com/@HappyPawsP")
+        self.assertContains(resp, "facebook.com/profile.php")
+        self.assertContains(resp, "github.com/happypawspillaro")
+
 
 class DashboardAccessTests(TestCase):
     def test_dashboard_redirige_a_anonimos(self):
