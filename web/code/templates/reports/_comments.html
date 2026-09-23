@@ -1,3 +1,4 @@
+{% load whatsapp_filters %}
 <section id="comentarios" class="mt-5">
   <h2 class="h4 mb-3">
     <i class="bi bi-chat-left-text"></i> Comentarios y pistas
@@ -16,6 +17,13 @@
           <p class="mb-1 mt-1">{{ c.mensaje|linebreaksbr }}</p>
           {% if c.contacto and user.is_staff %}
             <small class="text-muted"><i class="bi bi-telephone"></i> {{ c.contacto }}</small>
+            {% with wa=c.contacto|whatsapp_link %}
+              {% if wa %}
+                <a href="{{ wa }}" target="_blank" rel="noopener" class="btn btn-success btn-sm ms-2 py-0">
+                  <i class="bi bi-whatsapp"></i> WhatsApp
+                </a>
+              {% endif %}
+            {% endwith %}
           {% endif %}
           {% if user.is_staff %}
             <div class="mt-2 d-flex gap-2">
