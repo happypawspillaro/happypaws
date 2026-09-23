@@ -88,6 +88,9 @@ def normalizar_contacto(dato: dict, key: str = "contacto"):
         key (str): Nombre de la clave de contacto dentro de `dato`.
     """
     valor = dato.get(key)
+    if valor is None:
+        print(f"Advertencia: no se encontró la clave '{key}' en el registro, se omite la normalización.")
+        return
     if isinstance(valor, float) and valor.is_integer():
         dato[key] = str(int(valor))
     elif isinstance(valor, (int, float)):
