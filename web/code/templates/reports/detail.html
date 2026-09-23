@@ -49,7 +49,7 @@
           <li><i class="bi bi-telephone"></i> <strong>Contacto:</strong> {{ reporte.contacto_reportante }}</li>
         {% else %}
           <li class="text-muted small">
-            <i class="bi bi-telephone"></i> Contacto oculto (reporte de hace más de {{ reporte.DIAS_CONTACTO_VISIBLE }} días).
+            <i class="bi bi-telephone"></i> Contacto oculto (reporte de hace más de {{ dias_contacto_visible }} días).
           </li>
         {% endif %}
       {% endif %}

@@ -1,12 +1,10 @@
 import calendar
 from datetime import date
 
+from constants import MESES_FEATURED_COMUNITARIO, Especie, Sexo
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
-# Un animal comunitario esterilizado dentro de esta ventana se destaca automáticamente.
-MESES_FEATURED_COMUNITARIO = 6
 
 
 def restar_meses(fecha, meses):
@@ -17,16 +15,6 @@ def restar_meses(fecha, meses):
     mes += 1
     dia = min(fecha.day, calendar.monthrange(anio, mes)[1])
     return date(anio, mes, dia)
-
-
-class Especie(models.TextChoices):
-    PERRO = "perro", "Perro"
-    GATO = "gato", "Gato"
-
-
-class Sexo(models.TextChoices):
-    MACHO = "macho", "Macho"
-    HEMBRA = "hembra", "Hembra"
 
 
 class Tamano(models.TextChoices):
@@ -52,13 +40,11 @@ class Origen(models.TextChoices):
 class Animal(models.Model):
     nombre = models.CharField(max_length=100)
     especie = models.CharField(max_length=10, choices=Especie.choices)
-    sexo = models.CharField(max_length=10, choices=Sexo.choices)
+    sexo = models.CharField(max_length=11, choices=Sexo.choices)
     tamano = models.CharField("tamaño", max_length=10, choices=Tamano.choices)
     edad_aprox = models.CharField("edad aproximada", max_length=50, blank=True)
     descripcion = models.TextField("descripción")
-    estado = models.CharField(
-        max_length=20, choices=EstadoAnimal.choices, default=EstadoAnimal.RESCATADO
-    )
+    estado = models.CharField(max_length=20, choices=EstadoAnimal.choices, default=EstadoAnimal.RESCATADO)
     origen = models.CharField(
         "origen del animal",
         max_length=15,
@@ -67,14 +53,10 @@ class Animal(models.Model):
     )
     # Ubicación del animal. La parroquia es texto libre por ahora; cuando llegue
     # el locaciones.json de la fundación se podrá convertir en lista desplegable.
-    barrio = models.CharField(
-        "barrio / sector", max_length=120, blank=True, help_text="Ej. 24 de Mayo"
-    )
+    barrio = models.CharField("barrio / sector", max_length=120, blank=True, help_text="Ej. 24 de Mayo")
     parroquia = models.CharField("parroquia", max_length=120, blank=True)
     # Datos del tutor / responsable (para animales domésticos o con cuidador).
-    tutor_nombre = models.CharField(
-        "nombre del tutor / responsable", max_length=200, blank=True
-    )
+    tutor_nombre = models.CharField("nombre del tutor / responsable", max_length=200, blank=True)
     tutor_contacto = models.CharField(
         "contacto del tutor (teléfono o correo)",
         max_length=200,
@@ -82,9 +64,7 @@ class Animal(models.Model):
         help_text="Opcional. Teléfono o correo del tutor o cuidador.",
     )
     esterilizado = models.BooleanField(default=False)
-    fecha_esterilizacion = models.DateField(
-        "fecha de esterilización", null=True, blank=True
-    )
+    fecha_esterilizacion = models.DateField("fecha de esterilización", null=True, blank=True)
     destacado = models.BooleanField(
         "destacar como vulnerable",
         default=False,
@@ -123,11 +103,7 @@ class Animal(models.Model):
     @property
     def es_comunitario_reciente(self):
         """Comunitario esterilizado hace menos de 6 meses."""
-        if (
-            self.origen != Origen.COMUNITARIO
-            or not self.esterilizado
-            or not self.fecha_esterilizacion
-        ):
+        if self.origen != Origen.COMUNITARIO or not self.esterilizado or not self.fecha_esterilizacion:
             return False
         limite = restar_meses(timezone.now().date(), MESES_FEATURED_COMUNITARIO)
         return self.fecha_esterilizacion >= limite
@@ -148,9 +124,7 @@ class AnimalPhoto(models.Model):
 
 
 class MedicalRecord(models.Model):
-    animal = models.ForeignKey(
-        Animal, on_delete=models.CASCADE, related_name="historial_medico"
-    )
+    animal = models.ForeignKey(Animal, on_delete=models.CASCADE, related_name="historial_medico")
     fecha = models.DateField()
     descripcion = models.TextField("descripción")
     veterinario = models.CharField(max_length=150, blank=True)
