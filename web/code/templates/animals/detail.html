@@ -40,7 +40,7 @@
       {% if animal.ubicacion_completa %}
         <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ animal.ubicacion_completa }}</li>
       {% endif %}
-      <li><strong>En la fundación desde:</strong> {{ animal.fecha_ingreso }}</li>
+      <li><strong>En la fundación desde:</strong> {{ animal.fecha_ingreso }} (hace {{ animal.fecha_ingreso|timesince }})</li>
     </ul>
     <p>{{ animal.descripcion|linebreaks }}</p>
     {% if animal.en_adopcion %}

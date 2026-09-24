@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from accounts.models import User
+from core.management.commands.seed_demo import normalizar_contacto
 
 
 class HomeViewTests(TestCase):
@@ -56,3 +57,33 @@ class DashboardAccessTests(TestCase):
         self.client.login(username="user", password="x")
         resp = self.client.get(reverse("core:dashboard"))
         self.assertEqual(resp.status_code, 302)
+
+
+class NormalizarContactoTests(TestCase):
+    """Un teléfono llegado como int/float del JSON de origen no debe quedar
+    con un ".0" colgando al guardarse (issue #22)."""
+
+    def test_float_entero_pierde_el_punto_cero(self):
+        dato = {"contacto": 991234567.0}
+        normalizar_contacto(dato)
+        self.assertEqual(dato["contacto"], "991234567")
+
+    def test_int_se_convierte_a_texto(self):
+        dato = {"contacto": 991234567}
+        normalizar_contacto(dato)
+        self.assertEqual(dato["contacto"], "991234567")
+
+    def test_texto_no_se_toca(self):
+        dato = {"contacto": "ana@example.com"}
+        normalizar_contacto(dato)
+        self.assertEqual(dato["contacto"], "ana@example.com")
+
+    def test_clave_ausente_no_falla(self):
+        dato = {"otra_clave": "x"}
+        normalizar_contacto(dato)
+        self.assertNotIn("contacto", dato)
+
+    def test_clave_personalizada(self):
+        dato = {"telefono": 991234567.0}
+        normalizar_contacto(dato, "telefono")
+        self.assertEqual(dato["telefono"], "991234567")

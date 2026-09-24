@@ -37,8 +37,11 @@
         </a>
         <div class="card-body">
           <h3 class="h5 mb-1">{{ animal.nombre }}</h3>
-          <p class="text-muted small mb-0">
+          <p class="text-muted small mb-1">
             {{ animal.get_especie_display }} · {{ animal.get_sexo_display }} · {{ animal.get_tamano_display }}
+          </p>
+          <p class="text-muted small mb-0">
+            <i class="bi bi-calendar-heart"></i> En adopción hace {{ animal.fecha_ingreso|timesince }}
           </p>
         </div>
         <div class="card-footer bg-white border-0">

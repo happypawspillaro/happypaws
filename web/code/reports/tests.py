@@ -1,8 +1,9 @@
-from datetime import date
+from datetime import date, timedelta
 
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.utils import timezone
 
 from accounts.models import User
 
@@ -189,6 +190,45 @@ class ApprovalTests(TestCase):
     def test_reportante_publico_anonimo(self):
         anon = crear_reporte(nombre_reportante="")
         self.assertEqual(anon.reportante_publico, "Anónimo")
+
+
+class ContactoVisibleTests(TestCase):
+    """El contacto del reportante se oculta al público tras 30 días (issue #34)."""
+
+    def _envejecer(self, reporte, dias):
+        Report.objects.filter(pk=reporte.pk).update(
+            creado=timezone.now() - timedelta(days=dias)
+        )
+        reporte.refresh_from_db()
+
+    def test_contacto_visible_property_reciente(self):
+        reporte = crear_reporte()
+        self.assertTrue(reporte.contacto_visible)
+
+    def test_contacto_visible_property_vencido(self):
+        reporte = crear_reporte()
+        self._envejecer(reporte, dias=31)
+        self.assertFalse(reporte.contacto_visible)
+
+    def test_publico_ve_contacto_reciente(self):
+        reporte = crear_reporte()
+        resp = self.client.get(reporte.get_absolute_url())
+        self.assertContains(resp, "ana@example.com")
+
+    def test_publico_no_ve_contacto_vencido(self):
+        reporte = crear_reporte()
+        self._envejecer(reporte, dias=31)
+        resp = self.client.get(reporte.get_absolute_url())
+        self.assertNotContains(resp, "ana@example.com")
+        self.assertContains(resp, "Contacto oculto")
+
+    def test_staff_sigue_viendo_contacto_vencido(self):
+        User.objects.create_user(username="staff", password="x", is_staff=True)
+        self.client.login(username="staff", password="x")
+        reporte = crear_reporte()
+        self._envejecer(reporte, dias=31)
+        resp = self.client.get(reporte.get_absolute_url())
+        self.assertContains(resp, "ana@example.com")
 
 
 class ReportFormValidationTests(TestCase):
