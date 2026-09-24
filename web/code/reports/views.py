@@ -3,6 +3,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
 from accounts.decorators import staff_required
+from constants import DIAS_CONTACTO_VISIBLE
 
 from .forms import CommentForm, ReportForm, SightingForm
 from .models import (
@@ -47,6 +48,7 @@ def _detail_context(request, reporte, comment_form=None, sighting_form=None):
         "avistamientos": avistamientos,
         "comment_form": comment_form if comment_form is not None else CommentForm(),
         "sighting_form": sighting_form if sighting_form is not None else SightingForm(),
+        "dias_contacto_visible": DIAS_CONTACTO_VISIBLE,
     }
 
 

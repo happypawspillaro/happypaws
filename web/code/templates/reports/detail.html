@@ -45,7 +45,13 @@
       {% endif %}
       <li><i class="bi bi-person"></i> <strong>Reportado por:</strong> {{ reporte.reportante_publico }}</li>
       {% if reporte.contacto_reportante %}
-        <li><i class="bi bi-telephone"></i> <strong>Contacto:</strong> {{ reporte.contacto_reportante }}</li>
+        {% if reporte.contacto_visible or user.is_staff %}
+          <li><i class="bi bi-telephone"></i> <strong>Contacto:</strong> {{ reporte.contacto_reportante }}</li>
+        {% else %}
+          <li class="text-muted small">
+            <i class="bi bi-telephone"></i> Contacto oculto (reporte de hace más de {{ dias_contacto_visible }} días).
+          </li>
+        {% endif %}
       {% endif %}
     </ul>
     <p>{{ reporte.descripcion|linebreaks }}</p>

@@ -3,6 +3,11 @@ from django.db import models
 # Un animal comunitario esterilizado dentro de esta ventana se destaca automáticamente.
 MESES_FEATURED_COMUNITARIO = 6
 
+# Días que el contacto del reportante queda visible al público antes de
+# ocultarse, para que bots no sigan extrayendo teléfonos/correos de
+# reportes viejos (issue #34).
+DIAS_CONTACTO_VISIBLE = 30
+
 
 class Especie(models.TextChoices):
     PERRO = "perro", "Perro"
