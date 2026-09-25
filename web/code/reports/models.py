@@ -1,5 +1,9 @@
+from datetime import timedelta
+
+from constants import DIAS_CONTACTO_VISIBLE, Especie, Sexo
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 
 class TipoReporte(models.TextChoices):
@@ -11,18 +15,6 @@ class TipoReporte(models.TextChoices):
 class EstadoReporte(models.TextChoices):
     ABIERTO = "abierto", "Abierto"
     RESUELTO = "resuelto", "Resuelto"
-
-
-class EspecieMascota(models.TextChoices):
-    PERRO = "perro", "Perro"
-    GATO = "gato", "Gato"
-    OTRO = "otro", "Otro"
-
-
-class SexoMascota(models.TextChoices):
-    MACHO = "macho", "Macho"
-    HEMBRA = "hembra", "Hembra"
-    DESCONOCIDO = "desconocido", "No estoy seguro/a"
 
 
 class Report(models.Model):
@@ -38,12 +30,8 @@ class Report(models.Model):
         help_text="Opcional. Si recuerdas más o menos a qué hora ocurrió.",
     )
     # Datos de la mascota (similares a la ficha de Animales)
-    especie = models.CharField(
-        "especie", max_length=10, choices=EspecieMascota.choices, blank=True
-    )
-    sexo = models.CharField(
-        "sexo", max_length=12, choices=SexoMascota.choices, blank=True
-    )
+    especie = models.CharField("especie", max_length=10, choices=Especie.choices, blank=True)
+    sexo = models.CharField("sexo", max_length=12, choices=Sexo.choices, blank=True)
     callejero = models.BooleanField(
         "¿parece callejero / sin dueño?",
         default=False,
@@ -62,9 +50,7 @@ class Report(models.Model):
         blank=True,
         help_text="Opcional. Déjalo si quieres que te contacten para dar seguimiento.",
     )
-    estado = models.CharField(
-        max_length=10, choices=EstadoReporte.choices, default=EstadoReporte.ABIERTO
-    )
+    estado = models.CharField(max_length=10, choices=EstadoReporte.choices, default=EstadoReporte.ABIERTO)
     aprobado = models.BooleanField(
         "aprobado por el staff",
         default=False,
@@ -89,14 +75,17 @@ class Report(models.Model):
         return self.tipo in (TipoReporte.PERDIDO, TipoReporte.ENCONTRADO)
 
     @property
+    def contacto_visible(self):
+        """False cuando pasaron más de DIAS_CONTACTO_VISIBLE desde publicado."""
+        return self.creado + timedelta(days=DIAS_CONTACTO_VISIBLE) >= timezone.now()
+
+    @property
     def reportante_publico(self):
         return self.nombre_reportante.strip() or "Anónimo"
 
 
 class ReportPhoto(models.Model):
-    reporte = models.ForeignKey(
-        Report, on_delete=models.CASCADE, related_name="fotos"
-    )
+    reporte = models.ForeignKey(Report, on_delete=models.CASCADE, related_name="fotos")
     imagen = models.ImageField(upload_to="reportes/")
 
     def __str__(self):
@@ -106,12 +95,12 @@ class ReportPhoto(models.Model):
 class ReportComment(models.Model):
     """Comentario o pista que cualquier persona puede dejar en un aviso."""
 
-    reporte = models.ForeignKey(
-        Report, on_delete=models.CASCADE, related_name="comentarios"
-    )
+    reporte = models.ForeignKey(Report, on_delete=models.CASCADE, related_name="comentarios")
     nombre = models.CharField("tu nombre", max_length=120)
     contacto = models.CharField(
-        "contacto (opcional)", max_length=200, blank=True,
+        "contacto (opcional)",
+        max_length=200,
+        blank=True,
         help_text="Teléfono o correo, por si quieren responderte.",
     )
     mensaje = models.TextField("mensaje")
@@ -130,20 +119,18 @@ class ReportComment(models.Model):
 class ReportSighting(models.Model):
     """Avistamiento reportado por la comunidad sobre una mascota perdida/encontrada."""
 
-    reporte = models.ForeignKey(
-        Report, on_delete=models.CASCADE, related_name="avistamientos"
-    )
+    reporte = models.ForeignKey(Report, on_delete=models.CASCADE, related_name="avistamientos")
     nombre = models.CharField("tu nombre", max_length=120)
     contacto = models.CharField(
-        "contacto (opcional)", max_length=200, blank=True,
+        "contacto (opcional)",
+        max_length=200,
+        blank=True,
         help_text="Teléfono o correo, por si el dueño necesita más detalles.",
     )
     ubicacion = models.CharField("¿dónde lo viste?", max_length=255)
     fecha = models.DateField("¿cuándo lo viste?")
     descripcion = models.TextField("detalles", blank=True)
-    foto = models.ImageField(
-        "foto (opcional)", upload_to="reportes/avistamientos/", blank=True
-    )
+    foto = models.ImageField("foto (opcional)", upload_to="reportes/avistamientos/", blank=True)
     confirmado = models.BooleanField("confirmado por la fundación", default=False)
     oculto = models.BooleanField("oculto por moderación", default=False)
     creado = models.DateTimeField(auto_now_add=True)
