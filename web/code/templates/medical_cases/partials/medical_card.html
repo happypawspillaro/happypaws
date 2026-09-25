@@ -5,11 +5,13 @@
     {% if caso.estado == 'cerrado' %}
       <span class="badge bg-secondary position-absolute top-0 start-0 m-2">Cerrado</span>
     {% endif %}
-    {% if caso.foto %}
-      <img src="{{ caso.foto.url }}" class="card-img-top" alt="{{ caso.titulo }}">
-    {% else %}
-      <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
-    {% endif %}
+    {% with caso.fotos.first as primera_foto %}
+      {% if primera_foto %}
+        <img src="{{ primera_foto.imagen.url }}" class="card-img-top" alt="{{ caso.titulo }}">
+      {% else %}
+        <div class="card-img-placeholder"><i class="bi bi-bandaid"></i></div>
+      {% endif %}
+    {% endwith %}
   </a>
   <div class="card-body">
     <h2 class="h5">{{ caso.titulo }}</h2>
