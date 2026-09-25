@@ -1,4 +1,4 @@
-{% load thumbnail %}
+{% load thumbnail whatsapp_filters %}
 <section id="avistamientos" class="mt-5">
   <h2 class="h4 mb-1">
     <i class="bi bi-binoculars"></i> Avistamientos
@@ -23,6 +23,13 @@
             {% if s.descripcion %}<p class="mb-1 mt-1">{{ s.descripcion|linebreaksbr }}</p>{% endif %}
             {% if s.contacto and user.is_staff %}
               <small class="text-muted d-block"><i class="bi bi-telephone"></i> {{ s.contacto }}</small>
+              {% with wa=s.contacto|whatsapp_link %}
+                {% if wa %}
+                  <a href="{{ wa }}" target="_blank" rel="noopener" class="btn btn-success btn-sm py-0">
+                    <i class="bi bi-whatsapp"></i> WhatsApp
+                  </a>
+                {% endif %}
+              {% endwith %}
             {% endif %}
             {% if user.is_staff %}
               <div class="mt-2 d-flex flex-wrap gap-2">

@@ -3,6 +3,7 @@ from django.urls import reverse
 
 from accounts.models import User
 from core.management.commands.seed_demo import normalizar_contacto
+from core.templatetags.whatsapp_filters import whatsapp_link
 
 
 class HomeViewTests(TestCase):
@@ -74,3 +75,29 @@ class NormalizarContactoTests(TestCase):
         dato = {"telefono": 991234567.0}
         normalizar_contacto(dato, "telefono")
         self.assertEqual(dato["telefono"], "991234567")
+
+
+class WhatsappLinkFilterTests(TestCase):
+    """El filtro solo debe reconocer celulares ecuatorianos (issue #46)."""
+
+    def test_numero_de_9_digitos(self):
+        self.assertEqual(whatsapp_link("991234567"), "https://wa.me/593991234567")
+
+    def test_numero_con_cero_inicial(self):
+        self.assertEqual(whatsapp_link("0991234567"), "https://wa.me/593991234567")
+
+    def test_numero_con_codigo_de_pais(self):
+        self.assertEqual(whatsapp_link("593991234567"), "https://wa.me/593991234567")
+
+    def test_numero_con_formato_y_signo_mas(self):
+        self.assertEqual(whatsapp_link("+593 99-123-4567"), "https://wa.me/593991234567")
+
+    def test_correo_no_genera_enlace(self):
+        self.assertIsNone(whatsapp_link("ana@example.com"))
+
+    def test_numero_fijo_no_genera_enlace(self):
+        self.assertIsNone(whatsapp_link("032345678"))
+
+    def test_valor_vacio_no_genera_enlace(self):
+        self.assertIsNone(whatsapp_link(""))
+        self.assertIsNone(whatsapp_link(None))
