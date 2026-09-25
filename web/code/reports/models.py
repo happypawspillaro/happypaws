@@ -1,6 +1,9 @@
-from constants import Especie, Sexo
+from datetime import timedelta
+
+from constants import DIAS_CONTACTO_VISIBLE, Especie, Sexo
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 
 class TipoReporte(models.TextChoices):
@@ -70,6 +73,11 @@ class Report(models.Model):
     def permite_avistamientos(self):
         """Los avistamientos solo aplican a mascotas perdidas o encontradas."""
         return self.tipo in (TipoReporte.PERDIDO, TipoReporte.ENCONTRADO)
+
+    @property
+    def contacto_visible(self):
+        """False cuando pasaron más de DIAS_CONTACTO_VISIBLE desde publicado."""
+        return self.creado + timedelta(days=DIAS_CONTACTO_VISIBLE) >= timezone.now()
 
     @property
     def reportante_publico(self):
