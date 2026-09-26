@@ -34,7 +34,7 @@
             {% if reporte.estado == 'resuelto' %}<span class="badge bg-success">Resuelto</span>{% endif %}
           </div>
           <h2 class="h5">{{ reporte.titulo }}</h2>
-          <p class="small text-muted mb-1"><i class="bi bi-geo-alt"></i> {{ reporte.ubicacion }}</p>
+          <p class="small text-muted mb-1"><i class="bi bi-geo-alt"></i> {{ reporte.ubicacion_completa }}</p>
           <p class="card-text small">{{ reporte.descripcion|truncatewords:18 }}</p>
         </div>
         <div class="card-footer bg-white border-0">

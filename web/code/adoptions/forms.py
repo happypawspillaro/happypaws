@@ -1,6 +1,5 @@
-from django import forms
-
 from core.forms import BootstrapFormMixin
+from django import forms
 
 from .models import AdoptionApplication, AdoptionFollowUp
 
@@ -9,8 +8,17 @@ class AdoptionApplicationForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = AdoptionApplication
         fields = [
-            "nombre_solicitante", "cedula", "telefono", "email", "direccion",
-            "tipo_vivienda", "tiene_patio", "experiencia", "proposito",
+            "nombre_solicitante",
+            "cedula",
+            "telefono",
+            "email",
+            "canton",
+            "parroquia",
+            "barrio",
+            "tipo_vivienda",
+            "tiene_patio",
+            "experiencia",
+            "proposito",
         ]
         widgets = {
             "experiencia": forms.Textarea(attrs={"rows": 3}),

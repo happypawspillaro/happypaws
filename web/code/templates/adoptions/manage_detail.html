@@ -21,7 +21,7 @@
           <li><strong>Cédula:</strong> {{ solicitud.cedula }}</li>
           <li><strong>Teléfono:</strong> {{ solicitud.telefono }}</li>
           <li><strong>Correo:</strong> {{ solicitud.email }}</li>
-          <li><strong>Dirección:</strong> {{ solicitud.direccion }}</li>
+          <li><strong>Dirección:</strong> {{ solicitud.ubicacion_completa }}</li>
           <li><strong>Vivienda:</strong> {{ solicitud.get_tipo_vivienda_display }}
             ({% if solicitud.tiene_patio %}con{% else %}sin{% endif %} patio)</li>
         </ul>
