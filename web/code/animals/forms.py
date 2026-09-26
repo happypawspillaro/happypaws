@@ -1,6 +1,5 @@
-from django import forms
-
 from core.forms import BootstrapFormMixin
+from django import forms
 
 from .models import Animal, AnimalPhoto, MedicalRecord
 
@@ -9,11 +8,24 @@ class AnimalForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Animal
         fields = [
-            "nombre", "especie", "sexo", "tamano", "edad_aprox",
-            "descripcion", "estado", "origen",
-            "barrio", "parroquia", "tutor_nombre", "tutor_contacto",
-            "esterilizado", "fecha_esterilizacion", "destacado",
-            "fecha_ingreso", "foto_principal",
+            "nombre",
+            "especie",
+            "sexo",
+            "tamano",
+            "edad_aprox",
+            "descripcion",
+            "estado",
+            "origen",
+            "canton",
+            "parroquia",
+            "barrio",
+            "tutor_nombre",
+            "tutor_contacto",
+            "esterilizado",
+            "fecha_esterilizacion",
+            "destacado",
+            "fecha_ingreso",
+            "foto_principal",
         ]
         widgets = {
             "fecha_ingreso": forms.DateInput(attrs={"type": "date"}),
