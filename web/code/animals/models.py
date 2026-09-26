@@ -62,8 +62,6 @@ class Animal(models.Model):
         choices=Origen.choices,
         default=Origen.RESCATADO,
     )
-    # Ubicación del animal. La parroquia es texto libre por ahora; cuando llegue
-    # el locaciones.json de la fundación se podrá convertir en lista desplegable.
     canton = models.CharField(
         choices=CANTONES, max_length=MAX_LONG_CANTONES, help_text="Cantón residencia Mascota", default="PI"
     )
