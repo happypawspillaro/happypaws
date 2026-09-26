@@ -30,7 +30,13 @@ class ResponsiveBaseTests(TestCase):
     def test_incluye_favicon_y_logo(self):
         resp = self.client.get(reverse("core:home"))
         self.assertContains(resp, "images/happypaws.ico")
-        self.assertContains(resp, "images/happypaws.png")
+        self.assertContains(resp, "images/happypaws_cuadrado.png")
+
+    def test_logo_del_navbar_tiene_fondo_para_contraste(self):
+        """El logo es transparente y su naranja se confunde con el navbar
+        sin un fondo detrás (issue #61)."""
+        resp = self.client.get(reverse("core:home"))
+        self.assertContains(resp, "navbar-logo-badge")
 
     def test_footer_incluye_redes_sociales(self):
         resp = self.client.get(reverse("core:home"))
