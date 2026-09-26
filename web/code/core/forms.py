@@ -1,4 +1,5 @@
 from django import forms
+from django.urls import reverse
 
 
 class BootstrapFormMixin:
@@ -6,6 +7,37 @@ class BootstrapFormMixin:
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        # Inyecta código de HTMX para sugerir el nombre de un barrio
+        # con respecto al cantón y parroquia seleccionada
+        self.fields["barrio"].widget.attrs.update(
+            {
+                "list": "sugerencias-barrios",
+                "autocomplete": "off",
+                "hx-get": reverse("core:barrios"),
+                "hx-trigger": "input changed delay:300ms",
+                "hx-target": "#sugerencias-barrios",
+                "hx-swap": "innerHTML",
+                "hx-include": "#id_canton,#id_parroquia",
+            }
+        )
+        # De todas las opciones de parroquias, filtra por cantón
+        self.fields["canton"].widget.attrs.update(
+            {
+                "hx-get": reverse("core:canton_parroquia"),
+                "hx-trigger": "change, load",
+                "hx-target": "#id_parroquia",
+                "hx-swap": "innerHTML",
+                "hx-include": "#id_parroquia_tutor",
+            }
+        )
+        # En caso de cambio en los valores de cantón o parroquia,
+        # reinicia el campo de barrio
+        for field_name in ("canton", "parroquia"):
+            self.fields[field_name].widget.attrs["hx-on:change"] = (
+                "document.getElementById('id_barrio').value = '';"
+                "document.getElementById('sugerencias-barrios').innerHTML = '';"
+            )
+
         for field in self.fields.values():
             widget = field.widget
             if isinstance(widget, (forms.CheckboxInput, forms.RadioSelect)):

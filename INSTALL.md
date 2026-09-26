@@ -15,10 +15,11 @@
    cd happypaws
    ```
 
-3. Copia tus variables de entorno locales, por ejemplo en Linux:
+3. Inicializa tus variables de entorno locales y assets, por ejemplo en Linux:
 
    ```bash
    cp .env.example .env
+   wget -P web/code/static/assets https://raw.githubusercontent.com/happypawspillaro/esterilizaya-pillaro/refs/heads/main/app/static/assets/locaciones.json
    ```
 
    Luego, ajustales a conveniencia(no olvides añadir tu `SECRET_KEY`), puedes guiarte en la [guía de referencia](REFERENCE.md#variables-de-entorno) para más información.
