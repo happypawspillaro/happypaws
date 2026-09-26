@@ -39,6 +39,25 @@ a { color: #d9620a; }
   font-size: 3rem;
 }
 
+/* El logo tiene fondo transparente y su naranja es casi igual al del
+   navbar (--hp-primary), así que sin este fondo blanco desaparece (#61). */
+.navbar-logo-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 3px;
+  background: #fff;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.navbar-logo-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .htmx-indicator { opacity: 0; transition: opacity 200ms ease-in; }
 .htmx-request .htmx-indicator { opacity: 1; }
 .htmx-request.htmx-indicator { opacity: 1; }
