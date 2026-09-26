@@ -4,8 +4,8 @@ from decimal import Decimal
 from accounts.decorators import staff_required
 from adoptions.models import AdoptionApplication, EstadoSolicitud
 from animals.models import Animal, EstadoAnimal
-from cache import obtener_locaciones
 from constants import PARROQUIAS_CANTON
+from core.cache import obtener_locaciones
 from django.db.models import Count, Sum
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
@@ -77,6 +77,6 @@ def obtener_barrios(request: HttpRequest) -> HttpResponse:
 
     return render(
         request,
-        "registro/partials/barrio_suggestions.html",
+        "core/partials/sugerencia_barrios.html",
         {"barrios": barrios},
     )
