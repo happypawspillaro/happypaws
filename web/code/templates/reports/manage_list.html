@@ -43,7 +43,7 @@
         <tr {% if not r.aprobado %}class="table-warning"{% endif %}>
           <td>{{ r.titulo }}</td>
           <td>{{ r.get_tipo_display }}</td>
-          <td>{{ r.ubicacion }}</td>
+          <td>{{ r.ubicacion_completa }}</td>
           <td>{{ r.fecha_avistamiento }}</td>
           <td>
             {% if r.estado == 'resuelto' %}
