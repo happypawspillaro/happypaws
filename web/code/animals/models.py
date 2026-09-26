@@ -1,10 +1,21 @@
 import calendar
 from datetime import date
 
-from constants import MESES_FEATURED_COMUNITARIO, Especie, Sexo
+from constants import (
+    CANTONES,
+    MAX_LONG_BARRIOS,
+    MAX_LONG_CANTONES,
+    MAX_LONG_PARROQUIAS,
+    MESES_FEATURED_COMUNITARIO,
+    PARROQUIAS,
+    Especie,
+    Sexo,
+)
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+
+from happypaws.utils import componer_ubicacion_display
 
 
 def restar_meses(fecha, meses):
@@ -53,8 +64,19 @@ class Animal(models.Model):
     )
     # Ubicación del animal. La parroquia es texto libre por ahora; cuando llegue
     # el locaciones.json de la fundación se podrá convertir en lista desplegable.
-    barrio = models.CharField("barrio / sector", max_length=120, blank=True, help_text="Ej. 24 de Mayo")
-    parroquia = models.CharField("parroquia", max_length=120, blank=True)
+    canton = models.CharField(
+        choices=CANTONES, max_length=MAX_LONG_CANTONES, help_text="Cantón residencia Mascota", default="PI"
+    )
+    parroquia = models.CharField(
+        choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia residencia mascota", default="LM"
+    )
+    barrio = models.CharField(
+        "barrio / sector",
+        max_length=MAX_LONG_BARRIOS,
+        help_text="Barrio o dirección de la mascota",
+        blank=True,
+        null=True,
+    )
     # Datos del tutor / responsable (para animales domésticos o con cuidador).
     tutor_nombre = models.CharField("nombre del tutor / responsable", max_length=200, blank=True)
     tutor_contacto = models.CharField(
@@ -96,9 +118,7 @@ class Animal(models.Model):
 
     @property
     def ubicacion_completa(self):
-        """Barrio y parroquia combinados, omitiendo lo que esté vacío."""
-        partes = [p.strip() for p in (self.barrio, self.parroquia) if p.strip()]
-        return ", ".join(partes)
+        return componer_ubicacion_display(self)
 
     @property
     def es_comunitario_reciente(self):
