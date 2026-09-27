@@ -44,19 +44,23 @@ RUN apk add --no-cache \
       zlib~=1
 WORKDIR /home/happypaws/code
 
-RUN adduser -S -G www-data www-data
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY ./web/code ./
 # Crear los directorios iniciales
 RUN mkdir -p /home/happypaws/media
 
 FROM --platform=$BUILDPLATFORM base AS prod
-# Cambiar los permisos de los archivos copiados
-RUN chown -R www-data:www-data /home/happypaws/code /home/happypaws/media
 COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
 COPY ./config/uwsgi/uwsgi.ini /home/happypaws/config/uwsgi/uwsgi.ini
-# USER www-data # TODO: Usar configuraciones seguras
-EXPOSE 80 443
+
+# Crear grupo (GID 1001) y usuario (UID 1001) sin privilegios
+RUN addgroup -g 1001 -S happypaws \
+    && adduser -u 1001 -D -S -G happypaws happypaws
+
+# Cambiar los permisos de los archivos copiados
+RUN chown -R happypaws:happypaws /home/happypaws/code /home/happypaws/media /home/happypaws/config/
+
+USER happypaws
 
 FROM --platform=$BUILDPLATFORM base AS debug
 RUN pip install --no-cache-dir django-debug-toolbar==7.*
