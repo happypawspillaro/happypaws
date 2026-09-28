@@ -1,0 +1,227 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Organización Fundación Happy Paws Píllaro{% endblock %}
+{% block content %}
+<!-- Sección "Nuestra Directiva y Equipo" - Happy Paws Píllaro -->
+<section id="directiva" class="py-5 bg-white">
+  <div class="container my-3">
+
+    <!-- Encabezado de la Sección -->
+    <div class="row mb-4">
+      <div class="col-lg-10">
+        <span class="text-uppercase fw-bold small mb-2 d-inline-block" style="letter-spacing: 0.08em; color: #e8935a !important;">
+          Nuestro equipo
+        </span>
+        <h2 class="display-6 fw-bold mb-3" style="color: #1f4e5f;">
+          Directiva
+        </h2>
+        <p class="lead text-secondary mb-4" style="max-width: 720px;">
+          Las cuatro personas que dirigen Happy Paws Píllaro, todas activas en el terreno además de en la gestión de la fundación.
+        </p>
+      </div>
+    </div>
+
+    <!-- Cuadrícula de la Directiva (2 Columnas) -->
+    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+
+      <!-- Miembro 1: Andrea Arcos -->
+      <div class="col">
+        <div class="card h-100 border p-4 rounded-4 shadow-sm bg-white" style="border-color: #eadfd2 !important;">
+          <div class="d-flex flex-column flex-sm-row gap-3 align-items-center align-items-sm-start">
+            <!-- Foto con Placeholder de Respaldo -->
+            <div class="rounded-circle overflow-hidden flex-shrink-0 d-flex align-items-center justify-content-center position-relative" 
+                 style="width: 92px; height: 92px; background-color: #1f4e5f;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-fill text-white-50" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+              </svg>
+              <img src="{% static 'assets/directiva/andrea.jpeg' %}" 
+                   class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" 
+                   alt="Andrea Arcos Villalva"
+                   onerror="this.style.display='none';">
+            </div>
+            <!-- Información -->
+            <div class="text-center text-sm-start">
+              <h3 class="h5 fw-bold mb-1" style="color: #163a47;">Andrea Arcos Villalva</h3>
+              <p class="small fw-bold text-uppercase mb-2" style="letter-spacing: 0.04em; color: #e8935a;">Presidenta</p>
+              <p class="text-secondary mb-3 lh-base" style="font-size: 0.93rem;">
+                Fundó Happy Paws Píllaro en 2023, tras identificar la falta de una respuesta organizada al bienestar animal en el cantón. Médica con maestría en Salud Pública, con énfasis en Salud Global y Una Sola Salud, comparte hoy con José la conducción de la incidencia pública de la fundación: juntos iniciaron el programa de esterilizaciones a bajo costo de la fundación como un método replicable para otras organizaciones. Además coordina la movilización comunitaria y la búsqueda de fondos para emergencias y casos individuales.
+              </p>
+              <blockquote class="border-start border-3 ps-3 ms-0 mb-0 text-start" style="border-color: #e8935a !important;">
+                <p class="fst-italic small mb-0" style="color: #163a47;">
+                  “Durante mucho tiempo no entendí por qué la gente hablaba tanto de esperanza. Lo comprendí el día en que la frustración casi me venció: la esperanza es saber que cada acción cuenta, y la empatía es el motor que sostiene todo lo que hago.”
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Miembro 2: Nicole Rendón -->
+      <div class="col">
+        <div class="card h-100 border p-4 rounded-4 shadow-sm bg-white" style="border-color: #eadfd2 !important;">
+          <div class="d-flex flex-column flex-sm-row gap-3 align-items-center align-items-sm-start">
+            <div class="rounded-circle overflow-hidden flex-shrink-0 d-flex align-items-center justify-content-center position-relative" 
+                 style="width: 92px; height: 92px; background-color: #1f4e5f;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-fill text-white-50" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+              </svg>
+              <img src="{% static 'assets/directiva/nicole.jpeg' %}" 
+                   class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" 
+                   alt="Nicole Rendón Villalva"
+                   onerror="this.style.display='none';">
+            </div>
+            <div class="text-center text-sm-start">
+              <h3 class="h5 fw-bold mb-1" style="color: #163a47;">Nicole "Nicky" Rendón Villalva</h3>
+              <p class="small fw-bold text-uppercase mb-2" style="letter-spacing: 0.04em; color: #e8935a;">Vicepresidenta</p>
+              <p class="text-secondary mb-3 lh-base" style="font-size: 0.93rem;">
+                Médico cirujano y presencia constante en la acción durante las campañas de esterilización. Su casa ha sido hogar temporal de varios animalitos en situación de abandono y vulnerabilidad, y junto a David es una de las manos más constantes detrás de la esterilización de los perros comunitarios del centro del cantón. Además, lideró la campaña de esterilización en Zumbahua.
+              </p>
+              <blockquote class="border-start border-3 ps-3 ms-0 mb-0 text-start" style="border-color: #e8935a !important;">
+                <p class="fst-italic small mb-0" style="color: #163a47;">
+                  “Creo que tanto la medicina como el cuidado de los animales tienen algo en común: requieren empatía, compromiso y mucho corazón.”
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Miembro 3: José Jácome -->
+      <div class="col">
+        <div class="card h-100 border p-4 rounded-4 shadow-sm bg-white" style="border-color: #eadfd2 !important;">
+          <div class="d-flex flex-column flex-sm-row gap-3 align-items-center align-items-sm-start">
+            <div class="rounded-circle overflow-hidden flex-shrink-0 d-flex align-items-center justify-content-center position-relative" 
+                 style="width: 92px; height: 92px; background-color: #1f4e5f;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-fill text-white-50" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+              </svg>
+              <img src="{% static 'assets/directiva/jose.jpeg' %}" 
+                   class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" 
+                   alt="José Jácome Barrionuevo"
+                   onerror="this.style.display='none';">
+            </div>
+            <div class="text-center text-sm-start">
+              <h3 class="h5 fw-bold mb-1" style="color: #163a47;">José Jácome Barrionuevo</h3>
+              <p class="small fw-bold text-uppercase mb-2" style="letter-spacing: 0.04em; color: #e8935a;">Secretario</p>
+              <p class="text-secondary mb-3 lh-base" style="font-size: 0.93rem;">
+                Ingeniero Mecatrónico, especializado en visión por computadora y sistemas embebidos. Construyó esterilizaYa, la herramienta con la que la fundación planifica cada campaña, y ha liderado el programa de esterilizaciones a bajo costo en varias zonas rurales del cantón, como San Miguelito y Poaló. Impulsa la concientización y la difusión de información y datos relevantes sobre la fauna urbana del cantón, y participa activamente en otras causas cívicas y ambientales de Píllaro.
+              </p>
+              <blockquote class="border-start border-3 ps-3 ms-0 mb-0 text-start" style="border-color: #e8935a !important;">
+                <p class="fst-italic small mb-0" style="color: #163a47;">
+                  “Construir algo que ayuda no basta si se queda solo en mis manos; lo importante es que otros también puedan usarlo.”
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Miembro 4: David Burbano -->
+      <div class="col">
+        <div class="card h-100 border p-4 rounded-4 shadow-sm bg-white" style="border-color: #eadfd2 !important;">
+          <div class="d-flex flex-column flex-sm-row gap-3 align-items-center align-items-sm-start">
+            <div class="rounded-circle overflow-hidden flex-shrink-0 d-flex align-items-center justify-content-center position-relative" 
+                 style="width: 92px; height: 92px; background-color: #1f4e5f;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-fill text-white-50" viewBox="0 0 16 16">
+                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+              </svg>
+              <img src="{% static 'assets/directiva/david.jpeg' %}" 
+                   class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" 
+                   alt="David Burbano"
+                   onerror="this.style.display='none';">
+            </div>
+            <div class="text-center text-sm-start">
+              <h3 class="h5 fw-bold mb-1" style="color: #163a47;">David Burbano</h3>
+              <p class="small fw-bold text-uppercase mb-2" style="letter-spacing: 0.04em; color: #e8935a;">Tesorero</p>
+              <p class="text-secondary mb-3 lh-base" style="font-size: 0.93rem;">
+                Ingeniero en Alimentos y parte activa del equipo de respuesta a emergencias. Ha sido las manos que atrapan y trasladan a los perritos de la calle para su esterilización o atención veterinaria; su respuesta inmediata y sin titubeos ha permitido salvarle la vida a muchos comunitarios. Junto a Nicky, ha sido pieza clave en el trabajo con los perros comunitarios del centro del cantón, cuidando también de animales en situación de abandono y vulnerabilidad.
+              </p>
+              <blockquote class="border-start border-3 ps-3 ms-0 mb-0 text-start" style="border-color: #e8935a !important;">
+                <p class="fst-italic small mb-0" style="color: #163a47;">
+                  “Quien no vive para servir no sirve para vivir.”
+                </p>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sección Equipo Veterinario -->
+    <div class="mt-5">
+      <span class="text-uppercase fw-bold small mb-2 d-inline-block" style="letter-spacing: 0.08em; color: #e8935a !important;">
+        Equipo veterinario
+      </span>
+      <h3 class="h4 fw-bold mb-3" style="color: #1f4e5f;">
+        Veterinaria de cabecera
+      </h3>
+
+      <div class="row">
+        <div class="col-lg-7 col-md-10">
+          <div class="card border p-4 rounded-4 shadow-sm bg-white" style="border-color: #eadfd2 !important;">
+            <div class="d-flex flex-column flex-sm-row gap-3 align-items-center align-items-sm-start">
+              <div class="rounded-circle overflow-hidden flex-shrink-0 d-flex align-items-center justify-content-center position-relative" 
+                   style="width: 92px; height: 92px; background-color: #1f4e5f;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-person-fill text-white-50" viewBox="0 0 16 16">
+                  <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                </svg>
+                <img src="{% static 'img/equipo/gabriela-zambonino.jpg' %}" 
+                     class="w-100 h-100 object-fit-cover position-absolute top-0 start-0" 
+                     alt="Gabriela Zambonino Bautista"
+                     onerror="this.style.display='none';">
+              </div>
+              <div class="text-center text-sm-start">
+                <h3 class="h5 fw-bold mb-1" style="color: #163a47;">Gabriela Zambonino Bautista</h3>
+                <p class="small fw-bold text-uppercase mb-2" style="letter-spacing: 0.04em; color: #e8935a;">Médica Veterinaria · Miembro</p>
+                <p class="text-secondary mb-3 lh-base" style="font-size: 0.93rem;">
+                  Veterinaria de cabecera de Happy Paws Píllaro en cada campaña desde el inicio, y parte de la creación del plan replicable de esterilizaciones de la fundación. Ha aportado su experiencia en las 18 jornadas de esterilización a bajo costo realizadas hasta hoy: 17 en cuatro parroquias del cantón Santiago de Píllaro y una en el cantón Pujilí, que en conjunto suman 500 mascotas atendidas. Su labor no se ha quedado en las campañas: ha atendido emergencias y cirugías, como las de Cholito y Amaru, entre muchas otras.
+                </p>
+                <blockquote class="border-start border-3 ps-3 ms-0 mb-0 text-start" style="border-color: #e8935a !important;">
+                  <p class="fst-italic small mb-0" style="color: #163a47;">
+                    “Detrás de cada campaña hay un animal con nombre propio, y eso es lo que nunca dejo de recordar.”
+                  </p>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Voluntarios y Colaboradores -->
+    <div class="mt-5">
+      <span class="text-uppercase fw-bold small mb-2 d-inline-block" style="letter-spacing: 0.08em; color: #e8935a !important;">
+        Gracias también
+      </span>
+      <h3 class="h4 fw-bold mb-2" style="color: #1f4e5f;">
+        Voluntarios y colaboradores
+      </h3>
+      <p class="text-secondary mb-3">
+        Miembros, voluntarios y personas que han sido parte de las acciones de Happy Paws Píllaro.
+      </p>
+
+      <!-- Badges / Chips -->
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="badge rounded-pill fw-semibold p-2 px-3 border" style="background-color: #fbf8f4; border-color: #eadfd2 !important; color: #163a47; font-size: 0.9rem;">Guadalupe Martínez</span>
+        <span class="badge rounded-pill fw-semibold p-2 px-3 border" style="background-color: #fbf8f4; border-color: #eadfd2 !important; color: #163a47; font-size: 0.9rem;">Johanna Chunata Carrasco</span>
+        <span class="badge rounded-pill fw-semibold p-2 px-3 border" style="background-color: #fbf8f4; border-color: #eadfd2 !important; color: #163a47; font-size: 0.9rem;">Milton Torres Tamay</span>
+        <span class="badge rounded-pill fw-semibold p-2 px-3 border" style="background-color: #fbf8f4; border-color: #eadfd2 !important; color: #163a47; font-size: 0.9rem;">Alexandra Chicaiza</span>
+        <span class="badge rounded-pill fw-semibold p-2 px-3 border" style="background-color: #fbf8f4; border-color: #eadfd2 !important; color: #163a47; font-size: 0.9rem;">Patricia Chiluiza</span>
+      </div>
+
+      <p class="text-secondary lh-base mb-0" style="font-size: 0.95rem;">
+        Con mucho cariño, les agradecemos por su tiempo, su energía y su compromiso con cada una de las causas de la fundación: por apoyar a mejorar las condiciones de los peluditos con los que convivimos cada día en nuestra sociedad, y por ser parte de mejorar la convivencia con la fauna urbana del cantón.
+      </p>
+    </div>
+
+    <!-- Tarjeta de Créditos -->
+    <div class="p-4 text-center rounded-4 border mt-5" style="background: linear-gradient(135deg, rgba(31,78,95,0.06) 0%, rgba(232,147,90,0.10) 100%); border-color: #eadfd2 !important;">
+      <p class="m-0 fs-5 lh-base" style="color: #163a47;">
+        Agradecemos a <strong style="color: #1f4e5f;">Nicolás Bohórquez Escobar</strong>, desarrollador de esta página web, por su apoyo a la fundación.
+      </p>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

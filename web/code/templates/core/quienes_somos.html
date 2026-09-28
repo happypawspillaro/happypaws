@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  ¿Quiénes somos? · Fundación Happy Paws Píllaro
+{% endblock %}
+
+{% block content %}
+  <!-- Sección "Quiénes somos" - Happy Paws Píllaro -->
+  <section id="quienes-somos" class="py-5 bg-light">
+    <div class="container my-3">
+      <!-- Encabezado / Título principal -->
+      <div class="row mb-4">
+        <div class="col-lg-10">
+          <span class="text-uppercase fw-bold small mb-2 d-inline-block text-warning" style="letter-spacing: 0.08em; color: #e8935a !important;">Quiénes somos</span>
+          <h2 class="display-6 fw-bold mb-3" style="color: #1f4e5f;">Salud animal y salud pública, desde una sola comunidad hacia adelante</h2>
+          <p class="lead text-secondary mb-4">Happy Paws Píllaro es una fundación de base comunitaria dedicada al bienestar animal y la salud pública en el cantón Píllaro, provincia de Tungurahua, Ecuador. Trabajamos donde el acceso a servicios veterinarios es escaso o inexistente, bajo un enfoque de Salud Única (One Health) que conecta el bienestar de los animales con la salud de las personas que conviven con ellos.</p>
+        </div>
+      </div>
+
+      <!-- Cuadrícula: Historia e Imagen (Ambas columnas dentro de la misma fila) -->
+      <div class="row g-4 align-items-start mb-5">
+        <!-- Columna de Historia -->
+        <div class="col-lg-7">
+          <p class="lh-lg text-secondary mb-3">Fundada en 2023, Happy Paws Píllaro nació de una necesidad concreta: según el Censo de 2022, el cantón Santiago de Píllaro es el primero a nivel nacional en densidad de caninos por hogar, con algunas parroquias en niveles críticos incluso a nivel nacional. A pesar de eso, no había una organización dedicada a atenderlas ni datos que permitieran planificar una respuesta. Por eso aplicamos un enfoque innovador a nivel cantonal y provincial: nos organizamos para aportar donde más se necesita y, a través de una veeduría ciudadana, generamos evidencia que permite impulsar política pública basada en datos. Desde entonces hemos construido esa respuesta campaña por campaña, comunidad por comunidad.</p>
+          <p class="lh-lg text-secondary mb-3">
+            El <strong class="text-dark fw-bold" style="color: #163a47 !important;">8 de julio de 2024</strong>, el Ministerio de Salud Pública del Ecuador nos reconoció oficialmente como fundación sin fines de lucro (Acuerdo Ministerial No. 00012-2024), un respaldo formal al trabajo que ya veníamos haciendo desde las comunidades rurales de Píllaro.
+          </p>
+          <p class="lh-lg text-secondary mb-3">
+            Para hacer nuestro trabajo más riguroso y replicable, desarrollamos <strong class="text-dark fw-bold" style="color: #163a47 !important;">esterilizaYa</strong>, una herramienta de código abierto creada por nuestro propio equipo para el registro de animales y la gestión de campañas de esterilización con datos georreferenciados. La usamos para planificar cada intervención con evidencia, no con suposiciones, y la compartimos abiertamente para que otras organizaciones de la región puedan replicar nuestro método. De esta manera generamos datos abiertos, auditables y comparables en el tiempo: una base común que, con el apoyo de la comunidad, puede extenderse y aplicarse en cualquier otro lugar donde sea útil.
+          </p>
+          <p class="lh-lg text-secondary mb-3">Hacemos gestión pública como organización ciudadana y con base en resultados: ejercemos veeduría sobre la gestión pública y exigimos transparencia frente a la problemática de la fauna urbana del cantón y el maltrato animal, incluyendo casos de envenenamiento. Documentamos estos casos en las parroquias de Píllaro, exigimos mayor transparencia en los reportes municipales de esterilización, y llevamos capacitación a las parroquias.</p>
+        </div>
+
+        <!-- Columna de Fotografía -->
+        <div class="col-lg-5 d-flex justify-content-center align-items-start">
+          <div class="p-2 rounded-4 shadow-sm text-center d-inline-block" style="background: linear-gradient(135deg, #1f4e5f 0%, #163a47 100%);">
+            <img src="{% static 'assets/ejemplos/dobby.jpeg' %}" class="img-fluid rounded-4" style="max-width: 300px; height: auto;" alt="Campaña en terreno - Happy Paws Píllaro" />
+          </div>
+        </div>
+      </div>
+
+      {# Sección opcional de Estadísticas comentada de forma segura #}
+      {% comment %}
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5">
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm p-4 text-center rounded-4 bg-white">
+            <span class="display-5 fw-bold d-block mb-1" style="color: #1f4e5f;">100+</span>
+            <span class="small text-muted">Esterilizaciones realizadas</span>
+          </div>
+        </div>
+      </div>
+      {% endcomment %}
+    </div>
+  </section>
+
+  <!-- Sección "Lo que hacemos" - Happy Paws Píllaro -->
+  <section id="lo-que-hacemos" class="py-5 bg-white">
+    <div class="container my-3">
+      <!-- Subtítulo / Encabezado -->
+      <div class="row mb-4">
+        <div class="col-lg-10">
+          <span class="text-uppercase fw-bold small mb-2 d-inline-block" style="letter-spacing: 0.08em; color: #e8935a !important;">Lo que hacemos</span>
+          <h2 class="display-6 fw-bold mb-3" style="color: #1f4e5f;">Nuestros pilares de acción comunitaria</h2>
+        </div>
+      </div>
+
+      <!-- Cuadrícula de Pilares / Tarjetas -->
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <!-- Pilar 1: Incidencia pública -->
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light">
+            <div class="card-body p-0">
+              <h3 class="h5 fw-bold mb-3" style="color: #1f4e5f;">Incidencia pública y defensa animal</h3>
+              <p class="card-text text-secondary lh-lg mb-0">Representamos a los animales y a la comunidad ante las autoridades del cantón: denunciamos casos de envenenamiento y maltrato, exigimos transparencia en los reportes municipales de esterilización, y presionamos por el cumplimiento de la Ordenanza de Fauna Urbana de Píllaro.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pilar 2: Atención de emergencias -->
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light">
+            <div class="card-body p-0">
+              <h3 class="h5 fw-bold mb-3" style="color: #1f4e5f;">Atención de emergencias</h3>
+              <p class="card-text text-secondary lh-lg mb-0">Respondemos directamente a casos urgentes de animales heridos, envenenados o en situación de vulnerabilidad en el cantón, y gestionamos el financiamiento necesario para atenderlos a tiempo.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pilar 3: Esterilizaciones -->
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light">
+            <div class="card-body p-0">
+              <h3 class="h5 fw-bold mb-3" style="color: #1f4e5f;">Esterilizaciones a bajo costo</h3>
+              <p class="card-text text-secondary lh-lg mb-0">Campañas de esterilización a bajo costo para perritos y gatitos callejeros y comunitarios, enfocadas en parroquias rurales y periurbanas con poco o ningún acceso a servicios veterinarios.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pilar 4: Concientización -->
+        <div class="col">
+          <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light">
+            <div class="card-body p-0">
+              <h3 class="h5 fw-bold mb-3" style="color: #1f4e5f;">Concientización y educación comunitaria</h3>
+              <p class="card-text text-secondary lh-lg mb-0">Informamos a la comunidad sobre la Ordenanza de Fauna Urbana del cantón y las responsabilidades de la tenencia responsable, a través de charlas, campañas y material educativo en las parroquias donde trabajamos.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
