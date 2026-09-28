@@ -30,13 +30,7 @@ class ResponsiveBaseTests(TestCase):
     def test_incluye_favicon_y_logo(self):
         resp = self.client.get(reverse("core:home"))
         self.assertContains(resp, "images/happypaws.ico")
-        self.assertContains(resp, "images/happypaws_cuadrado.png")
-
-    def test_logo_del_navbar_tiene_fondo_para_contraste(self):
-        """El logo es transparente y su naranja se confunde con el navbar
-        sin un fondo detrás (issue #61)."""
-        resp = self.client.get(reverse("core:home"))
-        self.assertContains(resp, "navbar-logo-badge")
+        self.assertContains(resp, "images/happypaws_icono_blanco.png")
 
     def test_footer_incluye_redes_sociales(self):
         resp = self.client.get(reverse("core:home"))
@@ -45,6 +39,12 @@ class ResponsiveBaseTests(TestCase):
         self.assertContains(resp, "youtube.com/@HappyPawsP")
         self.assertContains(resp, "facebook.com/profile.php")
         self.assertContains(resp, "github.com/happypawspillaro")
+
+    def test_footer_incluye_contacto_y_datos_legales(self):
+        resp = self.client.get(reverse("core:home"))
+        self.assertContains(resp, "mailto:happypaws.pillaro@gmail.com")
+        self.assertContains(resp, "Código SUIOS: 0000142256")
+        self.assertContains(resp, "Acuerdo Ministerial Nro. 00012-2024")
 
 
 class DashboardAccessTests(TestCase):

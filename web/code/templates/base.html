@@ -14,9 +14,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
       <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="{% url 'core:home' %}">
-        <span class="navbar-logo-badge">
-          <img src="{% static 'images/happypaws_cuadrado.png' %}" alt="">
-        </span>
+        <img src="{% static 'images/happypaws_icono_blanco.png' %}" alt="" width="34" height="34">
         Happy Paws Píllaro
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navmenu">
@@ -68,16 +66,21 @@
           <h6 class="fw-bold">Happy Paws Píllaro</h6>
           <p class="small mb-1">Esterilización y adopción responsable de perros y gatos.</p>
           <p class="small mb-2">Bolívar, Píllaro, Ecuador · 099 906 3323</p>
-          <div class="d-flex gap-3 fs-5">
+          <a href="mailto:happypaws.pillaro@gmail.com" class="btn btn-primary btn-sm" role="button">
+            happypaws.pillaro@gmail.com
+          </a>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="small mb-1">Código SUIOS: 0000142256</p>
+          <p class="small mb-2">Acuerdo Ministerial Nro. 00012-2024</p>
+          <div class="d-flex gap-3 fs-5 justify-content-md-end">
             <a href="https://www.instagram.com/happypaws.pillaro/" class="text-light" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
             <a href="https://www.tiktok.com/@happypaws.pillaro" class="text-light" target="_blank" rel="noopener" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
             <a href="https://www.youtube.com/@HappyPawsP%C3%ADllaro" class="text-light" target="_blank" rel="noopener" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
             <a href="https://www.facebook.com/profile.php?id=61550626997105" class="text-light" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
             <a href="https://github.com/happypawspillaro/" class="text-light" target="_blank" rel="noopener" aria-label="GitHub"><i class="bi bi-github"></i></a>
           </div>
-        </div>
-        <div class="col-md-6 text-md-end small">
-          <p class="mb-0">© {% now "Y" %} Happy Paws Píllaro</p>
+          <p class="small mb-0 mt-2">© {% now "Y" %} Happy Paws Píllaro</p>
         </div>
       </div>
     </div>
