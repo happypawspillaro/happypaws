@@ -1,0 +1,21 @@
+{% load static %}
+
+<div class="col">
+  <div class="card h-100 border p-4 rounded-4 shadow-sm bg-white" style="border-color: #eadfd2 !important;">
+    <div class="d-flex flex-column flex-sm-row gap-3 align-items-center align-items-sm-start">
+      {% static foto_path as foto_url %}
+      {% include "core/partials/foto_directiva.html" with foto_url=foto_url foto_alt=nombre %}
+
+      <div class="text-center text-sm-start">
+        <h3 class="h5 fw-bold mb-1" style="color: #163a47;">{{ nombre }}</h3>
+        <p class="small fw-bold text-uppercase mb-2" style="letter-spacing: 0.04em; color: #e8935a;">{{ cargo }}</p>
+        <p class="text-secondary mb-3 lh-base" style="font-size: 0.93rem;">{{ bio }}</p>
+        {% if cita %}
+          <blockquote class="border-start border-3 ps-3 ms-0 mb-0 text-start" style="border-color: #e8935a !important;">
+            <p class="fst-italic small mb-0" style="color: #163a47;">“{{ cita }}”</p>
+          </blockquote>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
