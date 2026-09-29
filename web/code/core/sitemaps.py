@@ -1,7 +1,6 @@
+from animals.models import Animal
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-
-from animals.models import Animal
 from medical_cases.models import MedicalCase
 from reports.models import Report
 
@@ -13,7 +12,14 @@ class StaticViewSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return ["core:home", "animals:catalog", "medical_cases:list", "reports:list"]
+        return [
+            "core:home",
+            "core:quienes_somos",
+            "core:organizacion",
+            "animals:catalog",
+            "medical_cases:list",
+            "reports:list",
+        ]
 
     def location(self, item):
         return reverse(item)
