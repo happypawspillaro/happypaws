@@ -1,18 +1,26 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+{% load static %}
 {% load humanize %}
 {% load thumbnail %}
 {% block title %}
   Happy Paws Píllaro · Esterilización y adopción responsable
 {% endblock %}
 {% block content %}
-  <div class="p-5 mb-5 bg-light rounded-3 text-center">
-    <h1 class="display-6 fw-bold">Happy Paws Píllaro</h1>
-    <p class="lead col-md-8 mx-auto">Promovemos la esterilización y la adopción responsable de perros y gatos en el cantón Píllaro. Aquí puedes adoptar, apoyar casos médicos y reportar mascotas perdidas o casos de maltrato.</p>
-    <div class="d-flex gap-2 justify-content-center">
-      <a href="{% url 'animals:catalog' %}" class="btn btn-primary btn-lg">Quiero adoptar</a>
-      <a href="{% url 'reports:create' %}" class="btn btn-outline-secondary btn-lg">Crear un reporte</a>
-    </div>
+<div class="p-5 mb-5 bg-light rounded-3 text-center">
+  <img src="{% static 'images/happypaws_horizontal.png' %}" 
+       alt="Happy Paws Píllaro Horizontal" 
+       class="img-fluid d-inline-block" 
+       style="max-height: 128px; width: auto;">
+  <p class="lead col-md-8 mx-auto">
+    Promovemos la esterilización y la adopción responsable de perros y gatos
+    en el cantón Píllaro. Aquí puedes adoptar, apoyar casos médicos y reportar
+    mascotas perdidas o casos de maltrato.
+  </p>
+  <div class="d-flex gap-2 justify-content-center">
+    <a href="{% url 'animals:catalog' %}" class="btn btn-primary btn-lg">Quiero adoptar</a>
+    <a href="{% url 'reports:create' %}" class="btn btn-outline-secondary btn-lg">Crear un reporte</a>
   </div>
+</div>
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="h4 mb-0">Animales en adopción</h2>
