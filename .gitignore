@@ -22,3 +22,7 @@ imagenes_happy_paws/
 datos_happy_paws.json
 docs_to_seed.py
 *.ods
+
+# Imágenes que no se deben subir a versión del control
+web/code/static/assets/directiva/
+web/code/static/assets/ejemplos/
