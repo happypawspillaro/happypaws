@@ -32,6 +32,25 @@ class ResponsiveBaseTests(TestCase):
             with self.subTest(pagina=nombre):
                 self.assertEqual(self.client.get(reverse(nombre)).status_code, 200)
 
+    def test_incluye_favicon_y_logo(self):
+        resp = self.client.get(reverse("core:home"))
+        self.assertContains(resp, "images/happypaws.ico")
+        self.assertContains(resp, "images/happypaws_icono_blanco.png")
+
+    def test_footer_incluye_redes_sociales(self):
+        resp = self.client.get(reverse("core:home"))
+        self.assertContains(resp, "instagram.com/happypaws.pillaro")
+        self.assertContains(resp, "tiktok.com/@happypaws.pillaro")
+        self.assertContains(resp, "youtube.com/@HappyPawsP")
+        self.assertContains(resp, "facebook.com/profile.php")
+        self.assertContains(resp, "github.com/happypawspillaro")
+
+    def test_footer_incluye_contacto_y_datos_legales(self):
+        resp = self.client.get(reverse("core:home"))
+        self.assertContains(resp, "mailto:happypaws.pillaro@gmail.com")
+        self.assertContains(resp, "Código SUIOS: 0000142256")
+        self.assertContains(resp, "Acuerdo Ministerial Nro. 00012-2024")
+
 
 class DashboardAccessTests(TestCase):
     def test_dashboard_redirige_a_anonimos(self):
