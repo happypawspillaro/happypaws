@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load whatsapp_filters %}
 {% block title %}{{ reporte.titulo }} · Reportes{% endblock %}
 {% block content %}
 <nav aria-label="breadcrumb">
@@ -58,13 +57,7 @@
     <p>{{ reporte.descripcion|linebreaks }}</p>
 
     <div class="d-flex flex-wrap gap-2">
-      {% with wa=reporte.contacto_reportante|whatsapp_link %}
-        {% if wa %}
-          <a href="{{ wa }}" target="_blank" rel="noopener" class="btn btn-success btn-sm">
-            <i class="bi bi-whatsapp"></i> WhatsApp
-          </a>
-        {% endif %}
-      {% endwith %}
+      {% include "includes/whatsapp_link.html" with numero=reporte.contacto_reportante %}
       {% if reporte.permite_avistamientos %}
         <a href="#avistamientos" class="btn btn-primary btn-sm">
           <i class="bi bi-binoculars"></i> Reportar avistamiento ({{ avistamientos|length }})

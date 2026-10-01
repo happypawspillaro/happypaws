@@ -101,3 +101,6 @@ class WhatsappLinkFilterTests(TestCase):
     def test_valor_vacio_no_genera_enlace(self):
         self.assertIsNone(whatsapp_link(""))
         self.assertIsNone(whatsapp_link(None))
+
+    def test_numero_como_entero(self):
+        self.assertEqual(whatsapp_link(991234567), "https://wa.me/593991234567")
