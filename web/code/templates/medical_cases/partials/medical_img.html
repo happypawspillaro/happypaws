@@ -1,0 +1,9 @@
+{% with primera_foto=fotos.first %}
+  {% if primera_foto %}
+    <img src="{{ primera_foto.imagen.url }}" class="card-img-top" alt="{{ caso.titulo }}" />
+  {% else %}
+    <div class="card-img-placeholder">
+      <i class="bi bi-bandaid"></i>
+    </div>
+  {% endif %}
+{% endwith %}
