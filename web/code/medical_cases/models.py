@@ -31,7 +31,6 @@ class MedicalCase(models.Model):
     estado = models.CharField(
         max_length=10, choices=EstadoCaso.choices, default=EstadoCaso.ACTIVO
     )
-    foto = models.ImageField(upload_to="casos/", blank=True)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
