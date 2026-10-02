@@ -24,9 +24,11 @@ assignees: ''
 3. [Acción específica]
 4. Ver el error.
 
+---
+
 **Comportamiento esperado:**
 > ¿Qué debería haber ocurrido en su lugar?
-
+---
 **Dispositivo / Entorno:**
 > (Ej. Navegador, versión, teléfono/tablet/PC)
 
