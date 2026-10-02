@@ -1,12 +1,11 @@
 from datetime import date
 
-from django.test import TestCase
-from django.urls import reverse
-
 from accounts.models import User
 from animals.models import Animal, Especie, EstadoAnimal, Sexo, Tamano
 from core.management.commands.seed_demo import normalizar_contacto
 from core.templatetags.whatsapp_filters import whatsapp_link
+from django.test import TestCase
+from django.urls import reverse
 from medical_cases.models import MedicalCase
 from reports.models import Report, TipoReporte
 
@@ -27,8 +26,10 @@ class ResponsiveBaseTests(TestCase):
 
     def test_paginas_publicas_responden_ok(self):
         for nombre in [
-            "core:home", "animals:catalog",
-            "medical_cases:list", "reports:list",
+            "core:home",
+            "animals:catalog",
+            "medical_cases:list",
+            "reports:list",
         ]:
             with self.subTest(pagina=nombre):
                 self.assertEqual(self.client.get(reverse(nombre)).status_code, 200)
@@ -49,8 +50,8 @@ class ResponsiveBaseTests(TestCase):
     def test_footer_incluye_contacto_y_datos_legales(self):
         resp = self.client.get(reverse("core:home"))
         self.assertContains(resp, "mailto:happypaws.pillaro@gmail.com")
-        self.assertContains(resp, "Código SUIOS: 0000142256")
-        self.assertContains(resp, "Acuerdo Ministerial Nro. 00012-2024")
+        self.assertContains(resp, "<i>Código SUIOS:</i> 0000142256")
+        self.assertContains(resp, "<i>Acuerdo Ministerial Nro.</i> 00012-2024")
 
 
 class DashboardAccessTests(TestCase):
