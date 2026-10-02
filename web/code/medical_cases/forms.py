@@ -8,7 +8,7 @@ from .models import CasePhoto, CaseUpdate, Donation, Expense, MedicalCase
 class MedicalCaseForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = MedicalCase
-        fields = ["animal", "titulo", "descripcion", "meta_monto", "estado", "foto"]
+        fields = ["animal", "titulo", "descripcion", "meta_monto", "estado"]
         widgets = {"descripcion": forms.Textarea(attrs={"rows": 4})}
 
 
