@@ -34,7 +34,7 @@
     {% if reporte.callejero %}<span class="badge bg-warning text-dark">Posible callejero</span>{% endif %}
     <h1 class="h3 mt-2">{{ reporte.titulo }}</h1>
     <ul class="list-unstyled">
-      <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ reporte.ubicacion }}</li>
+      <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ reporte.ubicacion_completa }}</li>
       <li><i class="bi bi-calendar-event"></i> <strong>Fecha:</strong> {{ reporte.fecha_avistamiento }}{% if reporte.hora_aproximada %} · aprox. {{ reporte.hora_aproximada }}{% endif %}</li>
       {% if reporte.especie or reporte.sexo %}
         <li><i class="bi bi-tag"></i> <strong>Mascota:</strong>

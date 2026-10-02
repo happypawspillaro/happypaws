@@ -11,11 +11,18 @@ class ReportPhotoInline(admin.TabularInline):
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
     list_display = (
-        "titulo", "tipo", "ubicacion", "estado", "aprobado",
-        "fecha_avistamiento", "creado",
+        "titulo",
+        "tipo",
+        "canton",
+        "parroquia",
+        "barrio",
+        "estado",
+        "aprobado",
+        "fecha_avistamiento",
+        "creado",
     )
     list_filter = ("tipo", "estado", "aprobado", "especie", "callejero")
-    search_fields = ("titulo", "descripcion", "ubicacion", "senales_distinguibles")
+    search_fields = ("titulo", "descripcion", "canton", "parroquia", "barrio", "senales_distinguibles")
     list_editable = ("aprobado",)
     inlines = [ReportPhotoInline]
 
@@ -30,7 +37,7 @@ class ReportCommentAdmin(admin.ModelAdmin):
 
 @admin.register(ReportSighting)
 class ReportSightingAdmin(admin.ModelAdmin):
-    list_display = ("nombre", "reporte", "ubicacion", "fecha", "confirmado", "oculto")
+    list_display = ("nombre", "reporte", "canton", "parroquia", "barrio", "fecha", "confirmado", "oculto")
     list_filter = ("confirmado", "oculto")
-    search_fields = ("nombre", "ubicacion", "descripcion")
+    search_fields = ("nombre", "canton", "parroquia", "barrio", "descripcion")
     list_editable = ("confirmado", "oculto")

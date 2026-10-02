@@ -1,11 +1,10 @@
 from datetime import date, timedelta
 
+from accounts.models import User
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
-
-from accounts.models import User
 
 from .forms import ReportForm
 from .models import (
@@ -21,7 +20,9 @@ def _datos_reporte_validos(**kwargs):
         tipo=TipoReporte.PERDIDO,
         titulo="Se perdió Toby",
         descripcion="Perro café, collar rojo.",
-        ubicacion="Barrio Centro",
+        barrio="Centro",
+        parroquia="LM",
+        canton="PI",
         fecha_avistamiento=date.today().isoformat(),
         nombre_reportante="Ana",
         contacto_reportante="ana@example.com",
@@ -35,7 +36,9 @@ def crear_reporte(**kwargs):
         tipo=TipoReporte.PERDIDO,
         titulo="Se perdió Toby",
         descripcion="Perro café, collar rojo.",
-        ubicacion="Barrio Centro",
+        barrio="Centro",
+        parroquia="ME",
+        canton="PI",
         fecha_avistamiento=date.today(),
         nombre_reportante="Ana",
         contacto_reportante="ana@example.com",
@@ -68,17 +71,13 @@ class CommentTests(TestCase):
 
     def test_comentario_oculto_no_se_muestra_al_publico(self):
         ReportComment.objects.create(reporte=self.reporte, nombre="X", mensaje="visible")
-        ReportComment.objects.create(
-            reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True
-        )
+        ReportComment.objects.create(reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True)
         resp = self.client.get(self.reporte.get_absolute_url())
         self.assertContains(resp, "visible")
         self.assertNotContains(resp, "escondido")
 
     def test_staff_ve_comentarios_ocultos(self):
-        ReportComment.objects.create(
-            reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True
-        )
+        ReportComment.objects.create(reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True)
         User.objects.create_user(username="staff", password="x", is_staff=True)
         self.client.login(username="staff", password="x")
         resp = self.client.get(self.reporte.get_absolute_url())
@@ -93,7 +92,9 @@ class SightingTests(TestCase):
             {
                 "nombre": "Pedro",
                 "contacto": "0991112233",
-                "ubicacion": "Av. Bolívar",
+                "barrio": "Av. Bolívar",
+                "parroquia": "LM",
+                "canton": "PI",
                 "fecha": date.today().isoformat(),
                 "descripcion": "Iba hacia el sur.",
                 "website": "",
@@ -107,7 +108,7 @@ class SightingTests(TestCase):
         self.assertFalse(reporte.permite_avistamientos)
         resp = self.client.post(
             reverse("reports:add_sighting", args=[reporte.pk]),
-            {"nombre": "X", "ubicacion": "y", "fecha": date.today().isoformat(), "website": ""},
+            {"nombre": "X", "barrio": "y", "fecha": date.today().isoformat(), "website": ""},
         )
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(reporte.avistamientos.count(), 0)
@@ -117,7 +118,7 @@ class ModerationTests(TestCase):
     def setUp(self):
         self.reporte = crear_reporte()
         self.sighting = ReportSighting.objects.create(
-            reporte=self.reporte, nombre="P", ubicacion="x", fecha=date.today()
+            reporte=self.reporte, nombre="P", barrio="x", parroquia="BM", canton="PI", fecha=date.today()
         )
         User.objects.create_user(username="staff", password="x", is_staff=True)
         self.client.login(username="staff", password="x")
@@ -163,9 +164,7 @@ class ApprovalTests(TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_aprobar_requiere_staff(self):
-        resp = self.client.post(
-            reverse("reports:toggle_approval", args=[self.pendiente.pk])
-        )
+        resp = self.client.post(reverse("reports:toggle_approval", args=[self.pendiente.pk]))
         self.assertEqual(resp.status_code, 302)  # redirige al login
         self.pendiente.refresh_from_db()
         self.assertFalse(self.pendiente.aprobado)
@@ -177,9 +176,7 @@ class ApprovalTests(TestCase):
         self.pendiente.refresh_from_db()
         self.assertTrue(self.pendiente.aprobado)
         self.client.logout()
-        self.assertContains(
-            self.client.get(reverse("reports:list")), "Pendiente de revisión"
-        )
+        self.assertContains(self.client.get(reverse("reports:list")), "Pendiente de revisión")
 
     def test_reporte_creado_queda_pendiente(self):
         resp = self.client.post(reverse("reports:create"), _datos_reporte_validos())
@@ -196,9 +193,7 @@ class ContactoVisibleTests(TestCase):
     """El contacto del reportante se oculta al público tras 30 días (issue #34)."""
 
     def _envejecer(self, reporte, dias):
-        Report.objects.filter(pk=reporte.pk).update(
-            creado=timezone.now() - timedelta(days=dias)
-        )
+        Report.objects.filter(pk=reporte.pk).update(creado=timezone.now() - timedelta(days=dias))
         reporte.refresh_from_db()
 
     def test_contacto_visible_property_reciente(self):
@@ -248,15 +243,13 @@ class ReportFormValidationTests(TestCase):
         self.assertIn("contacto_reportante", form.errors)
 
     def test_contacto_vacio_es_valido_anonimo(self):
-        form = ReportForm(
-            data=_datos_reporte_validos(nombre_reportante="", contacto_reportante="")
-        )
+        form = ReportForm(data=_datos_reporte_validos(nombre_reportante="", contacto_reportante=""))
         self.assertTrue(form.is_valid(), form.errors)
 
     def test_ubicacion_muy_corta_es_rechazada(self):
-        form = ReportForm(data=_datos_reporte_validos(ubicacion="ab"))
+        form = ReportForm(data=_datos_reporte_validos(barrio="ab"))
         self.assertFalse(form.is_valid())
-        self.assertIn("ubicacion", form.errors)
+        self.assertIn("barrio", form.errors)
 
 
 @override_settings(

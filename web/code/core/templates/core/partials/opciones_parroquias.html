@@ -1,0 +1,10 @@
+<option value="">---------</option>
+
+{% for value, label in parroquias %}
+    <option
+        value="{{ value }}"
+        {% if value == selected_parroquia %}selected{% endif %}
+    >
+        {{ label }}
+    </option>
+{% endfor %}

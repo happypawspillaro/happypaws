@@ -22,3 +22,6 @@ imagenes_happy_paws/
 datos_happy_paws.json
 docs_to_seed.py
 *.ods
+
+# Archivos descargables
+web/code/static/assets/locaciones.json
