@@ -80,3 +80,11 @@ class StaffAccessTests(TestCase):
         self.client.login(username="staff", password="x")
         resp = self.client.get(reverse("animals:manage_list"))
         self.assertEqual(resp.status_code, 200)
+
+    def test_muestra_whatsapp_de_tutor_sin_nombre(self):
+        """Un contacto sin nombre de tutor igual debe mostrar el botón (issue #46)."""
+        animal = crear_animal(tutor_nombre="", tutor_contacto="0991234567")
+        User.objects.create_user(username="staff", password="x", is_staff=True)
+        self.client.login(username="staff", password="x")
+        resp = self.client.get(reverse("animals:manage_detail", args=[animal.pk]))
+        self.assertContains(resp, "https://wa.me/593991234567")

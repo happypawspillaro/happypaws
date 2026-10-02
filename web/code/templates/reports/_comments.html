@@ -16,6 +16,7 @@
           <p class="mb-1 mt-1">{{ c.mensaje|linebreaksbr }}</p>
           {% if c.contacto and user.is_staff %}
             <small class="text-muted"><i class="bi bi-telephone"></i> {{ c.contacto }}</small>
+            {% include "includes/whatsapp_link.html" with numero=c.contacto extra_class="ms-2 py-0" %}
           {% endif %}
           {% if user.is_staff %}
             <div class="mt-2 d-flex gap-2">
