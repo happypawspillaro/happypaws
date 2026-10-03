@@ -35,6 +35,7 @@ Puedes consultar en el apartado [Instalación](INSTALL.md) para saber como inici
 ## Pruebas
 
 ```bash
+export SECRET_KEY="<tu_clave_secreta>"
 cd web/code; python manage.py test
 ```
 
