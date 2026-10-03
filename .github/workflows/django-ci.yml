@@ -7,29 +7,31 @@ on:
   push:
     branches:
       - main
-  merge_group:
 
 permissions:
   contents: read
-  code-quality: write
+  code-quality: write # zizmor: ignore[excessive-permissions]
+
+defaults:
+  run:
+    working-directory: web/code
+
+env:
+  # Only used by CI/tests. Never use this value in production.
+  SECRET_KEY: ci-secret-key-not-for-production
+  DJANGO_SETTINGS_MODULE: happypaws.settings.local
 
 jobs:
   test:
     name: Django tests
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: web/code
-
-    env:
-      # Only used by CI/tests. Never use this value in production.
-      SECRET_KEY: ci-secret-key-not-for-production
-      DJANGO_SETTINGS_MODULE: happypaws.settings.local
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -41,7 +43,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r web/requirements.txt
+          python -m pip install -r ../requirements.txt
           python -m pip install coverage
 
       - name: Run Django tests with coverage
