@@ -18,6 +18,7 @@ source = [
     "reports",
 ]
 omit = [
+    "*/__init__.py",
     "*/migrations/*",
     "*/admin.py",
     "*/apps.py",
