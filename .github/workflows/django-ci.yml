@@ -46,9 +46,9 @@ jobs:
 
       - name: Run Django tests with coverage
         run: |
-          coverage run --branch manage.py test
-          coverage report --show-missing
-          coverage xml -o coverage.xml
+          coverage run --rcfile=../../pyproject.toml --branch manage.py test
+          coverage report --rcfile=../../pyproject.toml --show-missing
+          coverage xml --rcfile=../../pyproject.toml -o coverage.xml
 
       - name: Upload coverage artifact
         if: always()
