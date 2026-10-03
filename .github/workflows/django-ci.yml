@@ -1,23 +1,21 @@
 name: Django CI
 
 on:
-  pull_request:
+  push:
     branches:
       - main
-  push:
+  pull_request:
     branches:
       - main
 
 permissions:
   contents: read
-  code-quality: write # zizmor: ignore[excessive-permissions]
 
 defaults:
   run:
     working-directory: web/code
 
 env:
-  # Only used by CI/tests. Never use this value in production.
   SECRET_KEY: ci-secret-key-not-for-production
   DJANGO_SETTINGS_MODULE: happypaws.settings.local
 
@@ -52,14 +50,6 @@ jobs:
           coverage report --show-missing
           coverage xml -o coverage.xml
 
-      - name: Upload coverage to GitHub
-        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-        uses: actions/upload-code-coverage@2b21a77928be8d5168c2b9581a67f2adbebacc52 # v1.4.4
-        with:
-          file: web/code/coverage.xml
-          language: Python
-          label: code-coverage/django
-
       - name: Upload coverage artifact
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -67,3 +57,10 @@ jobs:
           name: django-coverage
           path: web/code/coverage.xml
           if-no-files-found: ignore
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@303a32d7a59b442fa8d48b6a1cc6825c09c847a5 # v7.1.1
+        with:
+          files: web/code/coverage.xml
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
