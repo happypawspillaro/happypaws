@@ -1,20 +1,30 @@
 version: 2
 updates:
- - package-ecosystem: pip
-   directories:
-    - "/web"
-   schedule:
-    interval: weekly
-   labels:
-    - dependencies
-    - python
-   cooldown:
-    default-days: 7
- - package-ecosystem: docker
-   directory: "/web"
-   schedule:
-    interval: weekly
-   labels:
-    - dependencies
-   cooldown:
-    default-days: 7
+  - package-ecosystem: pip
+    directories:
+      - "/web"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - python
+    cooldown:
+      default-days: 7
+  - package-ecosystem: docker
+    directory: "/web"
+    schedule:
+      interval: weekly
+    labels:
+      - dependencies
+      - docker
+    cooldown:
+      default-days: 7
+  - package-ecosystem: "docker-compose"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - dependencies
+      - docker
+    cooldown:
+      default-days: 7
