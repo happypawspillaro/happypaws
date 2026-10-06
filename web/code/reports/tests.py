@@ -1,11 +1,10 @@
 from datetime import date, timedelta
 
+from accounts.models import User
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
-
-from accounts.models import User
 
 from .forms import ReportForm
 from .models import (
@@ -68,17 +67,13 @@ class CommentTests(TestCase):
 
     def test_comentario_oculto_no_se_muestra_al_publico(self):
         ReportComment.objects.create(reporte=self.reporte, nombre="X", mensaje="visible")
-        ReportComment.objects.create(
-            reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True
-        )
+        ReportComment.objects.create(reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True)
         resp = self.client.get(self.reporte.get_absolute_url())
         self.assertContains(resp, "visible")
         self.assertNotContains(resp, "escondido")
 
     def test_staff_ve_comentarios_ocultos(self):
-        ReportComment.objects.create(
-            reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True
-        )
+        ReportComment.objects.create(reporte=self.reporte, nombre="Y", mensaje="escondido", oculto=True)
         User.objects.create_user(username="staff", password="x", is_staff=True)
         self.client.login(username="staff", password="x")
         resp = self.client.get(self.reporte.get_absolute_url())
@@ -163,9 +158,7 @@ class ApprovalTests(TestCase):
         self.assertEqual(resp.status_code, 200)
 
     def test_aprobar_requiere_staff(self):
-        resp = self.client.post(
-            reverse("reports:toggle_approval", args=[self.pendiente.pk])
-        )
+        resp = self.client.post(reverse("reports:toggle_approval", args=[self.pendiente.pk]))
         self.assertEqual(resp.status_code, 302)  # redirige al login
         self.pendiente.refresh_from_db()
         self.assertFalse(self.pendiente.aprobado)
@@ -177,9 +170,7 @@ class ApprovalTests(TestCase):
         self.pendiente.refresh_from_db()
         self.assertTrue(self.pendiente.aprobado)
         self.client.logout()
-        self.assertContains(
-            self.client.get(reverse("reports:list")), "Pendiente de revisión"
-        )
+        self.assertContains(self.client.get(reverse("reports:list")), "Pendiente de revisión")
 
     def test_reporte_creado_queda_pendiente(self):
         resp = self.client.post(reverse("reports:create"), _datos_reporte_validos())
@@ -196,9 +187,7 @@ class ContactoVisibleTests(TestCase):
     """El contacto del reportante se oculta al público tras 30 días (issue #34)."""
 
     def _envejecer(self, reporte, dias):
-        Report.objects.filter(pk=reporte.pk).update(
-            creado=timezone.now() - timedelta(days=dias)
-        )
+        Report.objects.filter(pk=reporte.pk).update(creado=timezone.now() - timedelta(days=dias))
         reporte.refresh_from_db()
 
     def test_contacto_visible_property_reciente(self):
@@ -248,9 +237,7 @@ class ReportFormValidationTests(TestCase):
         self.assertIn("contacto_reportante", form.errors)
 
     def test_contacto_vacio_es_valido_anonimo(self):
-        form = ReportForm(
-            data=_datos_reporte_validos(nombre_reportante="", contacto_reportante="")
-        )
+        form = ReportForm(data=_datos_reporte_validos(nombre_reportante="", contacto_reportante=""))
         self.assertTrue(form.is_valid(), form.errors)
 
     def test_ubicacion_muy_corta_es_rechazada(self):

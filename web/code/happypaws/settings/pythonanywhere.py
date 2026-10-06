@@ -8,9 +8,7 @@ DEBUG = False
 
 # En PythonAnywhere el dominio es <usuario>.pythonanywhere.com.
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", ".pythonanywhere.com").split(",")
-CSRF_TRUSTED_ORIGINS = os.getenv(
-    "CSRF_TRUSTED_ORIGINS", "https://*.pythonanywhere.com"
-).split(",")
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "https://*.pythonanywhere.com").split(",")
 
 # Estáticos: collectstatic vuelca aquí; esta ruta es la que se mapea en la
 # pestaña Web (sección Static files).

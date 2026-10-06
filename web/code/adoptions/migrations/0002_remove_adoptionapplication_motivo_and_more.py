@@ -6,17 +6,28 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('adoptions', '0001_initial'),
+        ("adoptions", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='adoptionapplication',
-            name='motivo',
+            model_name="adoptionapplication",
+            name="motivo",
         ),
         migrations.AddField(
-            model_name='adoptionapplication',
-            name='proposito',
-            field=models.CharField(choices=[('compania', 'Compañía'), ('reproduccion', 'Reproducción'), ('guardian', 'Guardián'), ('servicio', 'Servicio'), ('otro', 'Otro')], default='compania', max_length=15, verbose_name='¿para qué quieres a la mascota?'),
+            model_name="adoptionapplication",
+            name="proposito",
+            field=models.CharField(
+                choices=[
+                    ("compania", "Compañía"),
+                    ("reproduccion", "Reproducción"),
+                    ("guardian", "Guardián"),
+                    ("servicio", "Servicio"),
+                    ("otro", "Otro"),
+                ],
+                default="compania",
+                max_length=15,
+                verbose_name="¿para qué quieres a la mascota?",
+            ),
         ),
     ]

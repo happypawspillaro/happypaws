@@ -23,7 +23,7 @@ se sube nada sensible ni la base de datos local.
 
 ## 2. Crear la cuenta y clonar
 
-1. Regístrate en https://www.pythonanywhere.com (plan **Beginner**, gratis).
+1. Regístrate en [ pythonanywhere](https://www.pythonanywhere.com) (plan **Beginner**, gratis).
 2. Abre una consola **Bash** (pestaña _Consoles_ → _Bash_).
 3. Clona el proyecto:
 
@@ -50,7 +50,7 @@ python -c "import secrets; print(secrets.token_urlsafe(50))"
 
 Crea el archivo `.env` (editor _Files_ o `nano .env`) con:
 
-```
+```dotenv
 SECRET_KEY=pega-aqui-la-clave-generada
 DEBUG=False
 ALLOWED_HOSTS=tuusuario.pythonanywhere.com
