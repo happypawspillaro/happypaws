@@ -6,22 +6,23 @@
   Happy Paws Píllaro · Esterilización y adopción responsable
 {% endblock %}
 {% block content %}
-<div class="p-5 mb-5 bg-light rounded-3 text-center">
-  <img src="{% static 'images/happypaws_horizontal.png' %}" 
-       alt="Happy Paws Píllaro Horizontal" 
-       class="img-fluid d-inline-block" 
-       style="max-height: 128px; width: auto;">
-  <p class="lead col-md-8 mx-auto">
-    Promovemos la esterilización y la adopción responsable de perros y gatos
-    en el cantón Píllaro. Aquí puedes adoptar, apoyar casos médicos y reportar
-    mascotas perdidas o casos de maltrato.
-  </p>
-  <div class="d-flex gap-2 justify-content-center">
-    <a href="{% url 'animals:catalog' %}" class="btn btn-primary btn-lg">Quiero adoptar</a>
-    <a href="{% url 'reports:create' %}" class="btn btn-outline-secondary btn-lg">Crear un reporte</a>
+  <div class="p-5 mb-5 bg-light rounded-3 text-center">
+    <img src="{% static 'images/happypaws_horizontal.png' %}"
+         alt="Happy Paws Píllaro Horizontal"
+         class="img-fluid d-inline-block"
+         style="max-height: 128px;
+                width: auto">
+    <p class="lead col-md-8 mx-auto">
+      Promovemos la esterilización y la adopción responsable de perros y gatos
+      en el cantón Píllaro. Aquí puedes adoptar, apoyar casos médicos y reportar
+      mascotas perdidas o casos de maltrato.
+    </p>
+    <div class="d-flex gap-2 justify-content-center">
+      <a href="{% url 'animals:catalog' %}" class="btn btn-primary btn-lg">Quiero adoptar</a>
+      <a href="{% url 'reports:create' %}"
+         class="btn btn-outline-secondary btn-lg">Crear un reporte</a>
+    </div>
   </div>
-</div>
-
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="h4 mb-0">Animales en adopción</h2>
     <a href="{% url 'animals:catalog' %}">Ver todos</a>
@@ -32,7 +33,10 @@
         <div class="card h-100 shadow-sm animal-card">
           <a href="{{ animal.get_absolute_url }}">
             {% if animal.foto_principal %}
-              <img src="{% thumbnail animal.foto_principal 'card' %}" class="card-img-top" alt="{{ animal.nombre }}" loading="lazy" />
+              <img src="{% thumbnail animal.foto_principal 'card' %}"
+                   class="card-img-top"
+                   alt="{{ animal.nombre }}"
+                   loading="lazy" />
             {% else %}
               <div class="card-img-placeholder">
                 <i class="bi bi-image"></i>
@@ -47,7 +51,8 @@
             </p>
           </div>
           <div class="card-footer bg-white border-0">
-            <a href="{{ animal.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Conocer más</a>
+            <a href="{{ animal.get_absolute_url }}"
+               class="btn btn-primary btn-sm w-100">Conocer más</a>
           </div>
         </div>
       </div>
@@ -57,7 +62,6 @@
       </div>
     {% endfor %}
   </div>
-
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="h4 mb-0">Casos médicos activos</h2>
     <a href="{% url 'medical_cases:list' %}">Ver todos</a>
@@ -66,7 +70,7 @@
     {% for caso in casos %}
       <div class="col-md-4">
         <div class="card h-100 shadow-sm case-card">
-          <a href="{{ caso.get_absolute_url }}">{% include 'medical_cases/partials/medical_img.html' with fotos=caso.fotos %}</a>
+          <a href="{{ caso.get_absolute_url }}">{% include "medical_cases/partials/medical_img.html" with fotos=caso.fotos %}</a>
           <div class="card-body">
             <h3 class="h5">{{ caso.titulo }}</h3>
             <div class="progress mb-2" style="height: 10px;">
@@ -75,7 +79,8 @@
             <p class="small mb-0">${{ caso.monto_recaudado|intcomma }} de ${{ caso.meta_monto|intcomma }}</p>
           </div>
           <div class="card-footer bg-white border-0">
-            <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Apoyar</a>
+            <a href="{{ caso.get_absolute_url }}"
+               class="btn btn-primary btn-sm w-100">Apoyar</a>
           </div>
         </div>
       </div>

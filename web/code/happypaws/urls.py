@@ -1,11 +1,15 @@
+from core.sitemaps import (
+    AnimalSitemap,
+    MedicalCaseSitemap,
+    ReportSitemap,
+    StaticViewSitemap,
+)
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
 from django.urls import include, path
-
-from core.sitemaps import AnimalSitemap, MedicalCaseSitemap, ReportSitemap, StaticViewSitemap
 
 sitemaps = {
     "estaticas": StaticViewSitemap,

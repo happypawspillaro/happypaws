@@ -1,70 +1,96 @@
 :root {
-  --hp-primary: #f97316;
+	--hp-primary: #f97316;
 }
 
-.bg-primary { background-color: var(--hp-primary) !important; }
+.bg-primary {
+	background-color: var(--hp-primary);
+}
+
 .btn-primary {
-  background-color: var(--hp-primary);
-  border-color: var(--hp-primary);
+	background-color: var(--hp-primary);
+	border-color: var(--hp-primary);
 }
+
 .btn-primary:hover {
-  background-color: #ea6a0c;
-  border-color: #ea6a0c;
+	background-color: #ea6a0c;
+	border-color: #ea6a0c;
 }
-.text-primary { color: var(--hp-primary) !important; }
-a { color: #d9620a; }
+
+.text-primary {
+	color: var(--hp-primary);
+}
+
+a {
+	color: #d9620a;
+}
 
 .animal-card img,
 .case-card img,
 .report-card img {
-  height: 220px;
-  object-fit: cover;
+	height: 220px;
+	object-fit: cover;
 }
 
 /* Casos médicos cerrados: en segundo plano frente a los activos. */
-.case-card--cerrado {
-  opacity: 0.7;
+.case-card-cerrado {
+	opacity: 0.7;
 }
-.case-card--cerrado img {
-  filter: grayscale(70%);
+
+.case-card-cerrado img {
+	filter: grayscale(70%);
 }
 
 .card-img-placeholder {
-  height: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f1f1f1;
-  color: #bbb;
-  font-size: 3rem;
+	height: 220px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #f1f1f1;
+	color: #bbb;
+	font-size: 3rem;
 }
 
-.htmx-indicator { opacity: 0; transition: opacity 200ms ease-in; }
-.htmx-request .htmx-indicator { opacity: 1; }
-.htmx-request.htmx-indicator { opacity: 1; }
+.htmx-indicator {
+	opacity: 0;
+	transition: opacity 200ms ease-in;
+}
+
+.htmx-request .htmx-indicator {
+	opacity: 1;
+}
+
+.htmx-request.htmx-indicator {
+	opacity: 1;
+}
 
 /* Campo trampa anti-spam: fuera de pantalla, invisible para personas. */
 .hp-field {
-  position: absolute;
-  left: -10000px;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
 }
 
 .sighting-img {
-  height: 160px;
-  object-fit: cover;
+	height: 160px;
+	object-fit: cover;
 }
 
 /* Carrusel de casos médicos: altura consistente y adaptable al dispositivo. */
-#carouselCaso .carousel-item img {
-  height: 380px;
-  object-fit: cover;
+#carousel-caso .carousel-item img {
+	height: 380px;
+	object-fit: cover;
 }
-@media (max-width: 767.98px) {
-  #carouselCaso .carousel-item img { height: 260px; }
+
+@media (width <= 767.98px) {
+	#carousel-caso .carousel-item img {
+		height: 260px;
+	}
 }
-@media (max-width: 575.98px) {
-  #carouselCaso .carousel-item img { height: 200px; }
+
+@media (width <= 575.98px) {
+	#carousel-caso .carousel-item img {
+		height: 200px;
+	}
 }

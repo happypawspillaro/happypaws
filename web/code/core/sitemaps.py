@@ -1,7 +1,6 @@
+from animals.models import Animal
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-
-from animals.models import Animal
 from medical_cases.models import MedicalCase
 from reports.models import Report
 
