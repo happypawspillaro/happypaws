@@ -24,10 +24,12 @@ a {
 	color: #d9620a;
 }
 
+/* Miniaturas cuadradas, igual que el alias 'card' de easy-thumbnails. */
 .animal-card img,
 .case-card img,
 .report-card img {
-	height: 220px;
+	width: 100%;
+	aspect-ratio: 1 / 1;
 	object-fit: cover;
 }
 
@@ -48,6 +50,13 @@ a {
 	background: #f1f1f1;
 	color: #bbb;
 	font-size: 3rem;
+}
+
+.animal-card .card-img-placeholder,
+.case-card .card-img-placeholder,
+.report-card .card-img-placeholder {
+	height: auto;
+	aspect-ratio: 1 / 1;
 }
 
 .htmx-indicator {

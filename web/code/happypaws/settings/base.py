@@ -81,11 +81,13 @@ MEDIA_ROOT = BASE_DIR.parent / "media"
 # - Vistas de un solo registro (detalle de animal/caso/reporte): usan la foto
 #   original (x.url) directamente, no vale la pena generar un derivado más
 #   para una sola imagen.
+# Formato cuadrado (1:1): la mayoría de fotos que sube la comunidad son
+# cuadradas o verticales, un recorte horizontal les corta al animal (#71).
 # El derivado se genera bajo demanda en la primera visita y se guarda junto
 # al original en MEDIA_ROOT (lo sirve nginx igual que los originales).
 THUMBNAIL_ALIASES = {
     "": {
-        "card": {"size": (600, 400), "crop": "smart"},
+        "card": {"size": (600, 600), "crop": "smart"},
     },
 }
 
