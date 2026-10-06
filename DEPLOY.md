@@ -23,7 +23,7 @@ se sube nada sensible ni la base de datos local.
 
 ## 2. Crear la cuenta y clonar
 
-1. Regístrate en [ pythonanywhere](https://www.pythonanywhere.com) (plan **Beginner**, gratis).
+1. Regístrate en [pythonanywhere](https://www.pythonanywhere.com) (plan **Beginner**, gratis).
 2. Abre una consola **Bash** (pestaña _Consoles_ → _Bash_).
 3. Clona el proyecto:
 

@@ -1,9 +1,9 @@
 """Avisos por correo cuando alguien interactúa con un reporte."""
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 
 
 def _es_email(valor):

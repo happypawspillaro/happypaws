@@ -1,12 +1,14 @@
 accesible
 administrativo
 aprox
+avance
+Avance
 avances
 calle
 caracteres
 clases
 comando
-dirección
+direccion
 foto
 hace
 hagas
