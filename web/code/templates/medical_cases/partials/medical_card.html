@@ -1,11 +1,11 @@
 {% load humanize %}
 {# Tarjeta de un caso médico, para activos y cerrados. Requiere {{ caso }} en el contexto. #}
-<div class="card h-100 shadow-sm case-card{% if caso.estado == 'cerrado' %} case-card--cerrado{% endif %}">
+<div class="card h-100 shadow-sm case-card{% if caso.estado == 'cerrado' %} case-card-cerrado{% endif %}">
   <a href="{{ caso.get_absolute_url }}" class="position-relative d-block">
-    {% if caso.estado == 'cerrado' %}
+    {% if caso.estado == "cerrado" %}
       <span class="badge bg-secondary position-absolute top-0 start-0 m-2">Cerrado</span>
     {% endif %}
-    {% include 'medical_cases/partials/medical_img.html' with fotos=caso.fotos %}
+    {% include "medical_cases/partials/medical_img.html" with fotos=caso.fotos %}
   </a>
   <div class="card-body">
     <h2 class="h5">{{ caso.titulo }}</h2>
@@ -19,10 +19,12 @@
     </p>
   </div>
   <div class="card-footer bg-white border-0">
-    {% if caso.estado == 'cerrado' %}
-      <a href="{{ caso.get_absolute_url }}" class="btn btn-outline-secondary btn-sm w-100">Ver caso</a>
+    {% if caso.estado == "cerrado" %}
+      <a href="{{ caso.get_absolute_url }}"
+         class="btn btn-outline-secondary btn-sm w-100">Ver caso</a>
     {% else %}
-      <a href="{{ caso.get_absolute_url }}" class="btn btn-primary btn-sm w-100">Ver caso y apoyar</a>
+      <a href="{{ caso.get_absolute_url }}"
+         class="btn btn-primary btn-sm w-100">Ver caso y apoyar</a>
     {% endif %}
   </div>
 </div>

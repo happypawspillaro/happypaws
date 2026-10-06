@@ -20,7 +20,7 @@ if DEBUG:
         "SHOW_TOOLBAR_CALLBACK": "debug_toolbar.middleware.show_toolbar_with_docker",
     }
 
-# Usar SQLLite en modo desarrollo
+# Usar sqlite en modo desarrollo
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",

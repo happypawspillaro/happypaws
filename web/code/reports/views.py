@@ -1,9 +1,8 @@
+from accounts.decorators import staff_required
+from constants import DIAS_CONTACTO_VISIBLE
 from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
-
-from accounts.decorators import staff_required
-from constants import DIAS_CONTACTO_VISIBLE
 
 from .forms import CommentForm, ReportForm, SightingForm
 from .models import (
@@ -19,11 +18,7 @@ from .notifications import notify_report_activity
 
 def report_list(request):
     """Tablero público de reportes (solo los aprobados por el staff)."""
-    reportes = (
-        Report.objects.filter(aprobado=True)
-        .order_by("-fecha_avistamiento", "-creado")
-        .prefetch_related("fotos")
-    )
+    reportes = Report.objects.filter(aprobado=True).order_by("-fecha_avistamiento", "-creado").prefetch_related("fotos")
     tipo = request.GET.get("tipo", "")
     if tipo:
         reportes = reportes.filter(tipo=tipo)
@@ -70,14 +65,14 @@ def create(request):
             ReportPhoto.objects.create(reporte=reporte, imagen=imagen)
         messages.success(
             request,
-            "¡Gracias por ayudar a la comunidad! Tu reporte está en proceso de "
-            "verificación antes de publicarse.",
+            "¡Gracias por ayudar a la comunidad! Tu reporte está en proceso de " "verificación antes de publicarse.",
         )
         return redirect("reports:list")
     return render(request, "reports/create.html", {"form": form})
 
 
 # --- Interacción pública ---
+
 
 def add_comment(request, pk):
     """Cualquier persona puede dejar un comentario o pista en un reporte."""
@@ -95,9 +90,7 @@ def add_comment(request, pk):
         return redirect(f"{reporte.get_absolute_url()}#comentarios")
     else:
         messages.error(request, "Revisa el formulario: no pudimos publicar tu comentario.")
-        return render(
-            request, "reports/detail.html", _detail_context(request, reporte, comment_form=form)
-        )
+        return render(request, "reports/detail.html", _detail_context(request, reporte, comment_form=form))
 
 
 def add_sighting(request, pk):
@@ -115,18 +108,15 @@ def add_sighting(request, pk):
         avistamiento.reporte = reporte
         avistamiento.save()
         notify_report_activity(reporte, "avistamiento", avistamiento, request)
-        messages.success(
-            request, "¡Gracias! Tu avistamiento fue registrado y ayuda a la búsqueda."
-        )
+        messages.success(request, "¡Gracias! Tu avistamiento fue registrado y ayuda a la búsqueda.")
         return redirect(f"{reporte.get_absolute_url()}#avistamientos")
     else:
         messages.error(request, "Revisa el formulario: no pudimos registrar el avistamiento.")
-        return render(
-            request, "reports/detail.html", _detail_context(request, reporte, sighting_form=form)
-        )
+        return render(request, "reports/detail.html", _detail_context(request, reporte, sighting_form=form))
 
 
 # --- Panel administrativo (staff) ---
+
 
 @staff_required
 def manage_list(request):
@@ -171,17 +161,14 @@ def toggle_approval(request, pk):
 def toggle_status(request, pk):
     reporte = get_object_or_404(Report, pk=pk)
     if request.method == "POST":
-        reporte.estado = (
-            EstadoReporte.RESUELTO
-            if reporte.estado == EstadoReporte.ABIERTO
-            else EstadoReporte.ABIERTO
-        )
+        reporte.estado = EstadoReporte.RESUELTO if reporte.estado == EstadoReporte.ABIERTO else EstadoReporte.ABIERTO
         reporte.save(update_fields=["estado"])
         messages.success(request, f"Reporte marcado como {reporte.get_estado_display()}.")
     return redirect("reports:detail", pk=pk)
 
 
 # --- Moderación de la interacción (staff) ---
+
 
 @staff_required
 def toggle_comment(request, pk):

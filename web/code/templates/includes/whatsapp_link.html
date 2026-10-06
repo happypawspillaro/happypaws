@@ -1,7 +1,10 @@
 {% load whatsapp_filters %}
 {% with wa=numero|whatsapp_link %}
   {% if wa %}
-    <a href="{{ wa }}" target="_blank" rel="noopener" class="btn btn-success btn-sm {{ extra_class }}">
+    <a href="{{ wa }}"
+       target="_blank"
+       rel="noopener"
+       class="btn btn-success btn-sm {{ extra_class }}">
       <i class="bi bi-whatsapp"></i> WhatsApp
     </a>
   {% endif %}

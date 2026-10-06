@@ -1,11 +1,10 @@
 from datetime import date, timedelta
 
+from accounts.models import User
 from django.test import TestCase
 from django.urls import reverse
 
-from accounts.models import User
-
-from .models import Animal, EstadoAnimal, Especie, Sexo, Tamano
+from .models import Animal, Especie, EstadoAnimal, Sexo, Tamano
 
 
 def crear_animal(**kwargs):
