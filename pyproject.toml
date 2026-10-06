@@ -10,3 +10,27 @@ profile = "black"
 # Configuraciones del formateador de Django Templates
 [tool.djlint]
 indent=2
+
+[tool.coverage.run]
+branch = true
+source = [
+    "accounts",
+    "adoptions",
+    "animals",
+    "core",
+    "medical_cases",
+    "reports",
+]
+omit = [
+    "*/__init__.py",
+    "*/migrations/*",
+    "*/admin.py",
+    "*/apps.py",
+    "*/management/commands/*",
+    "*/tests.py",
+    "*/tests/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
