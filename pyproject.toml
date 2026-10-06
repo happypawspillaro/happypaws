@@ -7,6 +7,6 @@ max-line-length = 120
 [tool.isort]
 profile = "black"
 
-# Configuraciones del formateador de Django Tempaltes
+# Configuraciones del formateador de Django Templates
 [tool.djlint]
 indent=2
