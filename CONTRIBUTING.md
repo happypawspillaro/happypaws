@@ -67,15 +67,21 @@ Para formatear tus archivos de Python, sigue las siguientes instrucciones:
    ```bash
    python -m venv .venv
    source .venv/bin/activate
-   pip install black flake8 flake8-pyproject isort pylint pylint-django
+   pip install black flake8 flake8-pyproject isort pylint pylint-django djlint
    # Permite ejecutar el script
    sudo chmod +x linters.sh
    ```
 
-2. Puedes ejecutar todos los formateadores de una pasada con el script `linters.sh` y especificando como argumento tu script de Python
+2. Puedes ejecutar todos los formateadores de Python en una pasada con el script `linters.sh` y especificando como argumento tu script de Python
 
    ```bash
    ./linters.sh carpeta/codigo.py
+   ```
+
+3. Para formatear tus [Django Templates](https://docs.djangoproject.com/en/6.1/topics/templates/) usa `djlint` como en el siguiente ejemplo:
+
+   ```bash
+   djlint --reformat carpeta/templates/plantilla.html
    ```
 
 ### Frontend
