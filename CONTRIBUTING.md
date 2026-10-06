@@ -35,8 +35,8 @@ Si necesitas, por ejemplo exponer puertos en producción para revisar datos con 
    ```yaml
    services:
    postgres:
-     ports:
-       - 5432:5432
+    ports:
+     - 5432:5432
    ```
 
 3. Comprueba que el puerto está abierto con:
