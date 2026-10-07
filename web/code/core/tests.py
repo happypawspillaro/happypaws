@@ -1,16 +1,10 @@
 from datetime import date
-
-from accounts.models import User
-from animals.models import Animal, Especie, EstadoAnimal, Sexo, Tamano
-from core.management.commands.seed_demo import normalizar_contacto
-from core.templatetags.whatsapp_filters import whatsapp_link
-from django.test import TestCase
-from django.urls import reverse
 from unittest.mock import patch
 
 from accounts.models import User
 from animals.models import Animal, Especie, EstadoAnimal, Sexo, Tamano
 from core.management.commands.seed_demo import normalizar_contacto
+from core.templatetags.whatsapp_filters import whatsapp_link
 from core.views import listar_canton_parroquia, obtener_barrios
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
