@@ -1,4 +1,11 @@
 from datetime import date
+
+from accounts.models import User
+from animals.models import Animal, Especie, EstadoAnimal, Sexo, Tamano
+from core.management.commands.seed_demo import normalizar_contacto
+from core.templatetags.whatsapp_filters import whatsapp_link
+from django.test import TestCase
+from django.urls import reverse
 from unittest.mock import patch
 
 from accounts.models import User
@@ -51,8 +58,8 @@ class ResponsiveBaseTests(TestCase):
     def test_footer_incluye_contacto_y_datos_legales(self):
         resp = self.client.get(reverse("core:home"))
         self.assertContains(resp, "mailto:happypaws.pillaro@gmail.com")
-        self.assertContains(resp, "Código SUIOS: 0000142256")
-        self.assertContains(resp, "Acuerdo Ministerial Nro. 00012-2024")
+        self.assertContains(resp, "<i>Código SUIOS:</i> 0000142256")
+        self.assertContains(resp, "<i>Acuerdo Ministerial Nro.</i> 00012-2024")
 
 
 class DashboardAccessTests(TestCase):
@@ -101,6 +108,35 @@ class NormalizarContactoTests(TestCase):
         dato = {"telefono": 991234567.0}
         normalizar_contacto(dato, "telefono")
         self.assertEqual(dato["telefono"], "991234567")
+
+
+class WhatsappLinkFilterTests(TestCase):
+    """El filtro solo debe reconocer celulares ecuatorianos (issue #46)."""
+
+    def test_numero_de_9_digitos(self):
+        self.assertEqual(whatsapp_link("991234567"), "https://wa.me/593991234567")
+
+    def test_numero_con_cero_inicial(self):
+        self.assertEqual(whatsapp_link("0991234567"), "https://wa.me/593991234567")
+
+    def test_numero_con_codigo_de_pais(self):
+        self.assertEqual(whatsapp_link("593991234567"), "https://wa.me/593991234567")
+
+    def test_numero_con_formato_y_signo_mas(self):
+        self.assertEqual(whatsapp_link("+593 99-123-4567"), "https://wa.me/593991234567")
+
+    def test_correo_no_genera_enlace(self):
+        self.assertIsNone(whatsapp_link("ana@example.com"))
+
+    def test_numero_fijo_no_genera_enlace(self):
+        self.assertIsNone(whatsapp_link("032345678"))
+
+    def test_valor_vacio_no_genera_enlace(self):
+        self.assertIsNone(whatsapp_link(""))
+        self.assertIsNone(whatsapp_link(None))
+
+    def test_numero_como_entero(self):
+        self.assertEqual(whatsapp_link(991234567), "https://wa.me/593991234567")
 
 
 class SitemapTests(TestCase):

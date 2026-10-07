@@ -62,6 +62,7 @@
       </ul>
       <p>{{ reporte.descripcion|linebreaks }}</p>
       <div class="d-flex flex-wrap gap-2">
+        {% include "includes/whatsapp_link.html" with numero=reporte.contacto_reportante %}
         {% if reporte.permite_avistamientos %}
           <a href="#avistamientos" class="btn btn-primary btn-sm">
             <i class="bi bi-binoculars"></i> Reportar avistamiento ({{ avistamientos|length }})

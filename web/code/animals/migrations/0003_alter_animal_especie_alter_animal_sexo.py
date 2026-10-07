@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('animals', '0002_animal_barrio_animal_destacado_and_more'),
+        ("animals", "0002_animal_barrio_animal_destacado_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='animal',
-            name='especie',
-            field=models.CharField(choices=[('perro', 'Perro'), ('gato', 'Gato'), ('otro', 'Otro')], max_length=10),
+            model_name="animal",
+            name="especie",
+            field=models.CharField(choices=[("perro", "Perro"), ("gato", "Gato"), ("otro", "Otro")], max_length=10),
         ),
         migrations.AlterField(
-            model_name='animal',
-            name='sexo',
-            field=models.CharField(choices=[('macho', 'Macho'), ('hembra', 'Hembra'), ('desconocido', 'Desconocido')], max_length=11),
+            model_name="animal",
+            name="sexo",
+            field=models.CharField(
+                choices=[("macho", "Macho"), ("hembra", "Hembra"), ("desconocido", "Desconocido")], max_length=11
+            ),
         ),
     ]

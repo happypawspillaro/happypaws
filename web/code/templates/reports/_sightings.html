@@ -27,6 +27,7 @@
             {% if s.descripcion %}<p class="mb-1 mt-1">{{ s.descripcion|linebreaksbr }}</p>{% endif %}
             {% if s.contacto and user.is_staff %}
               <small class="text-muted d-block"><i class="bi bi-telephone"></i> {{ s.contacto }}</small>
+              {% include "includes/whatsapp_link.html" with numero=s.contacto extra_class="py-0" %}
             {% endif %}
             {% if user.is_staff %}
               <div class="mt-2 d-flex flex-wrap gap-2">

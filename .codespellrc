@@ -1,0 +1,6 @@
+[codespell]
+skip = ./web/code/*/migrations/*
+
+quiet-level = 2
+count =
+ignore-words = PALABRAS_ACEPTADAS.txt

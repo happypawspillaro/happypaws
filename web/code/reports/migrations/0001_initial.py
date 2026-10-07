@@ -8,36 +8,58 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Report',
+            name="Report",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tipo', models.CharField(choices=[('perdido', 'Mascota perdida'), ('encontrado', 'Mascota encontrada'), ('maltrato', 'Maltrato o abandono')], max_length=12)),
-                ('titulo', models.CharField(max_length=200, verbose_name='título')),
-                ('descripcion', models.TextField(verbose_name='descripción')),
-                ('ubicacion', models.CharField(max_length=255, verbose_name='ubicación / sector')),
-                ('fecha_avistamiento', models.DateField(verbose_name='fecha del avistamiento o hecho')),
-                ('nombre_reportante', models.CharField(max_length=200, verbose_name='tu nombre')),
-                ('contacto_reportante', models.CharField(max_length=200, verbose_name='tu contacto (teléfono o correo)')),
-                ('estado', models.CharField(choices=[('abierto', 'Abierto'), ('resuelto', 'Resuelto')], default='abierto', max_length=10)),
-                ('creado', models.DateTimeField(auto_now_add=True)),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                (
+                    "tipo",
+                    models.CharField(
+                        choices=[
+                            ("perdido", "Mascota perdida"),
+                            ("encontrado", "Mascota encontrada"),
+                            ("maltrato", "Maltrato o abandono"),
+                        ],
+                        max_length=12,
+                    ),
+                ),
+                ("titulo", models.CharField(max_length=200, verbose_name="título")),
+                ("descripcion", models.TextField(verbose_name="descripción")),
+                ("ubicacion", models.CharField(max_length=255, verbose_name="ubicación / sector")),
+                ("fecha_avistamiento", models.DateField(verbose_name="fecha del avistamiento o hecho")),
+                ("nombre_reportante", models.CharField(max_length=200, verbose_name="tu nombre")),
+                (
+                    "contacto_reportante",
+                    models.CharField(max_length=200, verbose_name="tu contacto (teléfono o correo)"),
+                ),
+                (
+                    "estado",
+                    models.CharField(
+                        choices=[("abierto", "Abierto"), ("resuelto", "Resuelto")], default="abierto", max_length=10
+                    ),
+                ),
+                ("creado", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'verbose_name': 'reporte',
-                'verbose_name_plural': 'reportes',
-                'ordering': ['-creado'],
+                "verbose_name": "reporte",
+                "verbose_name_plural": "reportes",
+                "ordering": ["-creado"],
             },
         ),
         migrations.CreateModel(
-            name='ReportPhoto',
+            name="ReportPhoto",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('imagen', models.ImageField(upload_to='reportes/')),
-                ('reporte', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='fotos', to='reports.report')),
+                ("id", models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name="ID")),
+                ("imagen", models.ImageField(upload_to="reportes/")),
+                (
+                    "reporte",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, related_name="fotos", to="reports.report"
+                    ),
+                ),
             ],
         ),
     ]

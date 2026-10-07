@@ -23,5 +23,10 @@ datos_happy_paws.json
 docs_to_seed.py
 *.ods
 
+# CI 
+web/code/.coverage
+web/code/coverage.xml
+web/code/htmlcov/
+
 # Archivos descargables
 web/code/static/assets/locaciones.json
