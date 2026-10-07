@@ -1,15 +1,14 @@
 from datetime import date
-
 from unittest.mock import patch
 
 from accounts.models import User
-from core.management.commands.seed_demo import normalizar_contacto
 from animals.models import Animal, Especie, EstadoAnimal, Sexo, Tamano
-from medical_cases.models import MedicalCase
-from reports.models import Report, TipoReporte
+from core.management.commands.seed_demo import normalizar_contacto
 from core.views import listar_canton_parroquia, obtener_barrios
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
+from medical_cases.models import MedicalCase
+from reports.models import Report, TipoReporte
 
 
 class HomeViewTests(TestCase):
