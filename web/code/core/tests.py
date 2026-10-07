@@ -164,7 +164,9 @@ class SitemapTests(TestCase):
             tipo=TipoReporte.PERDIDO,
             titulo="Reporte sin aprobar",
             descripcion="...",
-            ubicacion="Centro",
+            barrio="Parque Infantil",
+            parroquia="CN",
+            canton="PI",
             fecha_avistamiento=date.today(),
             aprobado=False,
         )
@@ -172,7 +174,9 @@ class SitemapTests(TestCase):
             tipo=TipoReporte.PERDIDO,
             titulo="Reporte aprobado",
             descripcion="...",
-            ubicacion="Centro",
+            barrio="El Belén",
+            parroquia="LM",
+            canton="PI",
             fecha_avistamiento=date.today(),
             aprobado=True,
         )
