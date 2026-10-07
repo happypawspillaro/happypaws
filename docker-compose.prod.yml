@@ -1,6 +1,5 @@
 services:
  web:
-  user: "1001:1001"
   environment:
    - CSRF_TRUSTED_ORIGINS=${CSRF_TRUSTED_ORIGINS}
    - DEBUG=False
