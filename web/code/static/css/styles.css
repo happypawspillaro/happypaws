@@ -1,9 +1,8 @@
 :root {
 	--hp-primary: #f97316;
-}
-
-.bg-primary {
-	background-color: var(--hp-primary);
+	/* Sobrescribir colores de Bootstrap */
+	--bs-primary: var(--hp-primary);
+	--bs-primary-rgb: 249, 115, 22;
 }
 
 .btn-primary {
