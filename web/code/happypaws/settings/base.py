@@ -87,7 +87,7 @@ MEDIA_ROOT = BASE_DIR.parent / "media"
 # al original en MEDIA_ROOT (lo sirve nginx igual que los originales).
 THUMBNAIL_ALIASES = {
     "": {
-        "card": {"size": (600, 600), "crop": "smart"},
+        "card": {"size": (320, 320), "crop": "smart"},
     },
 }
 

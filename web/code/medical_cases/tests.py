@@ -82,6 +82,7 @@ class MiniaturaListaTests(TestCase):
     """La lista de casos usa la miniatura cuadrada, no la foto original (#71)."""
 
     def setUp(self):
+        self.miniatura_px = 320
         self.media = tempfile.mkdtemp()
         self.addCleanup(shutil.rmtree, self.media, ignore_errors=True)
         override = override_settings(MEDIA_ROOT=self.media)
@@ -102,7 +103,7 @@ class MiniaturaListaTests(TestCase):
 
     def test_lista_usa_miniatura_cuadrada(self):
         resp = self.client.get(reverse("medical_cases:list"))
-        self.assertContains(resp, "600x600")
+        self.assertContains(resp, f"{self.miniatura_px}x{self.miniatura_px}")
         self.assertNotContains(resp, f'src="{self.foto.imagen.url}"')
 
 
