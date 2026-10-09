@@ -1,11 +1,16 @@
+import shutil
+import tempfile
 from datetime import date
 from decimal import Decimal
+from io import BytesIO
 
 from accounts.models import User
-from django.test import TestCase
+from django.core.files.uploadedfile import SimpleUploadedFile
+from django.test import TestCase, override_settings
 from django.urls import reverse
+from PIL import Image
 
-from .models import CategoriaEgreso, Donation, Expense, MedicalCase
+from .models import CasePhoto, CategoriaEgreso, Donation, Expense, MedicalCase
 
 
 class MedicalCaseTests(TestCase):
@@ -71,6 +76,35 @@ class MedicalCaseTests(TestCase):
         )
         nombres = [d.nombre_donante for d in self.caso.donantes_verificados]
         self.assertEqual(nombres, ["Visible"])
+
+
+class MiniaturaListaTests(TestCase):
+    """La lista de casos usa la miniatura cuadrada, no la foto original (#71)."""
+
+    def setUp(self):
+        self.miniatura_px = 320
+        self.media = tempfile.mkdtemp()
+        self.addCleanup(shutil.rmtree, self.media, ignore_errors=True)
+        override = override_settings(MEDIA_ROOT=self.media)
+        override.enable()
+        self.addCleanup(override.disable)
+
+        buffer = BytesIO()
+        Image.new("RGB", (900, 1200), "orange").save(buffer, format="JPEG")
+        self.caso = MedicalCase.objects.create(
+            titulo="Caso con foto",
+            descripcion="Descripción",
+            meta_monto=Decimal("100.00"),
+        )
+        self.foto = CasePhoto.objects.create(
+            caso=self.caso,
+            imagen=SimpleUploadedFile("vertical.jpg", buffer.getvalue(), content_type="image/jpeg"),
+        )
+
+    def test_lista_usa_miniatura_cuadrada(self):
+        resp = self.client.get(reverse("medical_cases:list"))
+        self.assertContains(resp, f"{self.miniatura_px}x{self.miniatura_px}")
+        self.assertNotContains(resp, f'src="{self.foto.imagen.url}"')
 
 
 class ExpenseTests(TestCase):

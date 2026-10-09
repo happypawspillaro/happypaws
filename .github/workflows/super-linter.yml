@@ -1,5 +1,5 @@
 ---
-name: Comprobar formato de código
+name: Formato código
 
 on: # yamllint disable-line rule:truthy
  push: null
