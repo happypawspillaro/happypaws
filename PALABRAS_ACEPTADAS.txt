@@ -9,6 +9,7 @@ caracteres
 clases
 comando
 direccion
+flor
 foto
 hace
 hagas

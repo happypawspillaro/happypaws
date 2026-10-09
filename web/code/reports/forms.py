@@ -61,7 +61,9 @@ class ReportForm(BootstrapFormMixin, forms.ModelForm):
             "sexo",
             "callejero",
             "senales_distinguibles",
-            "ubicacion",
+            "canton",
+            "parroquia",
+            "barrio",
             "fecha_avistamiento",
             "hora_aproximada",
             "nombre_reportante",
@@ -74,11 +76,11 @@ class ReportForm(BootstrapFormMixin, forms.ModelForm):
             "hora_aproximada": forms.TimeInput(attrs={"type": "time"}),
         }
 
-    def clean_ubicacion(self):
-        ubicacion = (self.cleaned_data.get("ubicacion") or "").strip()
-        if len(ubicacion) < 3:
-            raise forms.ValidationError("Indica una ubicación o sector válido (mínimo 3 caracteres).")
-        return ubicacion
+    def clean_barrio(self):
+        barrio = (self.cleaned_data.get("barrio") or "").strip()
+        if len(barrio) < 3:
+            raise forms.ValidationError("Indica un barrio o dirección válido (mínimo 3 caracteres).")
+        return barrio
 
     def clean_contacto_reportante(self):
         # El contacto es opcional (reporte anónimo); si se provee, lo validamos.
@@ -97,7 +99,7 @@ class CommentForm(HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
 class SightingForm(HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = ReportSighting
-        fields = ["nombre", "contacto", "ubicacion", "fecha", "descripcion", "foto"]
+        fields = ["nombre", "contacto", "canton", "parroquia", "barrio", "fecha", "descripcion", "foto"]
         widgets = {
             "fecha": forms.DateInput(attrs={"type": "date"}),
             "descripcion": forms.Textarea(attrs={"rows": 2, "placeholder": "¿Cómo estaba? ¿Hacia dónde fue?"}),

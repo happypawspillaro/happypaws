@@ -1,12 +1,18 @@
+import logging
 from decimal import Decimal
 
 from accounts.decorators import staff_required
 from adoptions.models import AdoptionApplication, EstadoSolicitud
 from animals.models import Animal, EstadoAnimal
+from constants import PARROQUIAS_CANTON
+from core.cache import obtener_locaciones
 from django.db.models import Count, Sum
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from medical_cases.models import Donation, EstadoCaso, MedicalCase
 from reports.models import EstadoReporte, Report
+
+logger = logging.getLogger(__name__)
 
 
 def home(request):
@@ -39,3 +45,38 @@ def dashboard(request):
         "ultimos_reportes": Report.objects.all()[:5],
     }
     return render(request, "core/dashboard.html", context)
+
+
+def listar_canton_parroquia(request):
+    canton = request.GET.get("canton") or ""
+
+    selected_parroquia = request.GET.get("parroquia") or ""
+
+    parroquias = PARROQUIAS_CANTON.get(canton, [])
+
+    return render(
+        request,
+        "core/partials/opciones_parroquias.html",
+        {
+            "parroquias": parroquias,
+            "selected_parroquia": selected_parroquia,
+        },
+    )
+
+
+def obtener_barrios(request: HttpRequest) -> HttpResponse:
+    query = request.GET.get("barrio", "").strip().lower()
+    canton = request.GET.get("canton", "").strip()
+    parroquia = request.GET.get("parroquia", "").strip()
+
+    locaciones = obtener_locaciones()
+
+    barrios_dict = locaciones.get(canton, {}).get(parroquia, {})
+
+    barrios = sorted(barrio for barrio in barrios_dict if query in barrio.lower())
+
+    return render(
+        request,
+        "core/partials/sugerencia_barrios.html",
+        {"barrios": barrios},
+    )

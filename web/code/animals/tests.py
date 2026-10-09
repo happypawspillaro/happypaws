@@ -36,14 +36,13 @@ class AnimalModelTests(TestCase):
 
     def test_ubicacion_completa_omite_vacios(self):
         self.assertEqual(
-            crear_animal(barrio="La Floresta", parroquia="Píllaro").ubicacion_completa,
-            "La Floresta, Píllaro",
+            crear_animal(barrio="San Luis", parroquia="LM", canton="PI").ubicacion_completa,
+            "Píllaro / La Matriz / San Luis",
         )
         self.assertEqual(
-            crear_animal(nombre="x", barrio="", parroquia="San Andrés").ubicacion_completa,
-            "San Andrés",
+            crear_animal(nombre="x", barrio=None, parroquia="SA", canton="PI").ubicacion_completa,
+            "Píllaro / San Andrés",
         )
-        self.assertEqual(crear_animal(nombre="y").ubicacion_completa, "")
 
 
 class CatalogViewTests(TestCase):

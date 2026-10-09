@@ -27,3 +27,6 @@ docs_to_seed.py
 web/code/.coverage
 web/code/coverage.xml
 web/code/htmlcov/
+
+# Archivos descargables
+web/code/static/assets/locaciones.json

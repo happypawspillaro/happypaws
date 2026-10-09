@@ -17,7 +17,7 @@
           {% endif %}
           <div class="card-body py-2">
             <div class="d-flex justify-content-between align-items-start">
-              <strong><i class="bi bi-geo-alt"></i> {{ s.ubicacion }}</strong>
+              <strong><i class="bi bi-geo-alt"></i> {{ s.ubicacion_completa }}</strong>
               {% if s.confirmado %}<span class="badge bg-success">Confirmado</span>{% endif %}
             </div>
             {% if s.oculto %}<span class="badge bg-warning text-dark">Oculto</span>{% endif %}
@@ -85,9 +85,9 @@
           </div>
           <div class="col-sm-8">
             <label class="form-label"
-                   for="{{ sighting_form.ubicacion.id_for_label }}">{{ sighting_form.ubicacion.label }}</label>
-            {{ sighting_form.ubicacion }}
-            {% for e in sighting_form.ubicacion.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+                   for="{{ sighting_form.ubicacion_completa.id_for_label }}">{{ sighting_form.ubicacion_completa.label }}</label>
+            {{ sighting_form.ubicacion_completa }}
+            {% for e in sighting_form.ubicacion_completa.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
           </div>
           <div class="col-sm-4">
             <label class="form-label"
