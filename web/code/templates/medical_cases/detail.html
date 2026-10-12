@@ -21,7 +21,7 @@
                data-bs-ride="carousel">
             <div class="carousel-inner">
               {% for f in fotos %}
-                <div class="carousel-item {% if not forloop.first %}active{% endif %}">
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
                   {% thumbnail f.imagen 'detalle' as grande %}
                   <img src="{{ grande.url }}"
                        width="{{ grande.width }}"
@@ -36,7 +36,7 @@
                 </div>
               {% endfor %}
             </div>
-            {% if caso.fotos.all or caso.fotos.all|length > 1 %}
+            {% if fotos|length > 1 %}
               <button class="carousel-control-prev"
                       type="button"
                       data-bs-target="#carousel-caso"
