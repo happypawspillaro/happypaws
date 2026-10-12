@@ -75,7 +75,7 @@ MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR.parent / "media"
 
 # easy-thumbnails: derivados livianos para no transmitir las fotos originales
-# (fotos de celular de varios MB) a quien visita desde el celular.
+# (fotos de celular de hasta 3 MB) a quien visita desde el celular.
 # - 'card': listados con muchas fotos a la vez (catálogo, casos médicos,
 #   reportes) y las miniaturas de la galería en las vistas de detalle.
 #   Formato cuadrado (1:1): la mayoría de fotos que sube la comunidad son
