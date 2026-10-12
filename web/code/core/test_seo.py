@@ -1,3 +1,4 @@
+import re
 import shutil
 import tempfile
 from datetime import date
@@ -5,8 +6,10 @@ from decimal import Decimal
 from io import BytesIO
 
 from animals.models import Animal, AnimalPhoto, EstadoAnimal
+from core.seo import ubicacion_seo
 from django.core.files.uploadedfile import SimpleUploadedFile
-from django.test import TestCase, override_settings
+from django.test import SimpleTestCase, TestCase, override_settings
+from django.urls import reverse
 from medical_cases.models import CasePhoto, CaseUpdate, MedicalCase
 from PIL import Image
 from reports.models import Report, ReportPhoto, TipoReporte
@@ -103,3 +106,69 @@ class ImagenesDetalleTests(DatosSEO):
         resp = self.client.get(self.animal.get_absolute_url())
         self.assertContains(resp, 'width="600"')
         self.assertContains(resp, 'height="400"')
+
+
+class UbicacionSEOTests(SimpleTestCase):
+    def test_parroquia_y_canton(self):
+        self.assertEqual(ubicacion_seo("La Matriz"), "La Matriz/Píllaro")
+
+    def test_sin_parroquia_queda_solo_el_canton(self):
+        self.assertEqual(ubicacion_seo("  "), "Píllaro")
+
+
+class TituloSEOTests(DatosSEO):
+    """Formato de texto para <title>, <h1> y alt (#66)."""
+
+    def test_animal_en_adopcion(self):
+        self.assertEqual(self.animal.titulo_seo, "Adopta a Luna de La Matriz/Píllaro")
+
+    def test_animal_que_no_esta_en_adopcion(self):
+        self.animal.estado = EstadoAnimal.RESCATADO
+        self.assertEqual(self.animal.titulo_seo, "Conoce a Luna de La Matriz/Píllaro")
+
+    def test_caso_medico_con_animal(self):
+        self.assertEqual(self.caso.titulo_seo, "Ayuda a Luna de La Matriz/Píllaro: Cirugía de cadera")
+
+    def test_caso_medico_sin_animal(self):
+        self.caso.animal = None
+        self.assertEqual(self.caso.titulo_seo, "Ayuda en Píllaro: Cirugía de cadera")
+
+    def test_reporte(self):
+        self.assertEqual(self.reporte.titulo_seo, "Mascota perdida en Píllaro: Perrito café cerca del parque")
+
+
+class EncabezadosYAltTests(DatosSEO):
+    """Un solo <h1> descriptivo por página y alt con la marca (#66, #73)."""
+
+    def h1s(self, resp):
+        return re.findall(r"<h1[^>]*>(.*?)</h1>", resp.content.decode(), re.S)
+
+    def test_detalles_tienen_un_solo_h1_descriptivo(self):
+        for obj in (self.animal, self.caso, self.reporte):
+            with self.subTest(obj=obj):
+                resp = self.client.get(obj.get_absolute_url())
+                self.assertEqual([h.strip() for h in self.h1s(resp)], [obj.titulo_seo])
+                self.assertContains(resp, f"<title>{obj.titulo_seo} | Happy Paws Píllaro</title>", html=False)
+
+    def test_portada_tiene_un_solo_h1(self):
+        resp = self.client.get(reverse("core:home"))
+        self.assertEqual(len(self.h1s(resp)), 1)
+
+    def test_las_fotos_llevan_la_marca_en_el_alt(self):
+        for obj in (self.animal, self.caso, self.reporte):
+            with self.subTest(obj=obj):
+                resp = self.client.get(obj.get_absolute_url())
+                alts = re.findall(r'<img[^>]*alt="([^"]*)"', resp.content.decode())
+                fotos = [a for a in alts if "Icono" not in a]  # el logo del navbar
+                self.assertTrue(fotos)
+                for alt in fotos:
+                    self.assertTrue(alt.endswith(" | Happy Paws Píllaro"), alt)
+
+    def test_listados_usan_el_mismo_alt(self):
+        for url, obj in (
+            (reverse("animals:catalog"), self.animal),
+            (reverse("medical_cases:list"), self.caso),
+            (reverse("reports:list"), self.reporte),
+        ):
+            with self.subTest(url=url):
+                self.assertContains(self.client.get(url), f'alt="{obj.titulo_seo} | Happy Paws Píllaro"')

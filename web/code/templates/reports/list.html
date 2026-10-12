@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load thumbnail %}
+{% load seo thumbnail %}
 {% block title %}Reportes · Happy Paws Píllaro{% endblock %}
 {% block content %}
   <div class="d-flex justify-content-between align-items-center mb-3">
@@ -24,7 +24,7 @@
               {% if foto %}
                 <img src="{% thumbnail foto.imagen 'card' %}"
                      class="card-img-top"
-                     alt="{{ reporte.titulo }}"
+                     alt="{{ reporte.titulo_seo|con_marca }}"
                      loading="lazy">
               {% else %}
                 <div class="card-img-placeholder">

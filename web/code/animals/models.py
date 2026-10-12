@@ -2,6 +2,7 @@ import calendar
 from datetime import date
 
 from constants import MESES_FEATURED_COMUNITARIO, Especie, Sexo
+from core.seo import ubicacion_seo
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -89,6 +90,12 @@ class Animal(models.Model):
     @property
     def en_adopcion(self):
         return self.estado == EstadoAnimal.EN_ADOPCION
+
+    @property
+    def titulo_seo(self):
+        """'Adopta a Luna de La Matriz/Píllaro' (#66). 'Conoce a' si no está en adopción."""
+        accion = "Adopta a" if self.en_adopcion else "Conoce a"
+        return f"{accion} {self.nombre} de {ubicacion_seo(self.parroquia)}"
 
     @property
     def tiene_tutor(self):

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% load thumbnail %}
-{% block title %}{{ animal.nombre }} · Happy Paws Píllaro{% endblock %}
+{% load seo thumbnail %}
+{% block title %}{{ animal.titulo_seo|con_marca }}{% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -16,7 +16,7 @@
              width="{{ principal.width }}"
              height="{{ principal.height }}"
              class="img-fluid rounded shadow-sm mb-3"
-             alt="{{ animal.nombre }}">
+             alt="{{ animal.titulo_seo|con_marca }}">
       {% else %}
         <div class="card-img-placeholder rounded mb-3">
           <i class="bi bi-image"></i>
@@ -31,7 +31,7 @@
                    width="{{ mini.width }}"
                    height="{{ mini.height }}"
                    class="img-fluid rounded"
-                   alt="{{ foto.descripcion }}"
+                   alt="{% if foto.descripcion %}{{ foto.descripcion }} · {% endif %}{{ animal.titulo_seo|con_marca }}"
                    loading="lazy">
             </div>
           {% endfor %}
@@ -39,7 +39,7 @@
       {% endif %}
     </div>
     <div class="col-md-6">
-      <h1 class="h3">{{ animal.nombre }}</h1>
+      <h1 class="h3">{{ animal.titulo_seo }}</h1>
       <p>
         <span class="badge bg-secondary">{{ animal.get_estado_display }}</span>
         {% if animal.esterilizado %}<span class="badge bg-success">Esterilizado</span>{% endif %}

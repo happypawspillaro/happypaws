@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% load thumbnail %}
-{% block title %}{{ reporte.titulo }} · Reportes{% endblock %}
+{% load seo thumbnail %}
+{% block title %}{{ reporte.titulo_seo|con_marca }}{% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -17,7 +17,7 @@
                width="{{ principal.width }}"
                height="{{ principal.height }}"
                class="img-fluid rounded shadow-sm mb-3"
-               alt="{{ reporte.titulo }}">
+               alt="{{ reporte.titulo_seo|con_marca }}">
         {% endif %}
       {% endwith %}
       {% if reporte.fotos.count > 1 %}
@@ -29,7 +29,7 @@
                    width="{{ mini.width }}"
                    height="{{ mini.height }}"
                    class="img-fluid rounded"
-                   alt=""
+                   alt="Foto {{ forloop.counter }} · {{ reporte.titulo_seo|con_marca }}"
                    loading="lazy">
             </div>
           {% endfor %}
@@ -47,7 +47,7 @@
       {% if reporte.estado == "resuelto" %}<span class="badge bg-success">Resuelto</span>{% endif %}
       {% if reporte.especie %}<span class="badge bg-info text-dark">{{ reporte.get_especie_display }}</span>{% endif %}
       {% if reporte.callejero %}<span class="badge bg-warning text-dark">Posible callejero</span>{% endif %}
-      <h1 class="h3 mt-2">{{ reporte.titulo }}</h1>
+      <h1 class="h3 mt-2">{{ reporte.titulo_seo }}</h1>
       <ul class="list-unstyled">
         <li><i class="bi bi-geo-alt"></i> <strong>Ubicación:</strong> {{ reporte.ubicacion }}</li>
         <li><i class="bi bi-calendar-event"></i> <strong>Fecha:</strong> {{ reporte.fecha_avistamiento }}{% if reporte.hora_aproximada %} · aprox. {{ reporte.hora_aproximada }}{% endif %}</li>
