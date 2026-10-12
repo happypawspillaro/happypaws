@@ -2,6 +2,9 @@
 {% load humanize %}
 {% load thumbnail %}
 {% block title %}Casos médicos · Happy Paws Píllaro{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Casos médicos | Happy Paws Píllaro" descripcion="Apoya los tratamientos y cirugías de los animales rescatados en Píllaro. Cada aporte se registra y los gastos de cada caso son públicos." %}
+{% endblock %}
 {% block content %}
   <h1 class="h3">Casos médicos</h1>
   <p class="text-muted mb-4">Animales rescatados que necesitan tu ayuda para recuperarse.</p>

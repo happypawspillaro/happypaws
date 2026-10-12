@@ -1,17 +1,19 @@
 {% extends "base.html" %}
 {% load static %}
 {% load humanize %}
-{% load thumbnail %}
+{% load seo thumbnail %}
 {% block title %}
   Happy Paws Píllaro · Esterilización y adopción responsable
 {% endblock %}
 {% block content %}
   <div class="p-5 mb-5 bg-light rounded-3 text-center">
-    <img src="{% static 'images/happypaws_horizontal.png' %}"
-         alt="Happy Paws Píllaro Horizontal"
-         class="img-fluid d-inline-block"
-         style="max-height: 128px;
-                width: auto">
+    <h1 class="mb-3">
+      <img src="{% static 'images/happypaws_horizontal.png' %}"
+           alt="Happy Paws Píllaro: esterilización y adopción responsable de perros y gatos en Píllaro"
+           class="img-fluid d-inline-block"
+           style="max-height: 128px;
+                  width: auto">
+    </h1>
     <p class="lead col-md-8 mx-auto">
       Promovemos la esterilización y la adopción responsable de perros y gatos
       en el cantón Píllaro. Aquí puedes adoptar, apoyar casos médicos y reportar
@@ -35,7 +37,7 @@
             {% if animal.foto_principal %}
               <img src="{% thumbnail animal.foto_principal 'card' %}"
                    class="card-img-top"
-                   alt="{{ animal.nombre }}"
+                   alt="{{ animal.titulo_seo|con_marca }}"
                    loading="lazy" />
             {% else %}
               <div class="card-img-placeholder">

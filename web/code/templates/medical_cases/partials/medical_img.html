@@ -1,9 +1,9 @@
-{% load thumbnail %}
+{% load seo thumbnail %}
 {% with primera_foto=fotos.first %}
   {% if primera_foto %}
     <img src="{% thumbnail primera_foto.imagen 'card' %}"
          class="card-img-top"
-         alt="{{ caso.titulo }}"
+         alt="{{ caso.titulo_seo|con_marca }}"
          loading="lazy" />
   {% else %}
     <div class="card-img-placeholder">
