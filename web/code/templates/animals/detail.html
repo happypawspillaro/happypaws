@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}{{ animal.nombre }} · Happy Paws Píllaro{% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
@@ -10,7 +11,10 @@
   <div class="row g-4">
     <div class="col-md-6">
       {% if animal.foto_principal %}
-        <img src="{{ animal.foto_principal.url }}"
+        {% thumbnail animal.foto_principal 'detalle' as principal %}
+        <img src="{{ principal.url }}"
+             width="{{ principal.width }}"
+             height="{{ principal.height }}"
              class="img-fluid rounded shadow-sm mb-3"
              alt="{{ animal.nombre }}">
       {% else %}
@@ -22,9 +26,13 @@
         <div class="row g-2">
           {% for foto in animal.fotos.all %}
             <div class="col-4">
-              <img src="{{ foto.imagen.url }}"
+              {% thumbnail foto.imagen 'card' as mini %}
+              <img src="{{ mini.url }}"
+                   width="{{ mini.width }}"
+                   height="{{ mini.height }}"
                    class="img-fluid rounded"
-                   alt="{{ foto.descripcion }}">
+                   alt="{{ foto.descripcion }}"
+                   loading="lazy">
             </div>
           {% endfor %}
         </div>

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load humanize %}
+{% load thumbnail %}
 {% block title %}{{ caso.titulo }} · Casos médicos{% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
@@ -18,8 +19,11 @@
             <div class="carousel-inner">
               {% for f in fotos %}
                 <div class="carousel-item {% if not forloop.first %}active{% endif %}">
-                  <img src="{{ f.imagen.url }}"
-                       class="d-block w-100"
+                  {% thumbnail f.imagen 'detalle' as grande %}
+                  <img src="{{ grande.url }}"
+                       width="{{ grande.width }}"
+                       height="{{ grande.height }}"
+                       class="d-block w-100 h-auto"
                        alt="{{ f.descripcion|default:caso.titulo }}">
                   {% if f.descripcion %}
                     <div class="carousel-caption d-none d-md-block">
@@ -59,8 +63,12 @@
           <p class="small text-muted mb-1">{{ avance.fecha }}</p>
           <p class="mb-1">{{ avance.texto|linebreaks }}</p>
           {% if avance.foto %}
-            <img src="{{ avance.foto.url }}"
+            {% thumbnail avance.foto 'detalle' as foto_avance %}
+            <img src="{{ foto_avance.url }}"
+                 width="{{ foto_avance.width }}"
+                 height="{{ foto_avance.height }}"
                  class="img-fluid rounded"
+                 loading="lazy"
                  style="max-width: 280px"
                  alt="">
           {% endif %}

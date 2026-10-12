@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load thumbnail %}
 {% block title %}{{ reporte.titulo }} · Reportes{% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
@@ -11,7 +12,10 @@
     <div class="col-md-7">
       {% with foto=reporte.fotos.first %}
         {% if foto %}
-          <img src="{{ foto.imagen.url }}"
+          {% thumbnail foto.imagen 'detalle' as principal %}
+          <img src="{{ principal.url }}"
+               width="{{ principal.width }}"
+               height="{{ principal.height }}"
                class="img-fluid rounded shadow-sm mb-3"
                alt="{{ reporte.titulo }}">
         {% endif %}
@@ -20,7 +24,13 @@
         <div class="row g-2">
           {% for foto in reporte.fotos.all %}
             <div class="col-4">
-              <img src="{{ foto.imagen.url }}" class="img-fluid rounded" alt="">
+              {% thumbnail foto.imagen 'card' as mini %}
+              <img src="{{ mini.url }}"
+                   width="{{ mini.width }}"
+                   height="{{ mini.height }}"
+                   class="img-fluid rounded"
+                   alt=""
+                   loading="lazy">
             </div>
           {% endfor %}
         </div>
