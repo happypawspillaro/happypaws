@@ -92,7 +92,7 @@ MEDIA_ROOT = BASE_DIR.parent / "media"
 THUMBNAIL_ALIASES = {
     "": {
         "card": {"size": (320, 320), "crop": "smart"},
-        "detalle": {"size": (1200, 1200), "quality": 80, "replace_alpha": "#ffffff"},
+        "detalle": {"size": (1200, 1200), "quality": 80, "replace_alpha": "white"},
     },
 }
 

@@ -51,6 +51,14 @@ class MedicalCase(models.Model):
         return f"Ayuda en {ubicacion_seo()}: {self.titulo}"
 
     @property
+    def foto_para_compartir(self):
+        """Primera foto del caso o, si no tiene, la del animal (og:image, #68)."""
+        primera = CasePhoto.objects.filter(caso=self).first()
+        if primera:
+            return primera.imagen
+        return self.animal.foto_principal if self.animal else None
+
+    @property
     def monto_recaudado(self):
         total = self.donaciones.filter(verificado=True).aggregate(s=Sum("monto"))["s"]
         return total or Decimal("0")

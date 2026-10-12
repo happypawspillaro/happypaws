@@ -2,6 +2,9 @@
 {% load humanize %}
 {% load seo thumbnail %}
 {% block title %}{{ caso.titulo_seo|con_marca }}{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo=caso.titulo_seo|con_marca descripcion=caso.descripcion imagen=caso.foto_para_compartir %}
+{% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">

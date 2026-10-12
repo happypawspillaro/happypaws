@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Happy Paws Píllaro{% endblock %}</title>
+    {% block seo %}
+      {% include "includes/seo_meta.html" %}
+    {% endblock %}
     <link rel="icon"
           type="image/png"
           href="{% static 'images/happypaws.ico' %}">

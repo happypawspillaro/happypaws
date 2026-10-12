@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load seo thumbnail %}
 {% block title %}{{ animal.titulo_seo|con_marca }}{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo=animal.titulo_seo|con_marca descripcion=animal.descripcion imagen=animal.foto_principal %}
+{% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">

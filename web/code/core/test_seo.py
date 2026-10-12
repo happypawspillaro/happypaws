@@ -172,3 +172,71 @@ class EncabezadosYAltTests(DatosSEO):
         ):
             with self.subTest(url=url):
                 self.assertContains(self.client.get(url), f'alt="{obj.titulo_seo} | Happy Paws Píllaro"')
+
+
+class MetadatosTests(DatosSEO):
+    """description, keywords, author y OpenGraph en cada página (#67, #68)."""
+
+    def meta(self, resp, atributo, nombre):
+        encontrado = re.search(rf'<meta {atributo}="{re.escape(nombre)}"\s+content="([^"]*)"', resp.content.decode())
+        self.assertIsNotNone(encontrado, f"falta <meta {atributo}={nombre}>")
+        return encontrado.group(1)
+
+    def test_detalles_tienen_titulo_descripcion_y_foto_absoluta(self):
+        for obj in (self.animal, self.caso, self.reporte):
+            with self.subTest(obj=obj):
+                resp = self.client.get(obj.get_absolute_url())
+                self.assertEqual(self.meta(resp, "property", "og:title"), f"{obj.titulo_seo} | Happy Paws Píllaro")
+                self.assertEqual(self.meta(resp, "property", "og:url"), f"http://testserver{obj.get_absolute_url()}")
+                self.assertEqual(self.meta(resp, "name", "description"), obj.descripcion)
+                imagen = self.meta(resp, "property", "og:image")
+                self.assertTrue(imagen.startswith("http://testserver/media/"), imagen)
+                self.assertIn("1200x1200", imagen)  # el derivado liviano, no el original
+
+    def test_caso_sin_fotos_comparte_la_foto_del_animal(self):
+        self.caso.fotos.all().delete()
+        resp = self.client.get(self.caso.get_absolute_url())
+        self.assertIn("/media/animales/luna.jpg.1200x1200", self.meta(resp, "property", "og:image"))
+
+    def test_caso_sin_animal_ni_fotos_comparte_el_logo(self):
+        self.caso.fotos.all().delete()
+        self.caso.animal = None
+        self.caso.save()
+        resp = self.client.get(self.caso.get_absolute_url())
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("happypaws_cuadrado.png", self.meta(resp, "property", "og:image"))
+
+    def test_sin_foto_se_comparte_el_logo(self):
+        self.reporte.fotos.all().delete()
+        resp = self.client.get(self.reporte.get_absolute_url())
+        self.assertEqual(
+            self.meta(resp, "property", "og:image"), "http://testserver/static/images/happypaws_cuadrado.png"
+        )
+
+    def test_descripcion_larga_se_recorta(self):
+        self.animal.descripcion = "<p>Muy juguetona.</p> " * 30
+        self.animal.save()
+        descripcion = self.meta(self.client.get(self.animal.get_absolute_url()), "name", "description")
+        self.assertLessEqual(len(descripcion), 160)
+        self.assertNotIn("<p>", descripcion)
+
+    def test_todas_las_paginas_publicas_tienen_metadatos(self):
+        for url in (
+            reverse("core:home"),
+            reverse("animals:catalog"),
+            reverse("medical_cases:list"),
+            reverse("reports:list"),
+            reverse("reports:create"),
+        ):
+            with self.subTest(url=url):
+                resp = self.client.get(url)
+                for atributo, nombre in (
+                    ("name", "description"),
+                    ("name", "keywords"),
+                    ("name", "author"),
+                    ("property", "og:title"),
+                    ("property", "og:description"),
+                    ("property", "og:image"),
+                ):
+                    self.assertTrue(self.meta(resp, atributo, nombre))
+                self.assertEqual(self.meta(resp, "property", "og:url"), f"http://testserver{url}")
