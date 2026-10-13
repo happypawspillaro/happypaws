@@ -1,9 +1,8 @@
 from itertools import groupby
 
+from accounts.decorators import staff_required
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect, render
-
-from accounts.decorators import staff_required
 
 from .forms import (
     CasePhotoForm,
@@ -21,9 +20,7 @@ def case_list(request):
     activos = MedicalCase.objects.filter(estado=EstadoCaso.ACTIVO)
     # Meta.ordering ya es "-creado", así que agrupar por año da grupos consecutivos.
     cerrados = MedicalCase.objects.filter(estado=EstadoCaso.CERRADO)
-    cerrados_por_anio = [
-        (anio, list(casos)) for anio, casos in groupby(cerrados, key=lambda c: c.creado.year)
-    ]
+    cerrados_por_anio = [(anio, list(casos)) for anio, casos in groupby(cerrados, key=lambda c: c.creado.year)]
     return render(
         request,
         "medical_cases/list.html",
@@ -50,6 +47,7 @@ def detail(request, pk):
 
 # --- Panel administrativo (staff) ---
 
+
 @staff_required
 def manage_list(request):
     casos = MedicalCase.objects.all()
@@ -63,9 +61,7 @@ def manage_create(request):
         caso = form.save()
         messages.success(request, "Caso médico creado.")
         return redirect("medical_cases:manage_detail", pk=caso.pk)
-    return render(
-        request, "medical_cases/manage_form.html", {"form": form, "titulo": "Nuevo caso médico"}
-    )
+    return render(request, "medical_cases/manage_form.html", {"form": form, "titulo": "Nuevo caso médico"})
 
 
 @staff_required
@@ -195,9 +191,7 @@ def delete_expense(request, pk, expense_pk):
 def toggle_status(request, pk):
     caso = get_object_or_404(MedicalCase, pk=pk)
     if request.method == "POST":
-        caso.estado = (
-            EstadoCaso.CERRADO if caso.estado == EstadoCaso.ACTIVO else EstadoCaso.ACTIVO
-        )
+        caso.estado = EstadoCaso.CERRADO if caso.estado == EstadoCaso.ACTIVO else EstadoCaso.ACTIVO
         caso.save(update_fields=["estado"])
         messages.success(request, f"Caso marcado como {caso.get_estado_display()}.")
     return redirect("medical_cases:manage_detail", pk=pk)

@@ -1,8 +1,7 @@
-from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect, render
-
 from accounts.decorators import staff_required
 from animals.models import Animal, EstadoAnimal
+from django.contrib import messages
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import AdoptionApplicationForm, FollowUpForm, StatusForm
 from .models import AdoptionApplication, EstadoSolicitud
@@ -32,6 +31,7 @@ def apply(request, animal_pk):
 
 # --- Panel administrativo (staff) ---
 
+
 @staff_required
 def manage_list(request):
     solicitudes = AdoptionApplication.objects.select_related("animal")
@@ -51,9 +51,7 @@ def manage_list(request):
 
 @staff_required
 def manage_detail(request, pk):
-    solicitud = get_object_or_404(
-        AdoptionApplication.objects.select_related("animal"), pk=pk
-    )
+    solicitud = get_object_or_404(AdoptionApplication.objects.select_related("animal"), pk=pk)
     status_form = StatusForm(instance=solicitud)
     followup_form = FollowUpForm()
     return render(
@@ -89,9 +87,7 @@ def update_status(request, pk):
 @staff_required
 def print_sheet(request, pk):
     """Ficha imprimible con los datos de la persona aceptada a adoptar."""
-    solicitud = get_object_or_404(
-        AdoptionApplication.objects.select_related("animal"), pk=pk
-    )
+    solicitud = get_object_or_404(AdoptionApplication.objects.select_related("animal"), pk=pk)
     if solicitud.estado != EstadoSolicitud.APROBADA:
         messages.warning(
             request,

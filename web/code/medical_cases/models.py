@@ -28,9 +28,7 @@ class MedicalCase(models.Model):
     titulo = models.CharField("título", max_length=200)
     descripcion = models.TextField("descripción")
     meta_monto = models.DecimalField("meta de recaudación", max_digits=10, decimal_places=2)
-    estado = models.CharField(
-        max_length=10, choices=EstadoCaso.choices, default=EstadoCaso.ACTIVO
-    )
+    estado = models.CharField(max_length=10, choices=EstadoCaso.choices, default=EstadoCaso.ACTIVO)
     creado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -98,9 +96,7 @@ class MedicalCase(models.Model):
 
 
 class Donation(models.Model):
-    caso = models.ForeignKey(
-        MedicalCase, on_delete=models.CASCADE, related_name="donaciones"
-    )
+    caso = models.ForeignKey(MedicalCase, on_delete=models.CASCADE, related_name="donaciones")
     nombre_donante = models.CharField(
         "nombre del donante",
         max_length=200,
@@ -131,9 +127,7 @@ class Donation(models.Model):
 
 
 class CaseUpdate(models.Model):
-    caso = models.ForeignKey(
-        MedicalCase, on_delete=models.CASCADE, related_name="avances"
-    )
+    caso = models.ForeignKey(MedicalCase, on_delete=models.CASCADE, related_name="avances")
     fecha = models.DateField()
     texto = models.TextField()
     foto = models.ImageField(upload_to="casos/avances/", blank=True)
@@ -149,9 +143,7 @@ class CaseUpdate(models.Model):
 
 
 class CasePhoto(models.Model):
-    caso = models.ForeignKey(
-        MedicalCase, on_delete=models.CASCADE, related_name="fotos"
-    )
+    caso = models.ForeignKey(MedicalCase, on_delete=models.CASCADE, related_name="fotos")
     imagen = models.ImageField(upload_to="casos/galeria/")
     descripcion = models.CharField("descripción", max_length=200, blank=True)
     creado = models.DateTimeField(auto_now_add=True)
@@ -166,12 +158,8 @@ class CasePhoto(models.Model):
 
 
 class Expense(models.Model):
-    caso = models.ForeignKey(
-        MedicalCase, on_delete=models.CASCADE, related_name="egresos"
-    )
-    categoria = models.CharField(
-        max_length=20, choices=CategoriaEgreso.choices, default=CategoriaEgreso.OTRO
-    )
+    caso = models.ForeignKey(MedicalCase, on_delete=models.CASCADE, related_name="egresos")
+    categoria = models.CharField(max_length=20, choices=CategoriaEgreso.choices, default=CategoriaEgreso.OTRO)
     descripcion = models.CharField("descripción", max_length=200)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
     fecha = models.DateField()

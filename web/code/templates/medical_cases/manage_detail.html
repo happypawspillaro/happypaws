@@ -2,178 +2,216 @@
 {% load humanize %}
 {% block title %}{{ caso.titulo }} · Panel{% endblock %}
 {% block content %}
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{% url 'medical_cases:manage_list' %}">Casos médicos</a></li>
-    <li class="breadcrumb-item active">{{ caso.titulo }}</li>
-  </ol>
-</nav>
-
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h1 class="h3 mb-0">{{ caso.titulo }}</h1>
-  <div class="d-flex gap-2">
-    <a href="{{ caso.get_absolute_url }}" class="btn btn-outline-secondary btn-sm">Ver público</a>
-    <a href="{% url 'medical_cases:manage_update' caso.pk %}" class="btn btn-primary btn-sm">Editar</a>
-    <form method="post" action="{% url 'medical_cases:toggle_status' caso.pk %}" class="d-inline">
-      {% csrf_token %}
-      <button class="btn btn-outline-warning btn-sm" type="submit">
-        {% if caso.estado == 'activo' %}Cerrar caso{% else %}Reabrir caso{% endif %}
-      </button>
-    </form>
-  </div>
-</div>
-
-<div class="card shadow-sm mb-4">
-  <div class="card-body">
-    <div class="progress mb-2" style="height: 16px;">
-      <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;">{{ caso.progreso }}%</div>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'medical_cases:manage_list' %}">Casos médicos</a></li>
+      <li class="breadcrumb-item active">{{ caso.titulo }}</li>
+    </ol>
+  </nav>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">{{ caso.titulo }}</h1>
+    <div class="d-flex gap-2">
+      <a href="{{ caso.get_absolute_url }}"
+         class="btn btn-outline-secondary btn-sm">Ver público</a>
+      <a href="{% url 'medical_cases:manage_update' caso.pk %}"
+         class="btn btn-primary btn-sm">Editar</a>
+      <form method="post"
+            action="{% url 'medical_cases:toggle_status' caso.pk %}"
+            class="d-inline">
+        {% csrf_token %}
+        <button class="btn btn-outline-warning btn-sm" type="submit">
+          {% if caso.estado == "activo" %}Cerrar caso{% else %}Reabrir caso{% endif %}
+        </button>
+      </form>
     </div>
-    <p class="mb-0"><strong>${{ caso.monto_recaudado|intcomma }}</strong> recaudado (verificado)
-      de ${{ caso.meta_monto|intcomma }} · Estado: {{ caso.get_estado_display }}</p>
   </div>
-</div>
-
-<div class="row g-4">
-  <div class="col-md-7">
-    <h2 class="h5">Donaciones</h2>
-    <div class="table-responsive mb-3">
-      <table class="table table-sm align-middle">
-        <thead><tr><th>Donante</th><th>Monto</th><th>Fecha</th><th>Estado</th><th></th></tr></thead>
-        <tbody>
-          {% for d in caso.donaciones.all %}
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="progress mb-2" style="height: 16px;">
+        <div class="progress-bar bg-primary" style="width: {{ caso.progreso }}%;">{{ caso.progreso }}%</div>
+      </div>
+      <p class="mb-0">
+        <strong>${{ caso.monto_recaudado|intcomma }}</strong> recaudado (verificado)
+        de ${{ caso.meta_monto|intcomma }} · Estado: {{ caso.get_estado_display }}
+      </p>
+    </div>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-7">
+      <h2 class="h5">Donaciones</h2>
+      <div class="table-responsive mb-3">
+        <table class="table table-sm align-middle">
+          <thead>
             <tr>
-              <td>{{ d.nombre_donante }}</td>
-              <td>${{ d.monto|intcomma }}</td>
-              <td>{{ d.fecha }}</td>
-              <td>
-                {% if d.verificado %}
-                  <span class="badge bg-success">Verificada</span>
-                {% else %}
-                  <span class="badge bg-warning text-dark">Pendiente</span>
-                {% endif %}
-              </td>
-              <td class="text-end">
-                <form method="post" action="{% url 'medical_cases:verify_donation' caso.pk d.pk %}" class="d-inline">
-                  {% csrf_token %}
-                  <button class="btn btn-sm btn-outline-secondary" type="submit">
-                    {% if d.verificado %}Marcar pendiente{% else %}Verificar{% endif %}
-                  </button>
-                </form>
-              </td>
+              <th>Donante</th>
+              <th>Monto</th>
+              <th>Fecha</th>
+              <th>Estado</th>
+              <th></th>
             </tr>
-          {% empty %}
-            <tr><td colspan="5" class="text-muted">Sin donaciones registradas.</td></tr>
-          {% endfor %}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {% for d in caso.donaciones.all %}
+              <tr>
+                <td>{{ d.nombre_donante }}</td>
+                <td>${{ d.monto|intcomma }}</td>
+                <td>{{ d.fecha }}</td>
+                <td>
+                  {% if d.verificado %}
+                    <span class="badge bg-success">Verificada</span>
+                  {% else %}
+                    <span class="badge bg-warning text-dark">Pendiente</span>
+                  {% endif %}
+                </td>
+                <td class="text-end">
+                  <form method="post"
+                        action="{% url 'medical_cases:verify_donation' caso.pk d.pk %}"
+                        class="d-inline">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-secondary" type="submit">
+                      {% if d.verificado %}Marcar pendiente{% else %}Verificar{% endif %}
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" class="text-muted">Sin donaciones registradas.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="h6">Registrar donación</h3>
+          <form method="post"
+                action="{% url 'medical_cases:add_donation' caso.pk %}"
+                enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include "includes/form_fields.html" with form=donation_form %}
+            <button type="submit" class="btn btn-sm btn-primary">Registrar donación</button>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h3 class="h6">Registrar donación</h3>
-        <form method="post" action="{% url 'medical_cases:add_donation' caso.pk %}" enctype="multipart/form-data">
-          {% csrf_token %}
-          {% include "includes/form_fields.html" with form=donation_form %}
-          <button type="submit" class="btn btn-sm btn-primary">Registrar donación</button>
-        </form>
+    <div class="col-md-5">
+      <h2 class="h5">Avances</h2>
+      {% for avance in caso.avances.all %}
+        <div class="border-start border-3 ps-3 mb-3">
+          <p class="small text-muted mb-1">{{ avance.fecha }}</p>
+          <p class="mb-0">{{ avance.texto }}</p>
+        </div>
+      {% empty %}
+        <p class="text-muted">Sin avances.</p>
+      {% endfor %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="h6">Publicar avance</h3>
+          <form method="post"
+                action="{% url 'medical_cases:add_update' caso.pk %}"
+                enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include "includes/form_fields.html" with form=update_form %}
+            <button type="submit" class="btn btn-sm btn-primary">Publicar avance</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="col-md-5">
-    <h2 class="h5">Avances</h2>
-    {% for avance in caso.avances.all %}
-      <div class="border-start border-3 ps-3 mb-3">
-        <p class="small text-muted mb-1">{{ avance.fecha }}</p>
-        <p class="mb-0">{{ avance.texto }}</p>
-      </div>
-    {% empty %}
-      <p class="text-muted">Sin avances.</p>
-    {% endfor %}
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h3 class="h6">Publicar avance</h3>
-        <form method="post" action="{% url 'medical_cases:add_update' caso.pk %}" enctype="multipart/form-data">
-          {% csrf_token %}
-          {% include "includes/form_fields.html" with form=update_form %}
-          <button type="submit" class="btn btn-sm btn-primary">Publicar avance</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="row g-4 mt-1">
-  <div class="col-md-6">
-    <h2 class="h5">Galería de fotos</h2>
-    {% if caso.fotos.all %}
-      <div class="row row-cols-2 row-cols-sm-3 g-2 mb-3">
-        {% for f in caso.fotos.all %}
-          <div class="col">
-            <div class="position-relative">
-              <img src="{{ f.imagen.url }}" class="img-fluid rounded" alt="{{ f.descripcion }}">
-              <form method="post" action="{% url 'medical_cases:delete_photo' caso.pk f.pk %}"
-                    class="position-absolute top-0 end-0 m-1"
-                    onsubmit="return confirm('¿Eliminar esta foto?');">
-                {% csrf_token %}
-                <button class="btn btn-sm btn-danger py-0 px-1" type="submit" title="Eliminar">&times;</button>
-              </form>
+  <div class="row g-4 mt-1">
+    <div class="col-md-6">
+      <h2 class="h5">Galería de fotos</h2>
+      {% if caso.fotos.all %}
+        <div class="row row-cols-2 row-cols-sm-3 g-2 mb-3">
+          {% for f in caso.fotos.all %}
+            <div class="col">
+              <div class="position-relative">
+                <img src="{{ f.imagen.url }}"
+                     class="img-fluid rounded"
+                     alt="{{ f.descripcion }}">
+                <form method="post"
+                      action="{% url 'medical_cases:delete_photo' caso.pk f.pk %}"
+                      class="position-absolute top-0 end-0 m-1"
+                      onsubmit="return confirm('¿Eliminar esta foto?');">
+                  {% csrf_token %}
+                  <button class="btn btn-sm btn-danger py-0 px-1"
+                          type="submit"
+                          title="Eliminar">×</button>
+                </form>
+              </div>
             </div>
-          </div>
-        {% endfor %}
-      </div>
-    {% else %}
-      <p class="text-muted">Sin fotos en la galería.</p>
-    {% endif %}
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h3 class="h6">Añadir foto</h3>
-        <form method="post" action="{% url 'medical_cases:add_photo' caso.pk %}" enctype="multipart/form-data">
-          {% csrf_token %}
-          {% include "includes/form_fields.html" with form=photo_form %}
-          <button type="submit" class="btn btn-sm btn-primary">Añadir foto</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6">
-    <h2 class="h5">Egresos
-      <span class="badge bg-secondary">${{ caso.total_egresos|intcomma }}</span>
-    </h2>
-    <div class="table-responsive mb-3">
-      <table class="table table-sm align-middle">
-        <thead><tr><th>Categoría</th><th>Descripción</th><th>Monto</th><th>Fecha</th><th></th></tr></thead>
-        <tbody>
-          {% for e in caso.egresos.all %}
-            <tr>
-              <td>{{ e.get_categoria_display }}</td>
-              <td>{{ e.descripcion }}</td>
-              <td>${{ e.monto|intcomma }}</td>
-              <td>{{ e.fecha }}</td>
-              <td class="text-end">
-                <form method="post" action="{% url 'medical_cases:delete_expense' caso.pk e.pk %}" class="d-inline"
-                      onsubmit="return confirm('¿Eliminar este egreso?');">
-                  {% csrf_token %}
-                  <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
-                </form>
-              </td>
-            </tr>
-          {% empty %}
-            <tr><td colspan="5" class="text-muted">Sin egresos registrados.</td></tr>
           {% endfor %}
-        </tbody>
-      </table>
+        </div>
+      {% else %}
+        <p class="text-muted">Sin fotos en la galería.</p>
+      {% endif %}
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="h6">Añadir foto</h3>
+          <form method="post"
+                action="{% url 'medical_cases:add_photo' caso.pk %}"
+                enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include "includes/form_fields.html" with form=photo_form %}
+            <button type="submit" class="btn btn-sm btn-primary">Añadir foto</button>
+          </form>
+        </div>
+      </div>
     </div>
-    <div class="card shadow-sm">
-      <div class="card-body">
-        <h3 class="h6">Registrar egreso</h3>
-        <form method="post" action="{% url 'medical_cases:add_expense' caso.pk %}" enctype="multipart/form-data">
-          {% csrf_token %}
-          {% include "includes/form_fields.html" with form=expense_form %}
-          <button type="submit" class="btn btn-sm btn-primary">Registrar egreso</button>
-        </form>
+    <div class="col-md-6">
+      <h2 class="h5">
+        Egresos
+        <span class="badge bg-secondary">${{ caso.total_egresos|intcomma }}</span>
+      </h2>
+      <div class="table-responsive mb-3">
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr>
+              <th>Categoría</th>
+              <th>Descripción</th>
+              <th>Monto</th>
+              <th>Fecha</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for e in caso.egresos.all %}
+              <tr>
+                <td>{{ e.get_categoria_display }}</td>
+                <td>{{ e.descripcion }}</td>
+                <td>${{ e.monto|intcomma }}</td>
+                <td>{{ e.fecha }}</td>
+                <td class="text-end">
+                  <form method="post"
+                        action="{% url 'medical_cases:delete_expense' caso.pk e.pk %}"
+                        class="d-inline"
+                        onsubmit="return confirm('¿Eliminar este egreso?');">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="5" class="text-muted">Sin egresos registrados.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h3 class="h6">Registrar egreso</h3>
+          <form method="post"
+                action="{% url 'medical_cases:add_expense' caso.pk %}"
+                enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include "includes/form_fields.html" with form=expense_form %}
+            <button type="submit" class="btn btn-sm btn-primary">Registrar egreso</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 {% endblock %}

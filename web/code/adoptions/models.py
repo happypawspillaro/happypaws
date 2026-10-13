@@ -25,9 +25,7 @@ class PropositoTenencia(models.TextChoices):
 
 
 class AdoptionApplication(models.Model):
-    animal = models.ForeignKey(
-        "animals.Animal", on_delete=models.CASCADE, related_name="solicitudes"
-    )
+    animal = models.ForeignKey("animals.Animal", on_delete=models.CASCADE, related_name="solicitudes")
     usuario = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
@@ -40,9 +38,7 @@ class AdoptionApplication(models.Model):
     telefono = models.CharField("teléfono", max_length=20)
     email = models.EmailField("correo")
     direccion = models.CharField("dirección", max_length=255)
-    tipo_vivienda = models.CharField(
-        "tipo de vivienda", max_length=15, choices=TipoVivienda.choices
-    )
+    tipo_vivienda = models.CharField("tipo de vivienda", max_length=15, choices=TipoVivienda.choices)
     tiene_patio = models.BooleanField("¿tiene patio o espacio exterior?", default=False)
     experiencia = models.TextField("experiencia previa con mascotas", blank=True)
     proposito = models.CharField(
@@ -51,9 +47,7 @@ class AdoptionApplication(models.Model):
         choices=PropositoTenencia.choices,
         default=PropositoTenencia.COMPANIA,
     )
-    estado = models.CharField(
-        max_length=15, choices=EstadoSolicitud.choices, default=EstadoSolicitud.PENDIENTE
-    )
+    estado = models.CharField(max_length=15, choices=EstadoSolicitud.choices, default=EstadoSolicitud.PENDIENTE)
     notas_internas = models.TextField("notas internas", blank=True)
     creado = models.DateTimeField(auto_now_add=True)
 
@@ -70,9 +64,7 @@ class AdoptionApplication(models.Model):
 
 
 class AdoptionFollowUp(models.Model):
-    solicitud = models.ForeignKey(
-        AdoptionApplication, on_delete=models.CASCADE, related_name="seguimientos"
-    )
+    solicitud = models.ForeignKey(AdoptionApplication, on_delete=models.CASCADE, related_name="seguimientos")
     fecha = models.DateField()
     notas = models.TextField()
     foto = models.ImageField(upload_to="adopciones/seguimiento/", blank=True)

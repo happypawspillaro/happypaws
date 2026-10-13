@@ -1,9 +1,8 @@
 import re
 
+from core.forms import BootstrapFormMixin
 from django import forms
 from django.core.validators import EmailValidator
-
-from core.forms import BootstrapFormMixin
 
 from .models import Report, ReportComment, ReportSighting
 
@@ -24,9 +23,7 @@ def validar_contacto(valor):
         pass
     if _PHONE_RE.match(valor) and sum(c.isdigit() for c in valor) >= 7:
         return valor
-    raise forms.ValidationError(
-        "Ingresa un correo válido o un número de teléfono (mínimo 7 dígitos)."
-    )
+    raise forms.ValidationError("Ingresa un correo válido o un número de teléfono (mínimo 7 dígitos).")
 
 
 class HoneypotMixin:
@@ -57,10 +54,18 @@ class ReportForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Report
         fields = [
-            "tipo", "titulo", "descripcion",
-            "especie", "sexo", "callejero", "senales_distinguibles",
-            "ubicacion", "fecha_avistamiento", "hora_aproximada",
-            "nombre_reportante", "contacto_reportante",
+            "tipo",
+            "titulo",
+            "descripcion",
+            "especie",
+            "sexo",
+            "callejero",
+            "senales_distinguibles",
+            "ubicacion",
+            "fecha_avistamiento",
+            "hora_aproximada",
+            "nombre_reportante",
+            "contacto_reportante",
         ]
         widgets = {
             "descripcion": forms.Textarea(attrs={"rows": 4}),
@@ -72,9 +77,7 @@ class ReportForm(BootstrapFormMixin, forms.ModelForm):
     def clean_ubicacion(self):
         ubicacion = (self.cleaned_data.get("ubicacion") or "").strip()
         if len(ubicacion) < 3:
-            raise forms.ValidationError(
-                "Indica una ubicación o sector válido (mínimo 3 caracteres)."
-            )
+            raise forms.ValidationError("Indica una ubicación o sector válido (mínimo 3 caracteres).")
         return ubicacion
 
     def clean_contacto_reportante(self):
@@ -87,9 +90,7 @@ class CommentForm(HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
         model = ReportComment
         fields = ["nombre", "contacto", "mensaje"]
         widgets = {
-            "mensaje": forms.Textarea(
-                attrs={"rows": 3, "placeholder": "Deja una pista, pregunta o ánimo…"}
-            ),
+            "mensaje": forms.Textarea(attrs={"rows": 3, "placeholder": "Deja una pista, pregunta o ánimo…"}),
         }
 
 
@@ -99,7 +100,5 @@ class SightingForm(HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
         fields = ["nombre", "contacto", "ubicacion", "fecha", "descripcion", "foto"]
         widgets = {
             "fecha": forms.DateInput(attrs={"type": "date"}),
-            "descripcion": forms.Textarea(
-                attrs={"rows": 2, "placeholder": "¿Cómo estaba? ¿Hacia dónde fue?"}
-            ),
+            "descripcion": forms.Textarea(attrs={"rows": 2, "placeholder": "¿Cómo estaba? ¿Hacia dónde fue?"}),
         }

@@ -5,12 +5,16 @@
     <span class="badge bg-secondary">{{ avistamientos|length }}</span>
   </h2>
   <p class="text-muted small">¿Viste a esta mascota? Cuéntale a la comunidad dónde y cuándo.</p>
-
   <div class="row g-3 mb-4">
     {% for s in avistamientos %}
       <div class="col-md-6">
         <div class="card h-100 {% if s.confirmado %}border-success{% elif s.oculto %}border-warning{% endif %}">
-          {% if s.foto %}<img src="{% thumbnail s.foto 'card' %}" class="card-img-top sighting-img" alt="Foto del avistamiento" loading="lazy">{% endif %}
+          {% if s.foto %}
+            <img src="{% thumbnail s.foto 'card' %}"
+                 class="card-img-top sighting-img"
+                 alt="Foto del avistamiento"
+                 loading="lazy">
+          {% endif %}
           <div class="card-body py-2">
             <div class="d-flex justify-content-between align-items-start">
               <strong><i class="bi bi-geo-alt"></i> {{ s.ubicacion }}</strong>
@@ -39,7 +43,8 @@
                     {% if s.oculto %}Mostrar{% else %}Ocultar{% endif %}
                   </button>
                 </form>
-                <form method="post" action="{% url 'reports:delete_sighting' s.pk %}"
+                <form method="post"
+                      action="{% url 'reports:delete_sighting' s.pk %}"
                       onsubmit="return confirm('¿Eliminar este avistamiento?');">
                   {% csrf_token %}
                   <button class="btn btn-outline-danger btn-sm" type="submit">Eliminar</button>
@@ -50,42 +55,50 @@
         </div>
       </div>
     {% empty %}
-      <div class="col"><p class="text-muted">Aún no hay avistamientos reportados.</p></div>
+      <div class="col">
+        <p class="text-muted">Aún no hay avistamientos reportados.</p>
+      </div>
     {% endfor %}
   </div>
-
   <div class="card bg-light">
     <div class="card-body">
       <h3 class="h6">Reportar un avistamiento</h3>
-      <form method="post" action="{% url 'reports:add_sighting' reporte.pk %}" enctype="multipart/form-data">
+      <form method="post"
+            action="{% url 'reports:add_sighting' reporte.pk %}"
+            enctype="multipart/form-data">
         {% csrf_token %}
         {% if sighting_form.non_field_errors %}
           <div class="alert alert-danger py-2">{{ sighting_form.non_field_errors }}</div>
         {% endif %}
         <div class="row g-2">
           <div class="col-sm-6">
-            <label class="form-label" for="{{ sighting_form.nombre.id_for_label }}">{{ sighting_form.nombre.label }}</label>
+            <label class="form-label"
+                   for="{{ sighting_form.nombre.id_for_label }}">{{ sighting_form.nombre.label }}</label>
             {{ sighting_form.nombre }}
             {% for e in sighting_form.nombre.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
           </div>
           <div class="col-sm-6">
-            <label class="form-label" for="{{ sighting_form.contacto.id_for_label }}">{{ sighting_form.contacto.label }}</label>
+            <label class="form-label"
+                   for="{{ sighting_form.contacto.id_for_label }}">{{ sighting_form.contacto.label }}</label>
             {{ sighting_form.contacto }}
             {% for e in sighting_form.contacto.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
           </div>
           <div class="col-sm-8">
-            <label class="form-label" for="{{ sighting_form.ubicacion.id_for_label }}">{{ sighting_form.ubicacion.label }}</label>
+            <label class="form-label"
+                   for="{{ sighting_form.ubicacion.id_for_label }}">{{ sighting_form.ubicacion.label }}</label>
             {{ sighting_form.ubicacion }}
             {% for e in sighting_form.ubicacion.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
           </div>
           <div class="col-sm-4">
-            <label class="form-label" for="{{ sighting_form.fecha.id_for_label }}">{{ sighting_form.fecha.label }}</label>
+            <label class="form-label"
+                   for="{{ sighting_form.fecha.id_for_label }}">{{ sighting_form.fecha.label }}</label>
             {{ sighting_form.fecha }}
             {% for e in sighting_form.fecha.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
           </div>
         </div>
         <div class="mt-2">
-          <label class="form-label" for="{{ sighting_form.descripcion.id_for_label }}">{{ sighting_form.descripcion.label }}</label>
+          <label class="form-label"
+                 for="{{ sighting_form.descripcion.id_for_label }}">{{ sighting_form.descripcion.label }}</label>
           {{ sighting_form.descripcion }}
           {% for e in sighting_form.descripcion.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
         </div>

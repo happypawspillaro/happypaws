@@ -23,6 +23,11 @@ datos_happy_paws.json
 docs_to_seed.py
 *.ods
 
+# CI 
+web/code/.coverage
+web/code/coverage.xml
+web/code/htmlcov/
+
 # Imágenes que no se deben subir a versión del control
 web/code/static/assets/directiva/
 web/code/static/assets/ejemplos/
