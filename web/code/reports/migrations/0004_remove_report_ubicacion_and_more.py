@@ -2,6 +2,61 @@
 
 from django.db import migrations, models
 
+NOMBRE_APP = "reports"
+NOMBRE_MODELO_PRIMARIO = "report"
+NOMBRE_MODELO_SECUNDARIO = "reportsighting"
+
+
+def transferir_ubicacion(apps, schema_editor):
+    # Importaciones dentro de la función para aislar la migración de cambios futuros en utils/constants
+    from constants import CANTONES, PARROQUIAS
+
+    from happypaws.utils import obtener_diccionario_de_choices
+
+    dict_clave_canton = obtener_diccionario_de_choices(CANTONES)
+    dict_clave_parroquia = obtener_diccionario_de_choices(PARROQUIAS)
+
+    Report = apps.get_model(NOMBRE_APP, NOMBRE_MODELO_PRIMARIO)
+    ReportSighting = apps.get_model(NOMBRE_APP, NOMBRE_MODELO_SECUNDARIO)
+
+    def guardar_ubicacion(instancia) -> None:
+        if instancia.ubicacion:
+            # Dividir y limpiar espacios en blanco de cada parte de forma segura
+            partes = [p.strip() for p in instancia.ubicacion.split("/")]
+
+            canton_str = partes[0] if len(partes) > 0 else ""
+            parroquia_str = partes[1] if len(partes) > 1 else ""
+            barrio_str = partes[2] if len(partes) > 2 else ""
+            # Asignar con un fallback seguro para evitar guardar valores nulos (None) en campos NOT NULL
+            instancia.canton = dict_clave_canton.get(canton_str, "PI")  # "PI" como respaldo seguro (Píllaro)
+            instancia.parroquia = dict_clave_parroquia.get(parroquia_str, "LM")  # "LM" como respaldo seguro (La Matriz)
+            instancia.barrio = barrio_str
+
+            # Guardar únicamente los campos modificados por eficiencia
+            instancia.save(update_fields=["canton", "parroquia", "barrio"])
+
+    for instancia in Report.objects.all():
+        guardar_ubicacion(instancia)
+    for instancia in ReportSighting.objects.all():
+        guardar_ubicacion(instancia)
+
+
+def revertir_transferencia(apps, schema_editor):
+    Report = apps.get_model(NOMBRE_APP, NOMBRE_MODELO_PRIMARIO)
+    ReportSighting = apps.get_model(NOMBRE_APP, NOMBRE_MODELO_SECUNDARIO)
+
+    def revertir_ubicacion(instancia) -> None:
+        canton = instancia.canton or ""
+        parroquia = instancia.parroquia or ""
+        barrio = instancia.barrio or ""
+        instancia.ubicacion = f"{canton}/{parroquia}/{barrio}"
+        instancia.save(update_fields=["ubicacion"])
+
+    for instancia in Report.objects.all():
+        revertir_ubicacion(instancia)
+    for instancia in ReportSighting.objects.all():
+        revertir_ubicacion(instancia)
+
 
 class Migration(migrations.Migration):
 
@@ -10,14 +65,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="report",
-            name="ubicacion",
-        ),
-        migrations.RemoveField(
-            model_name="reportsighting",
-            name="ubicacion",
-        ),
         migrations.AddField(
             model_name="report",
             name="barrio",
@@ -189,5 +236,15 @@ class Migration(migrations.Migration):
                 help_text="Parroquia del reporte",
                 max_length=5,
             ),
+        ),
+        # Se ejecuta la transferencia de la ubicación y luego se remueven los
+        migrations.RunPython(transferir_ubicacion, reverse_code=revertir_transferencia),
+        migrations.RemoveField(
+            model_name="report",
+            name="ubicacion",
+        ),
+        migrations.RemoveField(
+            model_name="reportsighting",
+            name="ubicacion",
         ),
     ]

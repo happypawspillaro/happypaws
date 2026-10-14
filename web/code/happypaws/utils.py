@@ -28,3 +28,16 @@ def componer_ubicacion_display(
         ubicacion += f" / {instancia.barrio}"
 
     return ubicacion
+
+
+def obtener_diccionario_de_choices(choices: list[tuple[str, str]]) -> dict:
+    """Convierte un iterable de Django Model Choices a un diccionario
+    donde la clave es el nombre en formato humano y el valor el que requiere el modelo.
+
+    Args:
+        choices (list[tuple[str, str]]): Tu lista de tuplas que ingresas como `choices` en `djago.models`
+
+    Returns:
+        dict: Tupla termino humano y el de db
+    """
+    return {db: humano for db, humano in choices}

@@ -2,6 +2,25 @@
 
 from django.db import migrations, models
 
+NOMBRE_APP = "animals"
+NOMBRE_MODELO = "animal"
+
+
+def transferir_parroquia(apps, schema_editor):
+    from constants import PARROQUIAS
+
+    from happypaws.utils import obtener_diccionario_de_choices
+
+    reportes = apps.get_model(NOMBRE_APP, NOMBRE_MODELO)
+    dict_clave_parroquia = obtener_diccionario_de_choices(PARROQUIAS)
+
+    for instancia in reportes.objects.all():
+        if instancia.parroquia:
+            # Limpiamos espacios en blanco con .strip() para asegurar la coincidencia
+            parroquia_limpia = instancia.parroquia.strip()
+            instancia.parroquia = dict_clave_parroquia.get(parroquia_limpia, "LM")
+            instancia.save(update_fields=["parroquia"])
+
 
 class Migration(migrations.Migration):
 
@@ -31,6 +50,9 @@ class Migration(migrations.Migration):
                 verbose_name="barrio / sector",
             ),
         ),
+        # Transfiere la parroquia y por defecto la mantiene igual
+        # Por ser un dato largo, se lo hace antes de acortar la parroquia
+        migrations.RunPython(transferir_parroquia),
         migrations.AlterField(
             model_name="animal",
             name="parroquia",

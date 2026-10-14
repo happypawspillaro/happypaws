@@ -2,6 +2,46 @@
 
 from django.db import migrations, models
 
+NOMBRE_APP = "adoptions"
+NOMBRE_MODELO = "adoptionapplication"
+
+
+def transferir_direccion(apps, schema_editor):
+    from constants import CANTONES, PARROQUIAS
+
+    from happypaws.utils import obtener_diccionario_de_choices
+
+    aplicaciones_adopciones = apps.get_model(NOMBRE_APP, NOMBRE_MODELO)
+    dict_clave_canton = obtener_diccionario_de_choices(CANTONES)
+    dict_clave_parroquia = obtener_diccionario_de_choices(PARROQUIAS)
+
+    for instancia in aplicaciones_adopciones.objects.all():
+        if instancia.direccion:  # <- Corregido: se usa 'direccion' en lugar de 'ubicacion'
+            canton_str, parroquia_str, barrio_str = "", "", ""
+            partes = [p.strip() for p in instancia.direccion.split("/")]
+            n_partes = len(partes)
+            if n_partes == 3:
+                canton_str, parroquia_str, barrio_str = partes
+            elif n_partes == 2:
+                parroquia_str, barrio_str = partes
+            # Asignaciones seguras con fallbacks válidos para las choices
+            instancia.canton = dict_clave_canton.get(canton_str, "PI")
+            instancia.parroquia = dict_clave_parroquia.get(parroquia_str, "LM")
+            instancia.barrio = barrio_str
+
+            instancia.save(update_fields=["canton", "parroquia", "barrio"])
+
+
+def revertir_direccion(apps, schema_editor):
+    aplicaciones_adopciones = apps.get_model(NOMBRE_APP, NOMBRE_MODELO)
+
+    for instancia in aplicaciones_adopciones.objects.all():
+        canton = instancia.canton or ""
+        parroquia = instancia.parroquia or ""
+        barrio = instancia.barrio or ""
+        instancia.direccion = f"{canton}/{parroquia}/{barrio}"
+        instancia.save(update_fields=["direccion"])
+
 
 class Migration(migrations.Migration):
 
@@ -10,10 +50,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="adoptionapplication",
-            name="direccion",
-        ),
         migrations.AddField(
             model_name="adoptionapplication",
             name="barrio",
@@ -101,5 +137,10 @@ class Migration(migrations.Migration):
                 help_text="Parroquia del adoptante",
                 max_length=5,
             ),
+        ),
+        migrations.RunPython(transferir_direccion, reverse_code=revertir_direccion),
+        migrations.RemoveField(
+            model_name="adoptionapplication",
+            name="direccion",
         ),
     ]
