@@ -8,7 +8,6 @@ NOMBRE_MODELO = "animal"
 
 def transferir_parroquia(apps, schema_editor):
     from constants import PARROQUIAS
-
     from happypaws.utils import obtener_diccionario_de_choices
 
     reportes = apps.get_model(NOMBRE_APP, NOMBRE_MODELO)

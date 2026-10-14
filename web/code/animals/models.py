@@ -14,7 +14,6 @@ from constants import (
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
 from happypaws.utils import componer_ubicacion_display
 
 

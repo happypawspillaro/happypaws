@@ -8,7 +8,6 @@ NOMBRE_MODELO = "adoptionapplication"
 
 def transferir_direccion(apps, schema_editor):
     from constants import CANTONES, PARROQUIAS
-
     from happypaws.utils import obtener_diccionario_de_choices
 
     aplicaciones_adopciones = apps.get_model(NOMBRE_APP, NOMBRE_MODELO)

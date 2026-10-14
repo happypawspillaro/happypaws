@@ -8,7 +8,6 @@ from constants import (
 from django.conf import settings
 from django.db import models
 from django.urls import reverse
-
 from happypaws.utils import componer_ubicacion_display
 
 
