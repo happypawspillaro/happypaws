@@ -42,9 +42,13 @@ RUN apk add --no-cache \
       libxml2=~2 \
       libxslt=~1 \
       postgresql18-client=~18 \
-      zlib~=1
+      zlib~=1 
 WORKDIR /home/happypaws/code
-
+# Descargar locaciones.json desde el repositorio remoto y guardarlo en la ruta especificada
+RUN mkdir -p ./static/assets/ && \
+      curl -L -o ./static/assets/locaciones.json \
+      https://raw.githubusercontent.com/happypawspillaro/esterilizaya-pillaro/refs/heads/main/app/static/assets/locaciones.json
+       
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY ./web/code ./
 # Crear los directorios iniciales
@@ -64,6 +68,7 @@ COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
 USER happypaws
 
 FROM --platform=$BUILDPLATFORM base AS debug
+COPY --from=base /tmp/assets/locaciones.json ./static/assets/locaciones.json
 RUN pip install --no-cache-dir django-debug-toolbar==7.*
 HEALTHCHECK --interval=5m --timeout=3s \
   CMD curl -f http://localhost:8000/ || exit 1
