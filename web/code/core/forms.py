@@ -38,7 +38,7 @@ class BootstrapFormMixin:
                     "hx-trigger": "change, load",
                     "hx-target": "#id_parroquia",
                     "hx-swap": "innerHTML",
-                    "hx-include": "#id_parroquia_tutor",
+                    "hx-include": "#id_parroquia",
                 }
             )
 
