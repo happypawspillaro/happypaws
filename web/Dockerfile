@@ -68,7 +68,6 @@ COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
 USER happypaws
 
 FROM --platform=$BUILDPLATFORM base AS debug
-COPY --from=base /tmp/assets/locaciones.json ./static/assets/locaciones.json
 RUN pip install --no-cache-dir django-debug-toolbar==7.*
 HEALTHCHECK --interval=5m --timeout=3s \
   CMD curl -f http://localhost:8000/ || exit 1
