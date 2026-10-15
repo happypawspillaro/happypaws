@@ -6,7 +6,17 @@ class BootstrapFormMixin:
     """Aplica clases de Bootstrap a los widgets del formulario."""
 
     def __init__(self, *args, **kwargs):
+        # Extraemos nuestros argumentos personalizados antes de llamar a super()
+        canton_reporte = kwargs.pop("canton_reporte", None)
+        parroquia_reporte = kwargs.pop("parroquia_reporte", None)
         super().__init__(*args, **kwargs)
+        # Lo ideal es pasar por defecto el canton y parroquia del reporte, acá inicializamos
+        # con los valores pasados del reporte
+        if not self.data and not self.initial:
+            if canton_reporte and "canton" in self.fields:
+                self.initial["canton"] = canton_reporte
+            if parroquia_reporte and "parroquia" in self.fields:
+                self.initial["parroquia"] = parroquia_reporte
         # Inyecta código de HTMX para sugerir el nombre de un barrio
         # con respecto al cantón y parroquia seleccionada
         # TODO: Verificar en los Tests porque debo hace esta comprobación del campo
