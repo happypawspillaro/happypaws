@@ -340,7 +340,7 @@ class VistasLocacionesTests(TestCase):
         resultado = obtener_locaciones()
         self.assertEqual(resultado, datos_esperados)
         # Deshabilito aquí el linter porque pylint no reconoce que cache_info() es un método de la función decorada
-        info = _cargar_locaciones_cached.cache_info() # pylint: disable=no-value-for-parameter
+        info = _cargar_locaciones_cached.cache_info()  # pylint: disable=no-value-for-parameter
         self.assertEqual(info.misses, misses_esperados)
         self.assertEqual(info.hits, hits_esperados)
 
