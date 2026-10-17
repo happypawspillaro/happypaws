@@ -25,7 +25,7 @@ class BootstrapFormMixin:
                     "list": "sugerencias-barrios",
                     "autocomplete": "off",
                     "hx-get": reverse("core:barrios"),
-                    "hx-trigger": "input changed delay:500ms",
+                    "hx-trigger": "input changed delay:300ms",
                     "hx-target": "#sugerencias-barrios",
                     "hx-swap": "innerHTML",
                     "hx-include": "#id_canton,#id_parroquia",
