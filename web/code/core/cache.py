@@ -20,32 +20,29 @@ def obtener_ruta_locaciones() -> Path:
 
 @lru_cache(maxsize=4)
 def _cargar_locaciones_cached(
-    ruta: str,
+    ruta_locaciones: Path,
     mtime_ns: int,
 ) -> dict:
-    path = Path(ruta)
+    logger.info("Cargando locaciones desde %s con mtime: %ld", ruta_locaciones, mtime_ns)
 
-    logger.info("Cargando locaciones desde %s con mtime: %ld", path, mtime_ns)
-
-    with path.open("r", encoding="utf-8") as f:
+    with ruta_locaciones.open("r", encoding="utf-8") as f:
         return json.load(f)
 
 
 def obtener_locaciones() -> dict:
-    path = obtener_ruta_locaciones()
-
+    ruta_locaciones = obtener_ruta_locaciones()
     try:
-        stat = path.stat()
+        stat = ruta_locaciones.stat()
 
         return _cargar_locaciones_cached(
-            str(path),
+            ruta_locaciones,
             stat.st_mtime_ns,
         )
 
     except (FileNotFoundError, OSError, json.JSONDecodeError) as exc:
         logger.error(
             "Error al cargar locaciones desde %s: %s",
-            path,
+            ruta_locaciones,
             exc,
         )
         return {}
