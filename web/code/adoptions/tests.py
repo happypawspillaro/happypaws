@@ -2,6 +2,8 @@ from datetime import date
 
 from accounts.models import User
 from animals.models import Animal, Especie, EstadoAnimal, Sexo, Tamano
+from animals.tests import crear_animal
+from core.tests_common.mixins import UbicacionCompletaTestMixin
 from django.test import TestCase
 from django.urls import reverse
 
@@ -13,7 +15,7 @@ from .models import (
 )
 
 
-class AdoptionFlowTests(TestCase):
+class AdoptionFlowTests(UbicacionCompletaTestMixin, TestCase):
     def setUp(self):
         self.animal = Animal.objects.create(
             nombre="Canela",
@@ -55,3 +57,9 @@ class AdoptionFlowTests(TestCase):
         )
         self.animal.refresh_from_db()
         self.assertEqual(self.animal.estado, EstadoAnimal.ADOPTADO)
+
+    def crear_instancia(self, canton, parroquia, barrio) -> AdoptionApplication:
+        animal = crear_animal(barrio=barrio, parroquia=parroquia, canton=canton)
+        data_solicitud = self._datos_solicitud()
+        data_solicitud.update({"barrio": barrio, "parroquia": parroquia, "canton": canton})
+        return AdoptionApplication.objects.create(animal=animal, **data_solicitud)

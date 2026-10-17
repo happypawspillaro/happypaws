@@ -1,12 +1,13 @@
 from datetime import date, timedelta
 
 from accounts.models import User
+from core.tests_common.mixins import UbicacionCompletaTestMixin
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from .forms import ReportForm
+from .forms import ReportForm, SightingForm
 from .models import (
     Report,
     ReportComment,
@@ -46,6 +47,14 @@ def crear_reporte(**kwargs):
     )
     defaults.update(kwargs)
     return Report.objects.create(**defaults)
+
+
+class ReportTests(
+    UbicacionCompletaTestMixin,
+    TestCase,
+):
+    def crear_instancia(self, canton, parroquia, barrio) -> Report:
+        return crear_reporte(tipo=TipoReporte.PERDIDO, barrio=barrio, parroquia=parroquia, canton=canton)
 
 
 class CommentTests(TestCase):
@@ -112,6 +121,30 @@ class SightingTests(TestCase):
         )
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(reporte.avistamientos.count(), 0)
+
+
+def test_sugiere_avistamiento_en_area(self):
+    """Verificar que los valores iniciales de cantón y parroquia coincidan con el reporte o estén vacíos."""
+
+    # Casos de prueba con reporte asociado
+    casos_con_reporte = [
+        ("PI", "SM", "Yacupamba"),
+        ("PA", "LA", None),
+    ]
+
+    for canton, parroquia, barrio in casos_con_reporte:
+        with self.subTest(canton=canton, parroquia=parroquia, barrio=barrio):
+            reporte = crear_reporte(tipo=TipoReporte.PERDIDO, barrio=barrio, parroquia=parroquia, canton=canton)
+            forma_avistamiento = SightingForm(parroquia_base=reporte.parroquia, canton_base=reporte.canton)
+
+            self.assertEqual(forma_avistamiento.initial.get("canton"), canton)
+            self.assertEqual(forma_avistamiento.initial.get("parroquia"), parroquia)
+
+    # Caso de un formulario vacío (sin datos base del reporte)
+    forma_vacia = SightingForm()
+
+    self.assertIsNone(forma_vacia.initial.get("canton"))
+    self.assertIsNone(forma_vacia.initial.get("parroquia"))
 
 
 class ModerationTests(TestCase):

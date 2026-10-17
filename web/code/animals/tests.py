@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from accounts.models import User
+from core.tests_common.mixins import UbicacionCompletaTestMixin
 from django.test import TestCase
 from django.urls import reverse
 
@@ -19,6 +20,11 @@ def crear_animal(**kwargs):
     )
     defaults.update(kwargs)
     return Animal.objects.create(**defaults)
+
+
+class AnimalTests(UbicacionCompletaTestMixin, TestCase):
+    def crear_instancia(self, canton, parroquia, barrio) -> Animal:
+        return crear_animal(barrio=barrio, parroquia=parroquia, canton=canton)
 
 
 class AnimalModelTests(TestCase):
