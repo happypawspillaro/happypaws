@@ -20,7 +20,9 @@ def _datos_reporte_validos(**kwargs):
         tipo=TipoReporte.PERDIDO,
         titulo="Se perdió Toby",
         descripcion="Perro café, collar rojo.",
-        ubicacion="Barrio Centro",
+        barrio="Centro",
+        parroquia="LM",
+        canton="PI",
         fecha_avistamiento=date.today().isoformat(),
         nombre_reportante="Ana",
         contacto_reportante="ana@example.com",
@@ -34,7 +36,9 @@ def crear_reporte(**kwargs):
         tipo=TipoReporte.PERDIDO,
         titulo="Se perdió Toby",
         descripcion="Perro café, collar rojo.",
-        ubicacion="Barrio Centro",
+        barrio="Centro",
+        parroquia="ME",
+        canton="PI",
         fecha_avistamiento=date.today(),
         nombre_reportante="Ana",
         contacto_reportante="ana@example.com",
@@ -88,7 +92,9 @@ class SightingTests(TestCase):
             {
                 "nombre": "Pedro",
                 "contacto": "0991112233",
-                "ubicacion": "Av. Bolívar",
+                "barrio": "Av. Bolívar",
+                "parroquia": "LM",
+                "canton": "PI",
                 "fecha": date.today().isoformat(),
                 "descripcion": "Iba hacia el sur.",
                 "website": "",
@@ -102,7 +108,7 @@ class SightingTests(TestCase):
         self.assertFalse(reporte.permite_avistamientos)
         resp = self.client.post(
             reverse("reports:add_sighting", args=[reporte.pk]),
-            {"nombre": "X", "ubicacion": "y", "fecha": date.today().isoformat(), "website": ""},
+            {"nombre": "X", "barrio": "y", "fecha": date.today().isoformat(), "website": ""},
         )
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(reporte.avistamientos.count(), 0)
@@ -112,7 +118,7 @@ class ModerationTests(TestCase):
     def setUp(self):
         self.reporte = crear_reporte()
         self.sighting = ReportSighting.objects.create(
-            reporte=self.reporte, nombre="P", ubicacion="x", fecha=date.today()
+            reporte=self.reporte, nombre="P", barrio="x", parroquia="BM", canton="PI", fecha=date.today()
         )
         User.objects.create_user(username="staff", password="x", is_staff=True)
         self.client.login(username="staff", password="x")
@@ -241,9 +247,9 @@ class ReportFormValidationTests(TestCase):
         self.assertTrue(form.is_valid(), form.errors)
 
     def test_ubicacion_muy_corta_es_rechazada(self):
-        form = ReportForm(data=_datos_reporte_validos(ubicacion="ab"))
+        form = ReportForm(data=_datos_reporte_validos(barrio="ab"))
         self.assertFalse(form.is_valid())
-        self.assertIn("ubicacion", form.errors)
+        self.assertIn("barrio", form.errors)
 
 
 @override_settings(
