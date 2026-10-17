@@ -19,7 +19,6 @@ class BootstrapFormMixin:
                 self.initial["parroquia"] = parroquia_base
         # Inyecta código de HTMX para sugerir el nombre de un barrio
         # con respecto al cantón y parroquia seleccionada
-        # TODO: Verificar en los Tests porque debo hace esta comprobación del campo
         if "barrio" in self.fields:
             self.fields["barrio"].widget.attrs.update(
                 {
@@ -40,7 +39,6 @@ class BootstrapFormMixin:
                     "document.getElementById('sugerencias-barrios').innerHTML = '';"
                 )
         # De todas las opciones de parroquias, filtra por cantón
-        # TODO: Verificar en los Tests porque debo hace esta comprobación del campo
         if "canton" in self.fields:
             self.fields["canton"].widget.attrs.update(
                 {
