@@ -102,6 +102,8 @@
                 <label class="form-label"
                        for="{{ sighting_form.barrio.id_for_label }}">{{ sighting_form.barrio.label }}</label>
                 {{ sighting_form.barrio }}
+                <!--Elemento donde el navegador inyecta la sugerencia de barrio en HTMX-->
+                <datalist id="sugerencias-barrios"></datalist>
                 {% for e in sighting_form.barrio.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
               </div>
             </div>
