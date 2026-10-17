@@ -7,16 +7,16 @@ class BootstrapFormMixin:
 
     def __init__(self, *args, **kwargs):
         # Extraemos nuestros argumentos personalizados antes de llamar a super()
-        canton_reporte = kwargs.pop("canton_reporte", None)
-        parroquia_reporte = kwargs.pop("parroquia_reporte", None)
+        canton_base = kwargs.pop("canton_base", None)
+        parroquia_base = kwargs.pop("parroquia_base", None)
         super().__init__(*args, **kwargs)
-        # Lo ideal es pasar por defecto el canton y parroquia del reporte, acá inicializamos
-        # con los valores pasados del reporte
+        # Lo ideal es pasar por defecto el canton y parroquia del reporte,
+        # acá inicializamos con los valores pasados del reporte
         if not self.data and not self.initial:
-            if canton_reporte and "canton" in self.fields:
-                self.initial["canton"] = canton_reporte
-            if parroquia_reporte and "parroquia" in self.fields:
-                self.initial["parroquia"] = parroquia_reporte
+            if canton_base and "canton" in self.fields:
+                self.initial["canton"] = canton_base
+            if parroquia_base and "parroquia" in self.fields:
+                self.initial["parroquia"] = parroquia_base
         # Inyecta código de HTMX para sugerir el nombre de un barrio
         # con respecto al cantón y parroquia seleccionada
         # TODO: Verificar en los Tests porque debo hace esta comprobación del campo
@@ -26,7 +26,7 @@ class BootstrapFormMixin:
                     "list": "sugerencias-barrios",
                     "autocomplete": "off",
                     "hx-get": reverse("core:barrios"),
-                    "hx-trigger": "input changed delay:300ms",
+                    "hx-trigger": "input changed delay:500ms",
                     "hx-target": "#sugerencias-barrios",
                     "hx-swap": "innerHTML",
                     "hx-include": "#id_canton,#id_parroquia",
