@@ -9,11 +9,15 @@ NOMBRE_MODELO_SECUNDARIO = "reportsighting"
 
 def transferir_ubicacion(apps, schema_editor):
     # Importaciones dentro de la función para aislar la migración de cambios futuros en utils/constants
-    from constants import CANTONES, PARROQUIAS
-    from happypaws.utils import obtener_diccionario_de_choices
+    from constants import CANTONES
+
+    from happypaws.utils import (
+        obtener_diccionario_de_choices,
+        obtener_parroquias_choices_dict_por_canton,
+    )
 
     dict_clave_canton = obtener_diccionario_de_choices(CANTONES)
-    dict_clave_parroquia = obtener_diccionario_de_choices(PARROQUIAS)
+    dict_clave_canton_parroquia = obtener_parroquias_choices_dict_por_canton()
 
     Report = apps.get_model(NOMBRE_APP, NOMBRE_MODELO_PRIMARIO)
     ReportSighting = apps.get_model(NOMBRE_APP, NOMBRE_MODELO_SECUNDARIO)
@@ -27,8 +31,11 @@ def transferir_ubicacion(apps, schema_editor):
             parroquia_str = partes[1] if len(partes) > 1 else ""
             barrio_str = partes[2] if len(partes) > 2 else ""
             # Asignar con un fallback seguro para evitar guardar valores nulos (None) en campos NOT NULL
-            instancia.canton = dict_clave_canton.get(canton_str, "PI")  # "PI" como respaldo seguro (Píllaro)
-            instancia.parroquia = dict_clave_parroquia.get(parroquia_str, "LM")  # "LM" como respaldo seguro (La Matriz)
+            canton_db = dict_clave_canton.get(canton_str, "PI")  # "PI" como respaldo seguro (Píllaro)
+            instancia.canton = canton_db
+            instancia.parroquia = dict_clave_canton_parroquia[canton_db].get(
+                parroquia_str, "LM"
+            )  # "LM" como respaldo seguro (La Matriz)
             instancia.barrio = barrio_str
 
             # Guardar únicamente los campos modificados por eficiencia

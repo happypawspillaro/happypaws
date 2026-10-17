@@ -1,3 +1,4 @@
+from constants import CANTONES, PARROQUIAS_CANTON
 from django.db.models import Model
 
 
@@ -40,4 +41,15 @@ def obtener_diccionario_de_choices(choices: list[tuple[str, str]]) -> dict:
     Returns:
         dict: Tupla termino humano y el de db
     """
-    return {db: humano for db, humano in choices}
+    return {db: humano for humano, db in choices}
+
+
+def obtener_parroquias_choices_dict_por_canton() -> dict:
+    """Debido a que hay parroquias con los mismos nombres, usar `PARROQUIAS_CANTON`
+    para returnar los valores por cantón.
+
+    Returns:
+        dict: Obtener los choices en formato humano: db
+    """
+
+    return {canton_db: obtener_diccionario_de_choices(PARROQUIAS_CANTON[canton_db]) for canton_db, _ in CANTONES}

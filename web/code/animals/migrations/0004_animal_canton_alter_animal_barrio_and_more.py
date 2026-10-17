@@ -7,17 +7,16 @@ NOMBRE_MODELO = "animal"
 
 
 def transferir_parroquia(apps, schema_editor):
-    from constants import PARROQUIAS
-    from happypaws.utils import obtener_diccionario_de_choices
+    from happypaws.utils import obtener_parroquias_choices_dict_por_canton
 
     reportes = apps.get_model(NOMBRE_APP, NOMBRE_MODELO)
-    dict_clave_parroquia = obtener_diccionario_de_choices(PARROQUIAS)
-
+    dict_clave_canton_parroquia = obtener_parroquias_choices_dict_por_canton()
     for instancia in reportes.objects.all():
+        canton_defecto = instancia.canton or "PI"  # Valor por defecto si canton es None
         if instancia.parroquia:
             # Limpiamos espacios en blanco con .strip() para asegurar la coincidencia
             parroquia_limpia = instancia.parroquia.strip()
-            instancia.parroquia = dict_clave_parroquia.get(parroquia_limpia, "LM")
+            instancia.parroquia = dict_clave_canton_parroquia[canton_defecto].get(parroquia_limpia, "LM")
             instancia.save(update_fields=["parroquia"])
 
 

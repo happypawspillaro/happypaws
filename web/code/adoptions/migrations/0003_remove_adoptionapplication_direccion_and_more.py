@@ -7,25 +7,30 @@ NOMBRE_MODELO = "adoptionapplication"
 
 
 def transferir_direccion(apps, schema_editor):
-    from constants import CANTONES, PARROQUIAS
-    from happypaws.utils import obtener_diccionario_de_choices
+    from constants import CANTONES
+
+    from happypaws.utils import (
+        obtener_diccionario_de_choices,
+        obtener_parroquias_choices_dict_por_canton,
+    )
 
     aplicaciones_adopciones = apps.get_model(NOMBRE_APP, NOMBRE_MODELO)
     dict_clave_canton = obtener_diccionario_de_choices(CANTONES)
-    dict_clave_parroquia = obtener_diccionario_de_choices(PARROQUIAS)
-
+    dict_clave_canton_parroquia = obtener_parroquias_choices_dict_por_canton()
+    print(dict_clave_canton_parroquia)
     for instancia in aplicaciones_adopciones.objects.all():
-        if instancia.direccion:  # <- Corregido: se usa 'direccion' en lugar de 'ubicacion'
+        if instancia.direccion:
             canton_str, parroquia_str, barrio_str = "", "", ""
-            partes = [p.strip() for p in instancia.direccion.split("/")]
+            partes = [p.strip() for p in instancia.direccion.split(",")]
             n_partes = len(partes)
             if n_partes == 3:
                 canton_str, parroquia_str, barrio_str = partes
             elif n_partes == 2:
                 parroquia_str, barrio_str = partes
             # Asignaciones seguras con fallbacks válidos para las choices
-            instancia.canton = dict_clave_canton.get(canton_str, "PI")
-            instancia.parroquia = dict_clave_parroquia.get(parroquia_str, "LM")
+            canton_db = dict_clave_canton.get(canton_str, "PI")
+            instancia.canton = canton_db
+            instancia.parroquia = dict_clave_canton_parroquia[canton_db].get(parroquia_str, "LM")
             instancia.barrio = barrio_str
 
             instancia.save(update_fields=["canton", "parroquia", "barrio"])
