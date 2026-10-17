@@ -8,7 +8,6 @@ NOMBRE_MODELO = "adoptionapplication"
 
 def transferir_direccion(apps, schema_editor):
     from constants import CANTONES
-
     from happypaws.utils import (
         obtener_diccionario_de_choices,
         obtener_parroquias_choices_dict_por_canton,

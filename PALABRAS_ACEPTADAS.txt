@@ -1,6 +1,8 @@
 accesible
 administrativo
 aprox
+argumentos
+auxiliar
 avance
 Avance
 avances

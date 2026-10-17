@@ -10,7 +10,6 @@ NOMBRE_MODELO_SECUNDARIO = "reportsighting"
 def transferir_ubicacion(apps, schema_editor):
     # Importaciones dentro de la función para aislar la migración de cambios futuros en utils/constants
     from constants import CANTONES
-
     from happypaws.utils import (
         obtener_diccionario_de_choices,
         obtener_parroquias_choices_dict_por_canton,
