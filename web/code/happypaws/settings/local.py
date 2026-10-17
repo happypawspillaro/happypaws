@@ -5,7 +5,6 @@ from .base import *  # noqa: F403
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False") == "True"
 
-STATICFILES_DIRS = [BASE_DIR / "static"]  # noqa: F405
 STATIC_ROOT = BASE_DIR / "staticfiles"  # noqa: F405
 # Python Debug Toolbar
 if DEBUG:

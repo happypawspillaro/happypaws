@@ -10,12 +10,12 @@ logger = logging.getLogger(__name__)
 
 
 def obtener_ruta_locaciones() -> Path:
-    ruta = finders.find("assets/locaciones.json")
+    ruta = finders.find("data/locaciones.json")
 
     if ruta:
         return Path(ruta)
 
-    return Path(settings.BASE_DIR) / "static" / "assets" / "locaciones.json"
+    return settings.DATA_DIR / "data" / "locaciones.json"
 
 
 @lru_cache(maxsize=4)
