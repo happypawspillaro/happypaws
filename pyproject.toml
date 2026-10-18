@@ -10,6 +10,9 @@ profile = "black"
 # Configuraciones del formateador de Django Templates
 [tool.djlint]
 indent=2
+# {% thumbnail ... as x %} de easy-thumbnails no es un bloque (no lleva
+# {% endthumbnail %} como en sorl-thumbnail), así que no debe sangrar lo que sigue.
+ignore_blocks="thumbnail"
 
 [tool.coverage.run]
 branch = true

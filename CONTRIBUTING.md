@@ -9,6 +9,7 @@ Se recomienda el siguiente flujo de desarrollo en el proyecto
 - _(Opcional)_ Añadir un nuevo [Issue](https://github.com/happypawspillaro/happypaws/issues) describiendo el cambio que se pretende hacer
 - Crear una nueva rama en base a la `main`.
 - Cumplir el [Formato de código](#formato-de-código) del proyecto.
+- Si la página es pública, incluir su [SEO](#seo-en-páginas-públicas).
 - Crear un nuevo `Pull request`, pasar las pruebas de formato y regresión y aceptar tu contribución por un revisor.
 
 ## Configuraciones de desarrollo
@@ -53,6 +54,16 @@ En caso necesites mayor detalle de los registros del sistema, descomenta en tu a
 ```dotenv
 DJANGO_LOG_LEVEL=DEBUG
 ```
+
+## SEO en páginas públicas
+
+Toda página nueva que sea visible sin iniciar sesión debe incluir su SEO:
+
+- Un `{% block title %}` propio y un único `<h1>` que describa la página.
+- El bloque `{% block seo %}` con `includes/seo_meta.html`, pasando `titulo`, `descripcion` y, si la página tiene foto, `imagen`. Así se generan la descripción para buscadores y la vista previa al compartir el link en WhatsApp, Facebook, Telegram o X.
+- Texto alternativo (`alt`) descriptivo en las imágenes, con nombre y ubicación cuando aplique.
+- Si es una página nueva o un modelo con página de detalle, añadirlo en `core/sitemaps.py`.
+- Pruebas en `core/test_seo.py` que verifiquen lo anterior.
 
 ## Formato de Código
 

@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from core.seo import ubicacion_seo
 from django.db import models
 from django.db.models import Sum
 from django.urls import reverse
@@ -41,6 +42,21 @@ class MedicalCase(models.Model):
 
     def get_absolute_url(self):
         return reverse("medical_cases:detail", args=[self.pk])
+
+    @property
+    def titulo_seo(self):
+        """'Ayuda a Luna de La Matriz/Píllaro: Cirugía de cadera' (#66)."""
+        if self.animal:
+            return f"Ayuda a {self.animal.nombre} de {ubicacion_seo(self.animal.parroquia)}: {self.titulo}"
+        return f"Ayuda en {ubicacion_seo()}: {self.titulo}"
+
+    @property
+    def foto_para_compartir(self):
+        """Primera foto del caso o, si no tiene, la del animal (og:image, #68)."""
+        primera = CasePhoto.objects.filter(caso=self).first()
+        if primera:
+            return primera.imagen
+        return self.animal.foto_principal if self.animal else None
 
     @property
     def monto_recaudado(self):
