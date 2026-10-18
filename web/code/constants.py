@@ -19,3 +19,7 @@ class Sexo(models.TextChoices):
     MACHO = "macho", "Macho"
     HEMBRA = "hembra", "Hembra"
     DESCONOCIDO = "desconocido", "Desconocido"
+
+
+# La página está diseñada para mostrar contenido nx5
+N_MAXIMO_OBJETOS_POR_PAGINA = 15
