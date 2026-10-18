@@ -163,6 +163,19 @@ class SitemapTests(TestCase):
         resp = self.client.get("/sitemap.xml")
         self.assertContains(resp, animal.get_absolute_url())
 
+    def test_sitemap_no_incluye_animal_adoptado(self):
+        animal = Animal.objects.create(
+            nombre="Toby",
+            especie=Especie.PERRO,
+            sexo=Sexo.MACHO,
+            tamano=Tamano.MEDIANO,
+            descripcion="Ya tiene hogar",
+            estado=EstadoAnimal.ADOPTADO,
+            fecha_ingreso=date.today(),
+        )
+        resp = self.client.get("/sitemap.xml")
+        self.assertNotContains(resp, animal.get_absolute_url())
+
     def test_sitemap_incluye_caso_medico(self):
         caso = MedicalCase.objects.create(titulo="Cirugía de Firulais", descripcion="...", meta_monto="100.00")
         resp = self.client.get("/sitemap.xml")

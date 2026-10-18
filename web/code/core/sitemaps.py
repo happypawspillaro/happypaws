@@ -1,4 +1,4 @@
-from animals.models import Animal
+from animals.models import Animal, EstadoAnimal
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from medical_cases.models import MedicalCase
@@ -19,11 +19,13 @@ class StaticViewSitemap(Sitemap):
 
 
 class AnimalSitemap(Sitemap):
+    """Solo los animales en adopción: los adoptados no deben salir en Google."""
+
     changefreq = "weekly"
     priority = 0.8
 
     def items(self):
-        return Animal.objects.all()
+        return Animal.objects.filter(estado=EstadoAnimal.EN_ADOPCION)
 
     def lastmod(self, obj):
         return obj.actualizado

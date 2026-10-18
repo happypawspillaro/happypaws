@@ -1,0 +1,13 @@
+User-agent: *
+# Páginas solo para el staff: no aportan nada en los buscadores (#65).
+Disallow: /admin/
+Disallow: /panel/
+Disallow: /adopciones/gestion/
+Disallow: /animales/gestion/
+Disallow: /casos/gestion/
+Disallow: /reportes/gestion/
+# Moderación de comentarios y avistamientos de los reportes.
+Disallow: /reportes/comentario/
+Disallow: /reportes/avistamiento/
+
+Sitemap: {{ request.scheme }}://{{ request.get_host }}{% url "django.contrib.sitemaps.views.sitemap" %}

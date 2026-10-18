@@ -10,6 +10,7 @@ from constants import (
     Especie,
     Sexo,
 )
+from core.seo import ubicacion_seo
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
@@ -90,6 +91,15 @@ class Report(models.Model):
 
     def get_absolute_url(self):
         return reverse("reports:detail", args=[self.pk])
+
+    @property
+    def titulo_seo(self):
+        """'Mascota perdida en Píllaro: Perrito café cerca del parque' (#66).
+
+        La ubicación del reporte es texto libre (una calle, un parque), así que
+        por ahora solo se usa el cantón; con el #62 se puede sumar la parroquia.
+        """
+        return f"{self.get_tipo_display()} en {ubicacion_seo()}: {self.titulo}"
 
     @property
     def permite_avistamientos(self):

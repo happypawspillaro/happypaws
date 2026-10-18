@@ -106,6 +106,13 @@ class MiniaturaListaTests(TestCase):
         self.assertContains(resp, f"{self.miniatura_px}x{self.miniatura_px}")
         self.assertNotContains(resp, f'src="{self.foto.imagen.url}"')
 
+    def test_carrusel_del_detalle_muestra_una_foto_a_la_vez(self):
+        CasePhoto.objects.create(caso=self.caso, imagen=self.foto.imagen.name)
+        CasePhoto.objects.create(caso=self.caso, imagen=self.foto.imagen.name)
+        resp = self.client.get(self.caso.get_absolute_url())
+        self.assertContains(resp, 'class="carousel-item active"', count=1)
+        self.assertContains(resp, 'class="carousel-control-next"', count=1)
+
 
 class ExpenseTests(TestCase):
     def setUp(self):
