@@ -1,6 +1,8 @@
 from datetime import date, timedelta
 
 from accounts.models import User
+from constants import N_MAXIMO_OBJETOS_POR_PAGINA
+from core.common_tests.mixins import PaginacionTestMixin
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
@@ -270,3 +272,54 @@ class NotificationTests(TestCase):
         # Solo va a la fundación, no a un "correo" que en realidad es un teléfono.
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, ["fundacion@example.com"])
+
+
+# web/code/reports/tests.py
+class TestReportesView(PaginacionTestMixin, TestCase):
+    """Prueba la paginación y los filtros combinados en las vistas de reportes."""
+
+    N_MAX_PAGINAS = 3
+    VIEWS = ["reports:list", "reports:manage_list"]
+    model = Report
+    context_name = "reportes"
+    atributo_busqueda = "titulo"
+
+    def crear_objeto(self, **kwargs):
+        """Método puente para usar la función de fábrica con valores por defecto."""
+        return crear_reporte(**kwargs)
+
+    def setUp(self):
+        User.objects.create_user(username="staff", password="x", is_staff=True)
+        self.client.login(username="staff", password="x")
+        for i in range(N_MAXIMO_OBJETOS_POR_PAGINA * self.N_MAX_PAGINAS):
+            crear_reporte(titulo=f"Se perdió animal {i+1}")
+
+    def test_paginacion_con_filtro_tipo(self):
+        """Prueba que la paginación funcione correctamente filtrando por tipo."""
+        self.assert_paginacion_con_filtro(
+            view_name="reports:list",
+            param_query=f"tipo={TipoReporte.ENCONTRADO}",
+            kwargs_creacion_match={"tipo": TipoReporte.ENCONTRADO},
+            kwargs_creacion_no_match={"tipo": TipoReporte.PERDIDO},
+            prefijo_nombre="RepTipo",
+        )
+
+    def test_paginacion_con_filtro_estado(self):
+        """Prueba que la paginación funcione correctamente filtrando por estado."""
+        self.assert_paginacion_con_filtro(
+            view_name="reports:manage_list",
+            param_query="estado=cerrado",
+            kwargs_creacion_match={"estado": "cerrado"},
+            kwargs_creacion_no_match={"estado": "activo"},
+            prefijo_nombre="RepEst",
+        )
+
+    def test_paginacion_con_filtro_aprobacion(self):
+        """Prueba que la paginación funcione correctamente filtrando por aprobación."""
+        self.assert_paginacion_con_filtro(
+            view_name="reports:manage_list",
+            param_query="aprobacion=aprobado",
+            kwargs_creacion_match={"aprobado": True},
+            kwargs_creacion_no_match={"aprobado": False},
+            prefijo_nombre="RepAprob",
+        )

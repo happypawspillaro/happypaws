@@ -1,6 +1,8 @@
 from datetime import date, timedelta
 
 from accounts.models import User
+from constants import N_MAXIMO_OBJETOS_POR_PAGINA
+from core.common_tests.mixins import PaginacionTestMixin
 from django.test import TestCase
 from django.urls import reverse
 
@@ -87,3 +89,54 @@ class StaffAccessTests(TestCase):
         self.client.login(username="staff", password="x")
         resp = self.client.get(reverse("animals:manage_detail", args=[animal.pk]))
         self.assertContains(resp, "https://wa.me/593991234567")
+
+
+# web/code/animals/tests.py
+class TestAnimalesView(PaginacionTestMixin, TestCase):
+    """Prueba la paginación y los filtros combinados en las vistas de animales."""
+
+    N_MAX_PAGINAS = 3
+    VIEWS = ["animals:catalog", "animals:manage_list"]
+    model = Animal
+    context_name = "animales"
+    atributo_busqueda = "nombre"
+
+    def crear_objeto(self, **kwargs):
+        """Método puente para usar la función de fábrica con valores por defecto."""
+        return crear_animal(**kwargs)
+
+    def setUp(self):
+        User.objects.create_user(username="staff", password="x", is_staff=True)
+        self.client.login(username="staff", password="x")
+        for i in range(N_MAXIMO_OBJETOS_POR_PAGINA * self.N_MAX_PAGINAS):
+            crear_animal(nombre=f"Animal {i+1}")
+
+    def test_paginacion_con_filtro_sexo(self):
+        """Prueba que la paginación funcione correctamente filtrando por sexo."""
+        self.assert_paginacion_con_filtro(
+            view_name="animals:manage_list",
+            param_query=f"sexo={Sexo.MACHO}",
+            kwargs_creacion_match={"sexo": Sexo.MACHO},
+            kwargs_creacion_no_match={"sexo": Sexo.HEMBRA},
+            prefijo_nombre="AnimSexo",
+        )
+
+    def test_paginacion_con_filtro_tamano(self):
+        """Prueba que la paginación funcione correctamente filtrando por tamaño."""
+        self.assert_paginacion_con_filtro(
+            view_name="animals:manage_list",
+            param_query=f"tamano={Tamano.GRANDE}",
+            kwargs_creacion_match={"tamano": Tamano.GRANDE},
+            kwargs_creacion_no_match={"tamano": Tamano.PEQUENO},
+            prefijo_nombre="AnimTam",
+        )
+
+    def test_paginacion_con_filtro_estado(self):
+        """Prueba que la paginación funcione correctamente filtrando por estado."""
+        self.assert_paginacion_con_filtro(
+            view_name="animals:manage_list",
+            param_query=f"estado={EstadoAnimal.ADOPTADO}",
+            kwargs_creacion_match={"estado": EstadoAnimal.ADOPTADO},
+            kwargs_creacion_no_match={"estado": EstadoAnimal.EN_ADOPCION},
+            prefijo_nombre="AnimEst",
+        )

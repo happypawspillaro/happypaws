@@ -1,5 +1,6 @@
 {% load seo thumbnail %}
 {% if animales %}
+  {% include "core/partials/paginacion.html" with objetos=animales %}
   <div class="row g-4">
     {% for animal in animales %}
       <div class="col-md-6 col-xl-4">
@@ -40,6 +41,7 @@
         </div>
       </div>
     {% endfor %}
+    {% include "core/partials/paginacion.html" with objetos=animales %}
   </div>
 {% else %}
   <div class="alert alert-info">No hay animales que coincidan con el filtro por ahora.</div>
