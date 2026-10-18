@@ -1,9 +1,6 @@
-{% load django_bootstrap5 %}
 {% load thumbnail %}
 {% if animales %}
-  {% if animales.has_other_pages %}
-    <div class="d-flex justify-content-center mb-3">{% bootstrap_pagination animales size="md" %}</div>
-  {% endif %}
+  {% include "core/partials/paginacion.html" with objetos=animales %}
   <div class="row g-4">
     {% for animal in animales %}
       <div class="col-md-6 col-xl-4">
@@ -44,9 +41,7 @@
         </div>
       </div>
     {% endfor %}
-    {% if animales.has_other_pages %}
-      <div class="d-flex justify-content-center mt-4">{% bootstrap_pagination animales size="md" %}</div>
-    {% endif %}
+    {% include "core/partials/paginacion.html" with objetos=animales %}
   </div>
 {% else %}
   <div class="alert alert-info">No hay animales que coincidan con el filtro por ahora.</div>

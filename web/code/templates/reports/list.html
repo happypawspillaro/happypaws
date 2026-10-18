@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% load django_bootstrap5 %}
 {% load thumbnail %}
 {% block title %}Reportes · Happy Paws Píllaro{% endblock %}
 {% block content %}
@@ -16,9 +15,7 @@
          class="btn btn-outline-secondary {% if tipo_sel == value %}active{% endif %}">{{ label }}</a>
     {% endfor %}
   </div>
-  {% if reportes.has_other_pages %}
-    <div class="d-flex justify-content-center mt-4">{% bootstrap_pagination reportes size="md" %}</div>
-  {% endif %}
+  {% include "core/partials/paginacion.html" with objetos=reportes %}
   <div class="row g-2">
     {% for reporte in reportes %}
       <div class="col-md-6 col-lg-4">
@@ -57,8 +54,6 @@
         <div class="alert alert-info">No hay reportes por ahora.</div>
       </div>
     {% endfor %}
-    {% if reportes.has_other_pages %}
-      {% bootstrap_pagination reportes size="md" %}
-    {% endif %}
+    {% include "core/partials/paginacion.html" with objetos=reportes %}
   </div>
 {% endblock %}
