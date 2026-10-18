@@ -1,4 +1,4 @@
-{% load thumbnail %}
+{% load seo thumbnail %}
 {% if animales %}
   {% include "core/partials/paginacion.html" with objetos=animales %}
   <div class="row g-4">
@@ -15,7 +15,7 @@
             {% if animal.foto_principal %}
               <img src="{% thumbnail animal.foto_principal 'card' %}"
                    class="card-img-top"
-                   alt="{{ animal.nombre }}"
+                   alt="{{ animal.titulo_seo|con_marca }}"
                    loading="lazy">
             {% else %}
               <div class="card-img-placeholder">
