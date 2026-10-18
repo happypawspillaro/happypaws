@@ -10,11 +10,7 @@ MARCA = "Happy Paws Píllaro"
 CANTON_POR_DEFECTO = "Píllaro"
 
 
-def ubicacion_seo(parroquia: str = "", canton: str = CANTON_POR_DEFECTO) -> str:
-    """'Parroquia/Cantón', o solo el cantón si no hay parroquia.
-
-    Cuando entre el #62 (cantón y parroquia como listas), los modelos
-    solo tienen que pasar aquí sus get_parroquia_display()/get_canton_display().
-    """
+def ubicacion_seo(parroquia: str | None = None, canton: str = CANTON_POR_DEFECTO) -> str:
+    """'Parroquia/Cantón', o solo el Cantón si no hay parroquia."""
     parroquia = (parroquia or "").strip()
     return f"{parroquia}/{canton}" if parroquia else canton

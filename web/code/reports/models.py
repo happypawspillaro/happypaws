@@ -99,7 +99,8 @@ class Report(models.Model):
         La ubicación del reporte es texto libre (una calle, un parque), así que
         por ahora solo se usa el cantón; con el #62 se puede sumar la parroquia.
         """
-        return f"{self.get_tipo_display()} en {ubicacion_seo()}: {self.titulo}"
+        str_ubicacion_seo = ubicacion_seo(canton=self.get_canton_display(), parroquia=self.get_parroquia_display())
+        return f"{self.get_tipo_display()} en {str_ubicacion_seo}: {self.titulo}"
 
     @property
     def permite_avistamientos(self):

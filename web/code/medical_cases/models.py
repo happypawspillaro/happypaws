@@ -47,7 +47,10 @@ class MedicalCase(models.Model):
     def titulo_seo(self):
         """'Ayuda a Luna de La Matriz/Píllaro: Cirugía de cadera' (#66)."""
         if self.animal:
-            return f"Ayuda a {self.animal.nombre} de {ubicacion_seo(self.animal.parroquia)}: {self.titulo}"
+            str_ubicacion_seo = ubicacion_seo(
+                canton=self.animal.get_canton_display(), parroquia=self.animal.get_parroquia_display()
+            )
+            return f"Ayuda a {self.animal.nombre} de {str_ubicacion_seo}: {self.titulo}"
         return f"Ayuda en {ubicacion_seo()}: {self.titulo}"
 
     @property

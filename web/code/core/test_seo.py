@@ -136,7 +136,7 @@ class TituloSEOTests(DatosSEO):
         self.assertEqual(self.caso.titulo_seo, "Ayuda en Píllaro: Cirugía de cadera")
 
     def test_reporte(self):
-        self.assertEqual(self.reporte.titulo_seo, "Mascota perdida en Píllaro: Perrito café cerca del parque")
+        self.assertEqual(self.reporte.titulo_seo, "Mascota perdida en La Matriz/Píllaro: Perrito café cerca del parque")
 
 
 class EncabezadosYAltTests(DatosSEO):

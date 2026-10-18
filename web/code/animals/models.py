@@ -114,7 +114,8 @@ class Animal(models.Model):
     def titulo_seo(self):
         """'Adopta a Luna de La Matriz/Píllaro' (#66). 'Conoce a' si no está en adopción."""
         accion = "Adopta a" if self.en_adopcion else "Conoce a"
-        return f"{accion} {self.nombre} de {ubicacion_seo(self.parroquia)}"
+        str_ubicacion_seo = ubicacion_seo(canton=self.get_canton_display(), parroquia=self.get_parroquia_display())
+        return f"{accion} {self.nombre} de {str_ubicacion_seo}"
 
     @property
     def tiene_tutor(self):
