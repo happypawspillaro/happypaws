@@ -63,7 +63,9 @@ class DatosSEO(TestCase):
             tipo=TipoReporte.PERDIDO,
             titulo="Perrito café cerca del parque",
             descripcion="Se perdió el domingo en la tarde.",
-            ubicacion="Parque central",
+            canton="PI",
+            parroquia="LM",
+            barrio="Parque central",
             fecha_avistamiento=date(2026, 3, 1),
             aprobado=True,
         )
