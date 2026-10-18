@@ -1,9 +1,9 @@
 from accounts.decorators import staff_required
-from constants import DIAS_CONTACTO_VISIBLE, N_MAXIMO_OBJETOS_POR_PAGINA
+from constants import DIAS_CONTACTO_VISIBLE
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
+from utils import obtener_paginador
 
 from .forms import CommentForm, ReportForm, SightingForm
 from .models import (
@@ -25,9 +25,7 @@ def report_list(request):
     tipo = request.GET.get("tipo", "")
     if tipo:
         lista_reportes = lista_reportes.filter(tipo=tipo)
-    paginador = Paginator(lista_reportes, N_MAXIMO_OBJETOS_POR_PAGINA)
-    numero_pagina = request.GET.get("page", 1)
-    reportes = paginador.page(numero_pagina)
+    reportes = obtener_paginador(request, lista_reportes)
     return render(
         request,
         "reports/list.html",
@@ -135,9 +133,7 @@ def manage_list(request):
         lista_reportes = lista_reportes.filter(aprobado=False)
     elif aprobacion == "aprobado":
         lista_reportes = lista_reportes.filter(aprobado=True)
-    paginador = Paginator(lista_reportes, N_MAXIMO_OBJETOS_POR_PAGINA)
-    numero_pagina = request.GET.get("page", 1)
-    reportes = paginador.page(numero_pagina)
+    reportes = obtener_paginador(request, lista_reportes)
     return render(
         request,
         "reports/manage_list.html",

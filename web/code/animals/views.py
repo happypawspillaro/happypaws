@@ -1,10 +1,9 @@
 from accounts.decorators import staff_required
-from constants import N_MAXIMO_OBJETOS_POR_PAGINA
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.db.models import BooleanField, Case, Q, Value, When
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from utils import obtener_paginador
 
 from .forms import AnimalForm, AnimalPhotoForm, MedicalRecordForm
 from .models import (
@@ -48,9 +47,7 @@ def catalog(request):
             output_field=BooleanField(),
         )
     ).order_by("-_destacado", "-fecha_ingreso", "nombre")
-    paginador = Paginator(lista_animales, N_MAXIMO_OBJETOS_POR_PAGINA)
-    numero_pagina = request.GET.get("page", 1)
-    animales = paginador.page(numero_pagina)
+    animales = obtener_paginador(request, lista_animales)
     context = {
         "animales": animales,
         "especies": Especie.choices,
@@ -77,9 +74,7 @@ def manage_list(request):
     estado = request.GET.get("estado", "")
     if estado:
         lista_animales = lista_animales.filter(estado=estado)
-    paginador = Paginator(lista_animales, N_MAXIMO_OBJETOS_POR_PAGINA)
-    numero_pagina = request.GET.get("page", 1)
-    animales = paginador.page(numero_pagina)
+    animales = obtener_paginador(request, lista_animales)
     return render(
         request,
         "animals/manage_list.html",
