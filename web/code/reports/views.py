@@ -1,6 +1,7 @@
 from accounts.decorators import staff_required
-from constants import DIAS_CONTACTO_VISIBLE
+from constants import DIAS_CONTACTO_VISIBLE, N_MAXIMO_OBJETOS_POR_PAGINA
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -18,10 +19,15 @@ from .notifications import notify_report_activity
 
 def report_list(request):
     """Tablero público de reportes (solo los aprobados por el staff)."""
-    reportes = Report.objects.filter(aprobado=True).order_by("-fecha_avistamiento", "-creado").prefetch_related("fotos")
+    lista_reportes = (
+        Report.objects.filter(aprobado=True).order_by("-fecha_avistamiento", "-creado").prefetch_related("fotos")
+    )
     tipo = request.GET.get("tipo", "")
     if tipo:
-        reportes = reportes.filter(tipo=tipo)
+        lista_reportes = lista_reportes.filter(tipo=tipo)
+    paginador = Paginator(lista_reportes, N_MAXIMO_OBJETOS_POR_PAGINA)
+    numero_pagina = request.GET.get("page", 1)
+    reportes = paginador.page(numero_pagina)
     return render(
         request,
         "reports/list.html",
@@ -120,15 +126,18 @@ def add_sighting(request, pk):
 
 @staff_required
 def manage_list(request):
-    reportes = Report.objects.all()
+    lista_reportes = Report.objects.all()
     estado = request.GET.get("estado", "")
     if estado:
-        reportes = reportes.filter(estado=estado)
+        lista_reportes = lista_reportes.filter(estado=estado)
     aprobacion = request.GET.get("aprobacion", "")
     if aprobacion == "pendiente":
-        reportes = reportes.filter(aprobado=False)
+        lista_reportes = lista_reportes.filter(aprobado=False)
     elif aprobacion == "aprobado":
-        reportes = reportes.filter(aprobado=True)
+        lista_reportes = lista_reportes.filter(aprobado=True)
+    paginador = Paginator(lista_reportes, N_MAXIMO_OBJETOS_POR_PAGINA)
+    numero_pagina = request.GET.get("page", 1)
+    reportes = paginador.page(numero_pagina)
     return render(
         request,
         "reports/manage_list.html",

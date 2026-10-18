@@ -1,5 +1,7 @@
 from accounts.decorators import staff_required
+from constants import N_MAXIMO_OBJETOS_POR_PAGINA
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.db.models import BooleanField, Case, Q, Value, When
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
@@ -19,17 +21,17 @@ from .models import (
 
 def catalog(request):
     """Catálogo público de animales en adopción, con filtros vía HTMX."""
-    animales = Animal.objects.filter(estado=EstadoAnimal.EN_ADOPCION)
+    lista_animales = Animal.objects.filter(estado=EstadoAnimal.EN_ADOPCION)
 
     especie = request.GET.get("especie", "")
     sexo = request.GET.get("sexo", "")
     tamano = request.GET.get("tamano", "")
     if especie:
-        animales = animales.filter(especie=especie)
+        lista_animales = lista_animales.filter(especie=especie)
     if sexo:
-        animales = animales.filter(sexo=sexo)
+        lista_animales = lista_animales.filter(sexo=sexo)
     if tamano:
-        animales = animales.filter(tamano=tamano)
+        lista_animales = lista_animales.filter(tamano=tamano)
 
     # Destacados primero: marcados como vulnerables por el staff o comunitarios
     # esterilizados hace menos de 6 meses.
@@ -39,14 +41,16 @@ def catalog(request):
         esterilizado=True,
         fecha_esterilizacion__gte=limite,
     )
-    animales = animales.annotate(
+    lista_animales = lista_animales.annotate(
         _destacado=Case(
             When(destacado_q, then=Value(True)),
             default=Value(False),
             output_field=BooleanField(),
         )
     ).order_by("-_destacado", "-fecha_ingreso", "nombre")
-
+    paginador = Paginator(lista_animales, N_MAXIMO_OBJETOS_POR_PAGINA)
+    numero_pagina = request.GET.get("page", 1)
+    animales = paginador.page(numero_pagina)
     context = {
         "animales": animales,
         "especies": Especie.choices,
@@ -69,10 +73,13 @@ def detail(request, pk):
 
 @staff_required
 def manage_list(request):
-    animales = Animal.objects.all()
+    lista_animales = Animal.objects.all()
     estado = request.GET.get("estado", "")
     if estado:
-        animales = animales.filter(estado=estado)
+        lista_animales = lista_animales.filter(estado=estado)
+    paginador = Paginator(lista_animales, N_MAXIMO_OBJETOS_POR_PAGINA)
+    numero_pagina = request.GET.get("page", 1)
+    animales = paginador.page(numero_pagina)
     return render(
         request,
         "animals/manage_list.html",
