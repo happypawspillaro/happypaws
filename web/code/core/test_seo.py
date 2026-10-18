@@ -240,3 +240,21 @@ class MetadatosTests(DatosSEO):
                 ):
                     self.assertTrue(self.meta(resp, atributo, nombre))
                 self.assertEqual(self.meta(resp, "property", "og:url"), f"http://testserver{url}")
+
+
+class IndexacionAnimalesTests(DatosSEO):
+    """Los animales que ya no están en adopción no deben salir en Google."""
+
+    def test_animal_en_adopcion_se_indexa(self):
+        self.assertNotContains(self.client.get(self.animal.get_absolute_url()), 'name="robots"')
+
+    def test_animal_que_no_esta_en_adopcion_no_se_indexa(self):
+        for estado in EstadoAnimal.values:
+            if estado == EstadoAnimal.EN_ADOPCION:
+                continue
+            with self.subTest(estado=estado):
+                self.animal.estado = estado
+                self.animal.save()
+                resp = self.client.get(self.animal.get_absolute_url())
+                self.assertEqual(resp.status_code, 200)
+                self.assertContains(resp, '<meta name="robots" content="noindex, follow">')

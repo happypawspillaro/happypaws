@@ -3,6 +3,8 @@
 {% block title %}{{ animal.titulo_seo|con_marca }}{% endblock %}
 {% block seo %}
   {% include "includes/seo_meta.html" with titulo=animal.titulo_seo|con_marca descripcion=animal.descripcion imagen=animal.foto_principal %}
+  {# Sigue visible por link, pero Google no lo muestra si ya no está en adopción. #}
+  {% if not animal.en_adopcion %}<meta name="robots" content="noindex, follow">{% endif %}
 {% endblock %}
 {% block content %}
   <nav aria-label="breadcrumb">
