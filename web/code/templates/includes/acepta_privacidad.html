@@ -1,0 +1,8 @@
+{# Casilla de ConsentimientoPrivacidadMixin para formularios armados a mano (#75). #}
+<div class="form-check mt-2">
+  {{ campo }}
+  <label class="form-check-label small" for="{{ campo.id_for_label }}">
+    Acepto la <a href="{% url 'core:privacidad' %}" target="_blank">política de privacidad</a>
+  </label>
+  {% for e in campo.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+</div>

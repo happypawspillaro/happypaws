@@ -116,12 +116,39 @@
                  rel="noopener"
                  aria-label="GitHub"><i class="bi bi-github"></i></a>
             </div>
-            <p class="small mb-0 mt-2">© {% now "Y" %} Happy Paws Píllaro</p>
+            <p class="small mb-0 mt-2">
+              <a href="{% url 'core:privacidad' %}" class="link-light">Política de privacidad</a>
+              ·
+              <button type="button"
+                      class="btn btn-link btn-sm link-light p-0 align-baseline"
+                      data-abrir-aviso-cookies>Configurar cookies</button>
+            </p>
+            <p class="small mb-0 mt-1">© {% now "Y" %} Happy Paws Píllaro</p>
           </div>
         </div>
       </div>
     </footer>
+    {# Aviso de cookies (#75): se muestra hasta que la persona elige; static/js/consentimiento.js #}
+    <div id="aviso-cookies"
+         class="aviso-cookies card shadow d-none"
+         role="dialog"
+         aria-label="Aviso de cookies">
+      <div class="card-body">
+        <p class="small mb-2">
+          Usamos cookies necesarias para que el sitio funcione. Si nos das permiso, también usaremos cookies de analítica
+          para saber qué páginas se visitan y mejorar el sitio.
+          <a href="{% url 'core:privacidad' %}#cookies">Más información</a>.
+        </p>
+        <div class="d-flex gap-2 justify-content-end">
+          <button type="button"
+                  class="btn btn-outline-secondary btn-sm"
+                  data-consentimiento="rechazado">Solo necesarias</button>
+          <button type="button" class="btn btn-primary btn-sm" data-consentimiento="aceptado">Aceptar</button>
+        </div>
+      </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+    <script src="{% static 'js/consentimiento.js' %}"></script>
   </body>
 </html>
