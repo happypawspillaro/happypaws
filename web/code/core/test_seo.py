@@ -39,7 +39,7 @@ class DatosSEO(TestCase):
             tamano="mediano",
             descripcion="Luna es juguetona y se lleva bien con otros perros.",
             estado=EstadoAnimal.EN_ADOPCION,
-            parroquia="La Matriz",
+            parroquia="LM",
             fecha_ingreso=date(2026, 1, 10),
             foto_principal=foto_de_celular("luna.jpg"),
         )
