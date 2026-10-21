@@ -46,8 +46,8 @@ RUN apk add --no-cache \
 WORKDIR /home/happypaws/code
 # Descargar locaciones.json desde el repositorio remoto y guardarlo en una ruta estática alterna de la imágen
 RUN mkdir -p /home/happypaws/internal_static/data/ && \
-      curl -L -o /home/happypaws/internal_static/data/locaciones.json \
-      https://raw.githubusercontent.com/happypawspillaro/esterilizaya-pillaro/refs/heads/main/app/static/assets/locaciones.json
+      curl -fsSL -o /home/happypaws/internal_static/data/locaciones.json \
+      https://raw.githubusercontent.com/happypawspillaro/esterilizaya-pillaro/d4de3cb62018d22e1cf0fb45ff54eb3123ab6572/app/static/assets/locaciones.json
        
 COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY ./web/code ./
