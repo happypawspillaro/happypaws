@@ -94,11 +94,7 @@ class Report(models.Model):
 
     @property
     def titulo_seo(self):
-        """'Mascota perdida en Píllaro: Perrito café cerca del parque' (#66).
-
-        La ubicación del reporte es texto libre (una calle, un parque), así que
-        por ahora solo se usa el cantón; con el #62 se puede sumar la parroquia.
-        """
+        """'Mascota perdida en Píllaro/Parroquia: Perrito café cerca del parque' (#66)."""
         str_ubicacion_seo = ubicacion_seo(canton=self.get_canton_display(), parroquia=self.get_parroquia_display())
         return f"{self.get_tipo_display()} en {str_ubicacion_seo}: {self.titulo}"
 
@@ -171,7 +167,11 @@ class ReportSighting(models.Model):
         choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia del reporte", default="LM"
     )
     barrio = models.CharField(
-        "barrio / sector", max_length=MAX_LONG_BARRIOS, help_text="Barrio o dirección del reporte", null=True
+        "barrio / sector",
+        max_length=MAX_LONG_BARRIOS,
+        help_text="Barrio o dirección del reporte",
+        null=True,
+        blank=True,
     )
     fecha = models.DateField("¿cuándo lo viste?")
     descripcion = models.TextField("detalles", blank=True)
