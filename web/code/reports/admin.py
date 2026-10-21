@@ -21,7 +21,7 @@ class ReportAdmin(admin.ModelAdmin):
         "fecha_avistamiento",
         "creado",
     )
-    list_filter = ("tipo", "estado", "aprobado", "especie", "callejero")
+    list_filter = ("tipo", "estado", "canton", "parroquia", "aprobado", "especie", "callejero")
     search_fields = ("titulo", "descripcion", "canton", "parroquia", "barrio", "senales_distinguibles")
     list_editable = ("aprobado",)
     inlines = [ReportPhotoInline]

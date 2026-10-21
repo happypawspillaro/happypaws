@@ -10,7 +10,7 @@ class FollowUpInline(admin.TabularInline):
 
 @admin.register(AdoptionApplication)
 class AdoptionApplicationAdmin(admin.ModelAdmin):
-    list_display = ("nombre_solicitante", "animal", "estado", "proposito", "creado")
-    list_filter = ("estado", "tipo_vivienda", "proposito")
+    list_display = ("nombre_solicitante", "canton", "parroquia", "barrio", "animal", "estado", "proposito", "creado")
+    list_filter = ("estado", "canton", "parroquia", "tipo_vivienda", "proposito")
     search_fields = ("nombre_solicitante", "cedula", "email")
     inlines = [FollowUpInline]
