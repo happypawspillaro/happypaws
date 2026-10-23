@@ -36,8 +36,8 @@
 		}
 	};
 
-	if (window.hpAnaliticasAceptadas?.()) cargar();
-	document.addEventListener("hp:consentimiento", (evento) => {
+	if (window.hppAnaliticasAceptadas?.()) cargar();
+	document.addEventListener("hpp:consentimiento", (evento) => {
 		if (evento.detail === "aceptado") cargar();
 		else desactivar();
 	});
