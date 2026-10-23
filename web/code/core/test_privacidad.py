@@ -3,6 +3,7 @@ from decimal import Decimal
 
 from adoptions.forms import AdoptionApplicationForm
 from animals.models import Animal, EstadoAnimal
+from constants import DIAS_CONTACTO_VISIBLE
 from django.test import TestCase
 from django.urls import reverse
 from medical_cases.forms import PublicDonationForm
@@ -23,7 +24,8 @@ class PaginaPrivacidadTests(TestCase):
         self.assertContains(resp, "mailto:happypaws.pillaro@gmail.com")
 
     def test_muestra_los_dias_que_el_contacto_es_publico(self):
-        self.assertContains(self.client.get(reverse("core:privacidad")), "tu contacto durante 30 días")
+        resp = self.client.get(reverse("core:privacidad"))
+        self.assertContains(resp, f"tu contacto hasta {DIAS_CONTACTO_VISIBLE} días")
 
     def test_footer_enlaza_la_politica_y_el_aviso_de_cookies(self):
         resp = self.client.get(reverse("core:home"))
