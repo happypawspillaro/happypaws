@@ -1,6 +1,8 @@
 accesible
 administrativo
 aprox
+argumentos
+auxiliar
 avance
 Avance
 avances
@@ -9,6 +11,7 @@ caracteres
 clases
 comando
 direccion
+flor
 foto
 hace
 hagas

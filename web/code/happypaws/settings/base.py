@@ -70,7 +70,10 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
-
+# Para evitar perder los datos importados de otros proyectos cuando montamos un volumen,
+# creamos una nueva carpeta interna para tal fin que tan bien se sirve en el static
+DATA_DIR = (BASE_DIR.parent / "internal_static").resolve()
+STATICFILES_DIRS = [BASE_DIR / "static", DATA_DIR]  # noqa: F405
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR.parent / "media"
 

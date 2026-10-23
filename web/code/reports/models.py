@@ -1,10 +1,20 @@
 from datetime import timedelta
 
-from constants import DIAS_CONTACTO_VISIBLE, Especie, Sexo
+from constants import (
+    CANTONES,
+    DIAS_CONTACTO_VISIBLE,
+    MAX_LONG_BARRIOS,
+    MAX_LONG_CANTONES,
+    MAX_LONG_PARROQUIAS,
+    PARROQUIAS,
+    Especie,
+    Sexo,
+)
 from core.seo import ubicacion_seo
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
+from happypaws.utils import componer_ubicacion_display
 
 
 class TipoReporte(models.TextChoices):
@@ -22,7 +32,19 @@ class Report(models.Model):
     tipo = models.CharField(max_length=12, choices=TipoReporte.choices)
     titulo = models.CharField("título", max_length=200)
     descripcion = models.TextField("descripción")
-    ubicacion = models.CharField("ubicación / sector", max_length=255)
+    canton = models.CharField(
+        choices=CANTONES, max_length=MAX_LONG_CANTONES, help_text="Cantón del reporte", default="PI"
+    )
+    parroquia = models.CharField(
+        choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia del reporte", default="LM"
+    )
+    barrio = models.CharField(
+        "barrio / sector",
+        max_length=MAX_LONG_BARRIOS,
+        help_text="Barrio o dirección del reporte",
+        null=True,
+        blank=True,
+    )
     fecha_avistamiento = models.DateField("fecha del avistamiento o hecho")
     hora_aproximada = models.TimeField(
         "hora aproximada del suceso",
@@ -72,12 +94,9 @@ class Report(models.Model):
 
     @property
     def titulo_seo(self):
-        """'Mascota perdida en Píllaro: Perrito café cerca del parque' (#66).
-
-        La ubicación del reporte es texto libre (una calle, un parque), así que
-        por ahora solo se usa el cantón; con el #62 se puede sumar la parroquia.
-        """
-        return f"{self.get_tipo_display()} en {ubicacion_seo()}: {self.titulo}"
+        """'Mascota perdida en Píllaro/Parroquia: Perrito café cerca del parque' (#66)."""
+        str_ubicacion_seo = ubicacion_seo(canton=self.get_canton_display(), parroquia=self.get_parroquia_display())
+        return f"{self.get_tipo_display()} en {str_ubicacion_seo}: {self.titulo}"
 
     @property
     def permite_avistamientos(self):
@@ -92,6 +111,10 @@ class Report(models.Model):
     @property
     def reportante_publico(self):
         return self.nombre_reportante.strip() or "Anónimo"
+
+    @property
+    def ubicacion_completa(self) -> str:
+        return componer_ubicacion_display(self)
 
 
 class ReportPhoto(models.Model):
@@ -137,7 +160,19 @@ class ReportSighting(models.Model):
         blank=True,
         help_text="Teléfono o correo, por si el dueño necesita más detalles.",
     )
-    ubicacion = models.CharField("¿dónde lo viste?", max_length=255)
+    canton = models.CharField(
+        choices=CANTONES, max_length=MAX_LONG_CANTONES, help_text="Cantón del reporte", default="PI"
+    )
+    parroquia = models.CharField(
+        choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia del reporte", default="LM"
+    )
+    barrio = models.CharField(
+        "barrio / sector",
+        max_length=MAX_LONG_BARRIOS,
+        help_text="Barrio o dirección del reporte",
+        null=True,
+        blank=True,
+    )
     fecha = models.DateField("¿cuándo lo viste?")
     descripcion = models.TextField("detalles", blank=True)
     foto = models.ImageField("foto (opcional)", upload_to="reportes/avistamientos/", blank=True)
@@ -151,4 +186,8 @@ class ReportSighting(models.Model):
         verbose_name_plural = "avistamientos"
 
     def __str__(self):
-        return f"Avistamiento en {self.ubicacion} ({self.fecha})"
+        return f"Avistamiento en {self.canton}/{self.parroquia}/{self.barrio} | ({self.fecha})"
+
+    @property
+    def ubicacion_completa(self) -> str:
+        return componer_ubicacion_display(self)

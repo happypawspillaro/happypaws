@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import validate_email
+from happypaws.utils import componer_ubicacion_display
 
 
 def _es_email(valor):
@@ -43,7 +44,9 @@ def notify_report_activity(reporte, tipo, objeto, request=None):
 
     if tipo == "avistamiento":
         asunto = f"Nuevo avistamiento en «{reporte.titulo}»"
-        detalle = f"{objeto.nombre} reportó haberlo visto en {objeto.ubicacion} ({objeto.fecha})."
+        detalle = (
+            f"{objeto.nombre} reportó haberlo visto en " f"{componer_ubicacion_display(objeto)} | ({objeto.fecha})."
+        )
     elif tipo == "comentario":
         asunto = f"Nuevo comentario en «{reporte.titulo}»"
         detalle = f"{objeto.nombre} escribió:\n\n{objeto.mensaje}"

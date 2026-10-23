@@ -1,12 +1,13 @@
 from datetime import date, timedelta
 
 from accounts.models import User
+from core.tests_common.mixins import UbicacionCompletaTestMixin
 from django.core import mail
 from django.test import TestCase, override_settings
 from django.urls import reverse
 from django.utils import timezone
 
-from .forms import ReportForm
+from .forms import ReportForm, SightingForm
 from .models import (
     Report,
     ReportComment,
@@ -20,7 +21,9 @@ def _datos_reporte_validos(**kwargs):
         tipo=TipoReporte.PERDIDO,
         titulo="Se perdió Toby",
         descripcion="Perro café, collar rojo.",
-        ubicacion="Barrio Centro",
+        barrio="Centro",
+        parroquia="LM",
+        canton="PI",
         fecha_avistamiento=date.today().isoformat(),
         nombre_reportante="Ana",
         contacto_reportante="ana@example.com",
@@ -34,7 +37,9 @@ def crear_reporte(**kwargs):
         tipo=TipoReporte.PERDIDO,
         titulo="Se perdió Toby",
         descripcion="Perro café, collar rojo.",
-        ubicacion="Barrio Centro",
+        barrio="Centro",
+        parroquia="ME",
+        canton="PI",
         fecha_avistamiento=date.today(),
         nombre_reportante="Ana",
         contacto_reportante="ana@example.com",
@@ -42,6 +47,14 @@ def crear_reporte(**kwargs):
     )
     defaults.update(kwargs)
     return Report.objects.create(**defaults)
+
+
+class ReportTests(
+    UbicacionCompletaTestMixin,
+    TestCase,
+):
+    def crear_instancia(self, canton, parroquia, barrio) -> Report:
+        return crear_reporte(tipo=TipoReporte.PERDIDO, barrio=barrio, parroquia=parroquia, canton=canton)
 
 
 class CommentTests(TestCase):
@@ -88,7 +101,9 @@ class SightingTests(TestCase):
             {
                 "nombre": "Pedro",
                 "contacto": "0991112233",
-                "ubicacion": "Av. Bolívar",
+                "barrio": "Av. Bolívar",
+                "parroquia": "LM",
+                "canton": "PI",
                 "fecha": date.today().isoformat(),
                 "descripcion": "Iba hacia el sur.",
                 "website": "",
@@ -102,17 +117,41 @@ class SightingTests(TestCase):
         self.assertFalse(reporte.permite_avistamientos)
         resp = self.client.post(
             reverse("reports:add_sighting", args=[reporte.pk]),
-            {"nombre": "X", "ubicacion": "y", "fecha": date.today().isoformat(), "website": ""},
+            {"nombre": "X", "barrio": "y", "fecha": date.today().isoformat(), "website": ""},
         )
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(reporte.avistamientos.count(), 0)
+
+
+def test_sugiere_avistamiento_en_area(self):
+    """Verificar que los valores iniciales de cantón y parroquia coincidan con el reporte o estén vacíos."""
+
+    # Casos de prueba con reporte asociado
+    casos_con_reporte = [
+        ("PI", "SM", "Yacupamba"),
+        ("PA", "LA", None),
+    ]
+
+    for canton, parroquia, barrio in casos_con_reporte:
+        with self.subTest(canton=canton, parroquia=parroquia, barrio=barrio):
+            reporte = crear_reporte(tipo=TipoReporte.PERDIDO, barrio=barrio, parroquia=parroquia, canton=canton)
+            forma_avistamiento = SightingForm(parroquia_base=reporte.parroquia, canton_base=reporte.canton)
+
+            self.assertEqual(forma_avistamiento.initial.get("canton"), canton)
+            self.assertEqual(forma_avistamiento.initial.get("parroquia"), parroquia)
+
+    # Caso de un formulario vacío (sin datos base del reporte)
+    forma_vacia = SightingForm()
+
+    self.assertIsNone(forma_vacia.initial.get("canton"))
+    self.assertIsNone(forma_vacia.initial.get("parroquia"))
 
 
 class ModerationTests(TestCase):
     def setUp(self):
         self.reporte = crear_reporte()
         self.sighting = ReportSighting.objects.create(
-            reporte=self.reporte, nombre="P", ubicacion="x", fecha=date.today()
+            reporte=self.reporte, nombre="P", barrio="x", parroquia="BM", canton="PI", fecha=date.today()
         )
         User.objects.create_user(username="staff", password="x", is_staff=True)
         self.client.login(username="staff", password="x")
@@ -241,9 +280,9 @@ class ReportFormValidationTests(TestCase):
         self.assertTrue(form.is_valid(), form.errors)
 
     def test_ubicacion_muy_corta_es_rechazada(self):
-        form = ReportForm(data=_datos_reporte_validos(ubicacion="ab"))
+        form = ReportForm(data=_datos_reporte_validos(barrio="ab"))
         self.assertFalse(form.is_valid())
-        self.assertIn("ubicacion", form.errors)
+        self.assertIn("barrio", form.errors)
 
 
 @override_settings(
