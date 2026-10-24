@@ -4,8 +4,7 @@ from decimal import Decimal
 from accounts.decorators import staff_required
 from adoptions.models import AdoptionApplication, EstadoSolicitud
 from animals.models import Animal, EstadoAnimal
-from constants import DIAS_CONTACTO_VISIBLE
-from constants import PARROQUIAS_CANTON
+from constants import DIAS_CONTACTO_VISIBLE, PARROQUIAS_CANTON
 from core.cache import obtener_locaciones
 from django.db.models import Count, Sum
 from django.http import HttpRequest, HttpResponse
