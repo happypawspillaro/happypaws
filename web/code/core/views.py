@@ -4,6 +4,7 @@ from decimal import Decimal
 from accounts.decorators import staff_required
 from adoptions.models import AdoptionApplication, EstadoSolicitud
 from animals.models import Animal, EstadoAnimal
+from constants import DIAS_CONTACTO_VISIBLE
 from constants import PARROQUIAS_CANTON
 from core.cache import obtener_locaciones
 from django.db.models import Count, Sum
@@ -19,6 +20,11 @@ def home(request):
     animales = Animal.objects.filter(estado=EstadoAnimal.EN_ADOPCION)[:6]
     casos = MedicalCase.objects.filter(estado=EstadoCaso.ACTIVO)[:3]
     return render(request, "core/home.html", {"animales": animales, "casos": casos})
+
+
+def privacidad(request):
+    """Política de privacidad y uso de cookies (#75)."""
+    return render(request, "core/privacidad.html", {"dias_contacto_visible": DIAS_CONTACTO_VISIBLE})
 
 
 @staff_required

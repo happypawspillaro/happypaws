@@ -43,7 +43,9 @@ class AdoptionFlowTests(UbicacionCompletaTestMixin, TestCase):
         }
 
     def test_solicitud_publica_crea_registro(self):
-        resp = self.client.post(reverse("adoptions:apply", args=[self.animal.pk]), self._datos_solicitud())
+        resp = self.client.post(
+            reverse("adoptions:apply", args=[self.animal.pk]), {**self._datos_solicitud(), "acepta_privacidad": True}
+        )
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(AdoptionApplication.objects.count(), 1)
 

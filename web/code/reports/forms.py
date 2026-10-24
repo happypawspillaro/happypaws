@@ -1,6 +1,6 @@
 import re
 
-from core.forms import BootstrapFormMixin
+from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin
 from django import forms
 from django.core.validators import EmailValidator
 
@@ -50,7 +50,7 @@ class HoneypotMixin:
         return cleaned
 
 
-class ReportForm(BootstrapFormMixin, forms.ModelForm):
+class ReportForm(ConsentimientoPrivacidadMixin, BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Report
         fields = [
@@ -87,7 +87,7 @@ class ReportForm(BootstrapFormMixin, forms.ModelForm):
         return validar_contacto(self.cleaned_data.get("contacto_reportante"))
 
 
-class CommentForm(HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
+class CommentForm(ConsentimientoPrivacidadMixin, HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = ReportComment
         fields = ["nombre", "contacto", "mensaje"]
@@ -96,7 +96,7 @@ class CommentForm(HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
         }
 
 
-class SightingForm(HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
+class SightingForm(ConsentimientoPrivacidadMixin, HoneypotMixin, BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = ReportSighting
         fields = ["nombre", "contacto", "canton", "parroquia", "barrio", "fecha", "descripcion", "foto"]

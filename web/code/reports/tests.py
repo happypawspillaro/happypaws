@@ -27,6 +27,7 @@ def _datos_reporte_validos(**kwargs):
         fecha_avistamiento=date.today().isoformat(),
         nombre_reportante="Ana",
         contacto_reportante="ana@example.com",
+        acepta_privacidad=True,
     )
     datos.update(kwargs)
     return datos
@@ -65,7 +66,13 @@ class CommentTests(TestCase):
     def test_cualquiera_puede_comentar(self):
         resp = self.client.post(
             self.url,
-            {"nombre": "Luis", "contacto": "", "mensaje": "Lo vi cerca del parque.", "website": ""},
+            {
+                "nombre": "Luis",
+                "contacto": "",
+                "mensaje": "Lo vi cerca del parque.",
+                "website": "",
+                "acepta_privacidad": True,
+            },
         )
         self.assertEqual(resp.status_code, 302)
         self.assertEqual(self.reporte.comentarios.count(), 1)
@@ -107,6 +114,7 @@ class SightingTests(TestCase):
                 "fecha": date.today().isoformat(),
                 "descripcion": "Iba hacia el sur.",
                 "website": "",
+                "acepta_privacidad": True,
             },
         )
         self.assertEqual(resp.status_code, 302)
@@ -294,7 +302,7 @@ class NotificationTests(TestCase):
         reporte = crear_reporte(contacto_reportante="ana@example.com")
         self.client.post(
             reverse("reports:add_comment", args=[reporte.pk]),
-            {"nombre": "Luis", "mensaje": "Pista", "website": ""},
+            {"nombre": "Luis", "mensaje": "Pista", "website": "", "acepta_privacidad": True},
         )
         self.assertEqual(len(mail.outbox), 1)
         self.assertIn("ana@example.com", mail.outbox[0].to)
@@ -304,7 +312,7 @@ class NotificationTests(TestCase):
         reporte = crear_reporte(contacto_reportante="0991234567")
         self.client.post(
             reverse("reports:add_comment", args=[reporte.pk]),
-            {"nombre": "Luis", "mensaje": "Pista", "website": ""},
+            {"nombre": "Luis", "mensaje": "Pista", "website": "", "acepta_privacidad": True},
         )
         # Solo va a la fundación, no a un "correo" que en realidad es un teléfono.
         self.assertEqual(len(mail.outbox), 1)

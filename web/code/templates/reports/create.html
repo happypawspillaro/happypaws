@@ -11,7 +11,7 @@
       <form method="post" enctype="multipart/form-data" class="card shadow-sm">
         <div class="card-body">
           {% csrf_token %}
-          {% include "includes/form_fields.html" %}
+          {% include "includes/form_fields.html" with privacidad_aparte=True %}
           <div class="mb-3">
             <label class="form-label" for="id_fotos">Fotos (opcional)</label>
             <input type="file"
@@ -22,6 +22,7 @@
                    accept="image/*">
             <div class="form-text">Puedes seleccionar varias imágenes.</div>
           </div>
+          {% include "includes/acepta_privacidad.html" with campo=form.acepta_privacidad %}
         </div>
         <div class="card-footer bg-white d-flex gap-2">
           <button type="submit" class="btn btn-primary">Publicar reporte</button>
