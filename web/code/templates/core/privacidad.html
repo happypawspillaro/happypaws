@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% block title %}Política de privacidad · Happy Paws Píllaro{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Política de privacidad | Happy Paws Píllaro" descripcion="Qué datos personales recoge Happy Paws Píllaro en sus formularios, para qué fines legítimos los usa, por cuánto tiempo son públicos, qué cookies usamos y cómo ejercer tus derechos según la LOPDP." %}
+{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <article class="col-lg-9">
+      <h1 class="h3">Política de privacidad</h1>
+      <p class="text-muted small">Última actualización: 23 de octubre de 2026</p>
+      <p>
+        En Happy Paws Píllaro cuidamos los datos de las personas que nos ayudan a rescatar, adoptar y encontrar perros y gatos.
+        Aquí te contamos qué datos recogemos, para qué los usamos y cómo puedes pedir que los cambiemos o eliminemos,
+        de acuerdo con la Ley Orgánica de Protección de Datos Personales del Ecuador (LOPDP).
+      </p>
+      <h2 class="h5 mt-4">1. Quién es responsable de tus datos</h2>
+      <p>
+        La Fundación Happy Paws Píllaro (Acuerdo Ministerial Nro. 00012-2024, código SUIOS 0000142256),
+        con domicilio en Santiago de Píllaro, Tungurahua, Ecuador.
+        Para cualquier tema sobre tus datos escríbenos a
+        <a href="mailto:happypaws.pillaro@gmail.com">happypaws.pillaro@gmail.com</a>.
+      </p>
+      <h2 class="h5 mt-4">2. Qué datos recogemos</h2>
+      <p>Solo los datos que tú escribes en nuestros formularios. Todos los datos marcados como <em>(Opcional)</em> los puedes dejar en blanco.</p>
+      <ul>
+        <li>
+          <strong>Solicitud de adopción:</strong> nombre completo, cédula, teléfono, correo, dirección,
+          tipo de vivienda y tu experiencia con mascotas.
+        </li>
+        <li>
+          <strong>Reportes de mascotas perdidas, encontradas o maltrato:</strong> los datos del animal, la ubicación, fotos
+          y <em>(Opcional)</em> tus datos de contacto: nombre, teléfono o correo electrónico.
+        </li>
+        <li>
+          <strong>Comentarios y avistamientos en un reporte:</strong> tu nombre, la ubicación, el mensaje y <em>(Opcional)</em> un contacto y una foto.
+        </li>
+        <li>
+          <strong>Donaciones a casos médicos:</strong> el monto y la foto del comprobante (para verificar la donación)
+          y <em>(Opcional)</em> tu nombre y correo (para enviarte un agradecimiento).
+        </li>
+      </ul>
+      <p>
+        <strong>Sugerencia:</strong> en tus fotos enfoca solo a la mascota.
+        No fotografíes a menores de edad ni a otras personas sin su consentimiento.
+      </p>
+      <h2 class="h5 mt-4">3. Para qué los usamos</h2>
+      <ul>
+        <li>Evaluar las solicitudes de adopción, contactarte y hacer el seguimiento después de la adopción.</li>
+        <li>Publicar los reportes para que la comunidad ayude a encontrar a las mascotas o a atender casos de maltrato.</li>
+        <li>
+          Avisarte por correo cuando alguien comenta o reporta un avistamiento en tu reporte, si dejaste un correo de contacto.
+        </li>
+        <li>Verificar las donaciones y rendir cuentas de cada caso médico.</li>
+        <li>Monitorear cómo evoluciona la situación de la fauna urbana a lo largo del tiempo, con los datos que comparte la comunidad.</li>
+      </ul>
+      <p>
+        Usamos tus datos porque nos das tu consentimiento al enviar el formulario.
+        No los vendemos ni los usamos para publicidad.
+      </p>
+      <h2 class="h5 mt-4">4. Qué datos se ven en público</h2>
+      <ul>
+        <li>
+          Solo se publica lo que aprueba el equipo de moderación. No aceptamos spam, incitación al acoso, imágenes comprometedoras,
+          imágenes falsas o generadas, ni datos falsos.
+        </li>
+        <li>
+          En los reportes se publican tu nombre (o "Anónimo") y tu contacto hasta {{ dias_contacto_visible }} días después de publicado el reporte.
+          Después el contacto se oculta y solo lo ve el equipo de la fundación.
+        </li>
+        <li>
+          En comentarios y avistamientos se publica tu nombre. Tu contacto solo lo ve el equipo de la fundación.
+        </li>
+        <li>
+          En las donaciones verificadas se publican tu nombre (o "Anónimo") y el monto. Tu correo y el comprobante no se publican.
+        </li>
+        <li>Los datos de las solicitudes de adopción nunca se publican.</li>
+      </ul>
+      <h2 class="h5 mt-4">5. Con quién compartimos tus datos</h2>
+      <p>
+        Solo el equipo de la fundación con una cuenta autorizada puede ver los datos que no son públicos.
+        Para que el sitio funcione usamos algunos servicios de terceros:
+      </p>
+      <ul>
+        <li>El servidor donde está alojado el sitio y su base de datos.</li>
+        <li>El servicio de correo con el que enviamos las notificaciones.</li>
+        <li>La nube de Google, donde guardamos copias de respaldo cifradas.</li>
+        <li>
+          Las redes de distribución de contenido (jsDelivr y unpkg) desde donde se cargan los estilos y el código del sitio,
+          que reciben tu dirección IP como cualquier página web.
+        </li>
+        <li>Google Analytics, solo si aceptas las cookies de analítica (ver la sección 6).</li>
+      </ul>
+      <p>
+        Algunos de estos servicios están fuera de Ecuador, en Estados Unidos, así que tus datos también quedan bajo la jurisdicción de ese país.
+      </p>
+      <p>
+        También podemos compartir datos con investigadores de la problemática de la fauna urbana, solo bajo solicitud
+        y después de anonimizarlos, es decir, sin nada que permita identificarte.
+      </p>
+      <h2 class="h5 mt-4" id="cookies">6. Cookies</h2>
+      <p>Usamos dos tipos de cookies:</p>
+      <ul>
+        <li>
+          <strong>Necesarias:</strong> protegen los formularios contra envíos falsos, mantienen abierta la sesión del equipo de la fundación
+          y recuerdan tu elección sobre las cookies. Sin ellas el sitio no funciona, por eso no se pueden desactivar.
+        </li>
+        <li>
+          <strong>De analítica (opcionales):</strong> si las aceptas, usamos Google Analytics para saber cuántas personas visitan el sitio,
+          qué páginas ven y desde dónde llegan. Así sabemos qué funciona mejor para encontrarles hogar a los animales.
+          Si eliges "Solo necesarias", no se cargan.
+        </li>
+      </ul>
+      <p>
+        Puedes cambiar tu elección cuando quieras desde
+        <button type="button"
+                class="btn btn-link p-0 align-baseline"
+                data-abrir-aviso-cookies>configurar cookies</button>.
+      </p>
+      <h2 class="h5 mt-4">7. Cuánto tiempo guardamos tus datos</h2>
+      <p>
+        Guardamos tus datos solo mientras sean necesarios para lo que nos los diste: por ejemplo, la solicitud de adopción
+        mientras dura el proceso y el seguimiento del animal, y los reportes mientras sigan siendo útiles para la comunidad,
+        y como máximo 5 años.
+        Puedes pedir que los eliminemos antes en cualquier momento.
+      </p>
+      <h2 class="h5 mt-4">8. Tus derechos</h2>
+      <p>Según la LOPDP puedes pedirnos:</p>
+      <ul>
+        <li><strong>Acceso:</strong> saber qué datos tuyos tenemos.</li>
+        <li><strong>Rectificación y actualización:</strong> corregir datos incorrectos o desactualizados.</li>
+        <li><strong>Eliminación:</strong> borrar tus datos, por ejemplo tu contacto de un reporte o un comentario.</li>
+        <li><strong>Oposición y suspensión:</strong> que dejemos de usar tus datos para algún fin.</li>
+        <li><strong>Portabilidad:</strong> recibir una copia de tus datos.</li>
+      </ul>
+      <p>
+        Escríbenos a <a href="mailto:happypaws.pillaro@gmail.com">happypaws.pillaro@gmail.com</a> indicando qué necesitas
+        y en qué formulario o reporte dejaste tus datos. Te responderemos dentro de los plazos de la LOPDP.
+        Si no quedas conforme, puedes acudir a la Superintendencia de Protección de Datos Personales.
+      </p>
+      <h2 class="h5 mt-4">9. Seguridad</h2>
+      <p>
+        El sitio usa conexión cifrada (HTTPS), los datos que no son públicos solo se muestran a cuentas autorizadas de la fundación
+        y las copias de respaldo se guardan cifradas.
+        Aun así, ningún sistema es infalible: si detectamos un problema que afecte tus datos, te lo informaremos.
+      </p>
+      <h2 class="h5 mt-4">10. Menores de edad</h2>
+      <p>
+        Las solicitudes de adopción deben hacerlas personas mayores de edad.
+        Si eres menor y quieres adoptar o reportar un caso, pídele ayuda a una persona adulta.
+      </p>
+      <h2 class="h5 mt-4">11. Cambios en esta política</h2>
+      <p>
+        Si cambiamos esta política, publicaremos la nueva versión en esta página con su fecha de actualización.
+      </p>
+    </article>
+  </div>
+{% endblock %}

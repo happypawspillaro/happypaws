@@ -49,6 +49,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "core.context_processors.analiticas",
             ],
         },
     },
@@ -102,6 +103,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "core:dashboard"
 LOGOUT_REDIRECT_URL = "core:home"
+
+# Google Analytics 4 (#58). Vacío = no se carga. Solo se activa si la persona
+# acepta las cookies de analítica (static/js/analiticas.js).
+GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")
 
 MESSAGE_TAGS = {
     10: "secondary",  # DEBUG

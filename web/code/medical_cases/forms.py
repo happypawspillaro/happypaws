@@ -1,4 +1,4 @@
-from core.forms import BootstrapFormMixin
+from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin
 from django import forms
 
 from .models import CasePhoto, CaseUpdate, Donation, Expense, MedicalCase
@@ -11,7 +11,7 @@ class MedicalCaseForm(BootstrapFormMixin, forms.ModelForm):
         widgets = {"descripcion": forms.Textarea(attrs={"rows": 4})}
 
 
-class PublicDonationForm(BootstrapFormMixin, forms.ModelForm):
+class PublicDonationForm(ConsentimientoPrivacidadMixin, BootstrapFormMixin, forms.ModelForm):
     """Formulario público: la donación queda pendiente de verificación."""
 
     class Meta:

@@ -107,6 +107,7 @@
           {{ sighting_form.foto }}
           {% for e in sighting_form.foto.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
         </div>
+        {% include "includes/acepta_privacidad.html" with campo=sighting_form.acepta_privacidad %}
         <div class="hp-field" aria-hidden="true">
           <label for="{{ sighting_form.website.id_for_label }}">{{ sighting_form.website.label }}</label>
           {{ sighting_form.website }}
