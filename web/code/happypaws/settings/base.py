@@ -48,6 +48,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "core.context_processors.analiticas",
             ],
         },
     },
@@ -74,20 +75,25 @@ STATIC_URL = "static/"
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR.parent / "media"
 
-# easy-thumbnails: un solo alias para no multiplicar archivos derivados en
-# disco (el VPS ya corre otros servicios y tiene poco espacio libre).
-# - Listados con muchas fotos a la vez (catálogo, casos médicos, reportes):
-#   usan este alias 'card' para no transmitir las imágenes a tamaño completo.
-# - Vistas de un solo registro (detalle de animal/caso/reporte): usan la foto
-#   original (x.url) directamente, no vale la pena generar un derivado más
-#   para una sola imagen.
-# Formato cuadrado (1:1): la mayoría de fotos que sube la comunidad son
-# cuadradas o verticales, un recorte horizontal les corta al animal (#71).
-# El derivado se genera bajo demanda en la primera visita y se guarda junto
-# al original en MEDIA_ROOT (lo sirve nginx igual que los originales).
+# easy-thumbnails: derivados livianos para no transmitir las fotos originales
+# (fotos de celular de hasta 3 MB) a quien visita desde el celular.
+# - 'card': listados con muchas fotos a la vez (catálogo, casos médicos,
+#   reportes) y las miniaturas de la galería en las vistas de detalle.
+#   Formato cuadrado (1:1): la mayoría de fotos que sube la comunidad son
+#   cuadradas o verticales, un recorte horizontal les corta al animal (#71).
+# - 'detalle': la foto grande de las vistas de un solo registro y la imagen
+#   de OpenGraph. Sin recorte, solo la achica para que entre en 1200x1200 y
+#   nunca la agranda (#72). WhatsApp no muestra la vista previa de un link si
+#   la imagen pesa demasiado, por eso tampoco se usa el original en og:image.
+#   'replace_alpha' convierte a JPG los PNG con transparencia (hay fotos de
+#   celular guardadas así) que si no seguirían pesando más de 1 MB.
+# Cada derivado pesa una fracción del original, así que no ocupa mucho más
+# espacio en el VPS. Se genera bajo demanda en la primera visita y se guarda
+# junto al original en MEDIA_ROOT (lo sirve nginx igual que los originales).
 THUMBNAIL_ALIASES = {
     "": {
         "card": {"size": (320, 320), "crop": "smart"},
+        "detalle": {"size": (1200, 1200), "quality": 80, "replace_alpha": "white"},
     },
 }
 
@@ -96,6 +102,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 LOGIN_URL = "accounts:login"
 LOGIN_REDIRECT_URL = "core:dashboard"
 LOGOUT_REDIRECT_URL = "core:home"
+
+# Google Analytics 4 (#58). Vacío = no se carga. Solo se activa si la persona
+# acepta las cookies de analítica (static/js/analiticas.js).
+GA_MEASUREMENT_ID = os.getenv("GA_MEASUREMENT_ID", "")
 
 MESSAGE_TAGS = {
     10: "secondary",  # DEBUG

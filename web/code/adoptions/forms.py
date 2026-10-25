@@ -1,10 +1,10 @@
-from core.forms import BootstrapFormMixin
+from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin
 from django import forms
 
 from .models import AdoptionApplication, AdoptionFollowUp
 
 
-class AdoptionApplicationForm(BootstrapFormMixin, forms.ModelForm):
+class AdoptionApplicationForm(ConsentimientoPrivacidadMixin, BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = AdoptionApplication
         fields = [
