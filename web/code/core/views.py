@@ -6,8 +6,65 @@ from animals.models import Animal, EstadoAnimal
 from constants import DIAS_CONTACTO_VISIBLE
 from django.db.models import Count, Sum
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from medical_cases.models import Donation, EstadoCaso, MedicalCase
 from reports.models import EstadoReporte, Report
+
+
+# Sección Fundación
+class QuienesSomosView(TemplateView):
+    template_name = "core/fundacion/quienes_somos.html"
+
+
+class DirectivaView(TemplateView):
+    template_name = "core/fundacion/directiva.html"
+
+
+class ReconocimientosView(TemplateView):
+    template_name = "core/fundacion/reconocimientos.html"
+
+
+class ImpactoView(TemplateView):
+    template_name = "core/fundacion/impacto.html"
+
+
+# Sección Proyectos e impacto
+class AreasTrabajoView(TemplateView):
+    template_name = "core/proyectos_impacto/areas_trabajo.html"
+
+
+class FaunaUrbanaView(TemplateView):
+    template_name = "core/proyectos_impacto/fauna_urbana.html"
+
+
+class SoftwareLibreView(TemplateView):
+    template_name = "core/proyectos_impacto/software_libre.html"
+
+
+class MediosComunicacionView(TemplateView):
+    template_name = "core/proyectos_impacto/medios_comunicacion.html"
+
+
+# Sección Transparencia y Recursos
+class MarcoLegalView(TemplateView):
+    template_name = "core/transparencia_recursos/marco_legal.html"
+
+
+class FormatosView(TemplateView):
+    template_name = "core/transparencia_recursos/formatos.html"
+
+
+class ContactosView(TemplateView):
+    template_name = "core/transparencia_recursos/contactos.html"
+
+
+# Sección Contribuir
+class ContribuyeView(TemplateView):
+    template_name = "core/contribuir/contactos.html"
+
+
+class VoluntariadoView(TemplateView):
+    template_name = "core/contribuir/voluntariado.html"
 
 
 def home(request):
@@ -19,14 +76,6 @@ def home(request):
 def privacidad(request):
     """Política de privacidad y uso de cookies (#75)."""
     return render(request, "core/privacidad.html", {"dias_contacto_visible": DIAS_CONTACTO_VISIBLE})
-
-
-def quienes_somos(request):
-    return render(request, "core/quienes_somos.html")
-
-
-def organizacion(request):
-    return render(request, "core/organizacion.html")
 
 
 @staff_required

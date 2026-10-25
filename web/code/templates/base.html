@@ -39,23 +39,140 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'medical_cases:list' %}">Casos médicos</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'reports:list' %}">Reportes</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'reports:create' %}">Reportar</a></li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle active"
+            <li class="nav-item dropdown position-static">
+              <a class="nav-link dropdown-toggle active fw-semibold"
                  href="#"
                  role="button"
                  data-bs-toggle="dropdown"
-                 aria-expanded="false">Fundación Happy Paws Píllaro</a>
-              <ul class="dropdown-menu">
-                <li>
-                  <a class="dropdown-item" href="{% url 'core:quienes_somos' %}">¿Quiénes somos?</a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'core:organizacion' %}">Organización</a>
-                </li>
-              </ul>
+                 aria-expanded="false">
+                <i class="bi bi-info-circle me-1"></i> Conócenos
+              </a>
+              <!-- Desplegable Ancho (Mega Menú) -->
+              <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-4 bg-light rounded-bottom-4">
+                <div class="container">
+                  <div class="row g-4">
+                    <!-- Categoría 1: La Fundación -->
+                    <div class="col-md-3">
+                      <div class="d-flex align-items-center mb-3 text-primary">
+                        <i class="bi bi-building fs-4 me-2"></i>
+                        <h6 class="text-uppercase fw-bold mb-0">La Fundación</h6>
+                      </div>
+                      <ul class="list-unstyled">
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:quienes_somos' %}">
+                            <strong class="d-block text-primary">Historia & Misión</strong>
+                            <small class="text-muted">Origen y propósito en Píllaro.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:directiva' %}">
+                            <strong class="d-block text-primary">Directiva</strong>
+                            <small class="text-muted">Equipo de liderazgo y gestión.</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:reconocimientos' %}">
+                            <strong class="d-block text-primary">Reconocimientos</strong>
+                            <small class="text-muted">Premios y avales institucionales.</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:impacto' %}">
+                            <strong class="d-block text-primary">Impacto</strong>
+                            <small class="text-muted">Nuestra contribución a la comunidad.</small>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- Categoría 2: Proyectos e Impacto -->
+                    <div class="col-md-3">
+                      <div class="d-flex align-items-center mb-3 text-primary">
+                        <i class="bi bi-diagram-3 fs-4 me-2"></i>
+                        <h6 class="text-uppercase fw-bold mb-0">Proyectos & Impacto</h6>
+                      </div>
+                      <ul class="list-unstyled">
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:fauna_urbana' %}">
+                            <strong class="d-block text-primary">Estudio de Fauna Urbana</strong>
+                            <small class="text-muted">Diagnóstico y realidad cantonal.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:areas_trabajo' %}">
+                            <strong class="d-block text-primary">Áreas de Trabajo</strong>
+                            <small class="text-muted">Campañas, rescate y educación.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:software_libre' %}">
+                            <strong class="d-block text-primary">Software Libre 🚀</strong>
+                            <small class="text-muted">¡For the win!</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:media' %}">
+                            <strong class="d-block text-primary">Media & Prensa</strong>
+                            <small class="text-muted">Entrevistas y apariciones.</small>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- Categoría 3: Recursos y Transparencia -->
+                    <div class="col-md-3">
+                      <div class="d-flex align-items-center mb-3 text-primary">
+                        <i class="bi bi-file-earmark-text fs-4 me-2"></i>
+                        <h6 class="text-uppercase fw-bold mb-0">Transparencia & Recursos</h6>
+                      </div>
+                      <ul class="list-unstyled">
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:marco_legal' %}">
+                            <strong class="d-block text-primary">Base Legal</strong>
+                            <small class="text-muted">COIP y Ordenanza Municipal.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:formatos' %}">
+                            <strong class="d-block text-primary">Formatos Oficiales</strong>
+                            <small class="text-muted">Denuncias y plan de contingencia (PDF).</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:contacto' %}">
+                            <strong class="d-block text-primary">Medios de Contacto</strong>
+                            <small class="text-muted">Ubicación y canales directos.</small>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- Categoría 4: Tarjeta Informativa / Impacto Rápido -->
+                    <div class="col-md-3 d-flex flex-column justify-content-between">
+                      <div class="p-3 bg-white border border-primary border-opacity-25 rounded-3 shadow-sm mb-3">
+                        <span class="badge bg-primary mb-2">Código Libre</span>
+                        <h6 class="fw-bold text-dark mb-1">Software Libre</h6>
+                        <p class="small text-muted mb-0">Herramienta en desarrollo continuo para el control y seguimiento de fauna urbana en el cantón.</p>
+                      </div>
+                      <div class="p-3 bg-primary bg-opacity-10 rounded-3 text-center">
+                        <p class="small fw-semibold text-primary mb-2">¿Quieres apoyar la causa?</p>
+                        <a href="{% url 'core:contribuir_home' %}"
+                           class="btn btn-sm btn-primary w-100 rounded-pill">
+                          <i class="bi bi-heart-fill me-1"></i> Contribuir
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </li>
           </ul>
           <ul class="navbar-nav">
@@ -161,7 +278,9 @@
           <button type="button"
                   class="btn btn-outline-secondary btn-sm"
                   data-consentimiento="rechazado">Solo necesarias</button>
-          <button type="button" class="btn btn-primary btn-sm" data-consentimiento="aceptado">Aceptar</button>
+          <button type="button"
+                  class="btn btn-primary btn-sm"
+                  data-consentimiento="aceptado">Aceptar</button>
         </div>
       </div>
     </div>
@@ -169,7 +288,8 @@
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
     <script src="{% static 'js/consentimiento.js' %}"></script>
     {% if ga_measurement_id %}
-      <script src="{% static 'js/analiticas.js' %}" data-ga-id="{{ ga_measurement_id }}"></script>
+      <script src="{% static 'js/analiticas.js' %}"
+              data-ga-id="{{ ga_measurement_id }}"></script>
     {% endif %}
   </body>
 </html>

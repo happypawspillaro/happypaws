@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block title %}
   ¿Quiénes somos? · Fundación Happy Paws Píllaro
 {% endblock %}
-
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="¿Quiénes somos? | Happy Paws Píllaro" descripcion="Conoce más sobre la Fundación Happy Paws Píllaro." %}
+{% endblock %}
 {% block content %}
   <!-- Sección "Quiénes somos" - Happy Paws Píllaro -->
   <section id="quienes-somos" class="py-5 bg-light">
@@ -12,12 +13,14 @@
       <!-- Encabezado / Título principal -->
       <div class="row mb-4">
         <div class="col-lg-10">
-          <span class="text-uppercase fw-bold small mb-2 d-inline-block text-warning" style="letter-spacing: 0.08em; color: #e8935a !important;">Quiénes somos</span>
-          <h2 class="display-6 fw-bold mb-3" style="color: #1f4e5f;">Salud animal y salud pública, desde una sola comunidad hacia adelante</h2>
+          <span class="text-uppercase fw-bold small mb-2 d-inline-block text-warning"
+                style="letter-spacing: 0.08em;
+                       color: #e8935a !important">Quiénes somos</span>
+          <h2 class="display-6 fw-bold mb-3"
+              style="color: #1f4e5f">Salud animal y salud pública, desde una sola comunidad hacia adelante</h2>
           <p class="lead text-secondary mb-4">Happy Paws Píllaro es una fundación de base comunitaria dedicada al bienestar animal y la salud pública en el cantón Píllaro, provincia de Tungurahua, Ecuador. Trabajamos donde el acceso a servicios veterinarios es escaso o inexistente, bajo un enfoque de Salud Única (One Health) que conecta el bienestar de los animales con la salud de las personas que conviven con ellos.</p>
         </div>
       </div>
-
       <!-- Cuadrícula: Historia e Imagen (Ambas columnas dentro de la misma fila) -->
       <div class="row g-4 align-items-start mb-5">
         <!-- Columna de Historia -->
@@ -31,15 +34,18 @@
           </p>
           <p class="lh-lg text-secondary mb-3">Hacemos gestión pública como organización ciudadana y con base en resultados: ejercemos veeduría sobre la gestión pública y exigimos transparencia frente a la problemática de la fauna urbana del cantón y el maltrato animal, incluyendo casos de envenenamiento. Documentamos estos casos en las parroquias de Píllaro, exigimos mayor transparencia en los reportes municipales de esterilización, y llevamos capacitación a las parroquias.</p>
         </div>
-
         <!-- Columna de Fotografía -->
         <div class="col-lg-5 d-flex justify-content-center align-items-start">
-          <div class="p-2 rounded-4 shadow-sm text-center d-inline-block" style="background: linear-gradient(135deg, #1f4e5f 0%, #163a47 100%);">
-            <img src="{% static 'assets/ejemplos/dobby.jpeg' %}" class="img-fluid rounded-4" style="max-width: 300px; height: auto;" alt="Campaña en terreno - Happy Paws Píllaro" />
+          <div class="p-2 rounded-4 shadow-sm text-center d-inline-block"
+               style="background: linear-gradient(135deg, #1f4e5f 0%, #163a47 100%)">
+            <img src="{% static 'assets/ejemplos/dobby.jpeg' %}"
+                 class="img-fluid rounded-4"
+                 style="max-width: 300px;
+                        height: auto"
+                 alt="Campaña en terreno - Happy Paws Píllaro" />
           </div>
         </div>
       </div>
-
       {# Sección opcional de Estadísticas comentada de forma segura #}
       {% comment %}
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 mb-5">
@@ -53,18 +59,18 @@
       {% endcomment %}
     </div>
   </section>
-
   <!-- Sección "Lo que hacemos" - Happy Paws Píllaro -->
   <section id="lo-que-hacemos" class="py-5 bg-white">
     <div class="container my-3">
       <!-- Subtítulo / Encabezado -->
       <div class="row mb-4">
         <div class="col-lg-10">
-          <span class="text-uppercase fw-bold small mb-2 d-inline-block" style="letter-spacing: 0.08em; color: #e8935a !important;">Lo que hacemos</span>
+          <span class="text-uppercase fw-bold small mb-2 d-inline-block"
+                style="letter-spacing: 0.08em;
+                       color: #e8935a !important">Lo que hacemos</span>
           <h2 class="display-6 fw-bold mb-3" style="color: #1f4e5f;">Nuestros pilares de acción comunitaria</h2>
         </div>
       </div>
-
       <!-- Cuadrícula de Pilares / Tarjetas -->
       <div class="row row-cols-1 row-cols-md-2 g-4">
         <!-- Pilar 1: Incidencia pública -->
@@ -76,7 +82,6 @@
             </div>
           </div>
         </div>
-
         <!-- Pilar 2: Atención de emergencias -->
         <div class="col">
           <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light">
@@ -86,7 +91,6 @@
             </div>
           </div>
         </div>
-
         <!-- Pilar 3: Esterilizaciones -->
         <div class="col">
           <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light">
@@ -96,7 +100,6 @@
             </div>
           </div>
         </div>
-
         <!-- Pilar 4: Concientización -->
         <div class="col">
           <div class="card h-100 border-0 shadow-sm rounded-4 p-4 bg-light">
