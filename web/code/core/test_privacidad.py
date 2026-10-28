@@ -81,7 +81,9 @@ class ConsentimientoFormulariosTests(TestCase):
             tipo=TipoReporte.PERDIDO,
             titulo="Se perdió Toby",
             descripcion="...",
-            ubicacion="Centro",
+            canton="PI",
+            parroquia="LM",
+            barrio="Centro",
             fecha_avistamiento=date.today(),
             aprobado=True,
         )
