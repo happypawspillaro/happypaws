@@ -86,7 +86,10 @@ a {
 	object-fit: cover;
 }
 
-/* Carrusel de casos médicos: altura consistente y adaptable al dispositivo. */
+/* Carrusel de casos médicos: altura consistente y adaptable al dispositivo.
+   Las fotos se recortan centradas para que mezclar horizontales y verticales
+   no cambie el alto de la página (#91). No usar h-auto en la <img>: su
+   !important anula esta altura. */
 #carousel-caso .carousel-item img {
 	height: 380px;
 	object-fit: cover;
