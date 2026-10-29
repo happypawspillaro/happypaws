@@ -1,4 +1,4 @@
-from core.forms import BootstrapFormMixin
+from core.forms import BootstrapFormMixin, FechaInput
 from django import forms
 
 from .models import Animal, AnimalPhoto, MedicalRecord
@@ -28,8 +28,8 @@ class AnimalForm(BootstrapFormMixin, forms.ModelForm):
             "foto_principal",
         ]
         widgets = {
-            "fecha_ingreso": forms.DateInput(attrs={"type": "date"}),
-            "fecha_esterilizacion": forms.DateInput(attrs={"type": "date"}),
+            "fecha_ingreso": FechaInput(),
+            "fecha_esterilizacion": FechaInput(),
             "descripcion": forms.Textarea(attrs={"rows": 4}),
         }
 
@@ -45,6 +45,6 @@ class MedicalRecordForm(BootstrapFormMixin, forms.ModelForm):
         model = MedicalRecord
         fields = ["fecha", "descripcion", "veterinario", "costo"]
         widgets = {
-            "fecha": forms.DateInput(attrs={"type": "date"}),
+            "fecha": FechaInput(),
             "descripcion": forms.Textarea(attrs={"rows": 3}),
         }

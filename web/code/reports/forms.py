@@ -1,6 +1,6 @@
 import re
 
-from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin
+from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin, FechaInput
 from django import forms
 from django.core.validators import EmailValidator
 
@@ -72,7 +72,7 @@ class ReportForm(ConsentimientoPrivacidadMixin, BootstrapFormMixin, forms.ModelF
         widgets = {
             "descripcion": forms.Textarea(attrs={"rows": 4}),
             "senales_distinguibles": forms.Textarea(attrs={"rows": 2}),
-            "fecha_avistamiento": forms.DateInput(attrs={"type": "date"}),
+            "fecha_avistamiento": FechaInput(),
             "hora_aproximada": forms.TimeInput(attrs={"type": "time"}),
         }
 
@@ -101,6 +101,6 @@ class SightingForm(ConsentimientoPrivacidadMixin, HoneypotMixin, BootstrapFormMi
         model = ReportSighting
         fields = ["nombre", "contacto", "canton", "parroquia", "barrio", "fecha", "descripcion", "foto"]
         widgets = {
-            "fecha": forms.DateInput(attrs={"type": "date"}),
+            "fecha": FechaInput(),
             "descripcion": forms.Textarea(attrs={"rows": 2, "placeholder": "¿Cómo estaba? ¿Hacia dónde fue?"}),
         }

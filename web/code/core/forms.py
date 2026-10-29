@@ -3,6 +3,20 @@ from django.urls import reverse
 from django.utils.html import format_html
 
 
+class FechaInput(forms.DateInput):
+    """Selector de fecha nativo del navegador (#90).
+
+    `<input type="date">` solo entiende fechas ISO (AAAA-MM-DD). Con el idioma en
+    español Django escribe 28/10/2026, el navegador deja el campo vacío y al
+    editar se pierde la fecha guardada.
+    """
+
+    input_type = "date"
+
+    def __init__(self, attrs=None):
+        super().__init__(attrs, format="%Y-%m-%d")
+
+
 class BootstrapFormMixin:
     """Aplica clases de Bootstrap a los widgets del formulario."""
 

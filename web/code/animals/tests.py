@@ -92,3 +92,12 @@ class StaffAccessTests(TestCase):
         self.client.login(username="staff", password="x")
         resp = self.client.get(reverse("animals:manage_detail", args=[animal.pk]))
         self.assertContains(resp, "https://wa.me/593991234567")
+
+    def test_editar_conserva_fecha_ingreso(self):
+        """El formulario de edición muestra la fecha guardada en formato ISO (issue #90)."""
+        animal = crear_animal(fecha_ingreso=date(2026, 3, 5), fecha_esterilizacion=date(2026, 4, 1))
+        User.objects.create_user(username="staff", password="x", is_staff=True)
+        self.client.login(username="staff", password="x")
+        resp = self.client.get(reverse("animals:manage_update", args=[animal.pk]))
+        self.assertContains(resp, 'value="2026-03-05"')
+        self.assertContains(resp, 'value="2026-04-01"')
