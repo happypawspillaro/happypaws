@@ -3,7 +3,7 @@ from constants import DIAS_CONTACTO_VISIBLE
 from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
-from utils import obtener_paginador
+from happypaws.utils import obtener_paginador
 
 from .forms import CommentForm, ReportForm, SightingForm
 from .models import (

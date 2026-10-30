@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.db.models import BooleanField, Case, Q, Value, When
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
-from utils import obtener_paginador
+from happypaws.utils import obtener_paginador
 
 from .forms import AnimalForm, AnimalPhotoForm, MedicalRecordForm
 from .models import (
