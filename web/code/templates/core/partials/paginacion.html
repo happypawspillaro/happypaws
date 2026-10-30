@@ -1,0 +1,4 @@
+{% load django_bootstrap5 %}
+{% if objetos.has_other_pages %}
+  <div class="d-flex justify-content-center mt-4">{% bootstrap_pagination objetos size="md" url=request.get_full_path %}</div>
+{% endif %}

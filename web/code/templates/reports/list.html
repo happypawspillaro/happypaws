@@ -18,6 +18,7 @@
          class="btn btn-outline-secondary {% if tipo_sel == value %}active{% endif %}">{{ label }}</a>
     {% endfor %}
   </div>
+  {% include "core/partials/paginacion.html" with objetos=reportes %}
   <div class="row g-4">
     {% for reporte in reportes %}
       <div class="col-md-6 col-lg-4">
@@ -57,4 +58,5 @@
       </div>
     {% endfor %}
   </div>
+  {% include "core/partials/paginacion.html" with objetos=reportes %}
 {% endblock %}

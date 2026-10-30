@@ -33,6 +33,7 @@
       </div>
     </div>
   </form>
+  {% include "core/partials/paginacion.html" with objetos=reportes %}
   <div class="table-responsive">
     <table class="table table-hover align-middle">
       <thead>
@@ -87,4 +88,5 @@
       </tbody>
     </table>
   </div>
+  {% include "core/partials/paginacion.html" with objetos=reportes %}
 {% endblock %}
