@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM python:3.14.8-alpine AS builder
+FROM --platform=$BUILDPLATFORM python:3.15.0-alpine AS builder
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -27,7 +27,7 @@ COPY ./web/requirements.txt /happypaws
 RUN pip install --no-cache-dir -r requirements.txt && \
     apk del build-deps
 
-FROM --platform=$BUILDPLATFORM python:3.14.8-alpine AS base
+FROM --platform=$BUILDPLATFORM python:3.15.0-alpine AS base
 RUN apk add --no-cache \ 
       cairo=~1 \
       curl=~8 \
@@ -42,10 +42,14 @@ RUN apk add --no-cache \
       libxml2=~2 \
       libxslt=~1 \
       postgresql18-client=~18 \
-      zlib~=1
+      zlib~=1 
 WORKDIR /home/happypaws/code
-
-COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
+# Descargar locaciones.json desde el repositorio remoto y guardarlo en una ruta estática alterna de la imágen
+RUN mkdir -p /home/happypaws/internal_static/data/ && \
+      curl -fsSL -o /home/happypaws/internal_static/data/locaciones.json \
+      https://raw.githubusercontent.com/happypawspillaro/esterilizaya-pillaro/d4de3cb62018d22e1cf0fb45ff54eb3123ab6572/app/static/assets/locaciones.json
+       
+COPY --from=builder /usr/local/lib/python3.15/site-packages /usr/local/lib/python3.15/site-packages
 COPY ./web/code ./
 # Crear los directorios iniciales
 RUN mkdir -p /home/happypaws/media

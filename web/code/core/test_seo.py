@@ -39,7 +39,7 @@ class DatosSEO(TestCase):
             tamano="mediano",
             descripcion="Luna es juguetona y se lleva bien con otros perros.",
             estado=EstadoAnimal.EN_ADOPCION,
-            parroquia="La Matriz",
+            parroquia="LM",
             fecha_ingreso=date(2026, 1, 10),
             foto_principal=foto_de_celular("luna.jpg"),
         )
@@ -63,7 +63,9 @@ class DatosSEO(TestCase):
             tipo=TipoReporte.PERDIDO,
             titulo="Perrito café cerca del parque",
             descripcion="Se perdió el domingo en la tarde.",
-            ubicacion="Parque central",
+            canton="PI",
+            parroquia="LM",
+            barrio="Parque central",
             fecha_avistamiento=date(2026, 3, 1),
             aprobado=True,
         )
@@ -134,7 +136,7 @@ class TituloSEOTests(DatosSEO):
         self.assertEqual(self.caso.titulo_seo, "Ayuda en Píllaro: Cirugía de cadera")
 
     def test_reporte(self):
-        self.assertEqual(self.reporte.titulo_seo, "Mascota perdida en Píllaro: Perrito café cerca del parque")
+        self.assertEqual(self.reporte.titulo_seo, "Mascota perdida en La Matriz/Píllaro: Perrito café cerca del parque")
 
 
 class EncabezadosYAltTests(DatosSEO):

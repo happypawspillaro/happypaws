@@ -1,4 +1,4 @@
-from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin
+from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin, FechaInput
 from django import forms
 
 from .models import AdoptionApplication, AdoptionFollowUp
@@ -12,7 +12,9 @@ class AdoptionApplicationForm(ConsentimientoPrivacidadMixin, BootstrapFormMixin,
             "cedula",
             "telefono",
             "email",
-            "direccion",
+            "canton",
+            "parroquia",
+            "barrio",
             "tipo_vivienda",
             "tiene_patio",
             "experiencia",
@@ -35,6 +37,6 @@ class FollowUpForm(BootstrapFormMixin, forms.ModelForm):
         model = AdoptionFollowUp
         fields = ["fecha", "notas", "foto"]
         widgets = {
-            "fecha": forms.DateInput(attrs={"type": "date"}),
+            "fecha": FechaInput(),
             "notas": forms.Textarea(attrs={"rows": 3}),
         }

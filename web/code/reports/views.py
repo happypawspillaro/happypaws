@@ -46,7 +46,11 @@ def _detail_context(request, reporte, comment_form=None, sighting_form=None):
         "comentarios": comentarios,
         "avistamientos": avistamientos,
         "comment_form": comment_form if comment_form is not None else CommentForm(),
-        "sighting_form": sighting_form if sighting_form is not None else SightingForm(),
+        "sighting_form": (
+            sighting_form
+            if sighting_form is not None
+            else SightingForm(parroquia_base=reporte.parroquia, canton_base=reporte.canton)
+        ),
         "dias_contacto_visible": DIAS_CONTACTO_VISIBLE,
     }
 
