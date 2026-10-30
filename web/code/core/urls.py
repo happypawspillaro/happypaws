@@ -25,4 +25,6 @@ urlpatterns = [
     # Contribuir
     path("contribuir/", views.ContribuyeView.as_view(), name="contribuir_home"),
     path("contribuir/voluntariado/", views.VoluntariadoView.as_view(), name="voluntariado"),
+    path("obtener_barrios/", views.obtener_barrios, name="barrios"),
+    path("listar_canton_parroquia/", views.listar_canton_parroquia, name="canton_parroquia"),
 ]

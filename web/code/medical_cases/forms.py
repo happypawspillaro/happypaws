@@ -1,4 +1,4 @@
-from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin
+from core.forms import BootstrapFormMixin, ConsentimientoPrivacidadMixin, FechaInput
 from django import forms
 
 from .models import CasePhoto, CaseUpdate, Donation, Expense, MedicalCase
@@ -17,7 +17,7 @@ class PublicDonationForm(ConsentimientoPrivacidadMixin, BootstrapFormMixin, form
     class Meta:
         model = Donation
         fields = ["nombre_donante", "email", "monto", "fecha", "comprobante"]
-        widgets = {"fecha": forms.DateInput(attrs={"type": "date"})}
+        widgets = {"fecha": FechaInput()}
         help_texts = {
             "nombre_donante": "Opcional. Si lo dejas en blanco aparecerás como anónimo.",
         }
@@ -27,7 +27,7 @@ class StaffDonationForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Donation
         fields = ["nombre_donante", "email", "monto", "fecha", "comprobante", "verificado"]
-        widgets = {"fecha": forms.DateInput(attrs={"type": "date"})}
+        widgets = {"fecha": FechaInput()}
 
 
 class CaseUpdateForm(BootstrapFormMixin, forms.ModelForm):
@@ -35,7 +35,7 @@ class CaseUpdateForm(BootstrapFormMixin, forms.ModelForm):
         model = CaseUpdate
         fields = ["fecha", "texto", "foto"]
         widgets = {
-            "fecha": forms.DateInput(attrs={"type": "date"}),
+            "fecha": FechaInput(),
             "texto": forms.Textarea(attrs={"rows": 3}),
         }
 
@@ -50,4 +50,4 @@ class ExpenseForm(BootstrapFormMixin, forms.ModelForm):
     class Meta:
         model = Expense
         fields = ["categoria", "descripcion", "monto", "fecha", "comprobante"]
-        widgets = {"fecha": forms.DateInput(attrs={"type": "date"})}
+        widgets = {"fecha": FechaInput()}

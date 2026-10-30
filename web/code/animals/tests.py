@@ -1,6 +1,7 @@
 from datetime import date, timedelta
 
 from accounts.models import User
+from core.tests_common.mixins import UbicacionCompletaTestMixin
 from django.test import TestCase
 from django.urls import reverse
 
@@ -21,6 +22,11 @@ def crear_animal(**kwargs):
     return Animal.objects.create(**defaults)
 
 
+class AnimalTests(UbicacionCompletaTestMixin, TestCase):
+    def crear_instancia(self, canton, parroquia, barrio) -> Animal:
+        return crear_animal(barrio=barrio, parroquia=parroquia, canton=canton)
+
+
 class AnimalModelTests(TestCase):
     def test_en_adopcion_property(self):
         a = crear_animal(estado=EstadoAnimal.EN_ADOPCION)
@@ -36,14 +42,13 @@ class AnimalModelTests(TestCase):
 
     def test_ubicacion_completa_omite_vacios(self):
         self.assertEqual(
-            crear_animal(barrio="La Floresta", parroquia="Píllaro").ubicacion_completa,
-            "La Floresta, Píllaro",
+            crear_animal(barrio="San Luis", parroquia="LM", canton="PI").ubicacion_completa,
+            "Píllaro / La Matriz / San Luis",
         )
         self.assertEqual(
-            crear_animal(nombre="x", barrio="", parroquia="San Andrés").ubicacion_completa,
-            "San Andrés",
+            crear_animal(nombre="x", barrio=None, parroquia="SA", canton="PI").ubicacion_completa,
+            "Píllaro / San Andrés",
         )
-        self.assertEqual(crear_animal(nombre="y").ubicacion_completa, "")
 
 
 class CatalogViewTests(TestCase):
@@ -87,3 +92,12 @@ class StaffAccessTests(TestCase):
         self.client.login(username="staff", password="x")
         resp = self.client.get(reverse("animals:manage_detail", args=[animal.pk]))
         self.assertContains(resp, "https://wa.me/593991234567")
+
+    def test_editar_conserva_fecha_ingreso(self):
+        """El formulario de edición muestra la fecha guardada en formato ISO (issue #90)."""
+        animal = crear_animal(fecha_ingreso=date(2026, 3, 5), fecha_esterilizacion=date(2026, 4, 1))
+        User.objects.create_user(username="staff", password="x", is_staff=True)
+        self.client.login(username="staff", password="x")
+        resp = self.client.get(reverse("animals:manage_update", args=[animal.pk]))
+        self.assertContains(resp, 'value="2026-03-05"')
+        self.assertContains(resp, 'value="2026-04-01"')
