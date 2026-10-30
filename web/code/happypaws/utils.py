@@ -85,8 +85,5 @@ def obtener_paginador(request: HttpRequest, lista_objetos: QuerySet) -> Page:
             numero_pagina,
             paginador.num_pages,
         )
-    except Exception:
-        logger.exception("Hubo un error al procesar tu página: %s, mostrando la última página", numero_pagina)
-        pag_objetos = paginador.page(paginador.num_pages)
 
     return pag_objetos
