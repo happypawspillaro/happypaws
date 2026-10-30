@@ -36,6 +36,14 @@
          href="{{ item_url }}"
          target="_blank"
          rel="noopener noreferrer">Ver en YouTube</a>
+    {% elif item_type == "tiktok" %}
+      <div class="mt-auto">
+        {% include "core/partials/tiktok_embed.html" with item_tiktok_id=item_tiktok_id item_title=item_title %}
+      </div>
+      <a class="btn btn-outline-primary btn-sm align-self-start mt-3"
+         href="{{ item_url }}"
+         target="_blank"
+         rel="noopener noreferrer">Ver video en TikTok</a>
     {% elif item_type == "article" %}
       <p class="text-muted">Este medio no permite mostrar el artículo dentro de otras páginas.</p>
       <a class="btn btn-outline-primary btn-sm align-self-start mt-auto"
