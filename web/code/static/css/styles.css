@@ -116,3 +116,43 @@ a {
 	z-index: 1080;
 	max-width: 32rem;
 }
+
+.media-page {
+	max-width: 1200px;
+}
+
+.media-index {
+	padding: 1rem;
+	background: #f8f9fa;
+	border-radius: 0.75rem;
+}
+
+.media-year-title {
+	padding-bottom: 0.5rem;
+	border-bottom: 2px solid var(--hp-primary);
+}
+
+.media-card {
+	min-width: 0;
+}
+
+.media-embed {
+	width: 100%;
+	overflow: hidden;
+}
+
+.media-embed iframe {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	border: 0;
+}
+
+.media-embed--facebook-post {
+	max-width: 34rem;
+	margin-inline: auto;
+}
+
+.media-embed--facebook-post iframe {
+	height: clamp(28rem, 70vh, 36rem);
+}

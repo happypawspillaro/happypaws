@@ -3,6 +3,126 @@
   Entrevistas y apariciones públicas | Fundación Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="Entrevistas y apariciones pública | Happy Paws Píllaro" descripcion="Más sobre el trabajo en entrevistas y apariciones públicas la Fundación Happy Paws Píllaro." %}
+  {% include "includes/seo_meta.html" with titulo="Entrevistas y apariciones públicas | Happy Paws Píllaro" descripcion="Entrevistas, artículos y apariciones públicas de la Fundación Happy Paws Píllaro." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <div class="container py-4 media-page">
+    <header class="mb-4">
+      <h1 class="display-6 fw-bold">Apariciones en prensa de la Fundación Happy Paws Píllaro</h1>
+      <p class="lead text-muted mb-0">Entrevistas, artículos y actividades de la Fundación en los medios.</p>
+    </header>
+    <nav class="media-index mb-5" aria-label="Índice de apariciones por año">
+      <h2 class="h5 fw-bold">Explorar por año</h2>
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-outline-primary btn-sm" href="#2026">2026</a>
+        <a class="btn btn-outline-primary btn-sm" href="#2025">2025</a>
+        <a class="btn btn-outline-primary btn-sm" href="#2024">2024</a>
+      </div>
+    </nav>
+    <section class="media-year mb-5" id="2026" aria-labelledby="media-year-2026">
+      <h2 class="media-year-title mb-3" id="media-year-2026">2026</h2>
+      <nav class="mb-4" aria-label="Apariciones de 2026 por mes">
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-light btn-sm" href="#2026-septiembre">Septiembre</a>
+          <a class="btn btn-light btn-sm" href="#2026-julio">Julio</a>
+        </div>
+      </nav>
+      <section class="mb-4"
+               id="2026-septiembre"
+               aria-labelledby="media-2026-septiembre">
+        <h3 class="h4 mb-3" id="media-2026-septiembre">Septiembre</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Invitación Segundo Match Canino Presidente Urbina" item_source="Pepe de Píllaro" item_type="facebook_post" item_url="https://www.facebook.com/PillaroenmiCorazon/posts/pfbid0CXMVJjoms1azSrei2vuGGHTgyZiodEFgnvDb3V1dKTwpdspDwZPrhmWiAyETP72xl" %}
+          </div>
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Situación de Fauna Urbana en el Cantón Píllaro" item_source="Pepe de Píllaro" item_type="facebook_video" item_url="https://www.facebook.com/reel/2180127269235808" %}
+          </div>
+        </div>
+      </section>
+      <section class="mb-4" id="2026-julio" aria-labelledby="media-2026-julio">
+        <h3 class="h4 mb-3" id="media-2026-julio">Julio</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Envenenamientos Masivos e Impunes Santiago de Píllaro 2026" item_source="Diario La Hora" item_type="article" item_url="https://www.lahora.com.ec/tungurahua/en-pillaro-24-perros-han-muerto-por-envenenamiento-en-un-ano-20260716-0071.html" %}
+          </div>
+        </div>
+      </section>
+    </section>
+    <section class="media-year mb-5" id="2025" aria-labelledby="media-year-2025">
+      <h2 class="media-year-title mb-3" id="media-year-2025">2025</h2>
+      <nav class="mb-4" aria-label="Apariciones de 2025 por mes">
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-light btn-sm" href="#2025-noviembre">Noviembre</a>
+          <a class="btn btn-light btn-sm" href="#2025-mayo">Mayo</a>
+        </div>
+      </nav>
+      <section class="mb-4"
+               id="2025-noviembre"
+               aria-labelledby="media-2025-noviembre">
+        <h3 class="h4 mb-3" id="media-2025-noviembre">Noviembre</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Invitación Match Canino 2025 Presidente Urbina" item_source="Pepe de Píllaro" item_type="facebook_video" item_url="https://www.facebook.com/reel/876708738023560" %}
+          </div>
+        </div>
+      </section>
+      <section class="mb-4" id="2025-mayo" aria-labelledby="media-2025-mayo">
+        <h3 class="h4 mb-3" id="media-2025-mayo">Mayo</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Situación de Fauna Urbana del Cantón Píllaro" item_source="Diario La Hora" item_type="article" item_url="https://www.lahora.com.ec/tungurahua/Pillaro-es-el-canton-de-Tungurahua-con-mas-perros-en-hogares-20250523-0007.html" %}
+          </div>
+        </div>
+      </section>
+    </section>
+    <section class="media-year mb-5" id="2024" aria-labelledby="media-year-2024">
+      <h2 class="media-year-title mb-3" id="media-year-2024">2024</h2>
+      <nav class="mb-4" aria-label="Apariciones de 2024 por mes">
+        <div class="d-flex flex-wrap gap-2">
+          <a class="btn btn-light btn-sm" href="#2024-diciembre">Diciembre</a>
+          <a class="btn btn-light btn-sm" href="#2024-octubre">Octubre</a>
+          <a class="btn btn-light btn-sm" href="#2024-agosto">Agosto</a>
+          <a class="btn btn-light btn-sm" href="#2024-junio">Junio</a>
+        </div>
+      </nav>
+      <section class="mb-4"
+               id="2024-diciembre"
+               aria-labelledby="media-2024-diciembre">
+        <h3 class="h4 mb-3" id="media-2024-diciembre">Diciembre</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Campañas de Esterilización San Miguelito, beneficiando a 125 mascotas" item_source="Pepe de Píllaro" item_type="facebook_video" item_url="https://www.facebook.com/reel/557246400489331" %}
+          </div>
+        </div>
+      </section>
+      <section class="mb-4" id="2024-octubre" aria-labelledby="media-2024-octubre">
+        <h3 class="h4 mb-3" id="media-2024-octubre">Octubre</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Participación Happy Paws CPCSS" item_source="Pepe de Píllaro" item_type="facebook_video" item_url="https://www.facebook.com/reel/406709389199492" %}
+          </div>
+        </div>
+      </section>
+      <section class="mb-4" id="2024-agosto" aria-labelledby="media-2024-agosto">
+        <h3 class="h4 mb-3" id="media-2024-agosto">Agosto</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Campañas de Esterilización Barrio Callate, beneficiando a 100 mascotas" item_source="Pepe de Píllaro" item_type="youtube" item_url="https://www.youtube.com/watch?v=imj4BC7Z6ds" item_embed_url="https://www.youtube.com/embed/imj4BC7Z6ds" %}
+          </div>
+        </div>
+      </section>
+      <section class="mb-4" id="2024-junio" aria-labelledby="media-2024-junio">
+        <h3 class="h4 mb-3" id="media-2024-junio">Junio</h3>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Recaudación de Fondos Campaña de Esterilización Callate con Beneficio de 100 personas" item_source="Pepe de Píllaro" item_type="facebook_video" item_url="https://www.facebook.com/reel/484896617309287" %}
+          </div>
+          <div class="col-12 col-lg-6">
+            {% include "core/partials/media_item.html" with item_title="Campañas de Esterilización Barrio Yacupamba, beneficiando a 100 mascotas" item_source="Pepe de Píllaro" item_type="youtube" item_url="https://www.youtube.com/watch?v=ewuT_uXMls4" item_embed_url="https://www.youtube.com/embed/ewuT_uXMls4" %}
+          </div>
+        </div>
+      </section>
+    </section>
+  </div>
+{% endblock %}
