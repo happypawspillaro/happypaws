@@ -2,7 +2,7 @@ from datetime import date, timedelta
 
 from accounts.models import User
 from constants import N_MAXIMO_OBJETOS_POR_PAGINA
-from core.tests_common.mixins import UbicacionCompletaTestMixin, PaginacionTestMixin
+from core.tests_common.mixins import PaginacionTestMixin, UbicacionCompletaTestMixin
 from django.test import TestCase
 from django.urls import reverse
 
