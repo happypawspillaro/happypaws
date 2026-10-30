@@ -110,5 +110,6 @@ PARROQUIAS_CANTON = {
 }
 
 
-# La página está diseñada para mostrar contenido nx5
+# La página está diseñada para mostrar contenido N_TARJETASx5 filas
+# donde N_TARJETAS horizontales momento son 3, ajustar a conveniencia.
 N_MAXIMO_OBJETOS_POR_PAGINA = 15

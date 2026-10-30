@@ -52,11 +52,7 @@ class PaginacionTestMixin:
                         fin = n_pagina * N_MAXIMO_OBJETOS_POR_PAGINA
 
                         elementos_pagina_actual = todos_los_elementos[inicio:fin]
-                        primer_elemento = elementos_pagina_actual[0]
-                        ultimo_elemento = elementos_pagina_actual[-1]
-
-                        self.assertContains(response, getattr(primer_elemento, self.atributo_busqueda))
-                        self.assertContains(response, getattr(ultimo_elemento, self.atributo_busqueda))
+                        self.assertEqual(list(response.context[self.context_name]), elementos_pagina_actual)
 
                         if n_pagina < self.N_MAX_PAGINAS:
                             siguiente_elemento = todos_los_elementos[fin]

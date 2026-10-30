@@ -19,7 +19,7 @@
     {% endfor %}
   </div>
   {% include "core/partials/paginacion.html" with objetos=reportes %}
-  <div class="row g-2">
+  <div class="row g-4">
     {% for reporte in reportes %}
       <div class="col-md-6 col-lg-4">
         <div class="card h-100 shadow-sm report-card">
@@ -57,6 +57,6 @@
         <div class="alert alert-info">No hay reportes por ahora.</div>
       </div>
     {% endfor %}
-    {% include "core/partials/paginacion.html" with objetos=reportes %}
   </div>
+  {% include "core/partials/paginacion.html" with objetos=reportes %}
 {% endblock %}

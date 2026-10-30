@@ -41,8 +41,8 @@
         </div>
       </div>
     {% endfor %}
-    {% include "core/partials/paginacion.html" with objetos=animales %}
   </div>
+  {% include "core/partials/paginacion.html" with objetos=animales %}
 {% else %}
   <div class="alert alert-info">No hay animales que coincidan con el filtro por ahora.</div>
 {% endif %}

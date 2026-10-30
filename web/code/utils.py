@@ -28,12 +28,12 @@ def obtener_paginador(request: HttpRequest, lista_objetos: QuerySet) -> Page:
     except EmptyPage:
         pag_objetos = paginador.page(paginador.num_pages)
         logger.warning(
-            "Página: %s esta sobre el máximo número de página: %d, mostrando el último",
+            "Página: %s esta sobre el máximo número de página: %d, mostrando la última página",
             numero_pagina,
             paginador.num_pages,
         )
     except Exception:
-        logger.exception("Hubo un error al procesar tu página: %s, mostrando la primera página", numero_pagina)
+        logger.exception("Hubo un error al procesar tu página: %s, mostrando la última página", numero_pagina)
         pag_objetos = paginador.page(paginador.num_pages)
 
     return pag_objetos
