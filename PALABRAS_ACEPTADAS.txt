@@ -17,8 +17,10 @@ hace
 hagas
 historial
 ignora
+Impunes
 inicial
 limite
+mis
 momento
 posible
 requiere
@@ -27,4 +29,6 @@ responsable
 ser
 te
 utiliza
+Varios
+varios
 visibles

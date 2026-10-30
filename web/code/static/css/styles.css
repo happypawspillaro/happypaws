@@ -148,12 +148,12 @@ a {
 	border: 0;
 }
 
-.media-embed--facebook-post {
+.media-embed-facebook-post {
 	max-width: 34rem;
 	margin-inline: auto;
 }
 
-.media-embed--facebook-post iframe {
+.media-embed-facebook-post iframe {
 	height: clamp(28rem, 70vh, 36rem);
 }
 

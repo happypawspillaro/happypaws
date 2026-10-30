@@ -3,7 +3,7 @@
     <h4 class="h5 card-title">{{ item_title }}</h4>
     {% if item_source %}<p class="small text-muted">{{ item_source }}</p>{% endif %}
     {% if item_type == "facebook_post" %}
-      <div class="media-embed media-embed--facebook-post mt-auto">
+      <div class="media-embed media-embed-facebook-post mt-auto">
         <iframe src="https://www.facebook.com/plugins/post.php?href={{ item_url|urlencode }}&amp;show_text=true&amp;width=500"
                 title="Publicación de {{ item_source }}: {{ item_title }}"
                 loading="lazy"
