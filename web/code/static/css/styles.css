@@ -136,6 +136,12 @@ a {
 	min-width: 0;
 }
 
+.media-card .card-title {
+	display: flex;
+	align-items: center;
+	min-height: 3rem;
+}
+
 .media-embed {
 	width: 100%;
 	overflow: hidden;
@@ -157,7 +163,7 @@ a {
 	height: clamp(28rem, 70vh, 36rem);
 }
 
-.media-embed--tiktok {
+.media-embed-tiktok {
 	max-width: 22rem;
 	margin-inline: auto;
 }
