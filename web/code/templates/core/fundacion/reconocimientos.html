@@ -1,8 +1,23 @@
 {% extends "base.html" %}
 {% block title %}
-  Reconocimientos a la Fundación Happy Paws Píllaro
+  Reconocimientos | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
   {% include "includes/seo_meta.html" with titulo="Reconocimientos | Happy Paws Píllaro" descripcion="Reconocimientos recibidos por la labor social a la Fundación Happy Paws Píllaro." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Reconocimientos" page_intro="Agradecemos a todas las personas e instituciones que han reconocido nuestro trabajo." %}
+    <p class="text-secondary lh-lg">
+      Nuestra vocación es construir una organización transparente, ciudadana y proactiva, y trabajar junto a la ciudadanía por una solución empática para nuestra ciudad.
+    </p>
+    <section aria-labelledby="reconocimientos-2024">
+      {% include "core/partials/content_section_heading.html" with section_id="reconocimientos-2024" section_title="2024" %}
+      <section class="mb-4" aria-labelledby="reconocimiento-diciembre-2024">
+        {% include "core/partials/content_section_heading.html" with section_id="reconocimiento-diciembre-2024" section_title="Diciembre" section_level="h3" %}
+        <p class="text-secondary">Premios Juventud, 4.ª edición — Fundación Red Juvenil Píllaro.</p>
+        {% include "core/partials/content_image.html" with image_src="assets/reconocimientos/premio_fundacion_red_juvenil.jpg" image_alt="Reconocimiento de Premios Juventud, 4.ª edición, entregado por la Fundación Red Juvenil Píllaro" image_caption="Premios Juventud, 4.ª edición — Fundación Red Juvenil Píllaro." %}
+      </section>
+    </section>
+  </main>
+{% endblock %}

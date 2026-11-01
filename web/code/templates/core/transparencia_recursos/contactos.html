@@ -1,8 +1,19 @@
 {% extends "base.html" %}
 {% block title %}
-  ¡Contáctanos! | Fundación Happy Paws Píllaro
+  Contacto | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="¡Contáctanos! | Happy Paws Píllaro" descripcion="Medios oficiales de contactos de la Fundación Happy Paws Píllaro." %}
+  {% include "includes/seo_meta.html" with titulo="Contacto | Happy Paws Píllaro" descripcion="Contacta a la Fundación Happy Paws Píllaro por correo electrónico o redes sociales oficiales." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Contáctanos" page_intro="Para mayor información o contacto directo, escríbenos o visita nuestras redes sociales oficiales." %}
+    <section aria-labelledby="correo-electronico">
+      {% include "core/partials/content_section_heading.html" with section_id="correo-electronico" section_title="Correo electrónico" %}
+      <p class="text-secondary lh-lg">
+        <a href="mailto:happypaws.pillaro@gmail.com">happypaws.pillaro@gmail.com</a>
+      </p>
+      <p class="text-secondary lh-lg">También puedes encontrarnos en nuestras redes sociales, enlazadas al pie de esta página.</p>
+    </section>
+  </main>
+{% endblock %}

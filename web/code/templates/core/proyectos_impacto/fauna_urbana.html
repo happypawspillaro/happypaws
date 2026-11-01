@@ -1,8 +1,44 @@
 {% extends "base.html" %}
 {% block title %}
-  Estudio Situación Fauna Urbana Santiago de Píllaro | Fundación Happy Paws Píllaro
+  Estudio de fauna urbana | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="Estudio Situación Fauna Urbana Píllaro| Happy Paws Píllaro" descripcion="Estudio de la Fundación Happy Paws Píllaro sobre la grave población canina, en contexto de nivel nacional." %}
+  {% include "includes/seo_meta.html" with titulo="Estudio de fauna urbana | Happy Paws Píllaro" descripcion="Estudio de Happy Paws Píllaro sobre la población de animales de compañía y la situación de fauna urbana en el cantón." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Estudio de la situación de fauna urbana" page_intro="Los datos ayudan a enfocar los esfuerzos en las zonas más afectadas y a estudiar cómo evoluciona la situación con el tiempo." %}
+    <section class="mb-5" aria-labelledby="censo-2022">
+      {% include "core/partials/content_section_heading.html" with section_id="censo-2022" section_title="Censo 2022" %}
+      <p class="text-secondary lh-lg">
+        Los datos corresponden a un estudio realizado por hogares sobre perros y gatos domésticos. Todavía no incluyen datos de animales en situación de calle.
+      </p>
+      <section class="mb-5" aria-labelledby="situacion-cantonal">
+        {% include "core/partials/content_section_heading.html" with section_id="situacion-cantonal" section_title="Situación cantonal" section_level="h3" %}
+        <p class="text-secondary lh-lg">
+          A nivel nacional, el cantón Santiago de Píllaro ocupa el séptimo lugar entre los cantones con mayor densidad de perros por habitante. Según la <em>Jerarquía funcional de asentamientos humanos consolidados</em>, que agrupa ciudades según sus servicios, Píllaro ocupa el primer lugar con la mayor densidad de perros domésticos por habitante entre las ciudades denominadas centros urbanos de servicios.
+        </p>
+        <div class="content-embed">
+          <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=1441949195&amp;single=true&amp;widget=true&amp;headers=false"
+                  title="Datos cantonales del censo de fauna urbana 2022"
+                  loading="lazy"></iframe>
+        </div>
+      </section>
+      <section aria-labelledby="situacion-parroquial">
+        {% include "core/partials/content_section_heading.html" with section_id="situacion-parroquial" section_title="Situación parroquial" section_level="h3" %}
+        <p class="text-secondary lh-lg">
+          Para el diagnóstico de fauna urbana de las parroquias de Píllaro, comparamos los datos con las 53 parroquias de Tungurahua. San José de Poaló, al noreste del cantón, registra la mayor densidad provincial, con 763,7 perros domésticos por habitante. Presidente Urbina ocupa el tercer lugar, con 643,49. Marcos Espinel, San Andrés y Emilio María Terán también están entre las diez parroquias con mayor densidad. Así, cinco de las nueve parroquias de Píllaro presentan una densidad preocupante.
+        </p>
+        <div class="content-embed">
+          <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=259626268&amp;single=true&amp;widget=true&amp;headers=false"
+                  title="Datos parroquiales del censo de fauna urbana 2022"
+                  loading="lazy"></iframe>
+        </div>
+      </section>
+    </section>
+    <section aria-labelledby="datos-locales">
+      {% include "core/partials/content_section_heading.html" with section_id="datos-locales" section_title="Datos locales" %}
+      {% include "core/partials/content_placeholder.html" with placeholder_kind="chart" placeholder_label="Datos locales próximamente" %}
+    </section>
+  </main>
+{% endblock %}

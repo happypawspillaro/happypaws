@@ -1,8 +1,109 @@
 {% extends "base.html" %}
 {% block title %}
-  Impacto de la Fundación Happy Paws Píllaro
+  Nuestro impacto | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="Impacto de la Fundación | Happy Paws Píllaro" descripcion="Impacto alcanzado de la Fundación Happy Paws Píllaro desde el 2023." %}
+  {% include "includes/seo_meta.html" with titulo="Nuestro impacto | Happy Paws Píllaro" descripcion="Resultados de las campañas de esterilización, emergencias, concientización y gestión pública de Happy Paws Píllaro." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Nuestro impacto" page_intro="Conoce los resultados del trabajo de Happy Paws Píllaro por el bienestar de la fauna urbana." %}
+    <section class="mb-5" aria-labelledby="campanas-esterilizacion">
+      {% include "core/partials/content_section_heading.html" with section_id="campanas-esterilizacion" section_title="Campañas de esterilización" %}
+      <p class="text-secondary lh-lg">
+        Es uno de nuestros proyectos más exitosos. Nos permitió apoyar frente a la situación de fauna urbana del cantón Santiago de Píllaro y conocer mejor la realidad local, con los siguientes resultados:
+      </p>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mb-4">
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="500" metric_label="Animales esterilizados" metric_icon="bi-heart-pulse" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="18" metric_label="Campañas realizadas" metric_icon="bi-calendar2-check" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="25" metric_label="Animales vulnerables atendidos gratuitamente" metric_icon="bi-heart" %}
+        </div>
+      </div>
+      {% if campanas_gallery %}
+        {% include "core/partials/image_gallery.html" with gallery_id="galeria-esterilizaciones" gallery_label="Galería de campañas de esterilización a bajo costo" gallery_images=campanas_gallery gallery_empty_label="Galería de Campañas de esterilización" %}
+      {% else %}
+        {% include "core/partials/content_placeholder.html" with placeholder_kind="image" placeholder_label="Imagen de las campañas de esterilización" %}
+      {% endif %}
+      <p class="text-secondary lh-lg">
+        A través de la herramienta Esterilizaya Píllaro pudimos conocer mejor la situación local de los tutores y enfocar los datos para encontrar nuevas sedes. Hemos apoyado a tutores de los siguientes territorios:
+      </p>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mb-4">
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="2" metric_label="Cantones alcanzados" metric_icon="bi-geo-alt" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="10" metric_label="Parroquias alcanzadas" metric_icon="bi-geo" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="72" metric_label="Barrios alcanzados" metric_icon="bi-pin-map" %}
+        </div>
+      </div>
+    </section>
+    <section class="mb-5" aria-labelledby="atencion-emergencias">
+      {% include "core/partials/content_section_heading.html" with section_id="atencion-emergencias" section_title="Atención de emergencias" %}
+      <p class="text-secondary lh-lg">
+        Gracias a la colaboración de tutores que ofrecen hogares temporales y a la coordinación de nuestra organización, hemos podido ayudar a animales en emergencia:
+      </p>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mb-4">
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="8" metric_label="Animales atendidos" metric_icon="bi-bandaid" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="Más de $800" metric_label="Fondos recaudados" metric_icon="bi-cash-coin" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="41" metric_label="Donadores" metric_icon="bi-people" %}
+        </div>
+      </div>
+      <p class="text-secondary lh-lg">
+        Los donadores, gastos y estado de los animales son públicos en cada caso. Desde noviembre de 2026 se pueden consultar en esta página web.
+      </p>
+      {% include "core/partials/image_gallery.html" with gallery_id="galeria-emergencias" gallery_label="Galería de casos de emergencia" gallery_images=emergencias_gallery gallery_empty_label="Galería de casos de emergencia" %}
+    </section>
+    <section class="mb-5" aria-labelledby="concientizacion">
+      {% include "core/partials/content_section_heading.html" with section_id="concientizacion" section_title="Concientización" %}
+      <p class="text-secondary lh-lg">
+        A través de eventos en San Miguelito, La Matriz y Presidente Urbina, charlas en campañas de esterilización y redes sociales promovemos la tenencia responsable, la Ordenanza de Fauna Urbana del cantón Píllaro y la gestión pública de conflictos como los envenenamientos masivos e impunes.
+      </p>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mb-4">
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="Más de 175" metric_label="Tutores concientizados directamente" metric_icon="bi-chat-heart" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="Más de 5.000" metric_label="Material público distribuido" metric_icon="bi-megaphone" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="Más de 1.500" metric_label="Alcance en redes sociales" metric_icon="bi-graph-up-arrow" %}
+        </div>
+      </div>
+      {% include "core/partials/image_gallery.html" with gallery_id="galeria-concientizacion" gallery_label="Galería de actividades de concientización" gallery_images=concientizacion_gallery gallery_empty_label="Galería de actividades de concientización" %}
+    </section>
+    <section aria-labelledby="gestion-publica">
+      {% include "core/partials/content_section_heading.html" with section_id="gestion-publica" section_title="Gestión pública" %}
+      <p class="text-secondary lh-lg">
+        Desde 2024, gracias a nuestra gestión y a la invitación de las instituciones que confían en nuestro trabajo, hemos podido generar:
+      </p>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mb-4">
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="Más de 10" metric_label="Denuncias de maltrato animal" metric_icon="bi-shield-exclamation" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="3" metric_label="Gestiones con el Municipio en favor de la fauna urbana" metric_icon="bi-building" %}
+        </div>
+        <div class="col">
+          {% include "core/partials/impact_metric_card.html" with metric_value="6" metric_label="Entrevistas y eventos públicos" metric_icon="bi-mic" %}
+        </div>
+      </div>
+      {% if gestion_publica_photo %}
+        {% include "core/partials/content_image.html" with image_src=gestion_publica_photo.src image_alt=gestion_publica_photo.alt image_caption=gestion_publica_photo.caption %}
+      {% else %}
+        {% include "core/partials/content_placeholder.html" with placeholder_kind="image" placeholder_label="Imagen de actividades de gestión pública" %}
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}

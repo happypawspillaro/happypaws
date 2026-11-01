@@ -1,8 +1,42 @@
 {% extends "base.html" %}
 {% block title %}
-  Áreas de trabajo de la Fundación Happy Paws Píllaro
+  Áreas de trabajo | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="Áreas de Trabajo | Happy Paws Píllaro" descripcion="Esterilizaciones bajo costo, adopción responsable, charlas de concientizamos que trabajamos como Fundación Happy Paws Píllaro." %}
+  {% include "includes/seo_meta.html" with titulo="Áreas de trabajo | Happy Paws Píllaro" descripcion="Conoce las campañas de esterilización, eventos de concientización y acciones de gestión pública de Happy Paws Píllaro." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Áreas de trabajo" page_intro="Impulsamos acciones locales para mejorar el bienestar animal y fortalecer la convivencia en Píllaro." %}
+    <section class="mb-5" aria-labelledby="campanas-esterilizacion-bajo-costo">
+      {% include "core/partials/content_section_heading.html" with section_id="campanas-esterilizacion-bajo-costo" section_title="Campañas de esterilización a bajo costo" %}
+      <p class="text-secondary lh-lg">
+        Este proyecto busca llevar servicios de esterilización a bajo costo a lugares con acceso limitado a atención veterinaria, alta concentración de perros o conflictos relacionados con la fauna urbana, y con una organización comprometida en reducir progresivamente esta situación.
+      </p>
+      <p class="text-secondary lh-lg">
+        Como Fundación Happy Paws Píllaro, contamos con un equipo veterinario y voluntarios comprometidos. Nos ponemos a disposición para organizar eventos locales que reúnan a más de 20 mascotas y ofrecer un servicio accesible y conveniente.
+      </p>
+      <p class="text-secondary lh-lg">Nuestra experiencia nos ha permitido desarrollar un protocolo de trabajo. Puedes conocerlo aquí:</p>
+      <div class="content-embed">
+        <div class="ratio ratio-16x9">
+          <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTJAPXk003wrHhG0SmC6nryQWeD-MVvvvczQnm3AypuKDqu3lOvFZbfmcSNQ0vtwM74Q78GSzsl_Aiq/pubembed?start=false&amp;loop=false&amp;delayms=3000"
+                  title="Protocolo de campañas de esterilización de Happy Paws Píllaro"
+                  loading="lazy"
+                  allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+    <section class="mb-5" aria-labelledby="eventos-concientizacion">
+      {% include "core/partials/content_section_heading.html" with section_id="eventos-concientizacion" section_title="Eventos de concientización" %}
+      <p class="text-secondary lh-lg">
+        Una forma efectiva de llegar a la comunidad es a través de eventos públicos. Organizamos actividades y exhibiciones caninas junto con colegas para promover la tenencia responsable.
+      </p>
+      {% include "core/partials/image_gallery.html" with gallery_id="galeria-eventos" gallery_label="Galería de eventos de concientización" gallery_images=eventos_gallery gallery_empty_label="Galería de eventos de concientización" %}
+    </section>
+    <section aria-labelledby="gestion-publica">
+      {% include "core/partials/content_section_heading.html" with section_id="gestion-publica" section_title="Gestión pública" %}
+      <p class="text-secondary lh-lg">Trabajamos con instituciones y autoridades para impulsar acciones en favor de la fauna urbana.</p>
+      {% include "core/partials/image_gallery.html" with gallery_id="galeria-gestion-publica" gallery_label="Galería de acciones de gestión pública" gallery_images=gestion_gallery gallery_empty_label="Galería de acciones de gestión pública" %}
+    </section>
+  </main>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% load static %}
+<figure class="content-image mb-4">
+  <img class="img-fluid rounded shadow-sm"
+       src="{% static image_src %}"
+       alt="{{ image_alt }}"
+       loading="lazy">
+  {% if image_caption %}<figcaption class="small text-muted mt-2">{{ image_caption }}</figcaption>{% endif %}
+</figure>

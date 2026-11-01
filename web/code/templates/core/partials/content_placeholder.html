@@ -1,0 +1,12 @@
+<figure class="content-placeholder content-placeholder--{{ placeholder_kind }} text-center mb-4">
+  <div class="content-placeholder-inner">
+    {% if placeholder_kind == "carousel" %}
+      <i class="bi bi-images fs-1" aria-hidden="true"></i>
+    {% elif placeholder_kind == "chart" %}
+      <i class="bi bi-bar-chart-line fs-1" aria-hidden="true"></i>
+    {% else %}
+      <i class="bi bi-image fs-1" aria-hidden="true"></i>
+    {% endif %}
+    <figcaption>{{ placeholder_label }}</figcaption>
+  </div>
+</figure>

@@ -1,8 +1,31 @@
 {% extends "base.html" %}
 {% block title %}
-  Formato Documentos de Infracciones Fauna Urbana GADM Píllaro | Fundación Happy Paws Píllaro
+  Formatos de denuncia | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="Formato Documentos de Infracciones Fauna Urbana GADM Píllaro | Happy Paws Píllaro" descripcion="Varios documentos para denunciar delitos como envenenamiento, abandono, maltrato, e infracciones como descuido tutores, molestia a vecinos, etc. elaborado por Fundación Happy Paws Píllaro." %}
+  {% include "includes/seo_meta.html" with titulo="Formatos de denuncia | Happy Paws Píllaro" descripcion="Formatos para denunciar envenenamiento y maltrato de fauna urbana en el cantón Píllaro." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Formatos de denuncia" page_intro="Ponemos a disposición de la ciudadanía formatos para denunciar infracciones relacionadas con la fauna urbana." %}
+    <p class="text-secondary lh-lg">
+      Imprime el formato en una hoja membretada del Municipio (disponible en Tesorería) y entrégalo en Secretaría General, en el segundo piso.
+    </p>
+    <section class="mb-5" aria-labelledby="denuncia-envenenamiento">
+      {% include "core/partials/content_section_heading.html" with section_id="denuncia-envenenamiento" section_title="Denuncias por envenenamiento" %}
+      <div class="content-embed">
+        <iframe src="https://docs.google.com/document/d/e/2PACX-1vTVc1vQUO_YEwW-oaamt5J-sKrg2lgZnyZKfq5KVh9bNcZHRB9AQZoqf8V70_3pudeVqIZZztabKWHy/pub?embedded=true"
+                title="Formato de denuncia por envenenamiento de fauna urbana"
+                loading="lazy"></iframe>
+      </div>
+    </section>
+    <section aria-labelledby="denuncia-maltrato">
+      {% include "core/partials/content_section_heading.html" with section_id="denuncia-maltrato" section_title="Denuncias por maltrato de fauna urbana" %}
+      <div class="content-embed">
+        <iframe src="https://docs.google.com/document/d/e/2PACX-1vRQzNBzr5iDjdCFVnwydurJI-l-Jk6nklvW0H_R1NvAb5z0UyTqMPtJfpreiXK79hRr9dbEwDwCbxeV/pub?embedded=true"
+                title="Formato de denuncia por maltrato de fauna urbana"
+                loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+{% endblock %}

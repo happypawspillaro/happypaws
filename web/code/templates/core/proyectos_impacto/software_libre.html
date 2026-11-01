@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 {% block title %}
-  Software Libre | Fundación Happy Paws Píllaro
+  Software libre | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="Software Libre | Happy Paws Píllaro" descripcion="Gestión de la situación de fauna urbana a través del software libre, Fundación Happy Paws Píllaro." %}
+  {% include "includes/seo_meta.html" with titulo="Software libre | Happy Paws Píllaro" descripcion="Herramientas de software libre para gestionar campañas de esterilización y fauna urbana en Píllaro." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Software libre" page_intro="Herramientas abiertas para apoyar la gestión de la fauna urbana." %}
+    <section aria-labelledby="esterilizaya">
+      {% include "core/partials/content_section_heading.html" with section_id="esterilizaya" section_title="Esterilizaya" %}
+      <p class="text-secondary lh-lg">
+        Es una aplicación web, abierta y disponible sin conexión, que permite gestionar campañas de esterilización.
+      </p>
+    </section>
+  </main>
+{% endblock %}

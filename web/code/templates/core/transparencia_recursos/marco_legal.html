@@ -1,8 +1,23 @@
 {% extends "base.html" %}
 {% block title %}
-  Base Legal Fauna Urbana | Fundación Happy Paws Píllaro
+  Marco legal | Happy Paws Píllaro
 {% endblock %}
 {% block seo %}
-  {% include "includes/seo_meta.html" with titulo="Base Legal Fauna Urbana Santiago de Píllaro | Happy Paws Píllaro" descripcion="Enlaces al COIP, Ordenanza de Fauna Urbana del Cantón Píllar, Resumen creado por la Fundación Happy Paws Píllaro." %}
+  {% include "includes/seo_meta.html" with titulo="Marco legal de fauna urbana | Happy Paws Píllaro" descripcion="Consulta el COIP y la Ordenanza de Fauna Urbana del cantón Santiago de Píllaro." %}
 {% endblock %}
-{% block content %}{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Marco legal de fauna urbana" page_intro="Enlaces a la normativa relacionada con la protección y convivencia con la fauna urbana." %}
+    <section class="mb-5" aria-labelledby="coip">
+      {% include "core/partials/content_section_heading.html" with section_id="coip" section_title="Código Orgánico Integral Penal (COIP)" %}
+      <p class="text-secondary lh-lg">Consulta los artículos 249 a 250 en el documento oficial:</p>
+      {% include "core/partials/pdf_embed.html" with document_url="https://legalcloud.ec/wp-content/uploads/2026/01/COIP-19012026-DIgital.pdf" document_title="Código Orgánico Integral Penal, artículos 249 a 250" %}
+      <small class="text-secondary">Estado Vigente | Última consulta: 31 de octubre del 2026</small>
+    </section>
+    <section aria-labelledby="ordenanza-fauna-urbana">
+      {% include "core/partials/content_section_heading.html" with section_id="ordenanza-fauna-urbana" section_title="Ordenanza de Fauna Urbana del cantón Píllaro" %}
+      {% include "core/partials/pdf_embed.html" with document_url="https://www.pillaro.gob.ec/wp-content/uploads/2025/05/ordenanza-fauna-urbana.pdf" document_title="Ordenanza de Fauna Urbana del cantón Píllaro" %}
+      <small class="text-secondary">Estado Vigente | Última consulta: 31 de octubre del 2026</small>
+    </section>
+  </main>
+{% endblock %}

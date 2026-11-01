@@ -1,4 +1,56 @@
 {% extends "base.html" %}
 {% block title %}
-  Directiva Fundación Happy Paws Píllaro
+  Contribuye | Happy Paws Píllaro
+{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Contribuye | Happy Paws Píllaro" descripcion="Apoya el trabajo de la Fundación Happy Paws Píllaro con aportes económicos y apadrinamientos." %}
+{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Contribuye con Happy Paws Píllaro" page_intro="Tu apoyo hace posible nuestro trabajo por el bienestar animal y la comunidad." %}
+    <section class="mb-5" aria-labelledby="aporte">
+      {% include "core/partials/content_section_heading.html" with section_id="aporte" section_title="Contribución económica" %}
+      <p class="text-secondary lh-lg">
+        Tenemos un fondo para casos de emergencia, gestión pública y eventos. Si quieres ayudarnos con este trabajo, puedes hacer un aporte económico a la siguiente cuenta. ¡Cada centavo cuenta para hacer una diferencia!
+      </p>
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle">
+          <caption class="visually-hidden">Datos bancarios para realizar aportes</caption>
+          <tbody>
+            <tr>
+              <th scope="row">Entidad</th>
+              <td><strong>Banco del Pichincha</strong></td>
+            </tr>
+            <tr>
+              <th scope="row">Número de cuenta</th>
+              <td>2214664353</td>
+            </tr>
+            <tr>
+              <th scope="row">Titular</th>
+              <td>Andrea Arcos</td>
+            </tr>
+            <tr>
+              <th scope="row">Cédula de identidad</th>
+              <td>1850256577</td>
+            </tr>
+            <tr>
+              <th scope="row">Concepto de la transacción</th>
+              <td>Apoyo Solidario Happy Paws - [Tu Nombre Aquí]</td>
+            </tr>
+            <tr>
+              <th scope="row">Correo electrónico</th>
+              <td><a href="mailto:happypawspillaro@gmail.com">happypawspillaro@gmail.com</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small text-muted">Estamos en proceso de trámite para tener una cuenta oficial. Actualizaremos esta información cuando esté disponible.</p>
+    </section>
+    <section aria-labelledby="apadrinamientos">
+      {% include "core/partials/content_section_heading.html" with section_id="apadrinamientos" section_title="Apadrinamientos" %}
+      <p class="text-secondary lh-lg">
+        Como parte de nuestra visión, trabajamos junto con la comunidad para construir un mejor lugar para nuestros animales y para vivir. Si quieres apadrinar a un animal o una esterilización para un animal en situación vulnerable, déjanos un mensaje en nuestros medios oficiales.
+      </p>
+    </section>
+  </main>
 {% endblock %}

@@ -32,10 +32,80 @@ class ReconocimientosView(TemplateView):
 class ImpactoView(TemplateView):
     template_name = "core/fundacion/impacto.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                "campanas_photo": None,
+                "campanas_gallery": [
+                    {
+                        "src": "assets/impacto/campanas/poalo.jpg",
+                        "alt": "Charla de cuidados Post-quirúrgicos por el equipo de Voluntarios Happy Paws Píllaro San José de Poaló",
+                        "caption": "Campaña de Esterilización San José de Poaló, Agosto 2025"
+                    },
+                    {
+                        "src": "assets/impacto/campanas/yacupamba.jpg",
+                        "alt": "Mascotas recién esterilizadas recuperandose en Yacupamba, San Miguelito",
+                        "caption": "Campaña de Esterilización Yacupamba San Miguelito, Diciembre 2025"
+                    },
+                    {
+                        "src": "assets/impacto/campanas/urbina.png",
+                        "alt": "Tutores esperando su  turno para esterilizar a sus mascotas, Presidente Urbina",
+                        "caption": "Campaña de Esterilización Yacupamba San Miguelito, Enero 2026"
+                    }
+                ],
+                "emergencias_gallery": [
+                    {
+                        "src": "assets/impacto/emergencias/bruce.jpg",
+                        "alt": "Bruce en recuperación después de su amputación, 2026",
+                        "caption": "Bruce tenía una fractura desplazada en su pata izquierda, atendimos su amputación"
+                    },
+                    {
+                        "src": "assets/impacto/emergencias/cholito.jpg",
+                        "alt": "Cholito recuperándose luego de su cirugía",
+                        "caption": "Luego de un atropellamiento y sin curación, se le tuvo que apuntar la pata"
+                    },
+                    {
+                        "src": "assets/impacto/emergencias/lulu.png",
+                        "alt": "Lulu recuperándose en un hogar temporal",
+                        "caption": "Lulu fue encontrada con una fuerte lesión del ojo, se realizó enucleación"
+                    }
+                ],
+                "concientizacion_gallery": [
+                    {
+                        "src": "assets/impacto/concientizacion/urbina.png",
+                        "alt": "Tutores atendiendo la charla de Concientización Presidente Urbina",
+                        "caption": "Charla de concientización y tenencia responsable Presidente Urbina"
+                    },
+                    {
+                        "src": "assets/impacto/concientizacion/yacupamba.jpg",
+                        "alt": "Responsabilidad con sus mascotas de nuestro equipo veterinario en Yacupambaa",
+                        "caption": "Charla de concientización por parte de nuestro equipo veterinario, Yacupamba"
+                    },
+                    {
+                        "src": "assets/impacto/concientizacion/sanmiguelito.png",
+                        "alt": "La comunidad tiene voz en la concientización en San Miguelito",
+                        "caption": "Líderes locales dando su opinión sobre la fauna urbana en San Miguelito"
+                    }
+                ],
+                "gestion_publica_photo": {
+                    "src": "assets/impacto/gestion/mesa_intersectorial_urbina.png",
+                    "alt": "Reunión de trabajo por la fauna urbana en el GADP Presidente Urbina",
+                    "caption": "Participación Mesa Intersectorial Presidente Urbina",
+                },
+            }
+        )
+        return context
+
 
 # Sección Proyectos e impacto
 class AreasTrabajoView(TemplateView):
     template_name = "core/proyectos_impacto/areas_trabajo.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({"eventos_gallery": [], "gestion_gallery": []})
+        return context
 
 
 class FaunaUrbanaView(TemplateView):
@@ -65,7 +135,7 @@ class ContactosView(TemplateView):
 
 # Sección Contribuir
 class ContribuyeView(TemplateView):
-    template_name = "core/contribuir/contactos.html"
+    template_name = "core/contribuir/contribuye.html"
 
 
 class VoluntariadoView(TemplateView):
