@@ -82,7 +82,7 @@ class ImpactoView(TemplateView):
                     },
                     {
                         "src": "assets/impacto/concientizacion/yacupamba.jpg",
-                        "alt": "Responsabilidad con sus mascotas de nuestro equipo veterinario en Yacupambaa",
+                        "alt": "Responsabilidad con sus mascotas de nuestro equipo veterinario en Yacupamba",
                         "caption": "Charla de concientización por parte de nuestro equipo veterinario, Yacupamba",
                     },
                     {
@@ -107,7 +107,40 @@ class AreasTrabajoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update({"eventos_gallery": [], "gestion_gallery": []})
+        context.update(
+            {
+                "eventos_gallery": [
+                    {
+                        "src": "assets/areas_trabajo/eventos/match_canino_2026.jpg",
+                        "alt": "2do Match Canino Presidente Urbina 2025",
+                        "caption": (
+                            "Segundo Match Canino '!Tenencia con amor, dile no al dolor¡' Presidente Urbina, Noviembre 2025"
+                            ", Octubre de 2026"
+                        ),
+                    },
+                    {
+                        "src": "assets/areas_trabajo/eventos/match_canino_2025.jpg",
+                        "alt": "1er Match Canino Presidente Urbina 2025",
+                        "caption": ("Primer Match Canino Presidente Urbina, Noviembre 2025" ", Noviembre de 2025"),
+                    },
+                    {
+                        "src": "assets/areas_trabajo/eventos/evento_sm.jpg",
+                        "alt": "Evento Concientización San Miguelito de Píllaro",
+                        "caption": (
+                            "Evento ¡Concientiza San Miguelito! Vamos a cuidar a nuestros animalitos"
+                            ", Noviembre de 2024"
+                        ),
+                    },
+                ],
+                "gestion_gallery": [
+                    {
+                        "src": "assets/impacto/gestion/mesa_intersectorial_urbina.png",
+                        "alt": "Reunión de trabajo por la fauna urbana en el GADP Presidente Urbina",
+                        "caption": "Participación Mesa Intersectorial Presidente Urbina",
+                    }
+                ],
+            }
+        )
         return context
 
 
@@ -123,7 +156,7 @@ class MediosComunicacionView(TemplateView):
     template_name = "core/proyectos_impacto/medios_comunicacion.html"
 
 
-# Sección Transparencia y Recursos
+# Sección Base Legal y Contacto
 class MarcoLegalView(TemplateView):
     template_name = "core/transparencia_recursos/marco_legal.html"
 
@@ -139,10 +172,6 @@ class ContactosView(TemplateView):
 # Sección Contribuir
 class ContribuyeView(TemplateView):
     template_name = "core/contribuir/contribuye.html"
-
-
-class VoluntariadoView(TemplateView):
-    template_name = "core/contribuir/voluntariado.html"
 
 
 def home(request):

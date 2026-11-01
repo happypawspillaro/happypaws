@@ -18,13 +18,12 @@ urlpatterns = [
     path("proyectos/areas-trabajo/", views.AreasTrabajoView.as_view(), name="areas_trabajo"),
     path("proyectos/software-libre/", views.SoftwareLibreView.as_view(), name="software_libre"),
     path("proyectos/media/", views.MediosComunicacionView.as_view(), name="media"),
-    # Transparencia y Recursos
+    # Base Legal y Contactos
     path("recursos/marco-legal/", views.MarcoLegalView.as_view(), name="marco_legal"),
     path("recursos/formatos/", views.FormatosView.as_view(), name="formatos"),
     path("recursos/contacto/", views.ContactosView.as_view(), name="contacto"),
     # Contribuir
     path("contribuir/", views.ContribuyeView.as_view(), name="contribuir_home"),
-    path("contribuir/voluntariado/", views.VoluntariadoView.as_view(), name="voluntariado"),
     path("obtener_barrios/", views.obtener_barrios, name="barrios"),
     path("listar_canton_parroquia/", views.listar_canton_parroquia, name="canton_parroquia"),
 ]

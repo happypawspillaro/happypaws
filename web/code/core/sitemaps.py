@@ -25,14 +25,12 @@ class StaticViewSitemap(Sitemap):
             "core:areas_trabajo",
             "core:software_libre",
             "core:media",
-            # Transparencia y recursos TODO: Pensar en cambiarle el nombre de la categoría
-            "core:fauna_urbana",
-            "core:areas_trabajo",
-            "core:software_libre",
-            "core:media",
+            # Base Legal & Contacto
+            "core:marco_legal",
+            "core:formatos",
+            "core:contacto",
             # Contribuir
             "core:contribuir_home",
-            "core:voluntariado",
             "animals:catalog",
             "medical_cases:list",
             "reports:list",
