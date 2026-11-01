@@ -86,27 +86,6 @@ a {
 	object-fit: cover;
 }
 
-/* Carrusel de casos médicos: altura consistente y adaptable al dispositivo.
-   Las fotos se recortan centradas para que mezclar horizontales y verticales
-   no cambie el alto de la página (#91). No usar h-auto en la <img>: su
-   !important anula esta altura. */
-#carousel-caso .carousel-item img {
-	height: 380px;
-	object-fit: cover;
-}
-
-@media (width <= 767.98px) {
-	#carousel-caso .carousel-item img {
-		height: 260px;
-	}
-}
-
-@media (width <= 575.98px) {
-	#carousel-caso .carousel-item img {
-		height: 200px;
-	}
-}
-
 /* Aviso de cookies (#75): flotante abajo, sin tapar todo el contenido en móviles. */
 .aviso-cookies {
 	position: fixed;
@@ -159,8 +138,8 @@ a {
 	gap: 0.5rem;
 }
 
-.content-placeholder--image,
-.content-placeholder--carousel {
+.content-placeholder-image,
+.content-placeholder-carousel {
 	aspect-ratio: 16 / 9;
 }
 
@@ -174,14 +153,31 @@ a {
 	object-fit: cover;
 }
 
+/* Carrusel de casos médicos: altura consistente y adaptable al dispositivo.
+   Las fotos se recortan centradas para que mezclar horizontales y verticales
+   no cambie el alto de la página (#91). No usar h-auto en la <img>: su
+   !important anula esta altura. */
+#carousel-caso .carousel-item img {
+	height: 380px;
+	object-fit: cover;
+}
+
+@media (width <= 767.98px) {
+	#carousel-caso .carousel-item img {
+		height: 260px;
+	}
+}
+
+@media (width <= 575.98px) {
+	#carousel-caso .carousel-item img {
+		height: 200px;
+	}
+}
+
 .content-embed iframe {
 	width: 100%;
 	min-height: 28rem;
 	border: 0;
-}
-
-.content-embed .ratio iframe {
-	min-height: 0;
 }
 
 .pdf-embed iframe {
@@ -241,6 +237,10 @@ a {
 
 .media-embed-facebook-post iframe {
 	height: clamp(28rem, 70vh, 36rem);
+}
+
+.content-embed .ratio iframe {
+	min-height: 0;
 }
 
 .media-embed-tiktok {
