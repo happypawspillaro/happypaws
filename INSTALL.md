@@ -134,3 +134,71 @@ Luego, carga de nuevo tu contenedor `web` con:
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up nginx web --build -d
 ```
+
+## Respaldos
+
+En el VPS, dos timers de systemd respaldan la base de datos PostgreSQL ([#88](https://github.com/happypawspillaro/happypaws/issues/88)). Los archivos están en `config/respaldos/`.
+
+- **Diario (03:00):** `pg_dump` cifrado con [age](https://github.com/FiloSottile/age), guardado en `/var/lib/happypaws-respaldo/respaldos/`. Se borran los de más de 30 días.
+- **Mensual (día 1, 04:00):** hace un respaldo nuevo y lo sube a Google Drive con [rclone](https://rclone.org/drive/). En Drive no se borra nada.
+
+El volcado pasa directo de `pg_dump` a `age`, así que nunca queda en texto plano en el disco. En el VPS solo está la clave **pública**. Así, aunque alguien entre al servidor, no puede descifrar los respaldos.
+
+> Las fotos (volumen `media-volume`) todavía no se respaldan.
+
+### Instalación
+
+1. En tu computadora (no en el VPS), genera el par de claves y guarda `respaldo.age` en un gestor de contraseñas. Sin esa clave no se puede restaurar nada:
+
+   ```bash
+   age-keygen -o respaldo.age
+   ```
+
+   El comando muestra la clave pública (`age1...`). Si quieres que más de una persona pueda restaurar, cada una genera su par y se pone una clave pública por línea.
+
+2. En el VPS, instala las herramientas y la configuración:
+
+   ```bash
+   sudo apt install age rclone
+   sudo mkdir -p /etc/happypaws
+   echo "age1..." | sudo tee /etc/happypaws/respaldo.age.pub
+   sudo cp config/respaldos/respaldo.env.example /etc/happypaws/respaldo.env
+   sudo nano /etc/happypaws/respaldo.env   # ajustar REPO_DIR
+   ```
+
+3. Los servicios corren como el usuario `happypaws`, que debe estar en el grupo `docker`. Si el sitio se despliega con otro usuario, cambia `User=` en los dos `.service`. Instala los units y prueba el respaldo diario:
+
+   ```bash
+   sudo cp config/respaldos/happypaws-respaldo*.{service,timer} /etc/systemd/system/
+   sudo systemctl daemon-reload
+   sudo systemctl start happypaws-respaldo.service
+   sudo ls -l /var/lib/happypaws-respaldo/respaldos/
+   ```
+
+4. Configura Google Drive en rclone con un remoto llamado `gdrive`. El VPS no tiene navegador, así que sigue las instrucciones de [rclone para máquinas remotas](https://rclone.org/remote_setup/):
+
+   ```bash
+   sudo -u happypaws RCLONE_CONFIG=/var/lib/happypaws-respaldo/rclone.conf rclone config
+   sudo systemctl start happypaws-respaldo-nube.service
+   ```
+
+5. Activa los timers:
+
+   ```bash
+   sudo systemctl enable --now happypaws-respaldo.timer happypaws-respaldo-nube.timer
+   systemctl list-timers 'happypaws-*'
+   ```
+
+Los registros se ven con `journalctl -u happypaws-respaldo -u happypaws-respaldo-nube`.
+
+### Restaurar
+
+Con la clave privada `respaldo.age` y un archivo `.dump.age`:
+
+```bash
+age --decrypt --identity respaldo.age happypaws-AAAAMMDD-HHMMSS.dump.age |
+  docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T postgres \
+  sh -c 'pg_restore --clean --if-exists --no-owner -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+```
+
+`--clean` borra lo que hay en la base antes de restaurar. Haz un respaldo de lo actual antes de usarlo.
