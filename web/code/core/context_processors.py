@@ -1,4 +1,5 @@
 from django.conf import settings
+from reports.models import TipoReporte
 
 
 def analiticas(request):
@@ -11,3 +12,8 @@ def analiticas(request):
     if usuario is not None and usuario.is_staff:
         return {"ga_measurement_id": ""}
     return {"ga_measurement_id": settings.GA_MEASUREMENT_ID}
+
+
+def menu(request):
+    """Tipos de reporte para el menú "Reportar un caso" de base.html (#57)."""
+    return {"tipos_reporte": TipoReporte.choices}

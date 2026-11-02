@@ -45,6 +45,16 @@ class ResponsiveBaseTests(TestCase):
             with self.subTest(pagina=nombre):
                 self.assertEqual(self.client.get(reverse(nombre)).status_code, 200)
 
+    def test_menu_con_nombres_nuevos(self):
+        """#57: nombres del menú más claros y 'Reportar un caso' con un enlace por tipo."""
+        resp = self.client.get(reverse("core:home"))
+        for texto in ["Adoptar", "Aportes emergencias", "Reportes recibidos", "Reportar un caso"]:
+            with self.subTest(texto=texto):
+                self.assertContains(resp, texto)
+        for tipo in ["perdido", "encontrado", "maltrato"]:
+            with self.subTest(tipo=tipo):
+                self.assertContains(resp, f'href="{reverse("reports:create")}?tipo={tipo}"')
+
     def test_incluye_favicon_y_logo(self):
         resp = self.client.get(reverse("core:home"))
         self.assertContains(resp, "images/happypaws.ico")

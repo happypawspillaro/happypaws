@@ -230,6 +230,18 @@ class ApprovalTests(TestCase):
         self.assertEqual(anon.reportante_publico, "Anónimo")
 
 
+class CrearReporteTests(TestCase):
+    """El menú "Reportar un caso" abre el formulario con el tipo elegido (#57)."""
+
+    def test_tipo_preseleccionado_desde_el_menu(self):
+        resp = self.client.get(reverse("reports:create"), {"tipo": TipoReporte.MALTRATO})
+        self.assertEqual(resp.context["form"]["tipo"].value(), TipoReporte.MALTRATO)
+
+    def test_tipo_invalido_se_ignora(self):
+        resp = self.client.get(reverse("reports:create"), {"tipo": "inventado"})
+        self.assertIsNone(resp.context["form"]["tipo"].value())
+
+
 class ContactoVisibleTests(TestCase):
     """El contacto del reportante se oculta al público tras 30 días (issue #34)."""
 
