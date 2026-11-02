@@ -62,7 +62,10 @@ def detail(request, pk):
 
 def create(request):
     """Formulario público para crear un reporte, con carga de fotos."""
-    form = ReportForm(request.POST or None)
+    # El menú "Reportar un caso" enlaza con ?tipo= para dejarlo preseleccionado.
+    tipo = request.GET.get("tipo", "")
+    inicial = {"tipo": tipo} if tipo in TipoReporte.values else None
+    form = ReportForm(request.POST or None, initial=inicial)
     if request.method == "POST" and form.is_valid():
         reporte = form.save()
         for imagen in request.FILES.getlist("fotos"):
