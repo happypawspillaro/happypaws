@@ -1,5 +1,6 @@
 accesible
 administrativo
+alternativos
 aprox
 argumentos
 auxiliar
@@ -10,6 +11,7 @@ calle
 caracteres
 clases
 comando
+Comandos
 direccion
 flor
 foto

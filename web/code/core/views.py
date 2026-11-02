@@ -114,8 +114,8 @@ class AreasTrabajoView(TemplateView):
                         "src": "assets/areas_trabajo/eventos/match_canino_2026.jpg",
                         "alt": "2do Match Canino Presidente Urbina 2025",
                         "caption": (
-                            "Segundo Match Canino '!Tenencia con amor, dile no al dolor¡' Presidente Urbina, Noviembre 2025"
-                            ", Octubre de 2026"
+                            "Segundo Match Canino '!Tenencia con amor, dile no al dolor¡'"
+                            "Presidente Urbina, Noviembre 2025, Octubre de 2026"
                         ),
                     },
                     {
