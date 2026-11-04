@@ -1,0 +1,22 @@
+# Respaldo diario cifrado de PostgreSQL (#88). Ver INSTALL.md.
+[Unit]
+Description=Happy Paws: respaldo cifrado de PostgreSQL
+Wants=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+# Usuario sin sudo que despliega el sitio; necesita estar en el grupo docker.
+User=happypaws
+SupplementaryGroups=docker
+EnvironmentFile=/etc/happypaws/respaldo.env
+# /var/lib/happypaws-respaldo: respaldos y configuración de rclone.
+StateDirectory=happypaws-respaldo
+StateDirectoryMode=0700
+UMask=0077
+Environment=RCLONE_CONFIG=/var/lib/happypaws-respaldo/rclone.conf
+ExecStart=/usr/bin/env bash ${REPO_DIR}/config/respaldos/respaldo.sh local
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=read-only
