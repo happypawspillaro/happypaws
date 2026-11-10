@@ -1,0 +1,17 @@
+<section class="mb-5" aria-labelledby="{{ document.id }}">
+  {% include "core/partials/content_section_heading.html" with section_id=document.id section_title=document.title %}
+  <p>
+    <a class="btn btn-outline-primary btn-sm"
+       href="{{ document.url }}"
+       target="_blank"
+       rel="noopener noreferrer">
+      <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
+      Ver en línea
+    </a>
+  </p>
+  <div class="content-embed">
+    <iframe src="{{ document.url }}?embedded=true"
+            title="{{ document.iframe_title }}"
+            loading="lazy"></iframe>
+  </div>
+</section>

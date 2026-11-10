@@ -164,6 +164,48 @@ class MarcoLegalView(TemplateView):
 class FormatosView(TemplateView):
     template_name = "core/transparencia_recursos/formatos.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["formatos"] = [
+            {
+                "id": "denuncia-envenenamiento",
+                "title": "Modelo denuncia por envenenamiento a caninos",
+                "iframe_title": "Formato de denuncia por envenenamiento de fauna urbana",
+                "url": (
+                    "https://docs.google.com/document/d/e/"
+                    "2PACX-1vTVc1vQUO_YEwW-oaamt5J-sKrg2lgZnyZKfq5KVh9bNcZHRB9AQZoqf8V70_3pudeVqIZZztabKWHy/pub"
+                ),
+            },
+            {
+                "id": "denuncia-maltrato",
+                "title": "Modelo denuncia por maltrato de fauna urbana",
+                "iframe_title": "Formato de denuncia por maltrato de fauna urbana",
+                "url": (
+                    "https://docs.google.com/document/d/e/"
+                    "2PACX-1vRQzNBzr5iDjdCFVnwydurJI-l-Jk6nklvW0H_R1NvAb5z0UyTqMPtJfpreiXK79hRr9dbEwDwCbxeV/pub"
+                ),
+            },
+            {
+                "id": "pedido-control-mascotas",
+                "title": "Modelo pedido control GADM Píllaro por fauna urbana descontrolada",
+                "iframe_title": "Formato de pedido control fauna urbana al GADM Píllaro",
+                "url": (
+                    "https://docs.google.com/document/d/e/"
+                    "2PACX-1vTFbdOd6LVTr-RIAtyF_RB_wHIHcJiac96q7r3gw4oZJoVMvXN9dbmhYO_QL6IywUVurOI1fcjGTDQ1/pub"
+                ),
+            },
+            {
+                "id": "plan-contigencia-esterilizaciones",
+                "title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
+                "iframe_title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
+                "url": (
+                    "https://docs.google.com/document/d/e/"
+                    "2PACX-1vStde7YU1TehtxAzEl8MnG3JNEHTb3VrH867ks5TofbpmECkYcBp7HsJrQZatwV8Deu_9czFTFZQTl6/pub"
+                ),
+            },
+        ]
+        return context
+
 
 class ContactosView(TemplateView):
     template_name = "core/transparencia_recursos/contactos.html"

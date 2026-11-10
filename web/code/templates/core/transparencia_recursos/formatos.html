@@ -11,21 +11,8 @@
     <p class="text-secondary lh-lg">
       Imprime el formato en una hoja membretada del Municipio (disponible en Tesorería) y entrégalo en Secretaría General, en el segundo piso.
     </p>
-    <section class="mb-5" aria-labelledby="denuncia-envenenamiento">
-      {% include "core/partials/content_section_heading.html" with section_id="denuncia-envenenamiento" section_title="Denuncias por envenenamiento" %}
-      <div class="content-embed">
-        <iframe src="https://docs.google.com/document/d/e/2PACX-1vTVc1vQUO_YEwW-oaamt5J-sKrg2lgZnyZKfq5KVh9bNcZHRB9AQZoqf8V70_3pudeVqIZZztabKWHy/pub?embedded=true"
-                title="Formato de denuncia por envenenamiento de fauna urbana"
-                loading="lazy"></iframe>
-      </div>
-    </section>
-    <section aria-labelledby="denuncia-maltrato">
-      {% include "core/partials/content_section_heading.html" with section_id="denuncia-maltrato" section_title="Denuncias por maltrato de fauna urbana" %}
-      <div class="content-embed">
-        <iframe src="https://docs.google.com/document/d/e/2PACX-1vRQzNBzr5iDjdCFVnwydurJI-l-Jk6nklvW0H_R1NvAb5z0UyTqMPtJfpreiXK79hRr9dbEwDwCbxeV/pub?embedded=true"
-                title="Formato de denuncia por maltrato de fauna urbana"
-                loading="lazy"></iframe>
-      </div>
-    </section>
+    {% for document in formatos %}
+      {% include "core/partials/formato_denuncia.html" with document=document %}
+    {% endfor %}
   </main>
 {% endblock %}
