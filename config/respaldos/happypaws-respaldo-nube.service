@@ -1,22 +1,15 @@
 # Respaldo mensual cifrado de PostgreSQL subido a Google Drive (#88). Ver INSTALL.md.
+# Unit de usuario: va en ~/.config/systemd/user/ y no necesita sudo.
+# %h es la carpeta personal del usuario, así que no hay nada que editar aquí.
 [Unit]
 Description=Happy Paws: respaldo cifrado de PostgreSQL en Google Drive
-Wants=docker.service network-online.target
-After=docker.service network-online.target
 
 [Service]
 Type=oneshot
-# Usuario sin sudo que despliega el sitio; necesita estar en el grupo docker.
-User=happypaws
-SupplementaryGroups=docker
-EnvironmentFile=/etc/happypaws/respaldo.env
-# /var/lib/happypaws-respaldo: respaldos y configuración de rclone.
+EnvironmentFile=%h/.config/happypaws/respaldo.env
+# ~/.local/state/happypaws-respaldo: los respaldos locales.
 StateDirectory=happypaws-respaldo
 StateDirectoryMode=0700
 UMask=0077
-Environment=RCLONE_CONFIG=/var/lib/happypaws-respaldo/rclone.conf
 ExecStart=/usr/bin/env bash ${REPO_DIR}/config/respaldos/respaldo.sh nube
 NoNewPrivileges=yes
-PrivateTmp=yes
-ProtectSystem=full
-ProtectHome=read-only

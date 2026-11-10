@@ -4,15 +4,17 @@
 # Uso:
 #   respaldo.sh local  Vuelca la base con pg_dump, la cifra con age y borra
 #                      las copias locales de más de DIAS_RETENCION días.
-#   respaldo.sh nube   Hace un respaldo local y lo sube con rclone.
+#   respaldo.sh nube   Hace un respaldo local, lo sube con rclone y borra las
+#                      copias de la nube de más de DIAS_RETENCION_NUBE días.
 #
-# Lo ejecutan los timers de systemd de esta carpeta; ver INSTALL.md.
+# Lo ejecutan los timers de systemd (de usuario) de esta carpeta; ver INSTALL.md.
 set -euo pipefail
 
 : "${REPO_DIR:?Falta REPO_DIR, la carpeta del repositorio en el VPS}"
-: "${AGE_DESTINATARIOS:?Falta AGE_DESTINATARIOS, el archivo con las claves públicas de age}"
-DIR_RESPALDOS="${DIR_RESPALDOS:-${STATE_DIRECTORY:-/var/lib/happypaws-respaldo}/respaldos}"
+AGE_DESTINATARIOS="${AGE_DESTINATARIOS:-$HOME/.config/happypaws/respaldo.age.pub}"
+DIR_RESPALDOS="${DIR_RESPALDOS:-${STATE_DIRECTORY:-$HOME/.local/state/happypaws-respaldo}/respaldos}"
 DIAS_RETENCION="${DIAS_RETENCION:-30}"
+DIAS_RETENCION_NUBE="${DIAS_RETENCION_NUBE:-365}"
 RCLONE_DESTINO="${RCLONE_DESTINO:-gdrive:happypaws-respaldos}"
 
 respaldo_local() {
@@ -41,9 +43,14 @@ respaldo_local() {
 
 respaldo_nube() {
 	local archivo
+	# Siempre se sube el respaldo recién creado, no el más reciente de la carpeta.
 	archivo="$(respaldo_local)"
 	rclone copy "$archivo" "$RCLONE_DESTINO"
 	echo "Subido a $RCLONE_DESTINO" >&2
+
+	# rclone copy conserva la fecha del archivo local, que es la de creación.
+	rclone delete "$RCLONE_DESTINO" --include 'happypaws-*.dump.age' \
+		--min-age "${DIAS_RETENCION_NUBE}d" -v
 }
 
 case "${1:-}" in
