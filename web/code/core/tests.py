@@ -64,6 +64,18 @@ class ResponsiveBaseTests(TestCase):
         self.assertContains(resp, "<i>Código SUIOS:</i> 0000142256")
         self.assertContains(resp, "<i>Acuerdo Ministerial Nro.</i> 00012-2024")
 
+    def test_acceso_a_contribuciones_es_flotante_y_global(self):
+        resp = self.client.get(reverse("core:home"))
+
+        self.assertContains(resp, 'id="contribuye-flotante"')
+        self.assertContains(resp, 'href="/contribuir/"')
+        self.assertContains(resp, 'href="/contribuir/"', count=1)
+        self.assertContains(resp, "Contribuye</span>")
+        self.assertContains(resp, "bi-heart-fill contribuye-flotante__corazon")
+        self.assertContains(resp, "js/contribuye_flotante.js")
+        self.assertNotContains(resp, "¿Quieres apoyar la causa?")
+        self.assertNotContains(resp, "Quiero contribuir")
+
 
 class DashboardAccessTests(TestCase):
     def test_dashboard_redirige_a_anonimos(self):
