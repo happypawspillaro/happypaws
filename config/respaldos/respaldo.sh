@@ -17,6 +17,22 @@ DIAS_RETENCION="${DIAS_RETENCION:-30}"
 DIAS_RETENCION_NUBE="${DIAS_RETENCION_NUBE:-365}"
 RCLONE_DESTINO="${RCLONE_DESTINO:-gdrive:happypaws-respaldos}"
 
+comprobar_destinatarios() {
+	# Sin una clave age1... válida, age falla con un error poco claro.
+	if ! grep -qE '^age1[0-9a-z]+$' "$AGE_DESTINATARIOS" 2>/dev/null; then
+		echo "Error: $AGE_DESTINATARIOS no tiene una clave pública de age (age1...)" >&2
+		exit 1
+	fi
+}
+
+comprobar_destino_nube() {
+	# Sin ":", rclone lo toma como una carpeta local y el respaldo no sale del VPS.
+	if [[ $RCLONE_DESTINO != *:* ]]; then
+		echo "Error: RCLONE_DESTINO debe tener la forma remoto:carpeta (p. ej. gdrive:happypaws-respaldos), no '$RCLONE_DESTINO'" >&2
+		exit 1
+	fi
+}
+
 respaldo_local() {
 	local destino
 	destino="$DIR_RESPALDOS/happypaws-$(date +%Y%m%d-%H%M%S).dump.age"
@@ -54,8 +70,15 @@ respaldo_nube() {
 }
 
 case "${1:-}" in
-local) respaldo_local >/dev/null ;;
-nube) respaldo_nube ;;
+local)
+	comprobar_destinatarios
+	respaldo_local >/dev/null
+	;;
+nube)
+	comprobar_destinatarios
+	comprobar_destino_nube
+	respaldo_nube
+	;;
 *)
 	echo "Uso: $0 local|nube" >&2
 	exit 2

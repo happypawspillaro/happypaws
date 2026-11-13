@@ -163,11 +163,11 @@ El volcado pasa directo de `pg_dump` a `age`, así que nunca queda en texto plan
 
    El comando muestra la clave pública (`age1...`). Si quieres que más de una persona pueda restaurar, cada una genera su par y se pone una clave pública por línea.
 
-3. En el VPS, con el usuario que despliega el sitio (debe estar en el grupo `docker`), copia la clave pública y la configuración:
+3. En el VPS, con el usuario que despliega el sitio (debe estar en el grupo `docker`), copia la clave pública y la configuración. Reemplaza `<REEMPLAZAR_AGE1_PUBKEY>` por la clave `age1...` del paso anterior; el script no corre si el archivo no tiene una clave válida:
 
    ```bash
    mkdir -p ~/.config/happypaws
-   echo "age1..." > ~/.config/happypaws/respaldo.age.pub
+   echo "<REEMPLAZAR_AGE1_PUBKEY>" > ~/.config/happypaws/respaldo.age.pub
    cp config/respaldos/respaldo.env.example ~/.config/happypaws/respaldo.env
    nano ~/.config/happypaws/respaldo.env   # ajustar REPO_DIR
    ```
@@ -182,11 +182,17 @@ El volcado pasa directo de `pg_dump` a `age`, así que nunca queda en texto plan
    ls -l ~/.local/state/happypaws-respaldo/respaldos/
    ```
 
-5. Configura Google Drive en rclone con un remoto llamado `gdrive`. La configuración queda en `~/.config/rclone/rclone.conf`. El VPS no tiene navegador, así que sigue las instrucciones de [rclone para máquinas remotas](https://rclone.org/remote_setup/):
+5. Configura Google Drive en rclone. La configuración queda en `~/.config/rclone/rclone.conf`. El VPS no tiene navegador, así que sigue las instrucciones de [rclone para máquinas remotas](https://rclone.org/remote_setup/). En `rclone config`:
+   - **name:** `gdrive`. Si usas otro nombre, cámbialo también en `RCLONE_DESTINO`.
+   - **storage:** `drive` (Google Drive).
+   - **scope:** la opción `drive.file` (_Access to files created by rclone only_). Así rclone solo ve y borra los archivos que él mismo subió, no el resto del Drive.
+
+   `RCLONE_DESTINO` lleva la forma `remoto:carpeta`, con los dos puntos (`gdrive:happypaws-respaldos`). Sin ellos, rclone lo toma como una carpeta local; el script lo detecta y se detiene.
 
    ```bash
    rclone config
    systemctl --user start happypaws-respaldo-nube.service
+   rclone ls gdrive:happypaws-respaldos   # debe aparecer el respaldo
    ```
 
 6. Activa los timers. Los timers de usuario solo corren mientras el usuario tiene una sesión abierta; `enable-linger` hace que corran siempre, también después de reiniciar el VPS (es el único paso con `sudo`):
