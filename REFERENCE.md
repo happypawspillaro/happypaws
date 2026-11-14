@@ -19,3 +19,16 @@
 | `DEFAULT_FROM_EMAIL`   | Dirección de correo que aparecerá como remitente de los mensajes enviados por el sistema.                                              | `Happy Paws Píllaro <no-reply@happypawspillaro.org>` | [#default-from-email](https://docs.djangoproject.com/en/6.0/ref/settings/%23default-from-email)   |
 | `FOUNDATION_EMAIL`     | Dirección de correo de la fundación destinada a recibir notificaciones automáticas y reportes de actividad.                            | `contacto@happypawspillaro.org`                      |                                                                                                   |
 | `GA_MEASUREMENT_ID`    | _(Opcional)_ Measurement ID de Google Analytics 4. Vacío desactiva las analíticas; solo se cargan si la persona acepta las cookies.    | `G-XXXXXXXXXX`                                       | [#58](https://github.com/happypawspillaro/happypaws/issues/58)                                    |
+
+### Respaldos
+
+Van en `~/.config/happypaws/respaldo.env`, no en el `.env` del sitio. Ver [Respaldos](INSTALL.md#respaldos).
+
+| Variable              | Uso                                                                                                                     | Ejemplo                                              | Referencia                                                  |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------------- |
+| `REPO_DIR`            | Carpeta del repositorio en el VPS.                                                                                      | `/home/happypaws/happypaws`                          |                                                             |
+| `AGE_DESTINATARIOS`   | _(Opcional)_ Archivo con las claves públicas de age, una por línea. Por defecto `~/.config/happypaws/respaldo.age.pub`. | `/home/happypaws/.config/happypaws/respaldo.age.pub` | [age](https://github.com/FiloSottile/age)                   |
+| `DIAS_RETENCION`      | _(Opcional)_ Días que se guardan los respaldos locales.                                                                 | `30`                                                 |                                                             |
+| `DIAS_RETENCION_NUBE` | _(Opcional)_ Días que se guardan los respaldos en la nube.                                                              | `365`                                                | [rclone delete](https://rclone.org/commands/rclone_delete/) |
+| `RCLONE_DESTINO`      | _(Opcional)_ Remoto y carpeta de rclone donde se sube la copia mensual.                                                 | `gdrive:happypaws-respaldos`                         | [rclone drive](https://rclone.org/drive/)                   |
+| `DIR_RESPALDOS`       | _(Opcional)_ Carpeta de los respaldos locales. Por defecto `~/.local/state/happypaws-respaldo/respaldos`.               | `/home/happypaws/respaldos`                          |                                                             |

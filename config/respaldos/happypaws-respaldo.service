@@ -1,0 +1,15 @@
+# Respaldo diario cifrado de PostgreSQL (#88). Ver INSTALL.md.
+# Unit de usuario: va en ~/.config/systemd/user/ y no necesita sudo.
+# %h es la carpeta personal del usuario, así que no hay nada que editar aquí.
+[Unit]
+Description=Happy Paws: respaldo cifrado de PostgreSQL
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/happypaws/respaldo.env
+# ~/.local/state/happypaws-respaldo: los respaldos locales.
+StateDirectory=happypaws-respaldo
+StateDirectoryMode=0700
+UMask=0077
+ExecStart=/usr/bin/env bash ${REPO_DIR}/config/respaldos/respaldo.sh local
+NoNewPrivileges=yes

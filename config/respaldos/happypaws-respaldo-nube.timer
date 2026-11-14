@@ -1,0 +1,11 @@
+[Unit]
+Description=Happy Paws: respaldo mensual de PostgreSQL en Google Drive
+
+[Timer]
+OnCalendar=*-*-01 04:00:00
+RandomizedDelaySec=15min
+# Si el VPS estaba apagado a esa hora, se ejecuta al arrancar.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

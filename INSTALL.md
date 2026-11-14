@@ -134,3 +134,85 @@ Luego, carga de nuevo tu contenedor `web` con:
 ```bash
 docker compose -f docker-compose.yml -f docker-compose.prod.yml up nginx web --build -d
 ```
+
+## Respaldos
+
+En el VPS, dos timers de systemd respaldan la base de datos PostgreSQL ([#88](https://github.com/happypawspillaro/happypaws/issues/88)). Los archivos están en `config/respaldos/`. Son units **de usuario**: corren con el usuario que despliega el sitio, se instalan sin `sudo` y todo queda dentro de su carpeta personal, que sobrevive si se formatea `/`.
+
+- **Diario (03:00):** `pg_dump` cifrado con [age](https://github.com/FiloSottile/age), guardado en `~/.local/state/happypaws-respaldo/respaldos/`. Se borran los de más de 30 días.
+- **Mensual (día 1, 04:00):** hace un respaldo nuevo y lo sube a Google Drive con [rclone](https://rclone.org/drive/). En Drive se borran los de más de un año (van a la papelera de Drive).
+
+El volcado pasa directo de `pg_dump` a `age`, así que nunca queda en texto plano en el disco. En el VPS solo está la clave **pública**. Así, aunque alguien entre al servidor, no puede descifrar los respaldos.
+
+> Las fotos (volumen `media-volume`) todavía no se respaldan.
+
+### Instalación
+
+1. Instala `age` en tu computadora y `age` y `rclone` en el VPS. No vienen por defecto en Ubuntu:
+
+   ```bash
+   sudo apt install age          # en tu computadora
+   sudo apt install age rclone   # en el VPS
+   ```
+
+2. En tu computadora (no en el VPS), genera el par de claves y guarda `respaldo.age` en un gestor de contraseñas. Sin esa clave no se puede restaurar nada:
+
+   ```bash
+   age-keygen -o respaldo.age
+   ```
+
+   El comando muestra la clave pública (`age1...`). Si quieres que más de una persona pueda restaurar, cada una genera su par y se pone una clave pública por línea.
+
+3. En el VPS, con el usuario que despliega el sitio (debe estar en el grupo `docker`), copia la clave pública y la configuración. Reemplaza `<REEMPLAZAR_AGE1_PUBKEY>` por la clave `age1...` del paso anterior; el script no corre si el archivo no tiene una clave válida:
+
+   ```bash
+   mkdir -p ~/.config/happypaws
+   echo "<REEMPLAZAR_AGE1_PUBKEY>" > ~/.config/happypaws/respaldo.age.pub
+   cp config/respaldos/respaldo.env.example ~/.config/happypaws/respaldo.env
+   nano ~/.config/happypaws/respaldo.env   # ajustar REPO_DIR
+   ```
+
+4. Instala los units y prueba el respaldo diario:
+
+   ```bash
+   mkdir -p ~/.config/systemd/user
+   cp config/respaldos/happypaws-respaldo*.{service,timer} ~/.config/systemd/user/
+   systemctl --user daemon-reload
+   systemctl --user start happypaws-respaldo.service
+   ls -l ~/.local/state/happypaws-respaldo/respaldos/
+   ```
+
+5. Configura Google Drive en rclone. La configuración queda en `~/.config/rclone/rclone.conf`. El VPS no tiene navegador, así que sigue las instrucciones de [rclone para máquinas remotas](https://rclone.org/remote_setup/). En `rclone config`:
+   - **name:** `gdrive`. Si usas otro nombre, cámbialo también en `RCLONE_DESTINO`.
+   - **storage:** `drive` (Google Drive).
+   - **scope:** la opción `drive.file` (_Access to files created by rclone only_). Así rclone solo ve y borra los archivos que él mismo subió, no el resto del Drive.
+
+   `RCLONE_DESTINO` lleva la forma `remoto:carpeta`, con los dos puntos (`gdrive:happypaws-respaldos`). Sin ellos, rclone lo toma como una carpeta local; el script lo detecta y se detiene.
+
+   ```bash
+   rclone config
+   systemctl --user start happypaws-respaldo-nube.service
+   rclone ls gdrive:happypaws-respaldos   # debe aparecer el respaldo
+   ```
+
+6. Activa los timers. Los timers de usuario solo corren mientras el usuario tiene una sesión abierta; `enable-linger` hace que corran siempre, también después de reiniciar el VPS (es el único paso con `sudo`):
+
+   ```bash
+   sudo loginctl enable-linger "$USER"
+   systemctl --user enable --now happypaws-respaldo.timer happypaws-respaldo-nube.timer
+   systemctl --user list-timers 'happypaws-*'
+   ```
+
+Los registros se ven con `journalctl --user -u happypaws-respaldo -u happypaws-respaldo-nube`.
+
+### Restaurar
+
+Con la clave privada `respaldo.age` y un archivo `.dump.age`:
+
+```bash
+age --decrypt --identity respaldo.age happypaws-AAAAMMDD-HHMMSS.dump.age |
+  docker compose -f docker-compose.yml -f docker-compose.prod.yml exec -T postgres \
+  sh -c 'pg_restore --clean --if-exists --no-owner -U "$POSTGRES_USER" -d "$POSTGRES_DB"'
+```
+
+`--clean` borra lo que hay en la base antes de restaurar. Haz un respaldo de lo actual antes de usarlo.
