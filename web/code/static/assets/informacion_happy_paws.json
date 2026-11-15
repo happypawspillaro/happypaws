@@ -109,5 +109,108 @@
 			"iframe_title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
 			"url": "https://docs.google.com/document/d/e/2PACX-1vStde7YU1TehtxAzEl8MnG3JNEHTb3VrH867ks5TofbpmECkYcBp7HsJrQZatwV8Deu_9czFTFZQTl6/pub"
 		}
-	]
+	],
+	"media": {
+		"2026": {
+			"Octubre": [
+				{
+					"titulo": "Minidocumental Realidad Fauna Urbana Cantón Píllaro",
+					"tipo": "tiktok",
+					"url": "https://www.tiktok.com/@diablosdepillaro/video/7695944296247217428",
+					"tiktok_id": "7695944296247217428",
+					"fuente": "Diablos de Píllaro Industria Cultural"
+				}
+			],
+			"Septiembre": [
+				{
+					"titulo": "Invitación Segundo Match Canino Presidente Urbina",
+					"tipo": "facebook_post",
+					"url": "https://www.facebook.com/PillaroenmiCorazon/posts/pfbid0CXMVJjoms1azSrei2vuGGHTgyZiodEFgnvDb3V1dKTwpdspDwZPrhmWiAyETP72xl",
+					"fuente": "Pepe de Píllaro"
+				},
+				{
+					"titulo": "Situación de Fauna Urbana en el Cantón Píllaro",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/2180127269235808",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Julio": [
+				{
+					"titulo": "Envenenamientos Masivos e Impunes Santiago de Píllaro 2026",
+					"tipo": "article",
+					"url": "https://www.lahora.com.ec/tungurahua/en-pillaro-24-perros-han-muerto-por-envenenamiento-en-un-ano-20260716-0071.html",
+					"fuente": "Diario La Hora"
+				}
+			]
+		},
+		"2025": {
+			"Noviembre": [
+				{
+					"titulo": "Invitación Match Canino 2025 Presidente Urbina",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/876708738023560",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Junio": [
+				{
+					"titulo": "Proyecto de Fauna Urbana San José de Poaló",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/955926843301475",
+					"fuente": "Radio Brisa"
+				}
+			],
+			"Mayo": [
+				{
+					"titulo": "Situación de Fauna Urbana del Cantón Píllaro",
+					"tipo": "article",
+					"url": "https://www.lahora.com.ec/tungurahua/Pillaro-es-el-canton-de-Tungurahua-con-mas-perros-en-hogares-20250523-0007.html",
+					"fuente": "Diario La Hora"
+				}
+			]
+		},
+		"2024": {
+			"Diciembre": [
+				{
+					"titulo": "Campañas de Esterilización San Miguelito, beneficiando a 125 mascotas",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/557246400489331",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Octubre": [
+				{
+					"titulo": "Participación Happy Paws CPCSS",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/406709389199492",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Agosto": [
+				{
+					"titulo": "Campañas de Esterilización Barrio Callate, beneficiando a 100 mascotas",
+					"tipo": "youtube",
+					"url": "https://www.youtube.com/watch?v=imj4BC7Z6ds",
+					"embedded_url": "https://www.youtube.com/embed/imj4BC7Z6ds",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Junio": [
+				{
+					"titulo": "Recaudación de Fondos Campaña de Esterilización Callate con Beneficio de 100 personas",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/484896617309287",
+					"fuente": "Pepe de Píllaro"
+				},
+				{
+					"titulo": "Campañas de Esterilización Barrio Yacupamba, beneficiando a 100 mascotas",
+					"tipo": "youtube",
+					"url": "https://www.youtube.com/watch?v=ewuT_uXMls4",
+					"embedded_url": "https://www.youtube.com/embed/ewuT_uXMls4",
+					"fuente": "Pepe de Píllaro"
+				}
+			]
+		}
+	}
 }

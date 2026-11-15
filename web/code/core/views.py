@@ -4,7 +4,7 @@ from decimal import Decimal
 from accounts.decorators import staff_required
 from adoptions.models import AdoptionApplication, EstadoSolicitud
 from animals.models import Animal, EstadoAnimal
-from constants import DIAS_CONTACTO_VISIBLE, PARROQUIAS_CANTON
+from constants import DIAS_CONTACTO_VISIBLE, PARROQUIAS_CANTON, JSONAssets
 from core.cache import obtener_diccionario_json
 from django.db.models import Count, Sum
 from django.http import HttpRequest, HttpResponse
@@ -12,8 +12,9 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from medical_cases.models import Donation, EstadoCaso, MedicalCase
 from reports.models import EstadoReporte, Report
-from constants import JSONAssets
+
 logger = logging.getLogger(__name__)
+
 
 # Sección Fundación
 class QuienesSomosView(TemplateView):
@@ -59,6 +60,12 @@ class SoftwareLibreView(TemplateView):
 
 class MediosComunicacionView(TemplateView):
     template_name = "core/proyectos_impacto/medios_comunicacion.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
+        context["media"] = informacion_fundacion["media"]
+        return context
 
 
 # Sección Base Legal y Contacto
