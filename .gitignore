@@ -4,7 +4,7 @@ __pycache__/
 db.sqlite3
 .env
 /media/
-/staticfiles/
+web/code/staticfiles/
 .DS_Store
 
 # Credenciales sensibles
@@ -28,6 +28,8 @@ web/code/.coverage
 web/code/coverage.xml
 web/code/htmlcov/
 
-# Imágenes que no se deben subir a versión del control
-web/code/static/assets/directiva/
-web/code/static/assets/ejemplos/
+# Imágenes que no se deben subir a versión del control porque está en la nube
+web/code/static/assets/*/
+
+# Archivos de desarrollo locales
+.vscode/*
