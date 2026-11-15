@@ -14,13 +14,16 @@ class StaticViewSitemap(Sitemap):
     def items(self):
         return [
             "core:home",
+            "animals:catalog",
+            "medical_cases:list",
+            "reports:list",
             "core:privacidad",
             # Sobre la Fundación
             "core:quienes_somos",
             "core:directiva",
             "core:reconocimientos",
             "core:impacto",
-            # Proyectos e impacto TODO: Pensar en cambiarle el nombre de la categoría
+            # Proyectos y areas de trabajo
             "core:fauna_urbana",
             "core:areas_trabajo",
             "core:software_libre",
@@ -31,9 +34,6 @@ class StaticViewSitemap(Sitemap):
             "core:contacto",
             # Contribuir
             "core:contribuir_home",
-            "animals:catalog",
-            "medical_cases:list",
-            "reports:list",
         ]
 
     def location(self, item):
