@@ -13,7 +13,7 @@ urlpatterns = [
     path("fundacion/directiva", views.DirectivaView.as_view(), name="directiva"),
     path("fundacion/reconocimientos", views.ReconocimientosView.as_view(), name="reconocimientos"),
     path("fundacion/impacto", views.ImpactoView.as_view(), name="impacto"),
-    # Proyectos e impacto
+    # Proyectos y áreas de trabajo
     path("proyectos/fauna-urbana/", views.FaunaUrbanaView.as_view(), name="fauna_urbana"),
     path("proyectos/areas-trabajo/", views.AreasTrabajoView.as_view(), name="areas_trabajo"),
     path("proyectos/software-libre/", views.SoftwareLibreView.as_view(), name="software_libre"),

@@ -5,16 +5,15 @@ from accounts.decorators import staff_required
 from adoptions.models import AdoptionApplication, EstadoSolicitud
 from animals.models import Animal, EstadoAnimal
 from constants import DIAS_CONTACTO_VISIBLE, PARROQUIAS_CANTON
-from core.cache import obtener_locaciones
+from core.cache import obtener_diccionario_json
 from django.db.models import Count, Sum
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from medical_cases.models import Donation, EstadoCaso, MedicalCase
 from reports.models import EstadoReporte, Report
-
+from constants import JSONAssets
 logger = logging.getLogger(__name__)
-
 
 # Sección Fundación
 class QuienesSomosView(TemplateView):
@@ -34,70 +33,8 @@ class ImpactoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                "campanas_photo": None,
-                "campanas_gallery": [
-                    {
-                        "src": "assets/impacto/campanas/poalo.jpg",
-                        "alt": (
-                            "Charla de cuidados Post-quirúrgicos por el equipo de Voluntarios "
-                            "Happy Paws Píllaro San José de Poaló"
-                        ),
-                        "caption": "Campaña de Esterilización San José de Poaló, Agosto 2025",
-                    },
-                    {
-                        "src": "assets/impacto/campanas/yacupamba.jpg",
-                        "alt": "Mascotas recién esterilizadas recuperandose en Yacupamba, San Miguelito",
-                        "caption": "Campaña de Esterilización Yacupamba San Miguelito, Diciembre 2025",
-                    },
-                    {
-                        "src": "assets/impacto/campanas/urbina.png",
-                        "alt": "Tutores esperando su  turno para esterilizar a sus mascotas, Presidente Urbina",
-                        "caption": "Tutores esperando su turno Campaña de Esterilización Presidente Urbina, Enero 2026",
-                    },
-                ],
-                "emergencias_gallery": [
-                    {
-                        "src": "assets/impacto/emergencias/bruce.jpg",
-                        "alt": "Bruce en recuperación después de su amputación, 2026",
-                        "caption": "Bruce tenía una fractura desplazada en su pata izquierda, atendimos su amputación",
-                    },
-                    {
-                        "src": "assets/impacto/emergencias/cholito.jpg",
-                        "alt": "Cholito recuperándose luego de su cirugía",
-                        "caption": "Luego de un atropellamiento y sin curación, se le tuvo que apuntar la pata",
-                    },
-                    {
-                        "src": "assets/impacto/emergencias/lulu.png",
-                        "alt": "Lulu recuperándose en un hogar temporal",
-                        "caption": "Lulu fue encontrada con una fuerte lesión del ojo, se realizó enucleación",
-                    },
-                ],
-                "concientizacion_gallery": [
-                    {
-                        "src": "assets/impacto/concientizacion/urbina.png",
-                        "alt": "Tutores atendiendo la charla de Concientización Presidente Urbina",
-                        "caption": "Charla de concientización y tenencia responsable Presidente Urbina",
-                    },
-                    {
-                        "src": "assets/impacto/concientizacion/yacupamba.jpg",
-                        "alt": "Responsabilidad con sus mascotas de nuestro equipo veterinario en Yacupamba",
-                        "caption": "Charla de concientización por parte de nuestro equipo veterinario, Yacupamba",
-                    },
-                    {
-                        "src": "assets/impacto/concientizacion/sanmiguelito.png",
-                        "alt": "La comunidad tiene voz en la concientización en San Miguelito",
-                        "caption": "Líderes locales dando su opinión sobre la fauna urbana en San Miguelito",
-                    },
-                ],
-                "gestion_publica_photo": {
-                    "src": "assets/impacto/gestion/mesa_intersectorial_urbina.png",
-                    "alt": "Reunión de trabajo por la fauna urbana en el GADP Presidente Urbina",
-                    "caption": "Participación Mesa Intersectorial Presidente Urbina",
-                },
-            }
-        )
+        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
+        context.update(informacion_fundacion["impacto"])
         return context
 
 
@@ -107,40 +44,8 @@ class AreasTrabajoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                "eventos_gallery": [
-                    {
-                        "src": "assets/areas_trabajo/eventos/match_canino_2026.jpg",
-                        "alt": "2do Match Canino Presidente Urbina 2025",
-                        "caption": (
-                            "Segundo Match Canino '!Tenencia con amor, dile no al dolor¡'"
-                            "Presidente Urbina, Noviembre 2025, Octubre de 2026"
-                        ),
-                    },
-                    {
-                        "src": "assets/areas_trabajo/eventos/match_canino_2025.jpg",
-                        "alt": "1er Match Canino Presidente Urbina 2025",
-                        "caption": ("Primer Match Canino Presidente Urbina, Noviembre 2025" ", Noviembre de 2025"),
-                    },
-                    {
-                        "src": "assets/areas_trabajo/eventos/evento_sm.jpg",
-                        "alt": "Evento Concientización San Miguelito de Píllaro",
-                        "caption": (
-                            "Evento ¡Concientiza San Miguelito! Vamos a cuidar a nuestros animalitos"
-                            ", Noviembre de 2024"
-                        ),
-                    },
-                ],
-                "gestion_gallery": [
-                    {
-                        "src": "assets/impacto/gestion/mesa_intersectorial_urbina.png",
-                        "alt": "Reunión de trabajo por la fauna urbana en el GADP Presidente Urbina",
-                        "caption": "Participación Mesa Intersectorial Presidente Urbina",
-                    }
-                ],
-            }
-        )
+        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
+        context.update(informacion_fundacion["areas_trabajo"])
         return context
 
 
@@ -166,44 +71,8 @@ class FormatosView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["formatos"] = [
-            {
-                "id": "denuncia-envenenamiento",
-                "title": "Modelo denuncia por envenenamiento a caninos",
-                "iframe_title": "Formato de denuncia por envenenamiento de fauna urbana",
-                "url": (
-                    "https://docs.google.com/document/d/e/"
-                    "2PACX-1vTVc1vQUO_YEwW-oaamt5J-sKrg2lgZnyZKfq5KVh9bNcZHRB9AQZoqf8V70_3pudeVqIZZztabKWHy/pub"
-                ),
-            },
-            {
-                "id": "denuncia-maltrato",
-                "title": "Modelo denuncia por maltrato de fauna urbana",
-                "iframe_title": "Formato de denuncia por maltrato de fauna urbana",
-                "url": (
-                    "https://docs.google.com/document/d/e/"
-                    "2PACX-1vRQzNBzr5iDjdCFVnwydurJI-l-Jk6nklvW0H_R1NvAb5z0UyTqMPtJfpreiXK79hRr9dbEwDwCbxeV/pub"
-                ),
-            },
-            {
-                "id": "pedido-control-mascotas",
-                "title": "Modelo pedido control GADM Píllaro por fauna urbana descontrolada",
-                "iframe_title": "Formato de pedido control fauna urbana al GADM Píllaro",
-                "url": (
-                    "https://docs.google.com/document/d/e/"
-                    "2PACX-1vTFbdOd6LVTr-RIAtyF_RB_wHIHcJiac96q7r3gw4oZJoVMvXN9dbmhYO_QL6IywUVurOI1fcjGTDQ1/pub"
-                ),
-            },
-            {
-                "id": "plan-contigencia-esterilizaciones",
-                "title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
-                "iframe_title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
-                "url": (
-                    "https://docs.google.com/document/d/e/"
-                    "2PACX-1vStde7YU1TehtxAzEl8MnG3JNEHTb3VrH867ks5TofbpmECkYcBp7HsJrQZatwV8Deu_9czFTFZQTl6/pub"
-                ),
-            },
-        ]
+        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
+        context["formatos"] = informacion_fundacion["formatos"]
         return context
 
 
@@ -275,7 +144,7 @@ def obtener_barrios(request: HttpRequest) -> HttpResponse:
     canton = request.GET.get("canton", "").strip()
     parroquia = request.GET.get("parroquia", "").strip()
 
-    locaciones = obtener_locaciones()
+    locaciones = obtener_diccionario_json(JSONAssets.locaciones)
 
     barrios_dict = locaciones.get(canton, {}).get(parroquia, {})
 
