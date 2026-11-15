@@ -8,6 +8,9 @@
       <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
       Ver en línea
     </a>
+    {% if document.text %}
+      <p class="text-secondary lh-lg">{{ document.text }}</p>
+    {% endif %}
   </p>
   <div class="content-embed">
     <iframe src="{{ document.embedded_url }}?embedded=true"

@@ -53,6 +53,12 @@ class AreasTrabajoView(TemplateView):
 class FaunaUrbanaView(TemplateView):
     template_name = "core/proyectos_impacto/fauna_urbana.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
+        context["estadisticas"] = informacion_fundacion["estadisticas"]
+        return context
+
 
 class SoftwareLibreView(TemplateView):
     template_name = "core/proyectos_impacto/software_libre.html"

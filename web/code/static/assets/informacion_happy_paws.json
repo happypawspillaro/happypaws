@@ -84,6 +84,32 @@
 			}
 		]
 	},
+	"estadisticas": [
+		{
+			"id": "situacion-fauna-urbana-cantonal",
+			"title": "Tenencia de mascotas por cantón(Según el censo del 2022)",
+			"text": "A nivel nacional, el cantón Santiago de Píllaro ocupa el séptimo lugar entre los cantones con mayor densidad de perros por habitante a nivel nacional. Sin embargo ésta comparación no es precisa, según la Jerarquía funcional de asentamientos humanos consolidados, que agrupa ciudades según sus servicios y población, Píllaro ocupa el primer lugar con la peor densidad de perros domésticos por habitante entre las ciudades denominadas centros urbanos de servicios(color amarillo).",
+			"iframe_title": "Tabla tenencia de mascotas por cantón",
+			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=1441949195&amp;single=true&amp;widget=true&amp;headers=false",
+			"url": "https://docs.google.com/spreadsheets/d/1Y05WChOYUZHmrGYN0x0N2RJOrk_Ra4AHoN8ehqOYSMs/edit?gid=1441949195#gid=1441949195"
+		},
+		{
+			"id": "situacion-fauna-urbana-parroquial",
+			"title": "Tenencia de mascotas por parroquia(Según el censo del 2022)",
+			"text": "Para el diagnóstico de fauna urbana de las parroquias de Píllaro, comparamos los datos con las 53 parroquias de Tungurahua. San José de Poaló, al noreste del cantón, registra la mayor densidad provincial, con 763,7 perros domésticos por habitante. Presidente Urbina ocupa el tercer lugar, con 643,49. Marcos Espinel, San Andrés y Emilio María Terán también están entre las diez parroquias con mayor densidad. Así, cinco de las nueve parroquias de Píllaro presentan una densidad preocupante.",
+			"iframe_title": "Tabla tenencia de mascotas por parroquia",
+			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=259626268&amp;single=true&amp;widget=true&amp;headers=false"	,
+			"url": "https://docs.google.com/spreadsheets/d/1Y05WChOYUZHmrGYN0x0N2RJOrk_Ra4AHoN8ehqOYSMs/edit?gid=259626268#gid=259626268"
+		},
+		{
+			"id": "registro-envenamientos-caninos-pillaro",
+			"title": "Registro Público envenenamiento caninos Píllaro desde Mayo 2025",
+			"text": "La realidad de los envenamientos masivos e impunes en el Cantón Santiago de Píllaro es preocupante, hemos registrado los casos de envenenamiento como medida de presión para tomar acciones para disuadir el cometimiento de éste delito.",
+			"iframe_title": "Registro público de enenamientos masivos e impunes Santiago de Píllaro",
+			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnm4umUQ_3BgkphBL4vsNSy_xDLKM_oD8xG6fDgzrvUgavkzu4LG1kk-3xs6wJyi5Yhvo127jJS4Cx/pubhtml?gid=1350382432&amp;single=true&amp;widget=true&amp;headers=false",
+			"url": "https://docs.google.com/spreadsheets/d/1K26NxwJC_PP5Nfd1kjiYh8RvnA8fOXspqScI8hXDJWU/edit?gid=1350382432#gid=1350382432"
+		}
+	],
 	"formatos": [
 		{
 			"id": "denuncia-envenenamiento",

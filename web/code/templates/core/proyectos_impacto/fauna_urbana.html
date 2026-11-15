@@ -8,47 +8,15 @@
 {% block content %}
   <main class="container content-page py-4">
     {% include "core/partials/content_page_header.html" with page_heading="Estudio de la situación de fauna urbana" page_intro="Los datos ayudan a enfocar los esfuerzos en las zonas más afectadas y a estudiar cómo evoluciona la situación con el tiempo." %}
-    <section class="mb-5" aria-labelledby="censo-2022">
-      {% include "core/partials/content_section_heading.html" with section_id="censo-2022" section_title="Censo 2022" %}
+    <section class="mb-5" aria-labelledby="estadísticas">
+      {% include "core/partials/content_section_heading.html" with section_id="censo-2022" section_title="Censo 2022 y Datos Happy Paws Píllaro" %}
       <p class="text-secondary lh-lg">
-        Los datos corresponden a un estudio realizado por hogares sobre perros y gatos domésticos. Todavía no incluyen datos de animales en situación de calle.
+        No hay muchos datos sobre la fauna urbana en el Cantón Píllaro, pero en el Censo 2022 tenemos el estudio realizado por hogares sobre perros y gatos domésticos. Todavía no incluyen datos de animales en situación de calle.
+        Además como Fundación Happy Paws Píllaro regularmente obtenemos datos para sostener una estrategia basada en evidencia.
       </p>
-      <section class="mb-5" aria-labelledby="situacion-cantonal">
-        {% include "core/partials/content_section_heading.html" with section_id="situacion-cantonal" section_title="Situación cantonal" section_level="h3" %}
-        <p class="text-secondary lh-lg">
-          A nivel nacional, el cantón Santiago de Píllaro ocupa el séptimo lugar entre los cantones con mayor densidad de perros por habitante a nivel nacional. Sin embargo ésta comparación no es precisa, según la <em>Jerarquía funcional de asentamientos humanos consolidados</em>, que agrupa ciudades según sus servicios y población, Píllaro ocupa el primer lugar con la peor densidad de perros domésticos por habitante entre las ciudades denominadas centros urbanos de servicios(color amarillo).
-        </p>
-        <small class="text-muted">Elaboración: Happy Paws Píllaro, 2025</small>
-        <div class="content-embed">
-          <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=1441949195&amp;single=true&amp;widget=true&amp;headers=false"
-                  title="Datos cantonales del censo de fauna urbana 2022"
-                  loading="lazy"></iframe>
-        </div>
-      </section>
-      <section aria-labelledby="situacion-parroquial">
-        {% include "core/partials/content_section_heading.html" with section_id="situacion-parroquial" section_title="Situación parroquial" section_level="h3" %}
-        <p class="text-secondary lh-lg">
-          Para el diagnóstico de fauna urbana de las parroquias de Píllaro, comparamos los datos con las 53 parroquias de Tungurahua. San José de Poaló, al noreste del cantón, registra la mayor densidad provincial, con 763,7 perros domésticos por habitante. Presidente Urbina ocupa el tercer lugar, con 643,49. Marcos Espinel, San Andrés y Emilio María Terán también están entre las diez parroquias con mayor densidad. Así, cinco de las nueve parroquias de Píllaro presentan una densidad preocupante.
-        </p>
-        <small class="text-muted">Elaboración: Happy Paws Píllaro, 2025</small>
-        <div class="content-embed">
-          <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=259626268&amp;single=true&amp;widget=true&amp;headers=false"
-                  title="Datos parroquiales del censo de fauna urbana 2022"
-                  loading="lazy"></iframe>
-        </div>
-      </section>
     </section>
-    <section aria-labelledby="registro-envenamientos-pillaro">
-      {% include "core/partials/content_section_heading.html" with section_id="registro-envenamientos-pillaro" section_title="Registro Público Envenenamientos Caninos Píllaro desde Mayo 2025" section_level="h3" %}
-      <p class="text-secondary lh-lg">
-        La realidad de los envenamientos masivos e impunes en el Cantón Santiago de Píllaro es preocupante, hemos registrado los casos de envenenamiento como medida de presión para tomar acciones para disuadir el cometimiento de éste delito.
-      </p>
-      <small class="text-muted">Elaboración: Happy Paws Píllaro, 2026</small>
-      <div class="content-embed">
-        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSnm4umUQ_3BgkphBL4vsNSy_xDLKM_oD8xG6fDgzrvUgavkzu4LG1kk-3xs6wJyi5Yhvo127jJS4Cx/pubhtml?gid=1350382432&amp;single=true&amp;widget=true&amp;headers=false"
-                title="Datos parroquiales del censo de fauna urbana 2022"
-                loading="lazy"></iframe>
-      </div>
-    </section>
+    {% for document in estadisticas %}
+      {% include "core/partials/formato_denuncia.html" with document=document %}
+    {% endfor %}
   </main>
 {% endblock %}
