@@ -131,7 +131,7 @@ a {
 	outline-offset: 3px;
 }
 
-.contribuye-flotante__corazon {
+.contribuye-flotante-corazon {
 	display: grid;
 	width: 1.25rem;
 	height: 1.25rem;
@@ -140,7 +140,7 @@ a {
 	line-height: 1;
 }
 
-.contribuye-flotante__texto {
+.contribuye-flotante-texto {
 	max-width: 9rem;
 	overflow: hidden;
 	opacity: 1;
@@ -158,14 +158,14 @@ a {
 	padding: 0;
 }
 
-.contribuye-flotante.is-minimizado .contribuye-flotante__texto {
+.contribuye-flotante.is-minimizado .contribuye-flotante-texto {
 	display: none;
 	opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
 	.contribuye-flotante,
-	.contribuye-flotante__texto {
+	.contribuye-flotante-texto {
 		transition: none;
 	}
 }
