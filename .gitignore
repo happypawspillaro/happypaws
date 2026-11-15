@@ -11,6 +11,12 @@ db.sqlite3
 credenciales/superuser/*
 credenciales/postgres/*
 
+# Respaldos (#88): claves de age, volcados y configuración local
+*.age
+*.age.pub
+*.dump
+respaldo.env
+
 # Comunicación segura
 web/ssl/*
 
