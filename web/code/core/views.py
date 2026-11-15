@@ -16,6 +16,18 @@ from reports.models import EstadoReporte, Report
 logger = logging.getLogger(__name__)
 
 
+def obtener_datos_fundacion(key: str) -> dict | None:
+    """Pequeño ayudante para devolver los datos por key de la fundación.
+
+    Args:
+        key (str): Clave del `informacion_happy_paws.json`
+
+    Returns:
+        dict |  None: La información de la clave o `None` si es que se encuentra nada.
+    """
+    return obtener_diccionario_json(JSONAssets.info_fundacion).get(key)
+
+
 # Sección Fundación
 class QuienesSomosView(TemplateView):
     template_name = "core/fundacion/quienes_somos.html"
@@ -34,8 +46,7 @@ class ImpactoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
-        context.update(informacion_fundacion["impacto"])
+        context.update(obtener_datos_fundacion("impacto"))
         return context
 
 
@@ -45,8 +56,7 @@ class AreasTrabajoView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
-        context.update(informacion_fundacion["areas_trabajo"])
+        context.update(obtener_datos_fundacion("areas_trabajo"))
         return context
 
 
@@ -55,13 +65,17 @@ class FaunaUrbanaView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
-        context["estadisticas"] = informacion_fundacion["estadisticas"]
+        context["estadisticas"] = obtener_datos_fundacion("estadisticas")
         return context
 
 
 class SoftwareLibreView(TemplateView):
     template_name = "core/proyectos_impacto/software_libre.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["software"] = obtener_datos_fundacion("software")
+        return context
 
 
 class MediosComunicacionView(TemplateView):
@@ -69,8 +83,7 @@ class MediosComunicacionView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
-        context["media"] = informacion_fundacion["media"]
+        context["media"] = obtener_datos_fundacion("media")
         return context
 
 
@@ -84,8 +97,7 @@ class FormatosView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        informacion_fundacion = obtener_diccionario_json(JSONAssets.info_fundacion)
-        context["formatos"] = informacion_fundacion["formatos"]
+        context["formatos"] = obtener_datos_fundacion("formatos")
         return context
 
 

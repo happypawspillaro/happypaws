@@ -242,5 +242,34 @@
 				}
 			]
 		}
+	},
+	"software": {
+		"esterilizaya_gallery": [
+			{
+				"src": "assets/software/esterilizaya/1_home.png",
+				"alt": "Página Inicial Esterilizaya",
+				"caption": "Página Inicial Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/2_vista-registros.png",
+				"alt": "Vista global de registros Esterilizaya",
+				"caption": "Vista global de registros Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/3_recetas.png",
+				"alt": "Generación recetas Esterilizaya",
+				"caption": "Generación personalizada de recetas en Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/4_reportecobros.png",
+				"alt": "Reporte por campaña de cobros Esterilizaya",
+				"caption": "Reporte por campaña de cobros en Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/5_dashboard.png",
+				"alt": "Dashboard de datos Esterilizaya",
+				"caption": "Dashboard con datos georreferenciados y estadísticas Esterilizaya"
+			}
+		]
 	}
 }
