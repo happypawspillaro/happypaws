@@ -1,0 +1,11 @@
+[Unit]
+Description=Happy Paws: respaldo diario de PostgreSQL
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+RandomizedDelaySec=15min
+# Si el VPS estaba apagado a esa hora, se ejecuta al arrancar.
+Persistent=true
+
+[Install]
+WantedBy=timers.target
