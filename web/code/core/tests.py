@@ -71,7 +71,7 @@ class ResponsiveBaseTests(TestCase):
         self.assertContains(resp, 'href="/contribuir/"')
         self.assertContains(resp, 'href="/contribuir/"', count=1)
         self.assertContains(resp, "Contribuye</span>")
-        self.assertContains(resp, "bi-heart-fill contribuye-flotante__corazon")
+        self.assertContains(resp, "bi-heart-fill contribuye-flotante-corazon")
         self.assertContains(resp, "js/contribuye_flotante.js")
         self.assertNotContains(resp, "¿Quieres apoyar la causa?")
         self.assertNotContains(resp, "Quiero contribuir")
