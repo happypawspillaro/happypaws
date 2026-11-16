@@ -64,6 +64,26 @@ class ResponsiveBaseTests(TestCase):
         self.assertContains(resp, "<i>Código SUIOS:</i> 0000142256")
         self.assertContains(resp, "<i>Acuerdo Ministerial Nro.</i> 00012-2024")
 
+    def test_footer_incluye_enlaces_de_conocenos(self):
+        resp = self.client.get(reverse("core:home"))
+        paginas = [
+            "core:quienes_somos",
+            "core:directiva",
+            "core:reconocimientos",
+            "core:impacto",
+            "core:fauna_urbana",
+            "core:areas_trabajo",
+            "core:software_libre",
+            "core:media",
+            "core:marco_legal",
+            "core:formatos",
+            "core:contacto",
+        ]
+
+        for pagina in paginas:
+            with self.subTest(pagina=pagina):
+                self.assertContains(resp, f'href="{reverse(pagina)}"')
+
     def test_acceso_a_contribuciones_es_flotante_y_global(self):
         resp = self.client.get(reverse("core:home"))
 

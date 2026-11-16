@@ -194,8 +194,8 @@
     </main>
     <footer class="bg-dark text-light py-4 mt-auto">
       <div class="container">
-        <div class="row">
-          <div class="col-md-6">
+        <div class="row g-4">
+          <div class="col-md-3">
             <p class="h6 fw-bold">Happy Paws Píllaro</p>
             <p class="small mb-1">Esterilización y adopción responsable de perros y gatos.</p>
             <p class="small mb-2">180501, Santiago de Píllaro - Tungurahua - Ecuador</p>
@@ -206,9 +206,41 @@
               happypaws.pillaro@gmail.com
             </a>
           </div>
-          <div class="col-md-6 text-md-end">
+          <div class="col-md-3">
+            <h2 class="h6 fw-bold">La Fundación</h2>
+            <ul class="list-unstyled small mb-0">
+              <li class="mb-1"><a href="{% url 'core:quienes_somos' %}"
+   class="link-light">Historia &amp; Misión</a></li>
+              <li class="mb-1"><a href="{% url 'core:directiva' %}" class="link-light">Directiva</a></li>
+              <li class="mb-1"><a href="{% url 'core:reconocimientos' %}" class="link-light">Reconocimientos</a></li>
+              <li><a href="{% url 'core:impacto' %}" class="link-light">Impacto</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h2 class="h6 fw-bold">Proyectos &amp; Impacto</h2>
+            <ul class="list-unstyled small mb-0">
+              <li class="mb-1"><a href="{% url 'core:fauna_urbana' %}"
+   class="link-light">Estudio de Fauna Urbana</a></li>
+              <li class="mb-1"><a href="{% url 'core:areas_trabajo' %}" class="link-light">Áreas de Trabajo</a></li>
+              <li class="mb-1"><a href="{% url 'core:software_libre' %}" class="link-light">Software Libre</a></li>
+              <li><a href="{% url 'core:media' %}" class="link-light">Media &amp; Prensa</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h2 class="h6 fw-bold">Base Legal &amp; Contacto</h2>
+            <ul class="list-unstyled small mb-0">
+              <li class="mb-1"><a href="{% url 'core:marco_legal' %}" class="link-light">Base Legal</a></li>
+              <li class="mb-1"><a href="{% url 'core:formatos' %}" class="link-light">Formatos Oficiales</a></li>
+              <li><a href="{% url 'core:contacto' %}" class="link-light">Medios de Contacto</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row align-items-center g-3 border-top border-secondary mt-4 pt-3">
+          <div class="col-md-6">
             <p class="small mb-1"><i>Código SUIOS:</i> 0000142256</p>
-            <p class="small mb-2"><i>Acuerdo Ministerial Nro.</i> 00012-2024</p>
+            <p class="small mb-0"><i>Acuerdo Ministerial Nro.</i> 00012-2024</p>
+          </div>
+          <div class="col-md-6 text-md-end">
             <div class="d-flex gap-3 fs-5 justify-content-md-end">
               <a href="https://www.instagram.com/happypaws.pillaro/"
                  class="text-light"
@@ -243,7 +275,7 @@
                       class="btn btn-link btn-sm link-light p-0 align-baseline"
                       data-abrir-aviso-cookies>Configurar cookies</button>
             </p>
-            <p class="small mb-0 mt-1">© {% now "Y" %} Happy Paws Píllaro</p>
+            <p class="small mb-0 mt-1 text-md-end">© {% now "Y" %} Happy Paws Píllaro</p>
           </div>
         </div>
       </div>
