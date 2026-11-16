@@ -9,9 +9,12 @@
   historial médico; solicitudes de adopción; casos médicos y aportes; reportes
   comunitarios. `core` reúne inicio, panel del staff, utilidades compartidas,
   SEO, sitemaps y el comando `seed_demo`.
+- El principio de desarrollo del proyecto es DRY(Don't Repeat Yourself) para evitar
+  redundancia y repetición innecesaria de código. Código Python siguen las convenciones de
+  PEP8 con el formato de black y pylint. El CSS debe utilizar `kebab-case`.
 - La configuración común está en `web/code/happypaws/settings/base.py`;
-  `local.py` usa SQLite y los demás módulos configuran despliegues. Las
-  plantillas de cada app están en `web/code/templates/<app>/` y las
+  `local.py` usa SQLite y los demás módulos configuran despliegues.
+- Las  plantillas de cada app están en `web/code/templates/<app>/` y las
   compartidas en `web/code/templates/includes/`.
 - La interfaz usa plantillas Django, Bootstrap y HTMX. Conserva el renderizado
   del lado del servidor y sigue las rutas, vistas y plantillas de cada app.
@@ -67,6 +70,10 @@
 - Las imágenes usan los aliases de `easy-thumbnails` definidos en
   `happypaws/settings/base.py`: `card` para listados y `detalle` para páginas
   de detalle y metadatos SEO.
+- Por lo general no subimos imágenes a la versión de control, una excepción es los logos.
+  Otras imagenes se sube localmente en `web/code/static/assets` con su propia subcategoría
+  para mejor diferenciación.
+- En HTML que vaya evolucionando con el tiempo, como por ejemplo el `web/code/templates/core/proyectos_impacto/medios_comunicacion.html` debe ser considerado dinámico y ser añadido al `informacion_happy_paws.json` fieles al principio DRY.
 - Las pruebas usan `TestCase`/`SimpleTestCase` y están junto a su app en
   `tests.py` o `test_*.py`; los mixins compartidos están en
   `core/tests_common/`.
