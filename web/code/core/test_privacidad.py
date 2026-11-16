@@ -37,6 +37,26 @@ class PaginaPrivacidadTests(TestCase):
     def test_esta_en_el_sitemap(self):
         self.assertContains(self.client.get("/sitemap.xml"), reverse("core:privacidad"))
 
+    def test_paginas_informativas_estan_en_el_sitemap(self):
+        resp = self.client.get("/sitemap.xml")
+        paginas = (
+            "core:quienes_somos",
+            "core:directiva",
+            "core:reconocimientos",
+            "core:impacto",
+            "core:fauna_urbana",
+            "core:areas_trabajo",
+            "core:software_libre",
+            "core:media",
+            "core:marco_legal",
+            "core:formatos",
+            "core:contacto",
+            "core:contribuir_home",
+        )
+        for pagina in paginas:
+            with self.subTest(pagina=pagina):
+                self.assertContains(resp, reverse(pagina))
+
 
 class ConsentimientoFormulariosTests(TestCase):
     """Todo formulario público que guarda datos personales pide aceptar la política."""
