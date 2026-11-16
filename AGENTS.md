@@ -14,7 +14,7 @@
   PEP8 con el formato de black y pylint. El CSS debe utilizar `kebab-case`.
 - La configuración común está en `web/code/happypaws/settings/base.py`;
   `local.py` usa SQLite y los demás módulos configuran despliegues.
-- Las  plantillas de cada app están en `web/code/templates/<app>/` y las
+- Las plantillas de cada app están en `web/code/templates/<app>/` y las
   compartidas en `web/code/templates/includes/`.
 - La interfaz usa plantillas Django, Bootstrap y HTMX. Conserva el renderizado
   del lado del servidor y sigue las rutas, vistas y plantillas de cada app.
