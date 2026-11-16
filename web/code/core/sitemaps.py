@@ -12,7 +12,29 @@ class StaticViewSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return ["core:home", "animals:catalog", "medical_cases:list", "reports:list", "core:privacidad"]
+        return [
+            "core:home",
+            "animals:catalog",
+            "medical_cases:list",
+            "reports:list",
+            "core:privacidad",
+            # Sobre la Fundación
+            "core:quienes_somos",
+            "core:directiva",
+            "core:reconocimientos",
+            "core:impacto",
+            # Proyectos y areas de trabajo
+            "core:fauna_urbana",
+            "core:areas_trabajo",
+            "core:software_libre",
+            "core:media",
+            # Base Legal & Contacto
+            "core:marco_legal",
+            "core:formatos",
+            "core:contacto",
+            # Contribuir
+            "core:contribuir_home",
+        ]
 
     def location(self, item):
         return reverse(item)

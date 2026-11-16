@@ -1,0 +1,17 @@
+{% if section_level == "h3" %}
+  <h3 class="content-section-heading h4 mb-3">
+    <a class="content-section-link"
+       id="{{ section_id }}"
+       href="#{{ section_id }}">
+      {{ section_title }}<i class="bi bi-link-45deg" aria-hidden="true"></i>
+    </a>
+  </h3>
+{% else %}
+  <h2 class="content-section-heading h3 mb-3">
+    <a class="content-section-link"
+       id="{{ section_id }}"
+       href="#{{ section_id }}">
+      {{ section_title }}<i class="bi bi-link-45deg" aria-hidden="true"></i>
+    </a>
+  </h2>
+{% endif %}

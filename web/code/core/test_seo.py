@@ -156,6 +156,28 @@ class EncabezadosYAltTests(DatosSEO):
         resp = self.client.get(reverse("core:home"))
         self.assertEqual(len(self.h1s(resp)), 1)
 
+    def test_paginas_informativas_tienen_un_solo_h1(self):
+        paginas = (
+            "core:quienes_somos",
+            "core:directiva",
+            "core:reconocimientos",
+            "core:impacto",
+            "core:fauna_urbana",
+            "core:areas_trabajo",
+            "core:software_libre",
+            "core:media",
+            "core:marco_legal",
+            "core:formatos",
+            "core:contacto",
+            "core:contribuir_home",
+        )
+        for pagina in paginas:
+            with self.subTest(pagina=pagina):
+                resp = self.client.get(reverse(pagina))
+                encabezados = self.h1s(resp)
+                self.assertEqual(len(encabezados), 1)
+                self.assertTrue(encabezados[0].strip())
+
     def test_las_fotos_llevan_la_marca_en_el_alt(self):
         for obj in (self.animal, self.caso, self.reporte):
             with self.subTest(obj=obj):
@@ -225,6 +247,18 @@ class MetadatosTests(DatosSEO):
     def test_todas_las_paginas_publicas_tienen_metadatos(self):
         for url in (
             reverse("core:home"),
+            reverse("core:quienes_somos"),
+            reverse("core:directiva"),
+            reverse("core:reconocimientos"),
+            reverse("core:impacto"),
+            reverse("core:fauna_urbana"),
+            reverse("core:areas_trabajo"),
+            reverse("core:software_libre"),
+            reverse("core:media"),
+            reverse("core:marco_legal"),
+            reverse("core:formatos"),
+            reverse("core:contacto"),
+            reverse("core:contribuir_home"),
             reverse("animals:catalog"),
             reverse("medical_cases:list"),
             reverse("reports:list"),

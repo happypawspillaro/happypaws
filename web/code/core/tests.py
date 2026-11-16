@@ -9,7 +9,7 @@ from unittest.mock import patch
 
 from accounts.models import User
 from animals.models import Animal, Especie, EstadoAnimal, Sexo, Tamano
-from core.cache import _cargar_locaciones_cached, obtener_locaciones
+from core.cache import _cargar_archivo_cached, obtener_diccionario_json
 from core.management.commands.seed_demo import normalizar_contacto
 from core.templatetags.whatsapp_filters import whatsapp_link
 from core.views import listar_canton_parroquia, obtener_barrios
@@ -63,6 +63,38 @@ class ResponsiveBaseTests(TestCase):
         self.assertContains(resp, "mailto:happypaws.pillaro@gmail.com")
         self.assertContains(resp, "<i>Código SUIOS:</i> 0000142256")
         self.assertContains(resp, "<i>Acuerdo Ministerial Nro.</i> 00012-2024")
+
+    def test_footer_incluye_enlaces_de_conocenos(self):
+        resp = self.client.get(reverse("core:home"))
+        paginas = [
+            "core:quienes_somos",
+            "core:directiva",
+            "core:reconocimientos",
+            "core:impacto",
+            "core:fauna_urbana",
+            "core:areas_trabajo",
+            "core:software_libre",
+            "core:media",
+            "core:marco_legal",
+            "core:formatos",
+            "core:contacto",
+        ]
+
+        for pagina in paginas:
+            with self.subTest(pagina=pagina):
+                self.assertContains(resp, f'href="{reverse(pagina)}"')
+
+    def test_acceso_a_contribuciones_es_flotante_y_global(self):
+        resp = self.client.get(reverse("core:home"))
+
+        self.assertContains(resp, 'id="contribuye-flotante"')
+        self.assertContains(resp, 'href="/contribuir/"')
+        self.assertContains(resp, 'href="/contribuir/"', count=1)
+        self.assertContains(resp, "Contribuye</span>")
+        self.assertContains(resp, "bi-heart-fill contribuye-flotante-corazon")
+        self.assertContains(resp, "js/contribuye_flotante.js")
+        self.assertNotContains(resp, "¿Quieres apoyar la causa?")
+        self.assertNotContains(resp, "Quiero contribuir")
 
 
 class DashboardAccessTests(TestCase):
@@ -213,7 +245,7 @@ class VistasLocacionesTests(TestCase):
 
         # --- Pruebas lectura de datos con cache
         # Limpieza de cache
-        _cargar_locaciones_cached.cache_clear()
+        _cargar_archivo_cached.cache_clear()
 
         # Crear un directorio temporal donde guardar los datos
         self.directorio_temporal = tempfile.TemporaryDirectory()
@@ -247,7 +279,7 @@ class VistasLocacionesTests(TestCase):
 
     def tearDown(self):
         # Limpia el cache y el directorio temporal al finalizar las pruebas
-        _cargar_locaciones_cached.cache_clear()
+        _cargar_archivo_cached.cache_clear()
         self.directorio_temporal.cleanup()
 
     # ==========================================
@@ -286,7 +318,7 @@ class VistasLocacionesTests(TestCase):
     # TESTS PARA: obtener_barrios
     # ==========================================
 
-    @patch("core.views.obtener_locaciones")
+    @patch("core.views.obtener_diccionario_json")
     @patch("core.views.render")
     def test_obtener_barrios_filtrado_exitoso(self, mock_render, mock_obtener_locaciones):
         """Prueba que la vista filtra los barrios correctamente e ignora mayúsculas/minúsculas."""
@@ -302,11 +334,11 @@ class VistasLocacionesTests(TestCase):
         self.assertEqual(len(barrios), 1)
         self.assertEqual(barrios[0], "La Florida")
 
-    @patch("core.views.obtener_locaciones")
+    @patch("core.views.obtener_diccionario_json")
     @patch("core.views.render")
-    def test_obtener_barrios_sin_coincidencias(self, mock_render, mock_obtener_locaciones):
+    def test_obtener_barrios_sin_coincidencias(self, mock_render, mock_obtener_json):
         """Prueba el comportamiento cuando la búsqueda no coincide con ningún barrio."""
-        mock_obtener_locaciones.return_value = self.mock_locaciones
+        mock_obtener_json.return_value = self.mock_locaciones
 
         request = self.factory.get("/", {"canton": "PI", "parroquia": "CN", "barrio": "inexistente"})
         obtener_barrios(request)
@@ -315,11 +347,11 @@ class VistasLocacionesTests(TestCase):
 
         self.assertEqual(contexto["barrios"], [])
 
-    @patch("core.views.obtener_locaciones")
+    @patch("core.views.obtener_diccionario_json")
     @patch("core.views.render")
-    def test_obtener_barrios_parametros_vacios(self, mock_render, mock_obtener_locaciones):
+    def test_obtener_barrios_parametros_vacios(self, mock_render, mock_obtener_json):
         """Prueba que al enviar la query vacía retorna todos los barrios ordenados alfabéticamente."""
-        mock_obtener_locaciones.return_value = self.mock_locaciones
+        mock_obtener_json.return_value = self.mock_locaciones
 
         request = self.factory.get("/", {"canton": "PI", "parroquia": "CN", "barrio": ""})
         obtener_barrios(request)
@@ -335,14 +367,14 @@ class VistasLocacionesTests(TestCase):
         """Test loading when found via staticfiles finders (primary path)."""
         # Sobrescribe el DATA_DIR y lo incluye en el STATICFILES_DIRS con el fin de localizarle con el `finders`
         with override_settings(DATA_DIR=self.ruta_temporal, STATICFILES_DIRS=[self.ruta_temporal]):
-            data = obtener_locaciones()
+            data = obtener_diccionario_json("data/locaciones.json")
             self.assertEqual(data, self.mock_locaciones)
 
     def test_obtener_locaciones_via_respaldo(self):
         """Testea la ruta de respaldo cuando `finders.find()` no lo enncuentra."""
         # Para forzar que `finders.find()` no encuentre el archivo, lo vaciamos para usar `settings.DATA_DIR`
         with override_settings(DATA_DIR=self.ruta_temporal, STATICFILES_DIRS=[]):
-            data = obtener_locaciones()
+            data = obtener_diccionario_json("data/locaciones.json")
             self.assertEqual(data, self.mock_locaciones)
 
     def _verificar_carga(self, datos_esperados, misses_esperados, hits_esperados, mensaje=""):
@@ -350,10 +382,10 @@ class VistasLocacionesTests(TestCase):
         if mensaje:
             logger.info(mensaje)
 
-        resultado = obtener_locaciones()
+        resultado = obtener_diccionario_json("data/locaciones.json")
         self.assertEqual(resultado, datos_esperados)
         # Deshabilito aquí el linter porque pylint no reconoce que cache_info() es un método de la función decorada
-        info = _cargar_locaciones_cached.cache_info()  # pylint: disable=no-value-for-parameter
+        info = _cargar_archivo_cached.cache_info()  # pylint: disable=no-value-for-parameter
         self.assertEqual(info.misses, misses_esperados)
         self.assertEqual(info.hits, hits_esperados)
 
@@ -410,7 +442,7 @@ class VistasLocacionesTests(TestCase):
             self.ruta_locaciones.unlink()
 
         with override_settings(DATA_DIR=self.ruta_temporal, STATICFILES_DIRS=[self.ruta_temporal]):
-            data = obtener_locaciones()
+            data = obtener_diccionario_json("data/locaciones.json")
             # Verificar que capturó la excepción y retornó un diccionarrio vacío
             self.assertEqual(data, {})
 
@@ -421,6 +453,6 @@ class VistasLocacionesTests(TestCase):
         self.ruta_locaciones.write_text("{ 'PI': [sintaxis rota }", encoding="utf-8")
 
         with override_settings(DATA_DIR=self.ruta_temporal, STATICFILES_DIRS=[self.ruta_temporal]):
-            data = obtener_locaciones()
+            data = obtener_diccionario_json("data/locaciones.json")
             # Verifica que hay un dato vacío y sin generar excepciones
             self.assertEqual(data, {})

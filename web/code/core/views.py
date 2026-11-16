@@ -4,15 +4,110 @@ from decimal import Decimal
 from accounts.decorators import staff_required
 from adoptions.models import AdoptionApplication, EstadoSolicitud
 from animals.models import Animal, EstadoAnimal
-from constants import DIAS_CONTACTO_VISIBLE, PARROQUIAS_CANTON
-from core.cache import obtener_locaciones
+from constants import DIAS_CONTACTO_VISIBLE, PARROQUIAS_CANTON, JSONAssets
+from core.cache import obtener_diccionario_json
 from django.db.models import Count, Sum
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.views.generic import TemplateView
 from medical_cases.models import Donation, EstadoCaso, MedicalCase
 from reports.models import EstadoReporte, Report
 
 logger = logging.getLogger(__name__)
+
+
+def obtener_datos_fundacion(key: str) -> dict | None:
+    """Pequeño ayudante para devolver los datos por key de la fundación.
+
+    Args:
+        key (str): Clave del `informacion_happy_paws.json`
+
+    Returns:
+        dict |  None: La información de la clave o `None` si es que se encuentra nada.
+    """
+    return obtener_diccionario_json(JSONAssets.info_fundacion).get(key)
+
+
+# Sección Fundación
+class QuienesSomosView(TemplateView):
+    template_name = "core/fundacion/quienes_somos.html"
+
+
+class DirectivaView(TemplateView):
+    template_name = "core/fundacion/directiva.html"
+
+
+class ReconocimientosView(TemplateView):
+    template_name = "core/fundacion/reconocimientos.html"
+
+
+class ImpactoView(TemplateView):
+    template_name = "core/fundacion/impacto.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(obtener_datos_fundacion("impacto"))
+        return context
+
+
+# Sección Proyectos e impacto
+class AreasTrabajoView(TemplateView):
+    template_name = "core/proyectos_impacto/areas_trabajo.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(obtener_datos_fundacion("areas_trabajo"))
+        return context
+
+
+class FaunaUrbanaView(TemplateView):
+    template_name = "core/proyectos_impacto/fauna_urbana.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["estadisticas"] = obtener_datos_fundacion("estadisticas")
+        return context
+
+
+class SoftwareLibreView(TemplateView):
+    template_name = "core/proyectos_impacto/software_libre.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["software"] = obtener_datos_fundacion("software")
+        return context
+
+
+class MediosComunicacionView(TemplateView):
+    template_name = "core/proyectos_impacto/medios_comunicacion.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["media"] = obtener_datos_fundacion("media")
+        return context
+
+
+# Sección Base Legal y Contacto
+class MarcoLegalView(TemplateView):
+    template_name = "core/transparencia_recursos/marco_legal.html"
+
+
+class FormatosView(TemplateView):
+    template_name = "core/transparencia_recursos/formatos.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["formatos"] = obtener_datos_fundacion("formatos")
+        return context
+
+
+class ContactosView(TemplateView):
+    template_name = "core/transparencia_recursos/contactos.html"
+
+
+# Sección Contribuir
+class ContribuyeView(TemplateView):
+    template_name = "core/contribuir/contribuye.html"
 
 
 def home(request):
@@ -74,7 +169,7 @@ def obtener_barrios(request: HttpRequest) -> HttpResponse:
     canton = request.GET.get("canton", "").strip()
     parroquia = request.GET.get("parroquia", "").strip()
 
-    locaciones = obtener_locaciones()
+    locaciones = obtener_diccionario_json(JSONAssets.locaciones)
 
     barrios_dict = locaciones.get(canton, {}).get(parroquia, {})
 

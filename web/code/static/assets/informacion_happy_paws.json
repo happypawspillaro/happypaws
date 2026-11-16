@@ -1,0 +1,275 @@
+{
+	"impacto": {
+		"campanas_foto": null,
+		"campanas_gallery": [
+			{
+				"src": "assets/impacto/campanas/poalo.jpg",
+				"alt": "Charla de cuidados Post-quirúrgicos por el equipo de Voluntarios Happy Paws Píllaro San José de Poaló",
+				"caption": "Campaña de Esterilización San José de Poaló, Agosto 2025"
+			},
+			{
+				"src": "assets/impacto/campanas/yacupamba.jpg",
+				"alt": "Mascotas recién esterilizadas recuperandose en Yacupamba, San Miguelito",
+				"caption": "Campaña de Esterilización Yacupamba San Miguelito, Diciembre 2025"
+			},
+			{
+				"src": "assets/impacto/campanas/urbina.png",
+				"alt": "Tutores esperando su  turno para esterilizar a sus mascotas, Presidente Urbina",
+				"caption": "Tutores esperando su turno Campaña de Esterilización Presidente Urbina, Enero 2026"
+			}
+		],
+		"emergencias_gallery": [
+			{
+				"src": "assets/impacto/emergencias/bruce.jpg",
+				"alt": "Bruce en recuperación después de su amputación, 2026",
+				"caption": "Bruce tenía una fractura desplazada en su pata izquierda, atendimos su amputación"
+			},
+			{
+				"src": "assets/impacto/emergencias/cholito.jpg",
+				"alt": "Cholito recuperándose luego de su cirugía",
+				"caption": "Luego de un atropellamiento y sin curación, se le tuvo que apuntar la pata"
+			},
+			{
+				"src": "assets/impacto/emergencias/lulu.png",
+				"alt": "Lulu recuperándose en un hogar temporal",
+				"caption": "Lulu fue encontrada con una fuerte lesión del ojo, se realizó enucleación"
+			}
+		],
+		"concientizacion_gallery": [
+			{
+				"src": "assets/impacto/concientizacion/urbina.png",
+				"alt": "Tutores atendiendo la charla de Concientización Presidente Urbina",
+				"caption": "Charla de concientización y tenencia responsable Presidente Urbina"
+			},
+			{
+				"src": "assets/impacto/concientizacion/yacupamba.jpg",
+				"alt": "Responsabilidad con sus mascotas de nuestro equipo veterinario en Yacupamba",
+				"caption": "Charla de concientización por parte de nuestro equipo veterinario, Yacupamba"
+			},
+			{
+				"src": "assets/impacto/concientizacion/sanmiguelito.png",
+				"alt": "La comunidad tiene voz en la concientización en San Miguelito",
+				"caption": "Líderes locales dando su opinión sobre la fauna urbana en San Miguelito"
+			}
+		],
+		"gestion_publica_photo": {
+			"src": "assets/impacto/gestion/mesa_intersectorial_urbina.png",
+			"alt": "Reunión de trabajo por la fauna urbana en el GADP Presidente Urbina",
+			"caption": "Participación Mesa Intersectorial Presidente Urbina"
+		}
+	},
+	"areas_trabajo": {
+		"eventos_gallery": [
+			{
+				"src": "assets/areas_trabajo/eventos/match_canino_2026.jpg",
+				"alt": "2do Match Canino Presidente Urbina 2025",
+				"caption": "Segundo Match Canino '!Tenencia con amor, dile no al dolor¡' Presidente Urbina, Noviembre 2025, Octubre de 2026"
+			},
+			{
+				"src": "assets/areas_trabajo/eventos/match_canino_2025.jpg",
+				"alt": "1er Match Canino Presidente Urbina 2025",
+				"caption": "Primer Match Canino Presidente Urbina, Noviembre 2025, Noviembre de 2025"
+			},
+			{
+				"src": "assets/areas_trabajo/eventos/evento_sm.jpg",
+				"alt": "Evento Concientización San Miguelito de Píllaro",
+				"caption": "Evento ¡Concientiza San Miguelito! Vamos a cuidar a nuestros animalitos , Noviembre de 2024"
+			}
+		],
+		"gestion_gallery": [
+			{
+				"src": "assets/impacto/gestion/mesa_intersectorial_urbina.png",
+				"alt": "Reunión de trabajo por la fauna urbana en el GADP Presidente Urbina",
+				"caption": "Participación Mesa Intersectorial Presidente Urbina"
+			}
+		]
+	},
+	"estadisticas": [
+		{
+			"id": "situacion-fauna-urbana-cantonal",
+			"title": "Tenencia de mascotas por cantón(Según el censo del 2022)",
+			"text": "A nivel nacional, el cantón Santiago de Píllaro ocupa el séptimo lugar entre los cantones con mayor densidad de perros por habitante a nivel nacional. Sin embargo ésta comparación no es precisa, según la Jerarquía funcional de asentamientos humanos consolidados, que agrupa ciudades según sus servicios y población, Píllaro ocupa el primer lugar con la peor densidad de perros domésticos por habitante entre las ciudades denominadas centros urbanos de servicios(color amarillo).",
+			"iframe_title": "Tabla tenencia de mascotas por cantón",
+			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=1441949195&amp;single=true&amp;widget=true&amp;headers=false",
+			"url": "https://docs.google.com/spreadsheets/d/1Y05WChOYUZHmrGYN0x0N2RJOrk_Ra4AHoN8ehqOYSMs/edit?gid=1441949195#gid=1441949195"
+		},
+		{
+			"id": "situacion-fauna-urbana-parroquial",
+			"title": "Tenencia de mascotas por parroquia(Según el censo del 2022)",
+			"text": "Para el diagnóstico de fauna urbana de las parroquias de Píllaro, comparamos los datos con las 53 parroquias de Tungurahua. San José de Poaló, al noreste del cantón, registra la mayor densidad provincial, con 763,7 perros domésticos por habitante. Presidente Urbina ocupa el tercer lugar, con 643,49. Marcos Espinel, San Andrés y Emilio María Terán también están entre las diez parroquias con mayor densidad. Así, cinco de las nueve parroquias de Píllaro presentan una densidad preocupante.",
+			"iframe_title": "Tabla tenencia de mascotas por parroquia",
+			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=259626268&amp;single=true&amp;widget=true&amp;headers=false",
+			"url": "https://docs.google.com/spreadsheets/d/1Y05WChOYUZHmrGYN0x0N2RJOrk_Ra4AHoN8ehqOYSMs/edit?gid=259626268#gid=259626268"
+		},
+		{
+			"id": "registro-envenamientos-caninos-pillaro",
+			"title": "Registro Público envenenamiento caninos Píllaro desde Mayo 2025",
+			"text": "La realidad de los envenamientos masivos e impunes en el Cantón Santiago de Píllaro es preocupante, hemos registrado los casos de envenenamiento como medida de presión para tomar acciones para disuadir el cometimiento de éste delito.",
+			"iframe_title": "Registro público de enenamientos masivos e impunes Santiago de Píllaro",
+			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnm4umUQ_3BgkphBL4vsNSy_xDLKM_oD8xG6fDgzrvUgavkzu4LG1kk-3xs6wJyi5Yhvo127jJS4Cx/pubhtml?gid=1350382432&amp;single=true&amp;widget=true&amp;headers=false",
+			"url": "https://docs.google.com/spreadsheets/d/1K26NxwJC_PP5Nfd1kjiYh8RvnA8fOXspqScI8hXDJWU/edit?gid=1350382432#gid=1350382432"
+		}
+	],
+	"formatos": [
+		{
+			"id": "denuncia-envenenamiento",
+			"title": "Modelo denuncia por envenenamiento a caninos",
+			"iframe_title": "Formato de denuncia por envenenamiento de fauna urbana",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vTVc1vQUO_YEwW-oaamt5J-sKrg2lgZnyZKfq5KVh9bNcZHRB9AQZoqf8V70_3pudeVqIZZztabKWHy/pub",
+			"url": "https://docs.google.com/document/d/1A8R8yz7Z_Ch5nd6fC-nXE6UPx5tI8o4WzdgZ8idOBlA/edit?usp=sharing"
+		},
+		{
+			"id": "denuncia-maltrato",
+			"title": "Modelo denuncia por maltrato de fauna urbana",
+			"iframe_title": "Formato de denuncia por maltrato de fauna urbana",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vRQzNBzr5iDjdCFVnwydurJI-l-Jk6nklvW0H_R1NvAb5z0UyTqMPtJfpreiXK79hRr9dbEwDwCbxeV/pub",
+			"url": "https://docs.google.com/document/d/1JFR6GRiR1mrNEaV7OHz7R5rbtVqhu2ONY7dppFpBeJc/edit?usp=sharing"
+		},
+		{
+			"id": "pedido-control-mascotas",
+			"title": "Modelo pedido control GADM Píllaro por fauna urbana descontrolada",
+			"iframe_title": "Formato de pedido control fauna urbana al GADM Píllaro",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vTFbdOd6LVTr-RIAtyF_RB_wHIHcJiac96q7r3gw4oZJoVMvXN9dbmhYO_QL6IywUVurOI1fcjGTDQ1/pub",
+			"url": "https://docs.google.com/document/d/1GzACaCdupisRgku7LPmEgPK74RWL48wDgSWnUF4xupw/edit?usp=sharing"
+		},
+		{
+			"id": "plan-contigencia-esterilizaciones",
+			"title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
+			"iframe_title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vStde7YU1TehtxAzEl8MnG3JNEHTb3VrH867ks5TofbpmECkYcBp7HsJrQZatwV8Deu_9czFTFZQTl6/pub",
+			"url": "https://docs.google.com/document/d/1LkO59FfnU4HpAe6-h663-mOgO-aMcfV1HrXGMtWWgYI/edit?usp=sharing"
+		}
+	],
+	"media": {
+		"2026": {
+			"Octubre": [
+				{
+					"titulo": "Minidocumental Realidad Fauna Urbana Cantón Píllaro",
+					"tipo": "tiktok",
+					"url": "https://www.tiktok.com/@diablosdepillaro/video/7695944296247217428",
+					"tiktok_id": "7695944296247217428",
+					"fuente": "Diablos de Píllaro Industria Cultural"
+				}
+			],
+			"Septiembre": [
+				{
+					"titulo": "Invitación Segundo Match Canino Presidente Urbina",
+					"tipo": "facebook_post",
+					"url": "https://www.facebook.com/PillaroenmiCorazon/posts/pfbid0CXMVJjoms1azSrei2vuGGHTgyZiodEFgnvDb3V1dKTwpdspDwZPrhmWiAyETP72xl",
+					"fuente": "Pepe de Píllaro"
+				},
+				{
+					"titulo": "Situación de Fauna Urbana en el Cantón Píllaro",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/2180127269235808",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Julio": [
+				{
+					"titulo": "Envenenamientos Masivos e Impunes Santiago de Píllaro 2026",
+					"tipo": "article",
+					"url": "https://www.lahora.com.ec/tungurahua/en-pillaro-24-perros-han-muerto-por-envenenamiento-en-un-ano-20260716-0071.html",
+					"fuente": "Diario La Hora"
+				}
+			]
+		},
+		"2025": {
+			"Noviembre": [
+				{
+					"titulo": "Invitación Match Canino 2025 Presidente Urbina",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/876708738023560",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Junio": [
+				{
+					"titulo": "Proyecto de Fauna Urbana San José de Poaló",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/955926843301475",
+					"fuente": "Radio Brisa"
+				}
+			],
+			"Mayo": [
+				{
+					"titulo": "Situación de Fauna Urbana del Cantón Píllaro",
+					"tipo": "article",
+					"url": "https://www.lahora.com.ec/tungurahua/Pillaro-es-el-canton-de-Tungurahua-con-mas-perros-en-hogares-20250523-0007.html",
+					"fuente": "Diario La Hora"
+				}
+			]
+		},
+		"2024": {
+			"Diciembre": [
+				{
+					"titulo": "Campañas de Esterilización San Miguelito, beneficiando a 125 mascotas",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/557246400489331",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Octubre": [
+				{
+					"titulo": "Participación Happy Paws CPCSS",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/406709389199492",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Agosto": [
+				{
+					"titulo": "Campañas de Esterilización Barrio Callate, beneficiando a 100 mascotas",
+					"tipo": "youtube",
+					"url": "https://www.youtube.com/watch?v=imj4BC7Z6ds",
+					"embedded_url": "https://www.youtube.com/embed/imj4BC7Z6ds",
+					"fuente": "Pepe de Píllaro"
+				}
+			],
+			"Junio": [
+				{
+					"titulo": "Recaudación de Fondos Campaña de Esterilización Callate con Beneficio de 100 personas",
+					"tipo": "facebook_video",
+					"url": "https://www.facebook.com/reel/484896617309287",
+					"fuente": "Pepe de Píllaro"
+				},
+				{
+					"titulo": "Campañas de Esterilización Barrio Yacupamba, beneficiando a 100 mascotas",
+					"tipo": "youtube",
+					"url": "https://www.youtube.com/watch?v=ewuT_uXMls4",
+					"embedded_url": "https://www.youtube.com/embed/ewuT_uXMls4",
+					"fuente": "Pepe de Píllaro"
+				}
+			]
+		}
+	},
+	"software": {
+		"esterilizaya_gallery": [
+			{
+				"src": "assets/software/esterilizaya/1_home.png",
+				"alt": "Página Inicial Esterilizaya",
+				"caption": "Página Inicial Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/2_vista-registros.png",
+				"alt": "Vista global de registros Esterilizaya",
+				"caption": "Vista global de registros Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/3_recetas.png",
+				"alt": "Generación recetas Esterilizaya",
+				"caption": "Generación personalizada de recetas en Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/4_reportecobros.png",
+				"alt": "Reporte por campaña de cobros Esterilizaya",
+				"caption": "Reporte por campaña de cobros en Esterilizaya"
+			},
+			{
+				"src": "assets/software/esterilizaya/5_dashboard.png",
+				"alt": "Dashboard de datos Esterilizaya",
+				"caption": "Dashboard con datos georreferenciados y estadísticas Esterilizaya"
+			}
+		]
+	}
+}

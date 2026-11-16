@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+  Estudio de fauna urbana | Happy Paws Píllaro
+{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Estudio de fauna urbana | Happy Paws Píllaro" descripcion="Estudio de Happy Paws Píllaro sobre la población de animales de compañía y la situación de fauna urbana en el cantón." %}
+{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Estudio de la situación de fauna urbana" page_intro="Los datos ayudan a enfocar los esfuerzos en las zonas más afectadas y a estudiar cómo evoluciona la situación con el tiempo." %}
+    <section class="mb-5" aria-labelledby="estadísticas">
+      {% include "core/partials/content_section_heading.html" with section_id="censo-2022" section_title="Censo 2022 y Datos Happy Paws Píllaro" %}
+      <p class="text-secondary lh-lg">
+        No hay muchos datos sobre la fauna urbana en el Cantón Píllaro, pero en el Censo 2022 tenemos el estudio realizado por hogares sobre perros y gatos domésticos. Todavía no incluyen datos de animales en situación de calle.
+        Además como Fundación Happy Paws Píllaro regularmente obtenemos datos para sostener una estrategia basada en evidencia.
+      </p>
+    </section>
+    {% for document in estadisticas %}
+      {% include "core/partials/google_workspace_embed.html" with document=document %}
+    {% endfor %}
+  </main>
+{% endblock %}

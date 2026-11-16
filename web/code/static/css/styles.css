@@ -86,6 +86,147 @@ a {
 	object-fit: cover;
 }
 
+/* Aviso de cookies (#75): flotante abajo, sin tapar todo el contenido en móviles. */
+.aviso-cookies {
+	position: fixed;
+	right: 1rem;
+	bottom: 1rem;
+	left: 1rem;
+	z-index: 1080;
+	max-width: 32rem;
+}
+
+.contribuye-flotante {
+	position: fixed;
+	right: 1.25rem;
+	bottom: 5.5rem;
+	z-index: 1070;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	max-width: calc(100vw - 2.5rem);
+	padding: 0.7rem 1rem;
+	border: 2px solid var(--hp-primary);
+	border-radius: 999px;
+	background: #fff;
+	box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 18%);
+	color: var(--hp-primary);
+	font-weight: 700;
+	text-decoration: none;
+	transition:
+		width 300ms ease,
+		padding 300ms ease,
+		background-color 150ms ease,
+		transform 150ms ease;
+}
+
+.contribuye-flotante:hover {
+	transform: translateY(-2px);
+	background: #fff7ed;
+	color: var(--hp-primary);
+}
+
+.contribuye-flotante:focus-visible {
+	outline: 3px solid var(--hp-primary);
+	outline-offset: 3px;
+}
+
+.contribuye-flotante-corazon {
+	display: grid;
+	width: 1.25rem;
+	height: 1.25rem;
+	place-items: center;
+	font-size: 1.25rem;
+	line-height: 1;
+}
+
+.contribuye-flotante-texto {
+	max-width: 9rem;
+	overflow: hidden;
+	opacity: 1;
+	white-space: nowrap;
+	transition:
+		max-width 300ms ease,
+		opacity 200ms ease;
+}
+
+.contribuye-flotante.is-minimizado {
+	width: 3.25rem;
+	height: 3.25rem;
+	justify-content: center;
+	gap: 0;
+	padding: 0;
+}
+
+.contribuye-flotante.is-minimizado .contribuye-flotante-texto {
+	display: none;
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.contribuye-flotante,
+	.contribuye-flotante-texto {
+		transition: none;
+	}
+}
+
+.media-page {
+	max-width: 1200px;
+}
+
+.content-page {
+	max-width: 960px;
+}
+
+.content-section-link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.content-section-link .bi {
+	margin-left: 0.35rem;
+	color: var(--hp-primary);
+	opacity: 0.55;
+	font-size: 0.85em;
+}
+
+.content-section-link:hover .bi,
+.content-section-link:focus-visible .bi {
+	opacity: 1;
+}
+
+.content-placeholder {
+	display: grid;
+	min-height: 14rem;
+	place-items: center;
+	padding: 1.5rem;
+	border: 2px dashed #ced4da;
+	border-radius: 0.75rem;
+	background: #f8f9fa;
+	color: #6c757d;
+}
+
+.content-placeholder-inner {
+	display: grid;
+	justify-items: center;
+	gap: 0.5rem;
+}
+
+.content-placeholder-image,
+.content-placeholder-carousel {
+	aspect-ratio: 16 / 9;
+}
+
+.content-image img,
+.content-gallery img {
+	width: 100%;
+}
+
+.content-gallery .carousel-item img {
+	height: clamp(14rem, 55vw, 32rem);
+	object-fit: cover;
+}
+
 /* Carrusel de casos médicos: altura consistente y adaptable al dispositivo.
    Las fotos se recortan centradas para que mezclar horizontales y verticales
    no cambie el alto de la página (#91). No usar h-auto en la <img>: su
@@ -107,12 +248,76 @@ a {
 	}
 }
 
-/* Aviso de cookies (#75): flotante abajo, sin tapar todo el contenido en móviles. */
-.aviso-cookies {
-	position: fixed;
-	right: 1rem;
-	bottom: 1rem;
-	left: 1rem;
-	z-index: 1080;
-	max-width: 32rem;
+.content-embed iframe {
+	width: 100%;
+	min-height: 28rem;
+	border: 0;
+}
+
+.pdf-embed iframe {
+	display: block;
+	width: 100%;
+	height: min(75vh, 60rem);
+	min-height: 32rem;
+	border: 1px solid #dee2e6;
+	border-radius: 0.5rem 0.5rem 0 0;
+	background: #f8f9fa;
+}
+
+@media (width <= 575.98px) {
+	.pdf-embed iframe {
+		height: 65vh;
+		min-height: 24rem;
+	}
+}
+
+.media-index {
+	padding: 1rem;
+	background: #f8f9fa;
+	border-radius: 0.75rem;
+}
+
+.media-year-title {
+	padding-bottom: 0.5rem;
+	border-bottom: 2px solid var(--hp-primary);
+}
+
+.media-card {
+	min-width: 0;
+}
+
+.media-card .card-title {
+	display: flex;
+	align-items: center;
+	min-height: 3rem;
+}
+
+.media-embed {
+	width: 100%;
+	overflow: hidden;
+}
+
+.media-embed iframe {
+	display: block;
+	width: 100%;
+	max-width: 100%;
+	border: 0;
+}
+
+.media-embed-facebook-post {
+	max-width: 34rem;
+	margin-inline: auto;
+}
+
+.media-embed-facebook-post iframe {
+	height: clamp(28rem, 70vh, 36rem);
+}
+
+.content-embed .ratio iframe {
+	min-height: 0;
+}
+
+.media-embed-tiktok {
+	max-width: 22rem;
+	margin-inline: auto;
 }

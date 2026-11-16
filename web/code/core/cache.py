@@ -9,17 +9,17 @@ from django.contrib.staticfiles import finders
 logger = logging.getLogger(__name__)
 
 
-def obtener_ruta_locaciones() -> Path:
-    ruta = finders.find("data/locaciones.json")
+def obtener_ruta_json(ruta_archivo: str) -> Path:
+    ruta = finders.find(ruta_archivo)
 
     if ruta:
         return Path(ruta)
 
-    return settings.DATA_DIR / "data" / "locaciones.json"
+    return settings.DATA_DIR / ruta_archivo
 
 
 @lru_cache(maxsize=4)
-def _cargar_locaciones_cached(
+def _cargar_archivo_cached(
     ruta_locaciones: Path,
     mtime_ns: int,
 ) -> dict:
@@ -29,20 +29,20 @@ def _cargar_locaciones_cached(
         return json.load(f)
 
 
-def obtener_locaciones() -> dict:
-    ruta_locaciones = obtener_ruta_locaciones()
+def obtener_diccionario_json(ruta_archivo: str) -> dict:
+    ruta_json = obtener_ruta_json(ruta_archivo)
     try:
-        stat = ruta_locaciones.stat()
+        stat = ruta_json.stat()
 
-        return _cargar_locaciones_cached(
-            ruta_locaciones,
+        return _cargar_archivo_cached(
+            ruta_json,
             stat.st_mtime_ns,
         )
 
     except (FileNotFoundError, OSError, json.JSONDecodeError) as exc:
         logger.error(
-            "Error al cargar locaciones desde %s: %s",
-            ruta_locaciones,
+            "Error al cargar el archivo desde %s: %s",
+            ruta_json,
             exc,
         )
         return {}

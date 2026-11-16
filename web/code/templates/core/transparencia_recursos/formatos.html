@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}
+  Formatos de denuncia | Happy Paws Píllaro
+{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Formatos de denuncia | Happy Paws Píllaro" descripcion="Formatos para denunciar envenenamiento y maltrato de fauna urbana en el cantón Píllaro." %}
+{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Formatos documentos fauna urbana" page_intro="Ponemos a disposición de la ciudadanía formatos para denunciar infracciones relacionadas con la fauna urbana en el Cantón Santiago de Píllaro." %}
+    <p class="text-secondary lh-lg">
+      Imprime el formato en una hoja membretada del Municipio (disponible en Tesorería) y entrégalo en Secretaría General, en el segundo piso del Edificio Central de la Municipalidad de Píllaro. Algunas sugerencias:
+      <ol class="list-group-numbered">
+        <li class="list-group-item">Incluye fotos y videos: si son videos publícalos en redes sociales o algún servicio de nube</li>
+        <li class="list-group-item">Si es un tema reincidente, incluye publicaciones de redes sociales u otro respaldo</li>
+        <li class="list-group-item">Pon claro tus medios de contactos: Para que el personal del Municipio se contacte contigo</li>
+        <li class="list-group-item">Insiste sino tienes respuestas, tienen 15 días para responderte</li>
+      </ol>
+      Esperamos que próximanente las denuncias digitales sean aceptadas, pondremos en conocimiento cuando esto sea posible.
+    </p>
+    {% for document in formatos %}
+      {% include "core/partials/google_workspace_embed.html" with document=document %}
+    {% endfor %}
+  </main>
+{% endblock %}

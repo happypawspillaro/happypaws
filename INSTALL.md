@@ -47,7 +47,11 @@
 
 8. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
 
-9. Colecciona los archivos estáticos con el siguiente comando
+9. Descarga e inicializa tus archivos estáticos de la s iguiente forma:
+
+   a. Descarga los [assets](https://drive.google.com/drive/folders/1fmYzc3mj3u6DaYlxmAqMCY9HXGfhckU9?usp=drive_link) y descomprimelos en tu carpeta `web/code/static`
+
+   b. Colecciona tus archivos estáticos con el siguiente comando:
 
    ```bash
    docker compose -f docker-compose.yml -f docker-compose.prod.yml exec web python manage.py collectstatic

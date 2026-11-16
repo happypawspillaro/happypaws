@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}
+  Software libre | Happy Paws Píllaro
+{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Software libre | Happy Paws Píllaro" descripcion="Herramientas de software libre para gestionar campañas de esterilización y fauna urbana en Píllaro." %}
+{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Software libre" page_intro="Herramientas abiertas para apoyar la gestión de la fauna urbana." %}
+    <section aria-labelledby="esterilizaya">
+      {% include "core/partials/content_section_heading.html" with section_id="esterilizaya" section_title="Esterilizaya" %}
+      <p class="text-secondary lh-lg">
+        Para hacer nuestro trabajo más riguroso y replicable, desarrollamos <a href="https://github.com/happypawspillaro/esterilizaya-pillaro"
+    class="link-primary">esterilizaYa</a>, una herramienta de código abierto creada por nuestro propio equipo para el registro de animales y la gestión de campañas de esterilización con datos georreferenciados. La usamos para planificar cada intervención con evidencia, no con suposiciones, y la compartimos abiertamente para que otras organizaciones de la región puedan replicar nuestro método. De esta manera generamos datos abiertos, auditables y comparables en el tiempo: una base común que, con el apoyo de la comunidad, puede extenderse y aplicarse en cualquier otro lugar donde sea útil.
+      </p>
+      <h2 class="h3 mt-4">Características</h2>
+      <ul class="text-secondary lh-lg">
+        <li>Aplicación web que funciona sin conexión para lugares con limitada conectividad a través de una conexión de red local</li>
+        <li>Registro georeferenciado para los cantones de Píllaro, Salcedo, Patate, Pelileo y Ambato</li>
+        <li>Genera fichas, carnéts de esterilización, datos veterinarios, recibos de pagos de manera eficaz</li>
+        <li>Compila los datos de las campañas en un sólo Dashboard conveniente</li>
+        <li>Vista responsiva en dispositivos de escritorio y móviles</li>
+      </ul>
+      {% include "core/partials/image_gallery.html" with gallery_id="galeria-esterilizaya" gallery_label="Galería Software Esterilizaya" gallery_images=software.esterilizaya_gallery gallery_empty_label="Galería de Esterilizaya" %}
+    </section>
+  </main>
+{% endblock %}

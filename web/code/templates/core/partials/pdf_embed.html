@@ -1,0 +1,13 @@
+<figure class="pdf-embed mb-4">
+  <iframe src="{{ document_url }}" title="{{ document_title }}" loading="lazy"></iframe>
+  <figcaption class="d-flex flex-wrap align-items-center justify-content-between gap-2 p-3 bg-light border border-top-0 rounded-bottom">
+    <span class="small text-secondary">Si el documento no se muestra, puedes abrirlo directamente:</span>
+    <a class="btn btn-outline-primary btn-sm"
+       href="{{ document_url }}"
+       target="_blank"
+       rel="noopener noreferrer">
+      <i class="bi bi-file-earmark-pdf me-1" aria-hidden="true"></i>
+      Abrir PDF
+    </a>
+  </figcaption>
+</figure>

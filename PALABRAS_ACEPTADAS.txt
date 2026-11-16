@@ -1,5 +1,6 @@
 accesible
 administrativo
+alternativos
 aprox
 argumentos
 auxiliar
@@ -10,16 +11,23 @@ calle
 caracteres
 clases
 comando
+Comandos
 direccion
 flor
 foto
+funcional
 hace
 hagas
 historial
 ignora
+Impunes
+impunes
 inicial
 limite
+mis
 momento
+oficial
+oficial
 posible
 requiere
 responde
@@ -27,4 +35,6 @@ responsable
 ser
 te
 utiliza
+Varios
+varios
 visibles
