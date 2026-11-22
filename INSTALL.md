@@ -1,6 +1,6 @@
 # Guía de instalación Happy Paws
 
-## Prerequisitos
+## Prerrequisitos
 
 - Docker > 27.0
 - Git > 2.43
@@ -66,6 +66,26 @@
 11. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
 
 _Opcional_: Usa la sección [Inicializar datos](#inicializar-datos) para importar datos existentes a tu base de datos.
+
+## Node.js y npm (opcional)
+
+Esta sección solo es necesaria para usar Playwright MCP o las herramientas de formato del frontend; no se requiere para ejecutar el sitio con Docker.
+
+1. Instala Node.js 20 o posterior desde la [página oficial de descargas](https://nodejs.org/en/download/). npm se instala junto con Node.js.
+2. Comprueba que ambos comandos estén disponibles:
+
+   ```bash
+   node --version
+   npm --version
+   ```
+
+3. Desde la raíz del proyecto, instala todas las dependencias fijadas en `package-lock.json`:
+
+   ```bash
+   npm ci
+   ```
+
+Esto instala las herramientas de desarrollo declaradas en `package.json`, incluidas Playwright MCP, Biome y Prettier.
 
 ## Migraciones
 
