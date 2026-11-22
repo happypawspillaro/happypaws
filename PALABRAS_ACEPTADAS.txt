@@ -11,6 +11,7 @@ calle
 caracteres
 clases
 comando
+comandos
 Comandos
 direccion
 flor
@@ -24,10 +25,12 @@ Impunes
 impunes
 inicial
 limite
+manifiesto
 mis
 momento
 oficial
 oficial
+pase
 posible
 requiere
 responde
