@@ -270,11 +270,11 @@ a {
 	border: 0;
 }
 
-.third-party-embed--document {
+.third-party-embed-document {
 	min-height: 28rem;
 }
 
-.third-party-embed--pdf {
+.third-party-embed-pdf {
 	height: min(75vh, 60rem);
 	min-height: 32rem;
 	border-radius: 0.5rem 0.5rem 0 0;
@@ -296,7 +296,7 @@ a {
 		min-height: 24rem;
 	}
 
-	.third-party-embed--pdf {
+	.third-party-embed-pdf {
 		height: 65vh;
 		min-height: 24rem;
 	}
