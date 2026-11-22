@@ -17,14 +17,9 @@
         Como Fundación Happy Paws Píllaro, contamos con un equipo veterinario y voluntarios comprometidos. Nos ponemos a disposición para organizar eventos locales que reúnan a más de 20 mascotas y ofrecer un servicio accesible y conveniente.
       </p>
       <p class="text-secondary lh-lg">Nuestra experiencia nos ha permitido desarrollar un protocolo de trabajo. Puedes conocerlo aquí:</p>
-      <div class="content-embed">
-        <div class="ratio ratio-16x9">
-          <iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTJAPXk003wrHhG0SmC6nryQWeD-MVvvvczQnm3AypuKDqu3lOvFZbfmcSNQ0vtwM74Q78GSzsl_Aiq/pubembed?start=false&amp;loop=false&amp;delayms=3000"
-                  title="Protocolo de campañas de esterilización de Happy Paws Píllaro"
-                  loading="lazy"
-                  allowfullscreen></iframe>
-        </div>
-      </div>
+      {% with embed_src="https://docs.google.com/presentation/d/e/2PACX-1vTJAPXk003wrHhG0SmC6nryQWeD-MVvvvczQnm3AypuKDqu3lOvFZbfmcSNQ0vtwM74Q78GSzsl_Aiq/pubembed?start=false&loop=false&delayms=3000" %}
+        {% include "includes/embeds/third_party_embed.html" with embed_classes="ratio ratio-16x9 content-embed" embed_src=embed_src embed_url=embed_src embed_title="Protocolo de campañas de esterilización de Happy Paws Píllaro" embed_provider="Google" embed_allow="fullscreen" %}
+      {% endwith %}
     </section>
     <section class="mb-5" aria-labelledby="eventos-concientizacion">
       {% include "core/partials/content_section_heading.html" with section_id="eventos-concientizacion" section_title="Eventos de concientización" %}

@@ -84,17 +84,15 @@ class ResponsiveBaseTests(TestCase):
             with self.subTest(pagina=pagina):
                 self.assertContains(resp, f'href="{reverse(pagina)}"')
 
-    def test_acceso_a_contribuciones_es_flotante_y_global(self):
+    def test_acceso_a_contribuciones_es_enlace_flotante_y_global(self):
         resp = self.client.get(reverse("core:home"))
 
         self.assertContains(resp, 'id="contribuye-flotante"')
         self.assertContains(resp, 'href="/contribuir/"')
         self.assertContains(resp, 'href="/contribuir/"', count=1)
+        self.assertContains(resp, 'aria-label="Contribuye con Happy Paws Píllaro"')
         self.assertContains(resp, "Contribuye</span>")
         self.assertContains(resp, "bi-heart-fill contribuye-flotante-corazon")
-        self.assertContains(resp, "js/contribuye_flotante.js")
-        self.assertNotContains(resp, "¿Quieres apoyar la causa?")
-        self.assertNotContains(resp, "Quiero contribuir")
 
 
 class DashboardAccessTests(TestCase):

@@ -16,16 +16,16 @@ from reports.models import EstadoReporte, Report
 logger = logging.getLogger(__name__)
 
 
-def obtener_datos_fundacion(key: str) -> dict | None:
+def obtener_datos_fundacion(key: str) -> dict:
     """Pequeño ayudante para devolver los datos por key de la fundación.
 
     Args:
         key (str): Clave del `informacion_happy_paws.json`
 
     Returns:
-        dict |  None: La información de la clave o `None` si es que se encuentra nada.
+        dict: La información de la clave o un diccionario vacío si es que se encuentra nada.
     """
-    return obtener_diccionario_json(JSONAssets.info_fundacion).get(key)
+    return obtener_diccionario_json(JSONAssets.info_fundacion).get(key) or {}
 
 
 # Sección Fundación
@@ -108,7 +108,11 @@ class ContactosView(TemplateView):
 # Sección Contribuir
 class ContribuyeView(TemplateView):
     template_name = "core/contribuir/contribuye.html"
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["contribuye"] = obtener_datos_fundacion("contribuye")
+        return context
 
 def home(request):
     animales = Animal.objects.filter(estado=EstadoAnimal.EN_ADOPCION)[:6]

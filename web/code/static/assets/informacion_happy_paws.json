@@ -27,7 +27,7 @@
 			{
 				"src": "assets/impacto/emergencias/cholito.jpg",
 				"alt": "Cholito recuperándose luego de su cirugía",
-				"caption": "Luego de un atropellamiento y sin curación, se le tuvo que apuntar la pata"
+				"caption": "Cholito sufrió un atropellamiento que no tuvo curación, se le tuvo que amputar la pata"
 			},
 			{
 				"src": "assets/impacto/emergencias/lulu.png",
@@ -39,17 +39,17 @@
 			{
 				"src": "assets/impacto/concientizacion/urbina.png",
 				"alt": "Tutores atendiendo la charla de Concientización Presidente Urbina",
-				"caption": "Charla de concientización y tenencia responsable Presidente Urbina"
+				"caption": "Charla de concientización y tenencia responsable Presidente Urbina - 2026"
 			},
 			{
 				"src": "assets/impacto/concientizacion/yacupamba.jpg",
 				"alt": "Responsabilidad con sus mascotas de nuestro equipo veterinario en Yacupamba",
-				"caption": "Charla de concientización por parte de nuestro equipo veterinario, Yacupamba"
+				"caption": "Charla de concientización por parte de nuestro equipo veterinario, Yacupamba - 2025"
 			},
 			{
 				"src": "assets/impacto/concientizacion/sanmiguelito.png",
 				"alt": "La comunidad tiene voz en la concientización en San Miguelito",
-				"caption": "Líderes locales dando su opinión sobre la fauna urbana en San Miguelito"
+				"caption": "Líderes locales dando su opinión sobre la fauna urbana en San Miguelito - 2024"
 			}
 		],
 		"gestion_publica_photo": {
@@ -63,7 +63,7 @@
 			{
 				"src": "assets/areas_trabajo/eventos/match_canino_2026.jpg",
 				"alt": "2do Match Canino Presidente Urbina 2025",
-				"caption": "Segundo Match Canino '!Tenencia con amor, dile no al dolor¡' Presidente Urbina, Noviembre 2025, Octubre de 2026"
+				"caption": "Segundo Match Canino '!Tenencia con amor, dile no al dolor¡' Presidente Urbina, Octubre de 2026"
 			},
 			{
 				"src": "assets/areas_trabajo/eventos/match_canino_2025.jpg",
@@ -96,15 +96,15 @@
 		{
 			"id": "situacion-fauna-urbana-parroquial",
 			"title": "Tenencia de mascotas por parroquia(Según el censo del 2022)",
-			"text": "Para el diagnóstico de fauna urbana de las parroquias de Píllaro, comparamos los datos con las 53 parroquias de Tungurahua. San José de Poaló, al noreste del cantón, registra la mayor densidad provincial, con 763,7 perros domésticos por habitante. Presidente Urbina ocupa el tercer lugar, con 643,49. Marcos Espinel, San Andrés y Emilio María Terán también están entre las diez parroquias con mayor densidad. Así, cinco de las nueve parroquias de Píllaro presentan una densidad preocupante.",
+			"text": "Para el diagnóstico de fauna urbana de las parroquias de Píllaro, comparamos los datos con las 53 parroquias de Tungurahua. San José de Poaló, al noreste del cantón, registra la mayor densidad provincial, con 763,7 perros domésticos por 1000 habitantes. Presidente Urbina ocupa el tercer lugar, con 643,49. Marcos Espinel, San Andrés y Emilio María Terán también están entre las diez parroquias con mayor densidad. Así, cinco de las nueve parroquias de Píllaro presentan una densidad preocupante.",
 			"iframe_title": "Tabla tenencia de mascotas por parroquia",
 			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vThM5H_372cvMccd3Pgx2cn0kHg-kD05yUOFfyNOQYuHK6KD43Y_2yJxWc4LobFruy5DxYsYXEbBvgy/pubhtml?gid=259626268&amp;single=true&amp;widget=true&amp;headers=false",
 			"url": "https://docs.google.com/spreadsheets/d/1Y05WChOYUZHmrGYN0x0N2RJOrk_Ra4AHoN8ehqOYSMs/edit?gid=259626268#gid=259626268"
 		},
 		{
-			"id": "registro-envenamientos-caninos-pillaro",
+			"id": "registro-envenenamientos-caninos-pillaro",
 			"title": "Registro Público envenenamiento caninos Píllaro desde Mayo 2025",
-			"text": "La realidad de los envenamientos masivos e impunes en el Cantón Santiago de Píllaro es preocupante, hemos registrado los casos de envenenamiento como medida de presión para tomar acciones para disuadir el cometimiento de éste delito.",
+			"text": "La realidad de los envenenamientos masivos e impunes en el Cantón Santiago de Píllaro es preocupante, hemos registrado los casos de envenenamiento como medida de presión para tomar acciones para disuadir el cometimiento de éste delito.",
 			"iframe_title": "Registro público de enenamientos masivos e impunes Santiago de Píllaro",
 			"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnm4umUQ_3BgkphBL4vsNSy_xDLKM_oD8xG6fDgzrvUgavkzu4LG1kk-3xs6wJyi5Yhvo127jJS4Cx/pubhtml?gid=1350382432&amp;single=true&amp;widget=true&amp;headers=false",
 			"url": "https://docs.google.com/spreadsheets/d/1K26NxwJC_PP5Nfd1kjiYh8RvnA8fOXspqScI8hXDJWU/edit?gid=1350382432#gid=1350382432"
@@ -115,28 +115,28 @@
 			"id": "denuncia-envenenamiento",
 			"title": "Modelo denuncia por envenenamiento a caninos",
 			"iframe_title": "Formato de denuncia por envenenamiento de fauna urbana",
-			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vTVc1vQUO_YEwW-oaamt5J-sKrg2lgZnyZKfq5KVh9bNcZHRB9AQZoqf8V70_3pudeVqIZZztabKWHy/pub",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vTVc1vQUO_YEwW-oaamt5J-sKrg2lgZnyZKfq5KVh9bNcZHRB9AQZoqf8V70_3pudeVqIZZztabKWHy/pub?embedded=true",
 			"url": "https://docs.google.com/document/d/1A8R8yz7Z_Ch5nd6fC-nXE6UPx5tI8o4WzdgZ8idOBlA/edit?usp=sharing"
 		},
 		{
 			"id": "denuncia-maltrato",
 			"title": "Modelo denuncia por maltrato de fauna urbana",
 			"iframe_title": "Formato de denuncia por maltrato de fauna urbana",
-			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vRQzNBzr5iDjdCFVnwydurJI-l-Jk6nklvW0H_R1NvAb5z0UyTqMPtJfpreiXK79hRr9dbEwDwCbxeV/pub",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vRQzNBzr5iDjdCFVnwydurJI-l-Jk6nklvW0H_R1NvAb5z0UyTqMPtJfpreiXK79hRr9dbEwDwCbxeV/pub?embedded=true",
 			"url": "https://docs.google.com/document/d/1JFR6GRiR1mrNEaV7OHz7R5rbtVqhu2ONY7dppFpBeJc/edit?usp=sharing"
 		},
 		{
 			"id": "pedido-control-mascotas",
 			"title": "Modelo pedido control GADM Píllaro por fauna urbana descontrolada",
 			"iframe_title": "Formato de pedido control fauna urbana al GADM Píllaro",
-			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vTFbdOd6LVTr-RIAtyF_RB_wHIHcJiac96q7r3gw4oZJoVMvXN9dbmhYO_QL6IywUVurOI1fcjGTDQ1/pub",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vTFbdOd6LVTr-RIAtyF_RB_wHIHcJiac96q7r3gw4oZJoVMvXN9dbmhYO_QL6IywUVurOI1fcjGTDQ1/pub?embedded=true",
 			"url": "https://docs.google.com/document/d/1GzACaCdupisRgku7LPmEgPK74RWL48wDgSWnUF4xupw/edit?usp=sharing"
 		},
 		{
 			"id": "plan-contigencia-esterilizaciones",
-			"title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
-			"iframe_title": "Plan de contigencia esterilizaciones privadas bajo costo Píllaro",
-			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vStde7YU1TehtxAzEl8MnG3JNEHTb3VrH867ks5TofbpmECkYcBp7HsJrQZatwV8Deu_9czFTFZQTl6/pub",
+			"title": "Plan de contingencia esterilizaciones privadas bajo costo Píllaro",
+			"iframe_title": "Plan de contingencia esterilizaciones privadas bajo costo Píllaro",
+			"embedded_url": "https://docs.google.com/document/d/e/2PACX-1vStde7YU1TehtxAzEl8MnG3JNEHTb3VrH867ks5TofbpmECkYcBp7HsJrQZatwV8Deu_9czFTFZQTl6/pub?embedded=true",
 			"url": "https://docs.google.com/document/d/1LkO59FfnU4HpAe6-h663-mOgO-aMcfV1HrXGMtWWgYI/edit?usp=sharing"
 		}
 	],
@@ -222,13 +222,13 @@
 					"titulo": "Campañas de Esterilización Barrio Callate, beneficiando a 100 mascotas",
 					"tipo": "youtube",
 					"url": "https://www.youtube.com/watch?v=imj4BC7Z6ds",
-					"embedded_url": "https://www.youtube.com/embed/imj4BC7Z6ds",
+					"embedded_url": "https://www.youtube-nocookie.com/embed/imj4BC7Z6ds",
 					"fuente": "Pepe de Píllaro"
 				}
 			],
 			"Junio": [
 				{
-					"titulo": "Recaudación de Fondos Campaña de Esterilización Callate con Beneficio de 100 personas",
+					"titulo": "Recaudación de Fondos Campaña de Esterilización Callate con Beneficio de 100 mascotas",
 					"tipo": "facebook_video",
 					"url": "https://www.facebook.com/reel/484896617309287",
 					"fuente": "Pepe de Píllaro"
@@ -237,7 +237,7 @@
 					"titulo": "Campañas de Esterilización Barrio Yacupamba, beneficiando a 100 mascotas",
 					"tipo": "youtube",
 					"url": "https://www.youtube.com/watch?v=ewuT_uXMls4",
-					"embedded_url": "https://www.youtube.com/embed/ewuT_uXMls4",
+					"embedded_url": "https://www.youtube-nocookie.com/embed/ewuT_uXMls4",
 					"fuente": "Pepe de Píllaro"
 				}
 			]
@@ -271,5 +271,13 @@
 				"caption": "Dashboard con datos georreferenciados y estadísticas Esterilizaya"
 			}
 		]
+	},
+	"contribuye": {
+		"id": "contribuye-datos-bancarios",
+		"title": "Contribución Económica",
+		"text": "Tenemos un fondo para casos de emergencia, gestión pública y eventos. Si quieres ayudarnos con este trabajo, puedes hacer un aporte económico a la siguiente cuenta. ¡Cada centavo cuenta para hacer una diferencia!",
+		"iframe_title": "Datos Bancarios Fundación Happy Paws Píllaro",
+		"embedded_url": "https://docs.google.com/spreadsheets/d/e/2PACX-1vT-ceACMQvwRRxKN7xbX30ohOND6vj8aKXNxEThpZD7houUUcPU1vlsThkNz7Q8PxsfF0y5yovypsQW/pubhtml?gid=0&amp;single=true&amp;widget=true&amp;headers=false",
+		"url": "https://docs.google.com/spreadsheets/d/1kCPKRrff96SjGHuqF6ZUaz2SWXMHal6SMFw81Ngtr6o/edit?usp=sharing"
 	}
 }

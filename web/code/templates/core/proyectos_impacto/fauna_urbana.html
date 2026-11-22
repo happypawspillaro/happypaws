@@ -16,7 +16,7 @@
       </p>
     </section>
     {% for document in estadisticas %}
-      {% include "core/partials/google_workspace_embed.html" with document=document %}
+      {% include "includes/embeds/google_workspace_embed.html" with document=document %}
     {% endfor %}
   </main>
 {% endblock %}
