@@ -1,32 +1,37 @@
-// Aviso de cookies (#75). Guarda la elección en la cookie hpp_consentimiento
-// para que las analíticas (#58) solo se carguen si la persona las acepta:
-// window.hppAnaliticasAceptadas() o el evento "hpp:consentimiento".
+// Aviso de cookies (#75). Guarda por separado el consentimiento de analítica y (#97)
+// contenido externo; ambos se gestionan desde el mismo aviso.
 (() => {
-	const COOKIE = "hpp_consentimiento";
+	const COOKIE_ANALITICA = "hpp_consentimiento";
+	const COOKIE_CONTENIDO_EXTERNO = "hpp_contenido_externo";
 	const UN_ANIO = 60 * 60 * 24 * 365;
 	const aviso = document.getElementById("aviso-cookies");
 
-	const leer = () => {
+	const leer = (nombre) => {
 		const par = document.cookie
 			.split("; ")
-			.find((c) => c.startsWith(`${COOKIE}=`));
-		return par ? par.split("=")[1] : null;
+			.find((cookie) => cookie.startsWith(`${nombre}=`));
+		return par ? par.slice(par.indexOf("=") + 1) : null;
 	};
 
-	window.hppAnaliticasAceptadas = () => leer() === "aceptado";
+	window.hppAnaliticasAceptadas = () =>
+		leer(COOKIE_ANALITICA) === "aceptado";
+	window.hppContenidoExternoAceptado = () =>
+		leer(COOKIE_CONTENIDO_EXTERNO) === "aceptado";
 
 	if (!aviso) return;
 
 	const guardar = (valor) => {
 		const seguro = location.protocol === "https:" ? "; Secure" : "";
-		document.cookie = `${COOKIE}=${valor}; Max-Age=${UN_ANIO}; Path=/; SameSite=Lax${seguro}`;
+		for (const nombre of [COOKIE_ANALITICA, COOKIE_CONTENIDO_EXTERNO]) {
+			document.cookie = `${nombre}=${valor}; Max-Age=${UN_ANIO}; Path=/; SameSite=Lax${seguro}`;
+		}
 		aviso.classList.add("d-none");
 		document.dispatchEvent(
 			new CustomEvent("hpp:consentimiento", { detail: valor })
 		);
 	};
 
-	if (!leer()) aviso.classList.remove("d-none");
+	if (!leer(COOKIE_ANALITICA)) aviso.classList.remove("d-none");
 
 	for (const boton of aviso.querySelectorAll("[data-consentimiento]")) {
 		boton.addEventListener("click", () => guardar(boton.dataset.consentimiento));

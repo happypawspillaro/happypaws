@@ -39,3 +39,4 @@ web/code/static/assets/*/
 
 # Archivos de desarrollo locales
 .vscode/*
+node_modules/
