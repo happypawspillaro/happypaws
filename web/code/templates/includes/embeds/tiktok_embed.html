@@ -1,0 +1,3 @@
+{% with embed_src="https://www.tiktok.com/player/v1/"|add:item_tiktok_id|add:"?music_info=1&description=1" %}
+  {% include "includes/embeds/third_party_embed.html" with embed_classes="ratio ratio-16x9 media-embed media-embed-tiktok" embed_src=embed_src embed_url=item_tiktok_url embed_title=item_title embed_provider="TikTok" embed_allow="encrypted-media; fullscreen; picture-in-picture" %}
+{% endwith %}

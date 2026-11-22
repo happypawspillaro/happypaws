@@ -1,6 +1,6 @@
 <section class="mb-5" aria-labelledby="{{ document.id }}">
   {% include "core/partials/content_section_heading.html" with section_id=document.id section_title=document.title %}
-  <p>
+  <div>
     {% if document.text %}
       <p class="text-secondary lh-lg">{{ document.text }}</p>
     {% endif %}
@@ -11,10 +11,8 @@
       <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
       Ver en línea
     </a>
-  </p>
+  </div>
   <div class="content-embed">
-    <iframe src="{{ document.embedded_url }}?embedded=true"
-            title="{{ document.iframe_title }}"
-            loading="lazy"></iframe>
+    {% include "includes/embeds/third_party_embed.html" with embed_classes="third-party-embed--document" embed_src=document.embedded_url|safe embed_url=document.url embed_title=document.iframe_title embed_provider="Google" %}
   </div>
 </section>

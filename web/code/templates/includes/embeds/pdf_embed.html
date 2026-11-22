@@ -1,5 +1,5 @@
 <figure class="pdf-embed mb-4">
-  <iframe src="{{ document_url }}" title="{{ document_title }}" loading="lazy"></iframe>
+  {% include "includes/embeds/third_party_embed.html" with embed_classes="third-party-embed--pdf" embed_src=document_url embed_url=document_url embed_title=document_title embed_provider=embed_provider %}
   <figcaption class="d-flex flex-wrap align-items-center justify-content-between gap-2 p-3 bg-light border border-top-0 rounded-bottom">
     <span class="small text-secondary">Si el documento no se muestra, puedes abrirlo directamente:</span>
     <a class="btn btn-outline-primary btn-sm"

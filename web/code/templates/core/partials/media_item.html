@@ -3,21 +3,18 @@
     <h4 class="h5 card-title">{{ item.titulo }}</h4>
     {% if item.fuente %}<p class="small text-muted">{{ item.fuente }}</p>{% endif %}
     {% if item.tipo == "facebook_post" %}
-      <div class="media-embed media-embed-facebook-post mt-auto">
-        <iframe src="https://www.facebook.com/plugins/post.php?href={{ item.url|urlencode }}&amp;show_text=true&amp;width=500"
-                title="Publicación de {{ item.fuente }}: {{ item.titulo }}"
-                loading="lazy"
-                scrolling="no"
-                allowfullscreen
-                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-      </div>
+      {% with url_codificada=item.url|urlencode %}
+        {% with embed_src="https://www.facebook.com/plugins/post.php?href="|add:url_codificada|add:"&show_text=true&width=500" %}
+          {% include "includes/embeds/third_party_embed.html" with embed_classes="media-embed media-embed-facebook-post mt-auto" embed_src=embed_src embed_url=item.url embed_title=item.titulo embed_provider="Facebook" embed_scrolling="no" embed_allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen" %}
+        {% endwith %}
+      {% endwith %}
       <a class="btn btn-outline-primary btn-sm align-self-start mt-3"
          href="{{ item.url }}"
          target="_blank"
          rel="noopener noreferrer">Ver publicación en Facebook</a>
     {% elif item.tipo == "facebook_video" %}
       <div class="mt-auto">
-        {% include "core/partials/fb_video_embebido.html" with url_facebook=item.url title=item.titulo %}
+        {% include "includes/embeds/fb_video_embebido.html" with url_facebook=item.url title=item.titulo %}
       </div>
       <a class="btn btn-outline-primary btn-sm align-self-start mt-3"
          href="{{ item.url }}"
@@ -25,14 +22,7 @@
          rel="noopener noreferrer">Ver video en Facebook</a>
     {% elif item.tipo == "youtube" %}
       {% if item.embedded_url %}
-        <div class="ratio ratio-16x9 media-embed mt-auto">
-          <iframe src="{{ item.embedded_url }}"
-                  title="Video de YouTube: {{ item.titulo }}"
-                  loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowfullscreen></iframe>
-        </div>
+        {% include "includes/embeds/third_party_embed.html" with embed_classes="ratio ratio-16x9 media-embed mt-auto" embed_src=item.embedded_url embed_url=item.url embed_title=item.titulo embed_provider="YouTube" embed_allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen" %}
       {% endif %}
       <a class="btn btn-outline-primary btn-sm align-self-start mt-3"
          href="{{ item.url }}"
@@ -40,7 +30,7 @@
          rel="noopener noreferrer">Ver en YouTube</a>
     {% elif item.tipo == "tiktok" %}
       <div class="mt-auto">
-        {% include "core/partials/tiktok_embed.html" with item_tiktok_id=item.tiktok_id item_title=item.titulo %}
+        {% include "includes/embeds/tiktok_embed.html" with item_tiktok_id=item.tiktok_id item_tiktok_url=item.url item_title=item.titulo %}
       </div>
       <a class="btn btn-outline-primary btn-sm align-self-start mt-3"
          href="{{ item.url }}"

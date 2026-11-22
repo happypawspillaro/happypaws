@@ -1,0 +1,5 @@
+{% with url_codificada=url_facebook|urlencode %}
+  {% with embed_src="https://www.facebook.com/plugins/video.php?href="|add:url_codificada|add:"&show_text=false&width=500" %}
+    {% include "includes/embeds/third_party_embed.html" with embed_classes="ratio ratio-16x9 media-embed media-embed--facebook-video" embed_src=embed_src embed_url=url_facebook embed_title=title embed_provider="Facebook" embed_allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen" %}
+  {% endwith %}
+{% endwith %}

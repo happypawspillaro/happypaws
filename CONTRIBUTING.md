@@ -67,6 +67,12 @@ Toda página nueva que sea visible sin iniciar sesión debe incluir su SEO:
 - Si es una página nueva o un modelo con página de detalle, añadirlo en `core/sitemaps.py`.
 - Pruebas en `core/test_seo.py` que verifiquen lo anterior.
 
+## Contenido incrustado de terceros
+
+Las plantillas de embeds reutilizables están en `web/code/templates/includes/embeds/`. Para añadir videos, documentos u otro contenido externo en una nueva funcionalidad, reutiliza la plantilla del proveedor o `third_party_embed.html`; no agregues un `<iframe src="...">` directo. Así el contenido solo se conecta con el proveedor cuando la persona elige **Aceptar todo** o solicita cargar ese embed individualmente.
+
+Al añadir un proveedor, actualiza también las secciones 5 y 6 de `core/privacidad.html` y las pruebas de consentimiento en `core/test_privacidad.py`. La casilla `acepta_privacidad` de los formularios no sustituye el consentimiento del aviso de cookies.
+
 ## Formato de Código
 
 Para facilitar el mantenimiento y la colaboración, sigue el formato de código del proyecto. Las instrucciones para Python y frontend están en las siguientes secciones:
