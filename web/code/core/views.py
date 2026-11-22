@@ -108,11 +108,12 @@ class ContactosView(TemplateView):
 # Sección Contribuir
 class ContribuyeView(TemplateView):
     template_name = "core/contribuir/contribuye.html"
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["contribuye"] = obtener_datos_fundacion("contribuye")
         return context
+
 
 def home(request):
     animales = Animal.objects.filter(estado=EstadoAnimal.EN_ADOPCION)[:6]

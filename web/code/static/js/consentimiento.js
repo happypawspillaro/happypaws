@@ -13,8 +13,7 @@
 		return par ? par.slice(par.indexOf("=") + 1) : null;
 	};
 
-	window.hppAnaliticasAceptadas = () =>
-		leer(COOKIE_ANALITICA) === "aceptado";
+	window.hppAnaliticasAceptadas = () => leer(COOKIE_ANALITICA) === "aceptado";
 	window.hppContenidoExternoAceptado = () =>
 		leer(COOKIE_CONTENIDO_EXTERNO) === "aceptado";
 
