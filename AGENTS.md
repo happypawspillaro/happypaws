@@ -86,3 +86,4 @@
   privacidad, seguridad y accesibilidad; acompaña los cambios no triviales con
   una prueba enfocada. Este enfoque adapta las prácticas de
   [Ponytail](https://github.com/DietrichGebert/ponytail) al proyecto.
+- Privacidad: Tenemos una política de privacidad del sitio web desarrollada en `web/code/templates/core/privacidad.html`, en caso de tener la necesidad de añadir servicios de terceros, ajustar la misma y para usuarios que no la acepten, dales una opción que con una acción de mouse/teclado la puedan visibilizar temporalmente.
