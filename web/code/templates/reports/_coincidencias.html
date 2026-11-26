@@ -1,0 +1,41 @@
+{% load seo thumbnail %}
+{% if coincidencias %}
+  <section id="coincidencias"
+           class="mt-5"
+           aria-labelledby="titulo-coincidencias">
+    <h2 class="h4 mb-1" id="titulo-coincidencias">
+      <i class="bi bi-search-heart" aria-hidden="true"></i> Podría ser la misma mascota
+    </h2>
+    <p class="text-muted small">
+      Sugerencia automática según la ubicación, la fecha y la descripción. Compara las fotos antes de contactar a alguien.
+    </p>
+    <div class="row g-3">
+      {% for c in coincidencias %}
+        <div class="col-md-4">
+          <div class="card h-100">
+            {% with foto=c.reporte.fotos.all.0 %}
+              {% if foto %}
+                <img src="{% thumbnail foto.imagen 'card' %}"
+                     class="card-img-top"
+                     alt="{{ c.reporte.titulo_seo|con_marca }}"
+                     loading="lazy">
+              {% endif %}
+            {% endwith %}
+            <div class="card-body">
+              <span class="badge bg-primary">{{ c.reporte.get_tipo_display }}</span>
+              {% if not c.reporte.aprobado %}<span class="badge bg-warning text-dark">Sin aprobar</span>{% endif %}
+              <h3 class="h6 mt-2">{{ c.reporte.titulo }}</h3>
+              <ul class="small text-muted ps-3 mb-0">
+                {% for motivo in c.motivos %}<li>{{ motivo|capfirst }}</li>{% endfor %}
+              </ul>
+            </div>
+            <div class="card-footer bg-white border-0">
+              <a href="{{ c.reporte.get_absolute_url }}"
+                 class="btn btn-outline-primary btn-sm w-100">Comparar<span class="visually-hidden"> con {{ c.reporte.titulo }}</span></a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}

@@ -5,6 +5,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from happypaws.utils import obtener_paginador
 
+from .coincidencias import buscar_coincidencias
 from .forms import CommentForm, ReportForm, SightingForm
 from .models import (
     EstadoReporte,
@@ -45,6 +46,7 @@ def _detail_context(request, reporte, comment_form=None, sighting_form=None):
         "reporte": reporte,
         "comentarios": comentarios,
         "avistamientos": avistamientos,
+        "coincidencias": buscar_coincidencias(reporte, incluir_sin_aprobar=es_staff),
         "comment_form": comment_form if comment_form is not None else CommentForm(),
         "sighting_form": (
             sighting_form
