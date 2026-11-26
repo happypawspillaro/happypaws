@@ -1,7 +1,9 @@
 from accounts.decorators import staff_required
+from core.publicacion import texto_animal
 from django.contrib import messages
 from django.db.models import BooleanField, Case, Q, Value, When
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils import timezone
 from happypaws.utils import obtener_paginador
 
@@ -117,6 +119,28 @@ def manage_detail(request, pk):
             "animal": animal,
             "photo_form": AnimalPhotoForm(),
             "medical_form": MedicalRecordForm(),
+        },
+    )
+
+
+@staff_required
+def publicacion(request, pk):
+    """Texto listo para copiar y publicar en redes (#39)."""
+    animal = get_object_or_404(Animal.objects.prefetch_related("fotos"), pk=pk)
+    if animal.en_adopcion:
+        url = request.build_absolute_uri(reverse("adoptions:apply", args=[animal.pk]))
+    else:
+        url = request.build_absolute_uri(animal.get_absolute_url())
+    fotos = [animal.foto_principal] if animal.foto_principal else []
+    fotos += [foto.imagen for foto in animal.fotos.all()]
+    return render(
+        request,
+        "core/publicacion.html",
+        {
+            "objeto": animal,
+            "texto": texto_animal(animal, url),
+            "fotos": fotos,
+            "volver": reverse("animals:manage_detail", args=[animal.pk]),
         },
     )
 

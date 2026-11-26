@@ -101,6 +101,8 @@
               {% if reporte.estado == "abierto" %}Marcar como resuelto{% else %}Reabrir reporte{% endif %}
             </button>
           </form>
+          <a href="{% url 'reports:publicacion' reporte.pk %}"
+             class="btn btn-outline-primary btn-sm"><i class="bi bi-megaphone" aria-hidden="true"></i> Generar publicación</a>
         </div>
       {% endif %}
     </div>
