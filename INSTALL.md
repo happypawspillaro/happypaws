@@ -1,6 +1,6 @@
 # Guía de instalación Happy Paws
 
-## Prerequisitos
+## Prerrequisitos
 
 - Docker > 27.0
 - Git > 2.43
@@ -47,7 +47,11 @@
 
 8. Antes de inicializar tu página y si es primera vez, sigue las instrucciones para generar [migraciones](#migraciones) y crear un [superusuario](#superusuario).
 
-9. Colecciona los archivos estáticos con el siguiente comando
+9. Descarga e inicializa tus archivos estáticos de la s iguiente forma:
+
+   a. Descarga los [assets](https://drive.google.com/drive/folders/1fmYzc3mj3u6DaYlxmAqMCY9HXGfhckU9?usp=drive_link) y descomprimelos en tu carpeta `web/code/static`
+
+   b. Colecciona tus archivos estáticos con el siguiente comando:
 
    ```bash
    docker compose -f docker-compose.yml -f docker-compose.prod.yml exec web python manage.py collectstatic
@@ -62,6 +66,26 @@
 11. Abre el siguiente URL [https://localhost:8443](https://localhost:8443) (a menos que hayas cambiado la variable `NGINX_HTTPS_PORT` en tu `.env`), si es que todo salió bien podrás ver la página web inicial.
 
 _Opcional_: Usa la sección [Inicializar datos](#inicializar-datos) para importar datos existentes a tu base de datos.
+
+## Node.js y npm (opcional)
+
+Esta sección solo es necesaria para usar Playwright MCP o las herramientas de formato del frontend; no se requiere para ejecutar el sitio con Docker.
+
+1. Instala Node.js 20 o posterior desde la [página oficial de descargas](https://nodejs.org/en/download/). npm se instala junto con Node.js.
+2. Comprueba que ambos comandos estén disponibles:
+
+   ```bash
+   node --version
+   npm --version
+   ```
+
+3. Desde la raíz del proyecto, instala todas las dependencias fijadas en `package-lock.json`:
+
+   ```bash
+   npm ci
+   ```
+
+Esto instala las herramientas de desarrollo declaradas en `package.json`, incluidas Playwright MCP, Biome y Prettier.
 
 ## Migraciones
 

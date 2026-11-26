@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+  Contribuye | Happy Paws Píllaro
+{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Contribuye | Happy Paws Píllaro" descripcion="Apoya el trabajo de la Fundación Happy Paws Píllaro con aportes económicos y apadrinamientos." %}
+{% endblock %}
+{% block content %}
+  <main class="container content-page py-4">
+    {% include "core/partials/content_page_header.html" with page_heading="Contribuye con Happy Paws Píllaro" page_intro="Tu apoyo hace posible nuestro trabajo por el bienestar animal y la comunidad." %}
+    <section class="mb-5" aria-labelledby="aporte">
+      {% include "includes/embeds/google_workspace_embed.html" with document=contribuye %}
+      <p class="small text-muted">Estamos en proceso de trámite para tener una cuenta oficial. Actualizaremos esta información cuando esté disponible.</p>
+    </section>
+    <section aria-labelledby="apadrinamientos">
+      {% include "core/partials/content_section_heading.html" with section_id="apadrinamientos" section_title="Apadrinamientos" %}
+      <p class="text-secondary lh-lg">
+        Como parte de nuestra visión, trabajamos junto con la comunidad para construir un mejor lugar para nuestros animales y para vivir. Si quieres apadrinar a un animal o una esterilización para un animal en situación vulnerable, déjanos un mensaje en nuestros medios oficiales.
+      </p>
+    </section>
+    <header class="content-page-header mb-4">
+      <h2 class="display-6 fw-bold">Súmate como voluntario</h2>
+      <p class="lead text-secondary mb-0">Hay muchas formas de aportar tiempo, experiencia y compromiso al bienestar animal en Píllaro.</p>
+    </header>
+    <section class="mb-4" aria-labelledby="hogares-temporales">
+      {% include "core/partials/content_section_heading.html" with section_id="hogares-temporales" section_title="Hogares temporales" %}
+      <p class="text-secondary lh-lg">
+        En casos de emergencia, rescates o vulnerabilidad, necesitamos hogares temporales que nos permitan atender cada situación con seguridad. Si puedes ayudar, déjanos un mensaje en nuestros medios oficiales.
+      </p>
+    </section>
+    <section class="mb-4" aria-labelledby="campanas-esterilizacion">
+      {% include "core/partials/content_section_heading.html" with section_id="campanas-esterilizacion" section_title="Campañas de esterilización" %}
+      <p class="text-secondary lh-lg">
+        ¡Tu ayuda puede hacer la diferencia! Necesitamos manos empáticas y bondadosas para gestionar nuestras campañas de esterilización. Tu apoyo permitirá atender a las mascotas y sus tutores con calidad y calidez. Si estás interesado, déjanos un mensaje.
+      </p>
+    </section>
+    <section class="mb-4" aria-labelledby="redes-sociales">
+      {% include "core/partials/content_section_heading.html" with section_id="redes-sociales" section_title="Redes sociales" %}
+      <p class="text-secondary lh-lg">
+        Parte de nuestra estrategia de concientización es digital. Nuestra página web y redes sociales siguen creciendo, y buscamos personas que nos ayuden a:
+      </p>
+      <ul class="text-secondary lh-lg">
+        <li>Generar mensajes de concientización en fotos o vídeos.</li>
+        <li>Reportar casos de maltrato de fauna urbana.</li>
+        <li>Difundir la tenencia responsable.</li>
+      </ul>
+    </section>
+    <section aria-labelledby="lider-comunitario">
+      {% include "core/partials/content_section_heading.html" with section_id="lider-comunitario" section_title="Liderazgo comunitario" %}
+      <p class="text-secondary lh-lg">
+        Queremos generar proyectos locales de gran impacto. Buscamos líderes comunitarios comprometidos con mejorar la situación de la fauna urbana en su barrio o comunidad. Podemos capacitarte para dar charlas de tenencia responsable, organizar eventos de concientización o realizar campañas de esterilización. Si te interesa, déjanos un mensaje en nuestras redes oficiales.
+      </p>
+    </section>
+  </main>
+{% endblock %}

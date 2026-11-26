@@ -39,6 +39,126 @@
             <li class="nav-item"><a class="nav-link" href="{% url 'medical_cases:list' %}">Casos médicos</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'reports:list' %}">Reportes</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'reports:create' %}">Reportar</a></li>
+            <li class="nav-item dropdown position-static">
+              <a class="nav-link dropdown-toggle active fw-semibold"
+                 href="#"
+                 role="button"
+                 data-bs-toggle="dropdown"
+                 aria-expanded="false">
+                <i class="bi bi-info-circle me-1"></i> Conócenos
+              </a>
+              <!-- Desplegable Ancho (Mega Menú) -->
+              <div class="dropdown-menu w-100 mt-0 border-0 shadow-lg p-4 bg-light rounded-bottom-4">
+                <div class="container">
+                  <div class="row g-4">
+                    <!-- Categoría 1: La Fundación -->
+                    <div class="col-md-4">
+                      <div class="d-flex align-items-center mb-3 text-primary">
+                        <i class="bi bi-building fs-4 me-2"></i>
+                        <h6 class="text-uppercase fw-bold mb-0">La Fundación</h6>
+                      </div>
+                      <ul class="list-unstyled">
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:quienes_somos' %}">
+                            <strong class="d-block text-primary">Historia & Misión</strong>
+                            <small class="text-muted">Origen y propósito en Píllaro.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:directiva' %}">
+                            <strong class="d-block text-primary">Directiva</strong>
+                            <small class="text-muted">Equipo de liderazgo y gestión.</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:reconocimientos' %}">
+                            <strong class="d-block text-primary">Reconocimientos</strong>
+                            <small class="text-muted">Premios y avales institucionales.</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:impacto' %}">
+                            <strong class="d-block text-primary">Impacto</strong>
+                            <small class="text-muted">Nuestra contribución a la comunidad.</small>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- Categoría 2: Proyectos e Impacto -->
+                    <div class="col-md-4">
+                      <div class="d-flex align-items-center mb-3 text-primary">
+                        <i class="bi bi-diagram-3 fs-4 me-2"></i>
+                        <h6 class="text-uppercase fw-bold mb-0">Proyectos & Impacto</h6>
+                      </div>
+                      <ul class="list-unstyled">
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:fauna_urbana' %}">
+                            <strong class="d-block text-primary">Estudio de Fauna Urbana</strong>
+                            <small class="text-muted">Diagnóstico y realidad cantonal.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:areas_trabajo' %}">
+                            <strong class="d-block text-primary">Áreas de Trabajo</strong>
+                            <small class="text-muted">Campañas, rescate y educación.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:software_libre' %}">
+                            <strong class="d-block text-primary">Software Libre 🚀</strong>
+                            <small class="text-muted">¡For the win!</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:media' %}">
+                            <strong class="d-block text-primary">Media & Prensa</strong>
+                            <small class="text-muted">Entrevistas y apariciones.</small>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    <!-- Categoría 3: Base Legal & Contacto -->
+                    <div class="col-md-4">
+                      <div class="d-flex align-items-center mb-3 text-primary">
+                        <i class="bi bi-file-earmark-text fs-4 me-2"></i>
+                        <h6 class="text-uppercase fw-bold mb-0">Base Legal & Contacto</h6>
+                      </div>
+                      <ul class="list-unstyled">
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:marco_legal' %}">
+                            <strong class="d-block text-primary">Base Legal</strong>
+                            <small class="text-muted">COIP y Ordenanza Municipal.</small>
+                          </a>
+                        </li>
+                        <li class="mb-2">
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:formatos' %}">
+                            <strong class="d-block text-primary">Formatos Oficiales</strong>
+                            <small class="text-muted">Denuncias y plan de contingencia (PDF).</small>
+                          </a>
+                        </li>
+                        <li>
+                          <a class="text-dark text-decoration-none d-block p-2 rounded hover-bg"
+                             href="{% url 'core:contacto' %}">
+                            <strong class="d-block text-primary">Medios de Contacto</strong>
+                            <small class="text-muted">Ubicación y canales directos.</small>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
           <ul class="navbar-nav">
             {% if user.is_authenticated %}
@@ -74,8 +194,8 @@
     </main>
     <footer class="bg-dark text-light py-4 mt-auto">
       <div class="container">
-        <div class="row">
-          <div class="col-md-6">
+        <div class="row g-4">
+          <div class="col-md-3">
             <p class="h6 fw-bold">Happy Paws Píllaro</p>
             <p class="small mb-1">Esterilización y adopción responsable de perros y gatos.</p>
             <p class="small mb-2">180501, Santiago de Píllaro - Tungurahua - Ecuador</p>
@@ -85,11 +205,46 @@
               <i class="bi bi-envelope-at"></i>
               happypaws.pillaro@gmail.com
             </a>
+            <p class="small mt-3 mb-1"><i>Código SUIOS:</i> 0000142256</p>
+            <p class="small mb-0"><i>Acuerdo Ministerial Nro.</i> 00012-2024</p>
           </div>
-          <div class="col-md-6 text-md-end">
-            <p class="small mb-1"><i>Código SUIOS:</i> 0000142256</p>
-            <p class="small mb-2"><i>Acuerdo Ministerial Nro.</i> 00012-2024</p>
-            <div class="d-flex gap-3 fs-5 justify-content-md-end">
+          <div class="col-md-3">
+            <h2 class="h6 fw-bold">La Fundación</h2>
+            <ul class="list-unstyled small mb-0">
+              <li class="mb-1"><a href="{% url 'core:quienes_somos' %}"
+   class="link-light">Historia &amp; Misión</a></li>
+              <li class="mb-1"><a href="{% url 'core:directiva' %}" class="link-light">Directiva</a></li>
+              <li class="mb-1"><a href="{% url 'core:reconocimientos' %}" class="link-light">Reconocimientos</a></li>
+              <li><a href="{% url 'core:impacto' %}" class="link-light">Impacto</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h2 class="h6 fw-bold">Proyectos &amp; Impacto</h2>
+            <ul class="list-unstyled small mb-0">
+              <li class="mb-1"><a href="{% url 'core:fauna_urbana' %}"
+   class="link-light">Estudio de Fauna Urbana</a></li>
+              <li class="mb-1"><a href="{% url 'core:areas_trabajo' %}" class="link-light">Áreas de Trabajo</a></li>
+              <li class="mb-1"><a href="{% url 'core:software_libre' %}" class="link-light">Software Libre</a></li>
+              <li><a href="{% url 'core:media' %}" class="link-light">Media &amp; Prensa</a></li>
+            </ul>
+          </div>
+          <div class="col-md-3">
+            <h2 class="h6 fw-bold">Base Legal &amp; Contacto</h2>
+            <ul class="list-unstyled small mb-0">
+              <li class="mb-1"><a href="{% url 'core:marco_legal' %}" class="link-light">Base Legal</a></li>
+              <li class="mb-1"><a href="{% url 'core:formatos' %}" class="link-light">Formatos Oficiales</a></li>
+              <li><a href="{% url 'core:contacto' %}" class="link-light">Medios de Contacto</a></li>
+            </ul>
+            <p class="small mb-0 mt-3">
+              <a href="{% url 'core:privacidad' %}" class="link-light">Política de privacidad</a>
+              ·
+              <button type="button"
+                      class="btn btn-link btn-sm link-light p-0 align-baseline"
+                      data-abrir-aviso-cookies>Configurar cookies</button>
+            </p>
+            <div class="d-flex gap-3 fs-5 mt-2"
+                 role="group"
+                 aria-label="Redes sociales">
               <a href="https://www.instagram.com/happypaws.pillaro/"
                  class="text-light"
                  target="_blank"
@@ -116,18 +271,12 @@
                  rel="noopener"
                  aria-label="GitHub"><i class="bi bi-github"></i></a>
             </div>
-            <p class="small mb-0 mt-2">
-              <a href="{% url 'core:privacidad' %}" class="link-light">Política de privacidad</a>
-              ·
-              <button type="button"
-                      class="btn btn-link btn-sm link-light p-0 align-baseline"
-                      data-abrir-aviso-cookies>Configurar cookies</button>
-            </p>
-            <p class="small mb-0 mt-1">© {% now "Y" %} Happy Paws Píllaro</p>
+            <p class="small mb-0 mt-3">© {% now "Y" %} Happy Paws Píllaro</p>
           </div>
         </div>
       </div>
     </footer>
+    {% include "core/partials/contribuye_flotante.html" %}
     {# Aviso de cookies (#75): se muestra hasta que la persona elige; static/js/consentimiento.js #}
     <div id="aviso-cookies"
          class="aviso-cookies card shadow d-none"
@@ -135,23 +284,28 @@
          aria-label="Aviso de cookies">
       <div class="card-body">
         <p class="small mb-2">
-          Usamos cookies necesarias para que el sitio funcione. Si nos das permiso, también usaremos cookies de analítica
-          para saber qué páginas se visitan y mejorar el sitio.
+          Usamos cookies necesarias para que el sitio funcione. Si aceptas todo, usaremos Google Analytics y cargaremos contenido externo de Google,
+          Meta/Facebook, TikTok, YouTube y sitios que alojan documentos. Estos servicios reciben datos como tu dirección IP y podrían usar cookies.
+          Si eliges "Solo necesarias", puedes cargar cada contenido externo por separado cuando lo solicites.
           <a href="{% url 'core:privacidad' %}#cookies">Más información</a>.
         </p>
         <div class="d-flex gap-2 justify-content-end">
           <button type="button"
                   class="btn btn-outline-secondary btn-sm"
                   data-consentimiento="rechazado">Solo necesarias</button>
-          <button type="button" class="btn btn-primary btn-sm" data-consentimiento="aceptado">Aceptar</button>
+          <button type="button"
+                  class="btn btn-primary btn-sm"
+                  data-consentimiento="aceptado">Aceptar todo</button>
         </div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/htmx.org@2.0.3"></script>
     <script src="{% static 'js/consentimiento.js' %}"></script>
+    <script src="{% static 'js/contenido_terceros.js' %}"></script>
     {% if ga_measurement_id %}
-      <script src="{% static 'js/analiticas.js' %}" data-ga-id="{{ ga_measurement_id }}"></script>
+      <script src="{% static 'js/analiticas.js' %}"
+              data-ga-id="{{ ga_measurement_id }}"></script>
     {% endif %}
   </body>
 </html>

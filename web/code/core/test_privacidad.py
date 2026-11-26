@@ -22,6 +22,12 @@ class PaginaPrivacidadTests(TestCase):
         self.assertContains(resp, "Política de privacidad")
         self.assertContains(resp, 'id="cookies"')
         self.assertContains(resp, "mailto:happypaws.pillaro@gmail.com")
+        self.assertContains(resp, "Meta/Facebook")
+        self.assertContains(resp, "TikTok")
+        self.assertContains(resp, "youtube-nocookie.com")
+        self.assertContains(resp, "LegalCloud")
+        self.assertContains(resp, "Municipio de Píllaro")
+        self.assertContains(resp, "Aceptar todo")
 
     def test_muestra_los_dias_que_el_contacto_es_publico(self):
         resp = self.client.get(reverse("core:privacidad"))
@@ -33,9 +39,48 @@ class PaginaPrivacidadTests(TestCase):
         self.assertContains(resp, 'id="aviso-cookies"')
         self.assertContains(resp, "data-abrir-aviso-cookies")
         self.assertContains(resp, "js/consentimiento.js")
+        self.assertContains(resp, "js/contenido_terceros.js")
+        self.assertContains(resp, "Aceptar todo")
+
+    def test_incrustaciones_externas_no_se_cargan_sin_consentimiento(self):
+        paginas = (
+            "core:media",
+            "core:formatos",
+            "core:fauna_urbana",
+            "core:areas_trabajo",
+            "core:marco_legal",
+            "core:contribuir_home",
+        )
+        for pagina in paginas:
+            with self.subTest(pagina=pagina):
+                resp = self.client.get(reverse(pagina))
+                self.assertEqual(resp.status_code, 200)
+                self.assertNotContains(resp, "<iframe")
+                self.assertContains(resp, "data-third-party-embed")
+                self.assertContains(resp, "data-load-third-party")
 
     def test_esta_en_el_sitemap(self):
         self.assertContains(self.client.get("/sitemap.xml"), reverse("core:privacidad"))
+
+    def test_paginas_informativas_estan_en_el_sitemap(self):
+        resp = self.client.get("/sitemap.xml")
+        paginas = (
+            "core:quienes_somos",
+            "core:directiva",
+            "core:reconocimientos",
+            "core:impacto",
+            "core:fauna_urbana",
+            "core:areas_trabajo",
+            "core:software_libre",
+            "core:media",
+            "core:marco_legal",
+            "core:formatos",
+            "core:contacto",
+            "core:contribuir_home",
+        )
+        for pagina in paginas:
+            with self.subTest(pagina=pagina):
+                self.assertContains(resp, reverse(pagina))
 
 
 class ConsentimientoFormulariosTests(TestCase):

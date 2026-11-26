@@ -1,0 +1,17 @@
+<div class="third-party-embed{% if embed_classes %} {{ embed_classes }}{% endif %}"
+     data-third-party-embed
+     data-third-party-src="{{ embed_src }}"
+     data-third-party-title="{{ embed_title }}"
+     {% if embed_scrolling %}data-third-party-scrolling="{{ embed_scrolling }}"{% endif %}
+     {% if embed_allow %}data-third-party-allow="{{ embed_allow }}"{% endif %}>
+  <div class="third-party-embed-placeholder">
+    <p class="small text-secondary mb-0">
+      Este contenido de {{ embed_provider }} se carga solo con tu permiso. Al cargarlo, el servicio recibirá datos como tu dirección IP y podría usar cookies.
+    </p>
+    <a class="btn btn-outline-primary btn-sm"
+       href="{{ embed_url }}"
+       target="_blank"
+       rel="noopener noreferrer"
+       data-load-third-party>Cargar contenido de {{ embed_provider }}</a>
+  </div>
+</div>

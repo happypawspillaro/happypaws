@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}
+  Apariciones en prensa | Happy Paws Píllaro
+{% endblock %}
+{% block seo %}
+  {% include "includes/seo_meta.html" with titulo="Apariciones en prensa | Happy Paws Píllaro" descripcion="Entrevistas, artículos y apariciones públicas de la Fundación Happy Paws Píllaro." %}
+{% endblock %}
+{% block content %}
+  <div class="container py-4 media-page">
+    <header class="mb-4">
+      <h1 class="display-6 fw-bold">Apariciones en prensa de Happy Paws Píllaro</h1>
+      <p class="lead text-muted mb-0">Entrevistas, artículos y actividades de la Fundación en los medios.</p>
+    </header>
+    {% if media %}
+      <nav class="media-index mb-5" aria-label="Índice de apariciones por año">
+        <h2 class="h5 fw-bold">Explorar por año</h2>
+        <div class="d-flex flex-wrap gap-2">
+          {% for year, months in media.items %}
+            {% if months %}
+              <a class="btn btn-outline-primary btn-sm" href="#media-year-{{ year }}">{{ year }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </nav>
+      {% for year, months in media.items %}
+        {% if months %}
+          <section class="media-year mb-5"
+                   id="media-year-{{ year }}"
+                   aria-labelledby="media-year-heading-{{ year }}">
+            <h2 class="media-year-title mb-3" id="media-year-heading-{{ year }}">{{ year }}</h2>
+            <nav class="mb-4" aria-label="Apariciones de {{ year }} por mes">
+              <div class="d-flex flex-wrap gap-2">
+                {% for month, items in months.items %}
+                  {% if items %}
+                    <a class="btn btn-light btn-sm"
+                       href="#media-month-{{ year }}-{{ month|slugify }}">{{ month }}</a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </nav>
+            {% for month, items in months.items %}
+              {% if items %}
+                <section class="mb-4"
+                         id="media-month-{{ year }}-{{ month|slugify }}"
+                         aria-labelledby="media-month-heading-{{ year }}-{{ month|slugify }}">
+                  <h3 class="h4 mb-3"
+                      id="media-month-heading-{{ year }}-{{ month|slugify }}">{{ month }}</h3>
+                  <div class="row g-4">
+                    {% for item in items %}
+                      {% if item.titulo and item.url %}
+                        <div class="col-12 col-lg-6">{% include "core/partials/media_item.html" with item=item %}</div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                </section>
+              {% endif %}
+            {% endfor %}
+          </section>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+      <p class="text-muted">Todavía no hay apariciones en medios para mostrar.</p>
+    {% endif %}
+  </div>
+{% endblock %}

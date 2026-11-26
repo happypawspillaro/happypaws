@@ -1,0 +1,51 @@
+{% load static %}
+{% if gallery_images %}
+  <div id="{{ gallery_id }}"
+       class="carousel slide content-gallery mb-4"
+       aria-label="{{ gallery_label }}">
+    {% if gallery_images|length > 1 %}
+      <div class="carousel-indicators">
+        {% for image in gallery_images %}
+          <button type="button"
+                  data-bs-target="#{{ gallery_id }}"
+                  data-bs-slide-to="{{ forloop.counter0 }}"
+                  {% if forloop.first %}class="active" aria-current="true"{% endif %}
+                  aria-label="Mostrar imagen {{ forloop.counter }}"></button>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <div class="carousel-inner rounded shadow-sm">
+      {% for image in gallery_images %}
+        <div class="carousel-item{% if forloop.first %} active{% endif %}">
+          <img class="d-block w-100"
+               src="{% static image.src %}"
+               alt="{{ image.alt }}"
+               loading="lazy">
+          {% if image.caption %}
+            <div class="carousel-caption d-none d-md-block">
+              <p class="mb-0">{{ image.caption }}</p>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    {% if gallery_images|length > 1 %}
+      <button class="carousel-control-prev"
+              type="button"
+              data-bs-target="#{{ gallery_id }}"
+              data-bs-slide="prev"
+              aria-label="Imagen anterior">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      </button>
+      <button class="carousel-control-next"
+              type="button"
+              data-bs-target="#{{ gallery_id }}"
+              data-bs-slide="next"
+              aria-label="Imagen siguiente">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      </button>
+    {% endif %}
+  </div>
+{% else %}
+  {% include "core/partials/content_placeholder.html" with placeholder_kind="carousel" placeholder_label=gallery_empty_label %}
+{% endif %}
