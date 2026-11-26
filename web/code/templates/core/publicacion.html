@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Publicación · {{ objeto }} · Panel{% endblock %}
+{% block seo %}
+  <meta name="robots" content="noindex, nofollow">
+{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Publicación para redes</h1>
+    <a href="{{ volver }}" class="btn btn-outline-secondary btn-sm">Volver</a>
+  </div>
+  <p class="text-muted">
+    Texto listo para Facebook e Instagram. Puedes editarlo aquí antes de copiarlo; los cambios no se guardan.
+  </p>
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <label for="texto-publicacion" class="form-label visually-hidden">Texto de la publicación</label>
+      <textarea id="texto-publicacion" class="form-control font-monospace" rows="18">{{ texto }}</textarea>
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <small class="text-muted"><span id="contador-publicacion">{{ texto|length }}</span> caracteres (Instagram permite 2200)</small>
+        <button type="button" class="btn btn-primary" id="copiar-publicacion">
+          <i class="bi bi-clipboard" aria-hidden="true"></i> Copiar texto
+        </button>
+      </div>
+      <p class="small text-success mt-2 mb-0" id="aviso-copiado" role="status"></p>
+    </div>
+    <div class="col-lg-5">
+      <h2 class="h6">Fotos</h2>
+      {% if fotos %}
+        <div class="row g-2">
+          {% for foto in fotos %}
+            <div class="col-6">
+              <a href="{{ foto.url }}" download class="d-block">
+                <img src="{{ foto.url }}"
+                     class="img-fluid rounded"
+                     alt="Foto {{ forloop.counter }} para descargar"
+                     loading="lazy">
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+        <p class="small text-muted mt-2">Toca una foto para descargarla.</p>
+      {% else %}
+        <p class="text-muted small">No hay fotos cargadas.</p>
+      {% endif %}
+    </div>
+  </div>
+  <script src="{% static 'js/publicacion.js' %}"></script>
+{% endblock %}

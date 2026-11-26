@@ -6,6 +6,8 @@
     <div class="d-flex gap-2">
       <a href="{{ animal.get_absolute_url }}"
          class="btn btn-outline-secondary btn-sm">Ver ficha pública</a>
+      <a href="{% url 'animals:publicacion' animal.pk %}"
+         class="btn btn-outline-primary btn-sm"><i class="bi bi-megaphone" aria-hidden="true"></i> Generar publicación</a>
       <a href="{% url 'animals:manage_update' animal.pk %}"
          class="btn btn-primary btn-sm">Editar</a>
       <a href="{% url 'animals:manage_delete' animal.pk %}"

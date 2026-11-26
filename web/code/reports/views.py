@@ -1,5 +1,6 @@
 from accounts.decorators import staff_required
 from constants import DIAS_CONTACTO_VISIBLE
+from core.publicacion import texto_reporte
 from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect, render
@@ -147,6 +148,23 @@ def manage_list(request):
             "estado_sel": estado,
             "aprobacion_sel": aprobacion,
             "pendientes": Report.objects.filter(aprobado=False).count(),
+        },
+    )
+
+
+@staff_required
+def publicacion(request, pk):
+    """Texto listo para copiar y publicar en redes (#39)."""
+    reporte = get_object_or_404(Report.objects.prefetch_related("fotos"), pk=pk)
+    url = request.build_absolute_uri(reporte.get_absolute_url())
+    return render(
+        request,
+        "core/publicacion.html",
+        {
+            "objeto": reporte,
+            "texto": texto_reporte(reporte, url),
+            "fotos": [foto.imagen for foto in reporte.fotos.all()],
+            "volver": reporte.get_absolute_url(),
         },
     )
 
