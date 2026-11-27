@@ -35,10 +35,24 @@
         </button>
         <div class="collapse navbar-collapse" id="navmenu">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item"><a class="nav-link" href="{% url 'animals:catalog' %}">Adopta</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'medical_cases:list' %}">Casos médicos</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'reports:list' %}">Reportes</a></li>
-            <li class="nav-item"><a class="nav-link" href="{% url 'reports:create' %}">Reportar</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'animals:catalog' %}">Adoptar</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'medical_cases:list' %}">Aportes emergencias</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'reports:list' %}">Reportes recibidos</a></li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"
+                 href="#"
+                 role="button"
+                 data-bs-toggle="dropdown"
+                 aria-expanded="false">Reportar un caso</a>
+              <ul class="dropdown-menu">
+                {% for value, label in tipos_reporte %}
+                  <li>
+                    <a class="dropdown-item"
+                       href="{% url 'reports:create' %}?tipo={{ value }}">{{ label }}</a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
           </ul>
           <ul class="navbar-nav">
             {% if user.is_authenticated %}

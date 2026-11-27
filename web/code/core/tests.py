@@ -45,6 +45,13 @@ class ResponsiveBaseTests(TestCase):
             with self.subTest(pagina=nombre):
                 self.assertEqual(self.client.get(reverse(nombre)).status_code, 200)
 
+    def test_menu_enlaza_cada_tipo_de_reporte(self):
+        """#57: 'Reportar un caso' tiene un enlace por cada tipo de reporte."""
+        resp = self.client.get(reverse("core:home"))
+        for tipo in TipoReporte.values:
+            with self.subTest(tipo=tipo):
+                self.assertContains(resp, f'href="{reverse("reports:create")}?tipo={tipo}"')
+
     def test_incluye_favicon_y_logo(self):
         resp = self.client.get(reverse("core:home"))
         self.assertContains(resp, "images/happypaws.ico")
